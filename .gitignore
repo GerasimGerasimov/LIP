@@ -2,6 +2,7 @@ Obj/
 *.out
 List/
 Exe/
+settings/
 *.json
 *.ewd
 *.ewt
