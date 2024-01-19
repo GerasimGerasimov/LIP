@@ -76,72 +76,68 @@ int main(void)              //главная программа
       if (LED_LINK_ST) LED_LINK_ON;
       else LED_LINK_OFF; 
     }
-   //защита от дурака
-    RAM_DATA.A_idiot = RAM_DATA.A;             
-    RAM_DATA.Iload_idiot = RAM_DATA.Iload_Efiltr;        
-    RAM_DATA.Uload_idiot = RAM_DATA.Uload_Efiltr;        
-    RAM_DATA.Ish_idiot = RAM_DATA.Ish_avg;          
+        
 
     
     //записали значения в дискретные выходы 
-    if (RAM_DATA.FLAGS.BA.DOUT1_FAIL) GPIOA->BRR = GPIO_Pin_14; //если 1 - выход мк роняем в 0, на выходе платы 1
-    else GPIOA->BSRR = GPIO_Pin_14;  //авария
-    if (RAM_DATA.FLAGS.BA.DOUT2_SHAKE) GPIOA->BRR = GPIO_Pin_13; 
-    else GPIOA->BSRR = GPIO_Pin_13;  //встряхиватель пишем его состояние
-    if (RAM_DATA.FLAGS.BA.DOUT3_SIGN) GPIOA->BRR = GPIO_Pin_12; //если 1 - выход мк роняем в 0, на выходе платы 1
-    else GPIOA->BSRR = GPIO_Pin_12; //сигнализация
+//    if (RAM_DATA.FLAGS.BA.DOUT1_FAIL) GPIOA->BRR = GPIO_Pin_14; //если 1 - выход мк роняем в 0, на выходе платы 1
+//    else GPIOA->BSRR = GPIO_Pin_14;  //авария
+//    if (RAM_DATA.FLAGS.BA.DOUT2_SHAKE) GPIOA->BRR = GPIO_Pin_13; 
+//    else GPIOA->BSRR = GPIO_Pin_13;  //встряхиватель пишем его состояние
+//    if (RAM_DATA.FLAGS.BA.DOUT3_SIGN) GPIOA->BRR = GPIO_Pin_12; //если 1 - выход мк роняем в 0, на выходе платы 1
+//    else GPIOA->BSRR = GPIO_Pin_12; //сигнализация
     //НАДО ПИСАТЬ ВТОРОЙ ВСТРЯХИВАТЕЛЬ
     
 //считали дискретные входы  
- RAM_DATA.FLAGS.BA.DI4_START = !(GPIOB->IDR & GPIO_Pin_3); //кнопка ПУСК
- RAM_DATA.FLAGS.BA.DI3_STOP = !(GPIOB->IDR & GPIO_Pin_4); //кнопка СТОП/деблокировка защит
- RAM_DATA.FLAGS.BA.DI5_TERM = (GPIOA->IDR & GPIO_Pin_15); //термореле OVH
- RAM_DATA.FLAGS.BA.DI2_BURNING = !(GPIOC->IDR & GPIO_Pin_15); //тумблер прожига
+// RAM_DATA.FLAGS.BA.DI4_START = !(GPIOB->IDR & GPIO_Pin_3); //кнопка ПУСК
+// RAM_DATA.FLAGS.BA.DI3_STOP = !(GPIOB->IDR & GPIO_Pin_4); //кнопка СТОП/деблокировка защит
+// RAM_DATA.FLAGS.BA.DI5_TERM = (GPIOA->IDR & GPIO_Pin_15); //термореле OVH
+// RAM_DATA.FLAGS.BA.DI2_BURNING = !(GPIOC->IDR & GPIO_Pin_15); //тумблер прожига
  
     /*проверка на аварию - Перегрев*/
-    OVH_fail(); 
+//    OVH_fail(); 
     //считали состояние тиристоров - нафига?...
-    RAM_DATA.FLAGS.BA.TR2      = (GPIOB->IDR & GPIO_Pin_0);//GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_0);
-    RAM_DATA.FLAGS.BA.TR1      = GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_1); //так работает, а как для тир2 - нет работает хз почему
+//    RAM_DATA.FLAGS.BA.TR2      = (GPIOB->IDR & GPIO_Pin_0);//GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_0);
+//    RAM_DATA.FLAGS.BA.TR1      = GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_1); //так работает, а как для тир2 - нет работает хз почему
     
-    if (FLASH_DATA.Amin >= FLASH_DATA.Amax) //защита от дурака, если у нас Amin кто-то выставил больше Amzx - это плохо
-    {
+///    if (FLASH_DATA.Amin >= FLASH_DATA.Amax) //защита от дурака, если у нас Amin кто-то выставил больше Amzx - это плохо
+//    {
       
-      RAM_DATA.FLAGS.BA.DI3_STOP=1;
-    }
+//      RAM_DATA.FLAGS.BA.DI3_STOP=1;
+//    }
     
     /*проверка на режимы работы и включеные кнопки*/
-    if (RAM_DATA.FLAGS.BA.DI4_START == 1) //Обнаружили нажатой кнопку пуск
-    {    
-      START();
-    }
-     if (RAM_DATA.FLAGS.BA.DI3_STOP == 1) //Обнаружили нажатой кнопку стоп/деблокировка
-    {
-      Norm_STOP = 1; //нажали кнопку стоп
-      STOP();
-    }
+//    if (RAM_DATA.FLAGS.BA.DI4_START == 1) //Обнаружили нажатой кнопку пуск
+//    {    
+//      START();
+//    }
+//     if (RAM_DATA.FLAGS.BA.DI3_STOP == 1) //Обнаружили нажатой кнопку стоп/деблокировка
+//    {
+//      Norm_STOP = 1; //нажали кнопку стоп
+//      STOP();
+//    }
     
 
     
-    if (RAM_DATA.FLAGS.BA.TR_ENABLE == 1) Fail_Check(); //если работает нормально - проверяем постоянно на ошибки
+//    if (RAM_DATA.FLAGS.BA.TR_ENABLE == 1) Fail_Check(); //если работает нормально - проверяем постоянно на ошибки
     
     /*проверка на - нажата ли кнопка СТОП первый раз*/
-    if (RAM_DATA.FLAGS.BA.WAIT == 1) //уже система остановилась
-    {
-      if (Norm_STOP == 1) //была нажата кнопка СТОП для остановки, а не для деблокировки
-      {
+//    if (RAM_DATA.FLAGS.BA.WAIT == 1) //уже система остановилась
+//    {
+//      if (Norm_STOP == 1) //была нажата кнопка СТОП для остановки, а не для деблокировки
+//      {
         // записываем параметр в базу
-        ModbusFlashWrite_DATA(RAM_DATA.Iz, RAM_DATA.Uz);
-        Norm_STOP = 0; // обнулили, чтобы больше 1 раза не записывалось 
-      }
-    }
+//        ModbusFlashWrite_DATA(RAM_DATA.Iz, RAM_DATA.Uz);
+//        Norm_STOP = 0; // обнулили, чтобы больше 1 раза не записывалось 
+ //     }
+//    }
     
-    if (RAM_DATA.load_buf !=0) //пишем данные в аджастер для просмотра осцилла
-    {
-        RAM_DATA.Il_buffer = Il_buf[i_buf_main];
-        RAM_DATA.Ul_buffer = Ul_buf[i_buf_main];
+//    if (RAM_DATA.load_buf !=0) //пишем данные в аджастер для просмотра осцилла
+//    {
+//        RAM_DATA.Il_buffer = Il_buf[i_buf_main];
+//        RAM_DATA.Ul_buffer = Ul_buf[i_buf_main];
     
-    }
+//    }
     
   }
 }

@@ -104,8 +104,8 @@ void GPIO_Configuration(void){
   /* настраиваем ноги не привязанные к переферии, как open-drain*/
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
   //порт А:                          Dout1           Dout2        Dout3 
-  GPIO_InitStructure.GPIO_Pin  =  GPIO_Pin_14 | GPIO_Pin_13 | GPIO_Pin_12;
-  GPIO_Init(GPIOA, &GPIO_InitStructure);
+//  GPIO_InitStructure.GPIO_Pin  =  GPIO_Pin_14 | GPIO_Pin_13 | GPIO_Pin_12;
+//  GPIO_Init(GPIOA, &GPIO_InitStructure);
   GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable, ENABLE);//remap!  A13 и A14
     //порт B:                     LED1       LED2           FR_FCS       FR_DATA        FR_CLK      
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_6  | GPIO_Pin_13 | GPIO_Pin_14 | GPIO_Pin_15;
@@ -125,11 +125,11 @@ void GPIO_Configuration(void){
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_3 | GPIO_Pin_15; 
   GPIO_Init(GPIOA, &GPIO_InitStructure);  
   //порт В:  дискретные входы     DI3_STOP     DI4_START       SYNC          TR1           TR2             
-  GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_4 | GPIO_Pin_3 | GPIO_Pin_11 | GPIO_Pin_1 | GPIO_Pin_0;  
+  GPIO_InitStructure.GPIO_Pin =  /* GPIO_Pin_4 | GPIO_Pin_3 | */ GPIO_Pin_11 | GPIO_Pin_1 | GPIO_Pin_0;  
   GPIO_Init(GPIOB, &GPIO_InitStructure); 
     //порт C:  дискретные входы       DI1           DI2_BURNING         
-  GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_14 | GPIO_Pin_15;  
-  GPIO_Init(GPIOC, &GPIO_InitStructure);  
+ // GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_14 | GPIO_Pin_15;  
+ // GPIO_Init(GPIOC, &GPIO_InitStructure);  
  
     /* Connect EXTI_Line11 to SYNC input PB.11 GPIO Pin */
 //  GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource11);

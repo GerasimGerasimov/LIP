@@ -2,6 +2,7 @@ Obj/
 *.out
 List/
 Exe/
+out/
 settings/
 *.json
 *.ewd
@@ -18,5 +19,5 @@ settings/
 *.html
 ~$*.docx
 ~$*.vsd
-
+*.hex
 
