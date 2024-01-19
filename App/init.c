@@ -107,8 +107,8 @@ void GPIO_Configuration(void){
   GPIO_InitStructure.GPIO_Pin  =  GPIO_Pin_14 | GPIO_Pin_13;// | GPIO_Pin_12;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
   GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable, ENABLE);//remap!  A13 и A14
-    //порт B:                     LED1       LED2           FR_FCS       FR_DATA        FR_CLK      
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_6  | GPIO_Pin_13 | GPIO_Pin_14;// | GPIO_Pin_15;
+    //порт B:                     LED_RUN    LED_LINK1      LED_ALARM    LED_LINK2      FR_FCS       FR_DATA        FR_CLK      
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_6  | GPIO_Pin_7 | GPIO_Pin_8 | GPIO_Pin_13 | GPIO_Pin_14;// | GPIO_Pin_15;
   GPIO_Init(GPIOB, &GPIO_InitStructure);
 
     GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable, ENABLE);//remap! 

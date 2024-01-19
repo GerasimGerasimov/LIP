@@ -199,7 +199,7 @@ typedef union {
     // Секция калиброванного измерения
     vu16 Iload;         //ток нагрузки
     vu16 Uload;         //напряжение нагрузки
-    vu16 Ish;           //
+    vu16 counter1;           //
     // Секция измерения за период
     vu16 Iload_avg;        //
     vu16 Uload_avg;        //

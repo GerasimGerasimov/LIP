@@ -1159,7 +1159,7 @@
             <name>$PROJ_DIR$\..\init.c</name>
         </file>
         <file>
-            <name>$PROJ_DIR$\..\main.c</name>
+            <name>$PROJ_DIR$\..\main.cpp</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\memutil.c</name>
