@@ -143,89 +143,89 @@ typedef union {
   vu32	   i;
   struct {
     //r0000
-     unsigned flash_error : 1;	//0 - 1
-     unsigned backup_error : 1;	//1 - 2
-     unsigned fram_error : 1;	//2 - 4
-     unsigned fram_bkp_error : 1; //3 - 8
+     unsigned flash_error : 1;	//
+     unsigned backup_error : 1;	//
+     unsigned fram_error : 1;	//
+     unsigned fram_bkp_error : 1; //
     //флаги DIO
-    unsigned DOUT1_FAIL : 1; //4 - 16// РАС аварийное отключение
-    unsigned DOUT2_SHAKE: 1; //5 - 32//=1 пока встряхивается встряхиватель  
-    unsigned DOUT3_SIGN : 1; //6 - 64// РПС сигнализация 
-    unsigned DI1 : 1;	     //7 - 128//discret input 1
-    unsigned DI2_BURNING : 1; //8 - 1//=1 значит включен ПРОЖИГ - не ндадо проверять на искру!
-    unsigned DI3_STOP : 1;   //9 - 2// =1 Нажата кнопка Стоп 
-    unsigned DI4_START : 1;  //a - 4//  =1 Нажата кнопка Пуск
-    unsigned DI5_TERM : 1;   //b - 8// термореле
+    unsigned DOUT1_FAIL : 1; //РАС аварийное отключение
+    unsigned DOUT2_SHAKE: 1; //пока встряхивается встряхиватель  
+    unsigned DOUT3_SIGN : 1; //РПС сигнализация 
+    unsigned DI1 : 1;	     //discret input 1
+    unsigned DI2_BURNING : 1; //значит включен ПРОЖИГ - не ндадо проверять на искру!
+    unsigned DI3_STOP : 1;   //Нажата кнопка Стоп 
+    unsigned DI4_START : 1;  //Нажата кнопка Пуск
+    unsigned DI5_TERM : 1;   //термореле
     //флаги аварий если флаг в 1 - есть авария
-    unsigned SYNCF : 1;	    //c - 16//SYNC FAULT              
-    unsigned MTZ_SH : 1;    //d - 32//mtz по входу, Ish
-    unsigned MTZ_L : 1;	    //e - 64//mtz по нагрузке, Iload
-    unsigned SHC : 1;	    //f - 128//short circuit кз
-    unsigned OPC : 1;	    //0 - 1//open  circuit хх
-    unsigned OVH    : 1;    //1 - 2//over heating (перегрев) 
-    unsigned THFOC  : 1;    //2 - 4//fault thyristors not open(неисправность тиристоров неоткрывается)  оставить но не исп
-    unsigned THFAO  : 1;    //3 - 8//fault thyristors not close(неисправность тиристоров незакрывается)  оставить но не исп
-    unsigned FQS    : 1;    //4 - 16//frequent spark частые пробои - кол-во пробоев за период
+    unsigned SYNCF : 1;	    //SYNC FAULT              
+    unsigned MTZ_SH : 1;    //mtz по входу, Ish
+    unsigned MTZ_L : 1;	    //mtz по нагрузке, Iload
+    unsigned SHC : 1;	    //short circuit кз
+    unsigned OPC : 1;	    //open  circuit хх
+    unsigned OVH    : 1;    //over heating (перегрев) 
+    unsigned THFOC  : 1;    //fault thyristors not open(неисправность тиристоров неоткрывается)  оставить но не исп
+    unsigned THFAO  : 1;    //fault thyristors not close(неисправность тиристоров незакрывается)  оставить но не исп
+    unsigned FQS    : 1;    //frequent spark частые пробои - кол-во пробоев за период
     //r0001
     //прочие флаги 
-    unsigned TR_ENABLE : 1; //5 - 32//1-вкл, 0-вык импульсы на тиpисторы если есть аварии, при которых выкл импульсы - бит в 0
-    unsigned TR1  : 1;   //6 - 64//проводимость 1- тиристора
-    unsigned TR2  : 1;   //7 - 128//проводимость 2- тиристора
-    unsigned SPARK : 1;  //8 - 1// Пришла искра = 1, с приходом синхр = 0, если была 1
-    unsigned WAIT : 1;   //9 - 2// флаг - состояние ожидания
-    unsigned A_STOP : 1; //a - 4// флаг изменения/повышения  угла альфа вызова STOP
-    unsigned DOUT4_SHAKE2 : 1;    //b - 8// второй встряхиватель на внешней плате
-    unsigned DOUT5 : 1;    //c - 16// дискр вых допольнительно
-    unsigned DOUT6 : 1;	 //d - 32// дискр вых допольнительно
-    unsigned DI6 : 1;	 //e - 64//дискр вх допольнительно
-    unsigned NA8 : 1;    //f - 128//
+    unsigned TR_ENABLE : 1; //импульсы на тиpисторы если есть аварии, при которых выкл импульсы
+    unsigned TR1  : 1;   //проводимость 1- тиристора
+    unsigned TR2  : 1;   ///проводимость 2- тиристора
+    unsigned SPARK : 1;  // Пришла искра
+    unsigned WAIT : 1;   //лаг - состояние ожидания
+    unsigned A_STOP : 1; //флаг изменения/повышения  угла альфа вызова STOP
+    unsigned DOUT4_SHAKE2 : 1;    //второй встряхиватель на внешней плате
+    unsigned DOUT5 : 1;    //дискр вых допольнительно
+    unsigned DOUT6 : 1;	 //дискр вых допольнительно
+    unsigned DI6 : 1;	 //дискр вх допольнительно
+    unsigned NA8 : 1;    //
   } BA;
 } _FLG0;//флаги управления и индикации;
 
 //параметры расположеные в RAM
   struct TRAM_DATA {
-    _FLG0 FLAGS;        //0x0000//r0000-r0001//32bit флаги управления и индикации;
+    _FLG0 FLAGS;        //флаги управления и индикации;
     // Секция задания
-    vu16 Iz;            //0x0004
-    vu16 Uz;            //0x0006
-    vu16 Az;            //0x0008 ?
+    vu16 Iz;
+    vu16 Uz;
+    vu16 Az;
     // Секция регулирования
-    vu16 A;             //0x000a угол управления тиристорами, время, сколько держать уровень в 0
+    vu16 A;             //угол управления тиристорами, время, сколько держать уровень в 0
     // Секция мнгновенного измерения для отладки
-    vu16 V_Ref;         //0x000c //внутренний референс
-    vu16 _Iload;        //0x000e//non filtred ток нагрузки II
-    vu16 _Uload;        //0x0010//non filtred напряжение нагрузки
-    vu16 _Ish;          //0x0012//non filtred ток нагрузки I
+    vu16 V_Ref;         //внутренний референс
+    vu16 _Iload;        //non filtred ток нагрузки II
+    vu16 _Uload;        //non filtred напряжение нагрузки
+    vu16 _Ish;          //non filtred ток нагрузки I
     // Секция калиброванного измерения
-    vu16 Iload;         //0x0014 //ток нагрузки
-    vu16 Uload;         //0x0016//напряжение нагрузки
-    vu16 Ish;           //0x0018//
+    vu16 Iload;         //ток нагрузки
+    vu16 Uload;         //напряжение нагрузки
+    vu16 Ish;           //
     // Секция измерения за период
-    vu16 Iload_avg;        //0x001a//
-    vu16 Uload_avg;        //0x001c//
-    vu16 Ish_avg;          //0x001e//
+    vu16 Iload_avg;        //
+    vu16 Uload_avg;        //
+    vu16 Ish_avg;          //
     //добавить по искре
-    vu16 Spark_cnt;          //0x0020//
+    vu16 Spark_cnt;          //
     
     // переменные защита от дурака - изменять значения нельзя, но если вдруг кто захочет - 
-    vu16 A_idiot;            //0x0022 
-    vu16 Iload_idiot;        //0x0024//
-    vu16 Uload_idiot;        //0x0026//
-    vu16 Ish_idiot;          //0x0028//
+    vu16 A_idiot;            //
+    vu16 Iload_idiot;        //
+    vu16 Uload_idiot;        //
+    vu16 Ish_idiot;          //
 
     
     /*только для настройки*/
-vu16 Spark_cnt_view;          //0x002a//
-vu16 Il_buffer;          //0x002c//
-vu16 Ul_buffer;          //0x002e//
-vu16 load_buf; //0x0030//
+vu16 Spark_cnt_view;          //
+vu16 Il_buffer;          //
+vu16 Ul_buffer;          //
+vu16 load_buf; //
 
 //переменные для усреднения на дисплее - чтобы проще было смотреть
-    vu16 Iload_Efiltr;        //0x0032//
-    vu16 Uload_Efiltr;        //0x0034//
+    vu16 Iload_Efiltr;        //
+    vu16 Uload_Efiltr;        //
 
     
-   // vu16 V_Ref;         //0x000c //внутренний референс
+   // vu16 V_Ref;         //внутренний референс
 } ;
 
 struct TCLBR_DATA {
