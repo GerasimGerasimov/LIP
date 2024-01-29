@@ -201,8 +201,8 @@ typedef union {
     vu16 Uload;         //напряжение нагрузки
     vu16 counter1;           //
     // Секция измерения за период
-    vu16 Iload_avg;        //
-    vu16 Uload_avg;        //
+    vu16 counter2;        //
+    vu16 counter3;        //
     vu16 Ish_avg;          //
     //добавить по искре
     vu16 Spark_cnt;          //

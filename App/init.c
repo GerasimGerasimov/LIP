@@ -1,5 +1,6 @@
 #include "init.h"
 #include "stm32f10x.h"
+#include "stm32f10x_gpio.h"
 #include "ramdata.h"
 #include "flashdata.h"//глобальные константы и структура FLASH_DATA
 #include "memutil.h"
@@ -21,7 +22,7 @@ void ADC_Configuration (void);
 void Systic_init(void);
 void EXTI_init(void);
 void DMA_Configuration (void);
-//void SPI1_Configuration(void);
+void SPI1_Configuration(void);
 void check_flash (void);
 
 
@@ -33,9 +34,9 @@ void Init (void)
 {  
   GPIO_Configuration();
   TIM1_Configuration(); //модбас
-  TIM2_Configuration();//шим тиристора
+  //TIM2_Configuration();//шим тиристора
   //TIM3_Configuration(); //тактирование ацп
-  TIM4_Configuration();// общего назначения, используется для отсекания времени угла/шим
+  //TIM4_Configuration();// общего назначения, используется для отсекания времени угла/шим
   
   //DMA_Configuration();//ацп
   ADC_Configuration();
@@ -49,7 +50,7 @@ void Init (void)
  
   TIM_Cmd(TIM3, ENABLE);
   NVIC_Configuration();
- 
+  SPI1_Configuration();
   /*
   check_fram();//проверяем ключ параметров
   check_flash();//проверяем флеш-сектора данных
@@ -90,6 +91,29 @@ void Init (void)
 * Output         : None
 * Return         : None
 *******************************************************************************/
+void SPI1_Configuration(void){
+  SPI_InitTypeDef  SPI_InitStructure;
+  RCC_APB2PeriphClockCmd( RCC_APB2Periph_SPI1, ENABLE);
+  /* SPI1 configuration */
+  SPI_InitStructure.SPI_Direction = SPI_Direction_1Line_Tx;
+  SPI_InitStructure.SPI_Mode = SPI_Mode_Master;
+  SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b;
+  SPI_InitStructure.SPI_CPOL = SPI_CPOL_High;
+  SPI_InitStructure.SPI_CPHA = SPI_CPHA_2Edge;
+  //SPI_InitStructure.SPI_NSS = SPI_NSS_Hard;
+  SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
+  SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_256;
+  SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
+  SPI_InitStructure.SPI_CRCPolynomial = 7;
+  SPI_Init(SPI1, &SPI_InitStructure);
+
+  /* Enable SPI1 NSS output for master mode */
+  //SPI_SSOutputCmd(SPI1, ENABLE);
+  /* Enable SPI1  */
+  SPI_Cmd(SPI1, ENABLE);
+
+}
+
 
 
 void GPIO_Configuration(void){
@@ -116,13 +140,13 @@ void GPIO_Configuration(void){
   /* настраиваем ноги не привязанные к переферии, как push-pull*/
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;  
   //порт А:                     DIR1       DIR2 
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11 |GPIO_Pin_0; 
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11 | GPIO_Pin_0 | GPIO_Pin_6;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
 
   /* настраиваем входы переферии как input floating */
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;  
   //порт А:                     UART1_Rx       UART2_Rx     DI5_TERM       
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_3 | GPIO_Pin_15; 
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_3;// | GPIO_Pin_15; 
   GPIO_Init(GPIOA, &GPIO_InitStructure);  
   //порт В:  дискретные входы     DI3_STOP     DI4_START       SYNC          TR1           TR2             
   GPIO_InitStructure.GPIO_Pin =  /* GPIO_Pin_4 | */ GPIO_Pin_3;// | GPIO_Pin_11;// | GPIO_Pin_1 | GPIO_Pin_0;  
@@ -135,15 +159,15 @@ void GPIO_Configuration(void){
 //  GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource11);
   
   /* настраиваем ноги аналоговых сигналов*/
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;  
+//  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;  
   //порт А:                     ADC_I         ADC_U      ADC_Ish   
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_6| GPIO_Pin_7; 
-  GPIO_Init(GPIOA, &GPIO_InitStructure);
+//  GPIO_InitStructure.GPIO_Pin = 
+//  GPIO_Init(GPIOA, &GPIO_InitStructure);
   
   /* настраиваем выходы переферии как push-pull */
    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-  //порт А:                       UART1_Tx     UART2_Tx      
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9 | GPIO_Pin_2; 
+  //порт А:                       UART1_Tx     UART2_Tx    SPI1_SCK     SPI1_LCLK   SPI1_MOSI  
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9 | GPIO_Pin_2 | GPIO_Pin_5 | GPIO_Pin_7; 
   GPIO_Init(GPIOA, &GPIO_InitStructure);
     
     //порт B:                      TIM2_CH3 T   

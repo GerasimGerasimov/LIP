@@ -3,7 +3,11 @@
 
 #include "stm32f10x.h"//библиотека STM
 
-extern void spi_send(uint16_t data);
+#ifdef __cplusplus
+extern "C" void spi_send(uint8_t data);
+#else
+extern void spi_send(uint8_t data);
+#endif
 extern uint16_t spi_receve(void);
 
 

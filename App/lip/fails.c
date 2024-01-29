@@ -18,7 +18,7 @@ void Ish_mtz_fail(void)
 /*2 авария - mtz по нагрузке*/
 void Iload_mtz_fail(void)
 {
-  if (RAM_DATA.Iload_avg > FLASH_DATA.Iload_mtz) RAM_DATA.FLAGS.BA.MTZ_L = 1; //выставили флаг аварии
+  //if (RAM_DATA.Iload_avg > FLASH_DATA.Iload_mtz) RAM_DATA.FLAGS.BA.MTZ_L = 1; //выставили флаг аварии
 }
 
 /*3 авария - перегрев*/
@@ -30,19 +30,19 @@ void OVH_fail(void)
 /*4 авария - кз*/
 void SC_fail(void)
 {
-  if (RAM_DATA.Uload_avg < FLASH_DATA.Uload_SHC) 
-  {
-    if (RAM_DATA.Iload_avg > FLASH_DATA.Iload_SHC)  RAM_DATA.FLAGS.BA.SHC = 1; //выставили флаг аварии
-  }
+  //if (RAM_DATA.Uload_avg < FLASH_DATA.Uload_SHC) 
+  //{
+  //  if (RAM_DATA.Iload_avg > FLASH_DATA.Iload_SHC)  RAM_DATA.FLAGS.BA.SHC = 1; //выставили флаг аварии
+ // }
 }
 
 /*5 авария - хх*/
 void OC_fail(void)
 {
-  if (RAM_DATA.Uload_avg > FLASH_DATA.Uload_OPC) 
-  {
-    if (RAM_DATA.Iload_avg < FLASH_DATA.Iload_OPC)  RAM_DATA.FLAGS.BA.OPC = 1; //выставили флаг аварии
-  }
+  //if (RAM_DATA.Uload_avg > FLASH_DATA.Uload_OPC) 
+  //{
+   // if (RAM_DATA.Iload_avg < FLASH_DATA.Iload_OPC)  RAM_DATA.FLAGS.BA.OPC = 1; //выставили флаг аварии
+ // }
 }
 
 u8 Spark_cnt_Buffer[10] = {0,0,0,0,0, 0,0,0,0,0};

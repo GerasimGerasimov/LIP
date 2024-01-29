@@ -2,6 +2,8 @@
 
 #include "spi.h"
 #include "DEFINES.h"
+#include "ramdata.h"
+#include "stm32f10x_gpio.h"
 
 /* defines ------------------------------------------------------------------*/
 //буфер данных для передачи
@@ -34,11 +36,32 @@ uint16_t SPI1_Buffer_Tx[32] = {0x0102, 0x0304, 0x0506, 0x0708, 0x090A, 0x0B0C,
         }*/
 
 
+int i = 0;
 //функция передачи //отправить 2 байта
-void spi_send(uint16_t data) 
+void spi_send(uint8_t data) 
 {
+  //for(int i = 0; i < 5; ++i){
+    while(SPI_I2S_GetFlagStatus(SPI1,SPI_I2S_FLAG_TXE) == RESET){
+      
+    };  // ждём пока данные уйдут
     SPI_I2S_SendData(SPI1,data);
-    while(SPI_I2S_GetFlagStatus(SPI1,SPI_I2S_FLAG_TXE) == RESET);  // ждём пока данные уйдут
+    ++RAM_DATA.counter2;
+    while(SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_BSY) == SET){
+      ++RAM_DATA.counter3;
+    };
+ // }
+  //  if(i < 2){
+  //    ++i;
+  //  }
+  //  else{
+   //   i = 0;
+      GPIOA->BRR = GPIO_Pin_6; //OFF
+      GPIOA->BSRR = GPIO_Pin_6; //ON
+   //   for(int j = 0; j < 1000; ++j){
+   //     ++RAM_DATA.counter1;
+   //   }
+   // }
+
 }
 //функция приема //принять 2 байта
 uint16_t spi_receve(void) 

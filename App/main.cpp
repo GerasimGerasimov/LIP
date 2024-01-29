@@ -24,6 +24,7 @@
 
 #include "DEFINES.h" //все основные, относящиеся только к плате дефайны
 #include "modbus/modbus.h"
+#include "spi.h"
 
 #include "stm32f10x_it.h"
 
@@ -51,7 +52,7 @@ int main(void)              //главная программа
 {
 
   Init();                   //инициализация переферии  
-  
+  uint8_t arr[5] = {1, 2, 4, 8, 16};
   
   LED_RUN_ON;
   LED_LINK1_OFF;
@@ -69,8 +70,8 @@ int main(void)              //главная программа
       else LED_LINK1_OFF; 
     }
         
-
-    
+    spi_send(~((uint8_t)RAM_DATA.Iz));
+    //SPI1->C1
     //записали значения в дискретные выходы 
 //    if (RAM_DATA.FLAGS.BA.DOUT1_FAIL) GPIOA->BRR = GPIO_Pin_14; //если 1 - выход мк роняем в 0, на выходе платы 1
 //    else GPIOA->BSRR = GPIO_Pin_14;  //авария

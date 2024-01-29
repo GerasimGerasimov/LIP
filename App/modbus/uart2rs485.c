@@ -12,14 +12,15 @@
 #include "ramdata.h"
 #include "modbus.h"
 #include "stm32f10x.h"
+#include "DEFINES.h"
 
 TClient uart2data;
 void RxDMA1Ch6 (void);//настройка DMA на чтение данных из UART
 void TxDMA1Ch7 (void);//настройка DMA на передачу данных в UART
 void U2SetTimer(unsigned int Delay);  //зарядка таймера на подождать перед отправкой данных
 
-#define SetDIR2ToRX    GPIO_WriteBit(GPIOA, GPIO_Pin_1,  (BitAction)(0));
-#define SetDIR2ToTX    GPIO_WriteBit(GPIOA, GPIO_Pin_1,  (BitAction)(1));
+#define SetDIR2ToRX    GPIO_WriteBit(GPIOA, GPIO_Pin_0,  (BitAction)(0));
+#define SetDIR2ToTX    GPIO_WriteBit(GPIOA, GPIO_Pin_0,  (BitAction)(1));
 
 #define U2RXBUFFSIZE  255 //размер буфера приёмника
 
