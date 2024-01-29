@@ -1,15 +1,14 @@
-#ifndef SPI_H
-#define SPI_H
+#pragma once
 
-#include "stm32f10x.h"//библиотека STM
+#include <stdint.h>
 
-#ifdef __cplusplus
-extern "C" void spi_send(uint8_t data);
-#else
-extern void spi_send(uint8_t data);
-#endif
-extern uint16_t spi_receve(void);
+class SPI
+{
+private:
 
+public:
+    SPI();
+    void spi_send(uint8_t data);
+    uint8_t spi_receve();
+};
 
-    
-#endif
