@@ -9,6 +9,6 @@ private:
 public:
     static void bringOutValue();
 protected:
-    u8 CountSegment;
+    uint8_t CountSegment;
 };
 

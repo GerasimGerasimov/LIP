@@ -4,7 +4,6 @@
 
 
 LIP_5Nx::LIP_5Nx(){
-    ++RAM_DATA.counter2;
     CountSegment = 5;
 }
 

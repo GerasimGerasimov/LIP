@@ -53,9 +53,10 @@ int main(void)              //главная программа
 {
 
   Init();                   //инициализация переферии  
-  uint8_t arr[5] = {1, 2, 4, 8, 16};
+  uint8_t arr[5];
+  uint8_t arr2[5];
   LIP_5Nx indicator;
-
+  LIP_5Nx ind2;
 
   
   LED_RUN_ON;
@@ -78,7 +79,13 @@ int main(void)              //главная программа
     arr[2] = (uint8_t)RAM_DATA.Az;
     arr[3] = (uint8_t)RAM_DATA.A;
     arr[4] = (uint8_t)RAM_DATA.V_Ref;
+    arr2[0] = (uint8_t)RAM_DATA._Iload;
+    arr2[1] = (uint8_t)RAM_DATA._Uload;
+    arr2[2] = (uint8_t)RAM_DATA._Ish;
+    arr2[3] = (uint8_t)RAM_DATA.Iload;
+    arr2[4] = (uint8_t)RAM_DATA.Uload;
     indicator.setValue(arr);
+    ind2.setValue(arr2);
     indicator.bringOutValue();
 
     //записали значения в дискретные выходы 
