@@ -25,7 +25,7 @@
 #include "DEFINES.h" //все основные, относящиеся только к плате дефайны
 #include "modbus/modbus.h"
 #include "spi.h"
-#include "LIP_5Nx.h"
+#include "Indicator/LIP_5Nx.h"
 
 #include "stm32f10x_it.h"
 
@@ -55,7 +55,7 @@ int main(void)              //главная программа
   Init();                   //инициализация переферии  
   uint8_t arr[5] = {1, 2, 4, 8, 16};
   LIP_5Nx indicator;
-  SPI spi;
+
 
   
   LED_RUN_ON;
@@ -73,10 +73,14 @@ int main(void)              //главная программа
       if (LED_LINK1_ST) LED_LINK1_ON;
       else LED_LINK1_OFF; 
     }
-        
-    spi.spi_send(~((uint8_t)RAM_DATA.Iz));
-    indicator.setVal();
-    //SPI1->C1
+    arr[0] = (uint8_t)RAM_DATA.Iz;
+    arr[1] = (uint8_t)RAM_DATA.Uz;
+    arr[2] = (uint8_t)RAM_DATA.Az;
+    arr[3] = (uint8_t)RAM_DATA.A;
+    arr[4] = (uint8_t)RAM_DATA.V_Ref;
+    indicator.setValue(arr);
+    indicator.bringOutValue();
+
     //записали значения в дискретные выходы 
 //    if (RAM_DATA.FLAGS.BA.DOUT1_FAIL) GPIOA->BRR = GPIO_Pin_14; //если 1 - выход мк роняем в 0, на выходе платы 1
 //    else GPIOA->BSRR = GPIO_Pin_14;  //авария

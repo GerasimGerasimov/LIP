@@ -1123,6 +1123,15 @@
     <group>
         <name>User</name>
         <group>
+            <name>Indicator</name>
+            <file>
+                <name>$PROJ_DIR$\..\Indicator\Indicator.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Indicator\LIP_5Nx.cpp</name>
+            </file>
+        </group>
+        <group>
             <name>lip</name>
             <file>
                 <name>$PROJ_DIR$\..\lip\fails.c</name>
@@ -1157,9 +1166,6 @@
         </file>
         <file>
             <name>$PROJ_DIR$\..\init.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\LIP_5Nx.cpp</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\main.cpp</name>
