@@ -2,6 +2,6 @@
 #include "stm32f10x_gpio.h"
 
 void Indicator::bringOutValue(){
-    GPIOA->BSRR = GPIO_Pin_6; //ON
-    GPIOA->BRR = GPIO_Pin_6; //OFF
+    GPIO_SetBits(GPIOA, GPIO_Pin_6); //ON
+    GPIO_ResetBits(GPIOA, GPIO_Pin_6); //OFF
 }

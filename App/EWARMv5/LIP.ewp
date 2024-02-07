@@ -1152,6 +1152,12 @@
                 <name>$PROJ_DIR$\..\modbus\uart2rs485.c</name>
             </file>
         </group>
+        <group>
+            <name>Page</name>
+            <file>
+                <name>$PROJ_DIR$\..\Page\Page.cpp</name>
+            </file>
+        </group>
         <file>
             <name>$PROJ_DIR$\..\crc16.c</name>
         </file>

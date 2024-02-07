@@ -7,7 +7,7 @@ LIP_5Nx::LIP_5Nx(){
     CountSegment = 5;
 }
 
-void LIP_5Nx::setValue(uint8_t data[]){
+void LIP_5Nx::setValue(const char* data){
     for(uint8_t i = CountSegment; i > 0; --i){
         uint8_t symbol = getChar(data[i-1]);
         SPI::getInstance().spi_send(symbol);

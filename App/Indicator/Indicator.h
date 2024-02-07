@@ -1,6 +1,6 @@
 #pragma once
 
-#include "stm32f10x.h"
+#include <stdint.h>
 
 class Indicator
 {
@@ -8,6 +8,7 @@ private:
 
 public:
     static void bringOutValue();
+    virtual void setValue(const char* data){};
 protected:
     uint8_t CountSegment;
 };

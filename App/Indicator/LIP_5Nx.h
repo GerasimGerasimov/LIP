@@ -8,10 +8,11 @@ class LIP_5Nx : public Indicator
 {
 private:
     bool typeKathode = false;
+    bool dot = false;
     static const char ASCIITable[96];
     uint8_t getChar(char symbol);
 public:
     LIP_5Nx();
-    void setValue(uint8_t data[]);
+    virtual void setValue(const char* data) override;
 };
 

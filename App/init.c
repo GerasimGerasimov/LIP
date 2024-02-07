@@ -24,7 +24,7 @@ void EXTI_init(void);
 void DMA_Configuration (void);
 void SPI1_Configuration(void);
 void check_flash (void);
-
+void SPI2_Configuration();
 
 
 
@@ -39,7 +39,7 @@ void Init (void)
   //TIM4_Configuration();// общего назначения, используется для отсекания времени угла/шим
   
   //DMA_Configuration();//ацп
-  ADC_Configuration();
+  //ADC_Configuration();
 
   EXTI_init(); 
   
@@ -51,6 +51,7 @@ void Init (void)
   TIM_Cmd(TIM3, ENABLE);
   NVIC_Configuration();
   SPI1_Configuration();
+  SPI2_Configuration();
   /*
   check_fram();//проверяем ключ параметров
   check_flash();//проверяем флеш-сектора данных
@@ -114,7 +115,21 @@ void SPI1_Configuration(void){
 
 }
 
-
+void SPI2_Configuration(){
+  SPI_InitTypeDef  SPI_InitStructure;
+  RCC_APB2PeriphClockCmd(RCC_APB1Periph_SPI2, ENABLE);
+  SPI_InitStructure.SPI_Direction = SPI_Direction_1Line_Rx;
+  SPI_InitStructure.SPI_Mode = SPI_Mode_Slave;
+  SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b;
+  SPI_InitStructure.SPI_CPOL = SPI_CPOL_High;
+  SPI_InitStructure.SPI_CPHA = SPI_CPHA_2Edge;
+  SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
+  SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_256;
+  SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
+  SPI_InitStructure.SPI_CRCPolynomial = 7;
+  SPI_Init(SPI2, &SPI_InitStructure);
+  SPI_Cmd(SPI2, ENABLE);
+}
 
 void GPIO_Configuration(void){
   GPIO_InitTypeDef GPIO_InitStructure;
@@ -132,16 +147,19 @@ void GPIO_Configuration(void){
   GPIO_Init(GPIOA, &GPIO_InitStructure);
   GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable, ENABLE);//remap!  A13 и A14
     //порт B:                     LED_RUN    LED_LINK1      LED_ALARM    LED_LINK2      FR_FCS       FR_DATA        FR_CLK      
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_6  | GPIO_Pin_7 | GPIO_Pin_8 | GPIO_Pin_13 | GPIO_Pin_14;// | GPIO_Pin_15;
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_6  | GPIO_Pin_7 | GPIO_Pin_8;// | GPIO_Pin_13 | GPIO_Pin_14;// | GPIO_Pin_15;
   GPIO_Init(GPIOB, &GPIO_InitStructure);
 
     GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable, ENABLE);//remap! 
   
   /* настраиваем ноги не привязанные к переферии, как push-pull*/
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;  
-  //порт А:                     DIR1       DIR2 
+  //порт А:                        DIR1         DIR2       SPI1_LCLK
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11 | GPIO_Pin_0 | GPIO_Pin_6;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12 | GPIO_Pin_15;
+  GPIO_Init(GPIOB, &GPIO_InitStructure);
 
   /* настраиваем входы переферии как input floating */
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;  
@@ -166,13 +184,13 @@ void GPIO_Configuration(void){
   
   /* настраиваем выходы переферии как push-pull */
    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-  //порт А:                       UART1_Tx     UART2_Tx    SPI1_SCK     SPI1_LCLK   SPI1_MOSI  
+  //порт А:                       UART1_Tx     UART2_Tx    SPI1_SCK     SPI1_MOSI  
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9 | GPIO_Pin_2 | GPIO_Pin_5 | GPIO_Pin_7; 
   GPIO_Init(GPIOA, &GPIO_InitStructure);
     
-    //порт B:                      TIM2_CH3 T   
-/*   GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_10;  
-  GPIO_Init(GPIOB, &GPIO_InitStructure);  */
+    //порт B:                     SPI2_SCK     SPI2_MISO
+  GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_13 | GPIO_Pin_14;  
+  GPIO_Init(GPIOB, &GPIO_InitStructure); 
   GPIO_PinRemapConfig(GPIO_PartialRemap2_TIM2, ENABLE);//remap! T2_CH3->PB.10  
 
 

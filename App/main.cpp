@@ -26,6 +26,7 @@
 #include "modbus/modbus.h"
 #include "spi.h"
 #include "Indicator/LIP_5Nx.h"
+#include "Page/Page.h"
 
 #include "stm32f10x_it.h"
 
@@ -66,7 +67,7 @@ int main(void)              //главная программа
   /*дополнительная инициализация софта, которую потом отдельной цункцией запилить*/
   Init_soft();// тут сброс всего в  начальное значение
   Fail_Reset();//сброс флагов аварий
-
+  Page page;
   while (1)//основной цикл программы
   {    
     if ((U1_SwCNT()) ||(U2_SwCNT()))//смотрим пришел ли запрос по Модбасу и 1 и 2 сразу смотрим для проверки
@@ -74,7 +75,7 @@ int main(void)              //главная программа
       if (LED_LINK1_ST) LED_LINK1_ON;
       else LED_LINK1_OFF; 
     }
-    arr[0] = (uint8_t)RAM_DATA.Iz;
+/*     arr[0] = (uint8_t)RAM_DATA.Iz;
     arr[1] = (uint8_t)RAM_DATA.Uz;
     arr[2] = (uint8_t)RAM_DATA.Az;
     arr[3] = (uint8_t)RAM_DATA.A;
@@ -86,8 +87,8 @@ int main(void)              //главная программа
     arr2[4] = (uint8_t)RAM_DATA.Uload;
     indicator.setValue(arr);
     ind2.setValue(arr2);
-    indicator.bringOutValue();
-
+    indicator.bringOutValue(); */
+    page.update();
     //записали значения в дискретные выходы 
 //    if (RAM_DATA.FLAGS.BA.DOUT1_FAIL) GPIOA->BRR = GPIO_Pin_14; //если 1 - выход мк роняем в 0, на выходе платы 1
 //    else GPIOA->BSRR = GPIO_Pin_14;  //авария
@@ -109,7 +110,7 @@ int main(void)              //главная программа
 //    RAM_DATA.FLAGS.BA.TR2      = (GPIOB->IDR & GPIO_Pin_0);//GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_0);
 //    RAM_DATA.FLAGS.BA.TR1      = GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_1); //так работает, а как для тир2 - нет работает хз почему
     
-///    if (FLASH_DATA.Amin >= FLASH_DATA.Amax) //защита от дурака, если у нас Amin кто-то выставил больше Amzx - это плохо
+//    if (FLASH_DATA.Amin >= FLASH_DATA.Amax) //защита от дурака, если у нас Amin кто-то выставил больше Amzx - это плохо
 //    {
       
 //      RAM_DATA.FLAGS.BA.DI3_STOP=1;

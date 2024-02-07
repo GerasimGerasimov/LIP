@@ -4,6 +4,7 @@ List/
 Exe/
 out/
 settings/
+Visual Studio/
 *.json
 *.ewd
 *.ewt
