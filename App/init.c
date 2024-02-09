@@ -27,18 +27,38 @@ void check_flash (void);
 void SPI2_Configuration();
 
 
+uint8_t arr[15]; //TODO проверка DMA
+
+void fillArr(){
+  arr[0] = ~((uint8_t)(RAM_DATA.Iz % 256)) ;
+  arr[1] = ~((uint8_t)(RAM_DATA.Uz % 256)) ;
+  arr[2] = ~((uint8_t)(RAM_DATA.Az % 256)) ;
+  arr[3] = ~((uint8_t)(RAM_DATA.A % 256)) ;
+  arr[4] = ~((uint8_t)(RAM_DATA.V_Ref % 256)) ;
+  arr[5] = ~((uint8_t)(RAM_DATA._Iload % 256)) ;
+  arr[6] = ~((uint8_t)(RAM_DATA._Uload % 256)) ;
+  arr[7] = ~((uint8_t)(RAM_DATA._Ish % 256)) ;
+  arr[8] = ~((uint8_t)(RAM_DATA.Iload % 256)) ;
+  arr[9] = ~((uint8_t)(RAM_DATA.Uload_idiot % 256)) ;
+  arr[10] = ~((uint8_t)(RAM_DATA.Ish_idiot % 256)) ;
+  arr[11] = ~((uint8_t)(RAM_DATA.Spark_cnt_view % 256)) ;
+  arr[12] = ~((uint8_t)(RAM_DATA.Il_buffer % 256)) ;
+  arr[13] = ~((uint8_t)(RAM_DATA.Ul_buffer % 256)) ;
+  arr[14] = ~((uint8_t)(RAM_DATA.load_buf % 256)) ;
+}
 
 ErrorStatus HSEStartUpStatus;
 
 void Init (void)    
 {  
+  fillArr();
+  
   GPIO_Configuration();
   TIM1_Configuration(); //модбас
   //TIM2_Configuration();//шим тиристора
   //TIM3_Configuration(); //тактирование ацп
   //TIM4_Configuration();// общего назначения, используется для отсекания времени угла/шим
   
-  //DMA_Configuration();//ацп
   //ADC_Configuration();
 
   EXTI_init(); 
@@ -49,9 +69,10 @@ void Init (void)
   uart2rs485_init();
  
   TIM_Cmd(TIM3, ENABLE);
-  NVIC_Configuration();
   SPI1_Configuration();
-  SPI2_Configuration();
+  //SPI2_Configuration();
+  DMA_Configuration();
+  NVIC_Configuration();
   /*
   check_fram();//проверяем ключ параметров
   check_flash();//проверяем флеш-сектора данных
@@ -128,7 +149,7 @@ void SPI2_Configuration(){
   SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
   SPI_InitStructure.SPI_CRCPolynomial = 7;
   SPI_Init(SPI2, &SPI_InitStructure);
-  SPI_Cmd(SPI2, ENABLE);
+  //SPI_Cmd(SPI2, ENABLE);
 }
 
 void GPIO_Configuration(void){
@@ -439,25 +460,27 @@ void DMA_Configuration (void){
   RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
   
   /* DMA1 channel1 configuration ----------------------------------------------*/
-  DMA_DeInit(DMA1_Channel1);
-  DMA_InitStructure.DMA_PeripheralBaseAddr = ADC1_DR_Address;
-  DMA_InitStructure.DMA_MemoryBaseAddr = (u32)&RAM_DATA.V_Ref;//ADCConvertedValue;
-  DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;
-  DMA_InitStructure.DMA_BufferSize = 4;
-  DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+  //DMA_DeInit(DMA1_Channel3);
+  DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) &(SPI1->DR);
+  DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t) arr;
+  DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
+  DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;
   DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
-  DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;
-  DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;
-  DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
-  DMA_InitStructure.DMA_Priority = DMA_Priority_VeryHigh;
+  DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+  DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;
+  DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralDST;
+  DMA_InitStructure.DMA_BufferSize = 15;
+  DMA_InitStructure.DMA_Priority = DMA_Priority_High;
   DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
-  DMA_Init(DMA1_Channel1, &DMA_InitStructure);
+  DMA_Init(DMA1_Channel3, &DMA_InitStructure);
   
   /* Enable DMA1 channel1 */
-  DMA_Cmd(DMA1_Channel1, ENABLE);
   
   /* Enable DMA1 Channel1 complete transfer interrupt */
-  DMA_ITConfig(DMA1_Channel1, DMA_IT_TC, ENABLE);
+  DMA_ITConfig(DMA1_Channel3, DMA_IT_TC, ENABLE);
+  DMA_Cmd(DMA1_Channel3, ENABLE);
+
+  SPI_I2S_DMACmd(SPI1, SPI_I2S_DMAReq_Tx, ENABLE);
 }
 
 /*******************************************************************************
@@ -517,7 +540,7 @@ void NVIC_Configuration(void)
   NVIC_Init(&NVIC_InitStructure); 
   
   /* Enable DMA1 interrupt */
-  NVIC_InitStructure.NVIC_IRQChannel = DMA1_Channel1_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannel = DMA1_Channel3_IRQn;
   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;

@@ -7,9 +7,9 @@ void SPI::spi_send(uint8_t data){
       
     };  // ждём пока данные уйдут
     SPI_I2S_SendData(SPI1,data);
-    ++RAM_DATA.counter2;
+    
     while(SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_BSY) == SET){
-      ++RAM_DATA.counter3;
+      
     };
 }
 

@@ -54,10 +54,7 @@ int main(void)              //главная программа
 {
 
   Init();                   //инициализация переферии  
-  uint8_t arr[5];
-  uint8_t arr2[5];
-  LIP_5Nx indicator;
-  LIP_5Nx ind2;
+
 
   
   LED_RUN_ON;
@@ -67,7 +64,9 @@ int main(void)              //главная программа
   /*дополнительная инициализация софта, которую потом отдельной цункцией запилить*/
   Init_soft();// тут сброс всего в  начальное значение
   Fail_Reset();//сброс флагов аварий
-  Page page;
+  //Page page;
+
+
   while (1)//основной цикл программы
   {    
     if ((U1_SwCNT()) ||(U2_SwCNT()))//смотрим пришел ли запрос по Модбасу и 1 и 2 сразу смотрим для проверки
@@ -75,79 +74,9 @@ int main(void)              //главная программа
       if (LED_LINK1_ST) LED_LINK1_ON;
       else LED_LINK1_OFF; 
     }
-/*     arr[0] = (uint8_t)RAM_DATA.Iz;
-    arr[1] = (uint8_t)RAM_DATA.Uz;
-    arr[2] = (uint8_t)RAM_DATA.Az;
-    arr[3] = (uint8_t)RAM_DATA.A;
-    arr[4] = (uint8_t)RAM_DATA.V_Ref;
-    arr2[0] = (uint8_t)RAM_DATA._Iload;
-    arr2[1] = (uint8_t)RAM_DATA._Uload;
-    arr2[2] = (uint8_t)RAM_DATA._Ish;
-    arr2[3] = (uint8_t)RAM_DATA.Iload;
-    arr2[4] = (uint8_t)RAM_DATA.Uload;
-    indicator.setValue(arr);
-    ind2.setValue(arr2);
-    indicator.bringOutValue(); */
-    page.update();
-    //записали значения в дискретные выходы 
-//    if (RAM_DATA.FLAGS.BA.DOUT1_FAIL) GPIOA->BRR = GPIO_Pin_14; //если 1 - выход мк роняем в 0, на выходе платы 1
-//    else GPIOA->BSRR = GPIO_Pin_14;  //авария
-//    if (RAM_DATA.FLAGS.BA.DOUT2_SHAKE) GPIOA->BRR = GPIO_Pin_13; 
-//    else GPIOA->BSRR = GPIO_Pin_13;  //встряхиватель пишем его состояние
-//    if (RAM_DATA.FLAGS.BA.DOUT3_SIGN) GPIOA->BRR = GPIO_Pin_12; //если 1 - выход мк роняем в 0, на выходе платы 1
-//    else GPIOA->BSRR = GPIO_Pin_12; //сигнализация
-    //НАДО ПИСАТЬ ВТОРОЙ ВСТРЯХИВАТЕЛЬ
-    
-//считали дискретные входы  
-// RAM_DATA.FLAGS.BA.DI4_START = !(GPIOB->IDR & GPIO_Pin_3); //кнопка ПУСК
-// RAM_DATA.FLAGS.BA.DI3_STOP = !(GPIOB->IDR & GPIO_Pin_4); //кнопка СТОП/деблокировка защит
-// RAM_DATA.FLAGS.BA.DI5_TERM = (GPIOA->IDR & GPIO_Pin_15); //термореле OVH
-// RAM_DATA.FLAGS.BA.DI2_BURNING = !(GPIOC->IDR & GPIO_Pin_15); //тумблер прожига
- 
-    /*проверка на аварию - Перегрев*/
-//    OVH_fail(); 
-    //считали состояние тиристоров - нафига?...
-//    RAM_DATA.FLAGS.BA.TR2      = (GPIOB->IDR & GPIO_Pin_0);//GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_0);
-//    RAM_DATA.FLAGS.BA.TR1      = GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_1); //так работает, а как для тир2 - нет работает хз почему
-    
-//    if (FLASH_DATA.Amin >= FLASH_DATA.Amax) //защита от дурака, если у нас Amin кто-то выставил больше Amzx - это плохо
-//    {
-      
-//      RAM_DATA.FLAGS.BA.DI3_STOP=1;
-//    }
-    
-    /*проверка на режимы работы и включеные кнопки*/
-//    if (RAM_DATA.FLAGS.BA.DI4_START == 1) //Обнаружили нажатой кнопку пуск
-//    {    
-//      START();
-//    }
-//     if (RAM_DATA.FLAGS.BA.DI3_STOP == 1) //Обнаружили нажатой кнопку стоп/деблокировка
-//    {
-//      Norm_STOP = 1; //нажали кнопку стоп
-//      STOP();
-//    }
-    
 
+    //page.update();
     
-//    if (RAM_DATA.FLAGS.BA.TR_ENABLE == 1) Fail_Check(); //если работает нормально - проверяем постоянно на ошибки
-    
-    /*проверка на - нажата ли кнопка СТОП первый раз*/
-//    if (RAM_DATA.FLAGS.BA.WAIT == 1) //уже система остановилась
-//    {
-//      if (Norm_STOP == 1) //была нажата кнопка СТОП для остановки, а не для деблокировки
-//      {
-        // записываем параметр в базу
-//        ModbusFlashWrite_DATA(RAM_DATA.Iz, RAM_DATA.Uz);
-//        Norm_STOP = 0; // обнулили, чтобы больше 1 раза не записывалось 
- //     }
-//    }
-    
-//    if (RAM_DATA.load_buf !=0) //пишем данные в аджастер для просмотра осцилла
-//    {
-//        RAM_DATA.Il_buffer = Il_buf[i_buf_main];
-//        RAM_DATA.Ul_buffer = Ul_buf[i_buf_main];
-    
-//    }
     
   }
 }

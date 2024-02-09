@@ -8,9 +8,9 @@ Page::Page(){
         indicator = new LIP_5Nx;
         List.push_back(indicator);
     }
-    str = "01234";
-    str2 = "56789";
-    str3 = "ABCDE";
+    str = "2356.8";
+    str2 = "qwert";
+    str3 = "wasd.f";
 }
 
 Page::~Page(){
@@ -20,8 +20,8 @@ Page::~Page(){
 }
 
 void Page::update(){
-    List[0]->setValue(str3.c_str());
-    List[1]->setValue(str2.c_str());
-    List[2]->setValue(str.c_str());
+    List[0]->setValue(str3);
+    List[1]->setValue(str2);
+    List[2]->setValue(str);
     Indicator::bringOutValue();
 }

@@ -4,12 +4,16 @@
 
 
 LIP_5Nx::LIP_5Nx(){
-    CountSegment = 5;
+    DataSize = 5;
 }
 
-void LIP_5Nx::setValue(const char* data){
-    for(uint8_t i = CountSegment; i > 0; --i){
-        uint8_t symbol = getChar(data[i-1]);
+void LIP_5Nx::setValue(std::string& data){
+    for (auto i = data.rbegin(); i != data.rend(); ++i) {
+        if (*i == '.') {
+            dot = true;
+            continue;
+        }
+        uint8_t symbol = getChar(*i);
         SPI::getInstance().spi_send(symbol);
     }
 }
@@ -37,10 +41,20 @@ uint8_t LIP_5Nx::getChar(char symbol){
         symbol -= 0x20;
     }
 
+
+
+    uint8_t result;
+
     if(typeKathode){
-        return ASCIITable[symbol];
+        result = ASCIITable[symbol];
     }
     else{
-        return ~ASCIITable[symbol];
+        result = ~ASCIITable[symbol];
     }
+
+    if (dot) {
+        dot = false;
+        result += 128;
+    }
+    return result;
 }

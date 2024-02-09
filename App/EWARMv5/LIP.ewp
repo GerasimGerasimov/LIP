@@ -1159,6 +1159,9 @@
             </file>
         </group>
         <file>
+            <name>$PROJ_DIR$\..\Buffer.cpp</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\crc16.c</name>
         </file>
         <file>

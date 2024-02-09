@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <string>
 
 #include "Indicator.h"
 
@@ -13,6 +14,6 @@ private:
     uint8_t getChar(char symbol);
 public:
     LIP_5Nx();
-    virtual void setValue(const char* data) override;
+    virtual void setValue(std::string& data) override;
 };
 
