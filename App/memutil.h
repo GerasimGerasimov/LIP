@@ -5,15 +5,15 @@
 #include    "stm32f10x.h"
 #include "mbtypes.h"
 
-//буфер временного хранения данных сектора FALSH
-//для ускорения копирования данные хранятся двойными словами
-//в данном случае размер буфера (100h)256 байт = (40h)64 двойных слов
-#define FlashTmpBufferSize	  512 //IAP требует 512/1024/4096/8192/
-#define FlashTmpBufferSize_bytes 256 //размер буфера в байтах
-#define FlashTmpBufferSize_dw FlashTmpBufferSize_bytes / 4 //размер буфера в двойных словах
-#define FlashTmpBufferSize_w  FlashTmpBufferSize_bytes / 2 //размер буфера в словах
+//Р±СѓС„РµСЂ РІСЂРµРјРµРЅРЅРѕРіРѕ С…СЂР°РЅРµРЅРёСЏ РґР°РЅРЅС‹С… СЃРµРєС‚РѕСЂР° FALSH
+//РґР»СЏ СѓСЃРєРѕСЂРµРЅРёСЏ РєРѕРїРёСЂРѕРІР°РЅРёСЏ РґР°РЅРЅС‹Рµ С…СЂР°РЅСЏС‚СЃСЏ РґРІРѕР№РЅС‹РјРё СЃР»РѕРІР°РјРё
+//РІ РґР°РЅРЅРѕРј СЃР»СѓС‡Р°Рµ СЂР°Р·РјРµСЂ Р±СѓС„РµСЂР° (100h)256 Р±Р°Р№С‚ = (40h)64 РґРІРѕР№РЅС‹С… СЃР»РѕРІ
+#define FlashTmpBufferSize	  512 //IAP С‚СЂРµР±СѓРµС‚ 512/1024/4096/8192/
+#define FlashTmpBufferSize_bytes 256 //СЂР°Р·РјРµСЂ Р±СѓС„РµСЂР° РІ Р±Р°Р№С‚Р°С…
+#define FlashTmpBufferSize_dw FlashTmpBufferSize_bytes / 4 //СЂР°Р·РјРµСЂ Р±СѓС„РµСЂР° РІ РґРІРѕР№РЅС‹С… СЃР»РѕРІР°С…
+#define FlashTmpBufferSize_w  FlashTmpBufferSize_bytes / 2 //СЂР°Р·РјРµСЂ Р±СѓС„РµСЂР° РІ СЃР»РѕРІР°С…
 
-typedef union {//массив DWORD, WORD, BYTE
+typedef union {//РјР°СЃСЃРёРІ DWORD, WORD, BYTE
   u32 dwFlashTmpBuffer [FlashTmpBufferSize_dw];
   u16 wFlashTmpBuffer  [FlashTmpBufferSize_w];
   u8  bFlashTmpBuffer  [FlashTmpBufferSize_bytes];

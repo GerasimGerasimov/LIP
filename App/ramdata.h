@@ -2,7 +2,7 @@
 #define RAMDATA_H
 #include "bastypes.h"
 
-//параметры расположеные RAM
+//РїР°СЂР°РјРµС‚СЂС‹ СЂР°СЃРїРѕР»РѕР¶РµРЅС‹Рµ RAM
 extern struct TRAM_DATA RAM_DATA;
 
 extern u32 Eains[13];
