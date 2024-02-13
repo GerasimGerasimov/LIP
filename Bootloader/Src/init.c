@@ -21,45 +21,20 @@ void TIM4_Configuration(void);
 void ADC_Configuration (void);
 void Systic_init(void);
 void EXTI_init(void);
-void DMA_Configuration (void);
-void SPI1_Configuration(void);
 void check_flash (void);
-void SPI2_Configuration();
 
 
-uint8_t arr[15]; //TODO проверка DMA
 
-void fillArr(){
-  arr[0] = ~((uint8_t)(RAM_DATA.Iz % 256)) ;
-  arr[1] = ~((uint8_t)(RAM_DATA.Uz % 256)) ;
-  arr[2] = ~((uint8_t)(RAM_DATA.Az % 256)) ;
-  arr[3] = ~((uint8_t)(RAM_DATA.A % 256)) ;
-  arr[4] = ~((uint8_t)(RAM_DATA.V_Ref % 256)) ;
-  arr[5] = ~((uint8_t)(RAM_DATA._Iload % 256)) ;
-  arr[6] = ~((uint8_t)(RAM_DATA._Uload % 256)) ;
-  arr[7] = ~((uint8_t)(RAM_DATA._Ish % 256)) ;
-  arr[8] = ~((uint8_t)(RAM_DATA.Iload % 256)) ;
-  arr[9] = ~((uint8_t)(RAM_DATA.Uload_idiot % 256)) ;
-  arr[10] = ~((uint8_t)(RAM_DATA.Ish_idiot % 256)) ;
-  arr[11] = ~((uint8_t)(RAM_DATA.Spark_cnt_view % 256)) ;
-  arr[12] = ~((uint8_t)(RAM_DATA.Il_buffer % 256)) ;
-  arr[13] = ~((uint8_t)(RAM_DATA.Ul_buffer % 256)) ;
-  arr[14] = ~((uint8_t)(RAM_DATA.load_buf % 256)) ;
-}
+
 
 ErrorStatus HSEStartUpStatus;
 
 void Init (void)    
 {  
-  fillArr();
   
   GPIO_Configuration();
   TIM1_Configuration(); //модбас
-  //TIM2_Configuration();//шим тиристора
-  //TIM3_Configuration(); //тактирование ацп
-  //TIM4_Configuration();// общего назначения, используется для отсекания времени угла/шим
-  
-  //ADC_Configuration();
+
 
   EXTI_init(); 
   
@@ -69,39 +44,9 @@ void Init (void)
   uart2rs485_init();
  
   TIM_Cmd(TIM3, ENABLE);
-  //SPI1_Configuration();
-  //SPI2_Configuration();
-  //DMA_Configuration();
+
   NVIC_Configuration();
-  /*
-  check_fram();//проверяем ключ параметров
-  check_flash();//проверяем флеш-сектора данных
-  //по результатам проверки делаем необходимые восстановительные операции
-  if (RAM_DATA.FLAGS.BA.flash_error) mem_status = 2;
-  else mem_status = 0;
-  if (RAM_DATA.FLAGS.BA.fram_error) mem_status++;
-  
-  switch (mem_status) {
-    case 0x00: crcl = (u8*)&FLASH_DATA + (FlashTmpBufferSize-2);      
-               crch = (u8*)&FLASH_DATA + (FlashTmpBufferSize-1);
-               if ((*crcl != Fram_Buffer[FramTmpBufferSize-2])||(*crch != Fram_Buffer[FramTmpBufferSize-1])){//если контрольные суммы у секторов разные
-                FlashSectorWrite((u32)&FLASH_DATA, (u32)&Fram_Buffer);//запишем в основной сектор
-                FlashSectorWrite((u32)&BKFLASH_DATA, (u32)&Fram_Buffer);
-                check_flash();
-               }
-               break;
-    case 0x01: fram_wr_massive((u8*)&FLASH_DATA, FramTmpBufferSize, 0x00, fram_sector);
-               fram_wr_massive((u8*)&FLASH_DATA, FramTmpBufferSize, 0x00, fram_bkp);
-               check_fram();
-               break;
-    case 0x02: FlashSectorWrite((u32)&FLASH_DATA, (u32)&Fram_Buffer);
-               FlashSectorWrite((u32)&BKFLASH_DATA, (u32)&Fram_Buffer);
-               check_flash();
-               break;
-    default:   break;  
-    
-  }
-  */
+
   
 }
 
@@ -113,44 +58,6 @@ void Init (void)
 * Output         : None
 * Return         : None
 *******************************************************************************/
-void SPI1_Configuration(void){
-  SPI_InitTypeDef  SPI_InitStructure;
-  RCC_APB2PeriphClockCmd( RCC_APB2Periph_SPI1, ENABLE);
-  /* SPI1 configuration */
-  SPI_InitStructure.SPI_Direction = SPI_Direction_1Line_Tx;
-  SPI_InitStructure.SPI_Mode = SPI_Mode_Master;
-  SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b;
-  SPI_InitStructure.SPI_CPOL = SPI_CPOL_High;
-  SPI_InitStructure.SPI_CPHA = SPI_CPHA_2Edge;
-  //SPI_InitStructure.SPI_NSS = SPI_NSS_Hard;
-  SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
-  SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_256;
-  SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
-  SPI_InitStructure.SPI_CRCPolynomial = 7;
-  SPI_Init(SPI1, &SPI_InitStructure);
-
-  /* Enable SPI1 NSS output for master mode */
-  //SPI_SSOutputCmd(SPI1, ENABLE);
-  /* Enable SPI1  */
-  SPI_Cmd(SPI1, ENABLE);
-
-}
-
-void SPI2_Configuration(){
-  SPI_InitTypeDef  SPI_InitStructure;
-  RCC_APB2PeriphClockCmd(RCC_APB1Periph_SPI2, ENABLE);
-  SPI_InitStructure.SPI_Direction = SPI_Direction_1Line_Rx;
-  SPI_InitStructure.SPI_Mode = SPI_Mode_Slave;
-  SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b;
-  SPI_InitStructure.SPI_CPOL = SPI_CPOL_High;
-  SPI_InitStructure.SPI_CPHA = SPI_CPHA_2Edge;
-  SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
-  SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_256;
-  SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
-  SPI_InitStructure.SPI_CRCPolynomial = 7;
-  SPI_Init(SPI2, &SPI_InitStructure);
-  //SPI_Cmd(SPI2, ENABLE);
-}
 
 void GPIO_Configuration(void){
   GPIO_InitTypeDef GPIO_InitStructure;
@@ -360,66 +267,6 @@ void Systic_init(void)
 }
 //******************************************************************************
 
-/* ADC1 configuration ------------------------------------------------------*/
-void ADC_Configuration (void){
- 
-  
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1,  ENABLE);
-  /* Resets ADC1 */
-  RCC_ADCCLKConfig(RCC_PCLK2_Div6);
-  ADC_InitTypeDef ADC_InitStructure;
-  ADC_DeInit(ADC1);
-     
-  /* ADC1 configuration ------------------------------------------------------*/
-//  ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
-  ADC_InitStructure.ADC_ScanConvMode = ENABLE;
-  ADC_InitStructure.ADC_ContinuousConvMode = DISABLE; //ENABLE;
-  ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_T3_TRGO;
-  ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
-  ADC_InitStructure.ADC_NbrOfChannel = 4;
-  ADC_Init(ADC1, &ADC_InitStructure);
-  //  ADC_TempSensorVrefintCmd(ENABLE); //вкл внутр референс
-
-  ADC_DiscModeCmd(ADC1, DISABLE);
-
-  /* ADC1 regular channels 5, 6, 7 configuration */ 
-   ADC_RegularChannelConfig(ADC1, ADC_Channel_17, 1,  ADC_SampleTime_28Cycles5);// VREF
-  ADC_RegularChannelConfig(ADC1, ADC_Channel_5, 2, ADC_SampleTime_28Cycles5);
-  ADC_RegularChannelConfig(ADC1, ADC_Channel_6, 3, ADC_SampleTime_28Cycles5);
-  ADC_RegularChannelConfig(ADC1, ADC_Channel_7, 4, ADC_SampleTime_28Cycles5);
-
-   ADC_ExternalTrigInjectedConvConfig(ADC1, ADC_ExternalTrigInjecConv_T3_CC4);
-  ADC_InjectedSequencerLengthConfig(ADC1,1);
-  ADC_InjectedChannelConfig(ADC1, ADC_Channel_16, 1, ADC_SampleTime_28Cycles5);
-  ADC_ExternalTrigInjectedConvCmd(ADC1, ENABLE);
-
-      ADC1->CR2 |=  ((uint32_t)0x00800000);//CR2_TSVREFE_Set;      
-  
-  /* Enable ADC1 */
-  ADC_Cmd(ADC1, ENABLE);
-
-  /* Enable ADC1 reset calibaration register */   
-  ADC_ResetCalibration(ADC1);
-  /* Check the end of ADC1 reset calibration register */
-  while(ADC_GetResetCalibrationStatus(ADC1));
-
-  /* Start ADC1 calibaration */
-  ADC_StartCalibration(ADC1);
-  /* Check the end of ADC1 calibration */
-  while(ADC_GetCalibrationStatus(ADC1));
-  
-  /* Enable the start of conversion for ADC1 through exteral trigger */
-  ADC_ExternalTrigConvCmd(ADC1, ENABLE);
-     
-  /* Start ADC1 Software Conversion */ 
-//  ADC_SoftwareStartConvCmd(ADC1, ENABLE);
-  
-    /* Enable ADC1 DMA */
-  ADC_DMACmd(ADC1, ENABLE);
-  
-   ADC_ITConfig(ADC1, ADC_IT_EOC, DISABLE);
-}
-
 //*******************************************************************************
 void RTC_init(void)
 {
@@ -454,34 +301,6 @@ void RTC_init(void)
         //PWR->CR &= ~PWR_CR_DBP;
 }
 //******************************************************************************
-//дма для ацп
-void DMA_Configuration (void){
-  DMA_InitTypeDef DMA_InitStructure;
-  RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
-  
-  /* DMA1 channel1 configuration ----------------------------------------------*/
-  //DMA_DeInit(DMA1_Channel3);
-  DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) &(SPI1->DR);
-  DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t) arr;
-  DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
-  DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;
-  DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
-  DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
-  DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;
-  DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralDST;
-  DMA_InitStructure.DMA_BufferSize = 15;
-  DMA_InitStructure.DMA_Priority = DMA_Priority_High;
-  DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
-  DMA_Init(DMA1_Channel3, &DMA_InitStructure);
-  
-  /* Enable DMA1 channel1 */
-  
-  /* Enable DMA1 Channel1 complete transfer interrupt */
-  DMA_ITConfig(DMA1_Channel3, DMA_IT_TC, ENABLE);
-  DMA_Cmd(DMA1_Channel3, ENABLE);
-
-  SPI_I2S_DMACmd(SPI1, SPI_I2S_DMAReq_Tx, ENABLE);
-}
 
 /*******************************************************************************
 * Function Name  : NVIC_Configuration

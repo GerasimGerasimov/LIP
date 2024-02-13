@@ -87,53 +87,6 @@ struct TFLASH_DATA {
     vu16 VA_rise;           //0x000a// скорость нарастаний  Альфа при остановке
     vu16 VA_fall_spark;     //0x000c скорость спада Альфа после искры 1градус на синхру?=55тиков
 
-    // Секция П-регулятора
-    vu16 Ky_U;                //0x000e// Ky
-    vu16 Ky_I;                //0x000e// Ky
-
-    // Секция Защиты 
-    vu16 Ish_mtz;           //0x0012// Max Ish mtz
-    vu16 Iload_mtz;         //0x0014// Max Iload mtz
-    vu16 Iload_OPC;         //0x0036// холостой ход
-    vu16 Uload_OPC;         //0x0038//    
-    vu16 Iload_SHC;         //0x003a// короткое замыкание
-    vu16 Uload_SHC;         //0x003c//    
-    vu16 Spark_fq;         //0x003c//frequent spark проверка на частые пробои, сколько единиц выставлено
-
-    // Секция Встряхивателя
-    vu16 ShPeriod;          //0x0016// shacker periodical  600... sec
-    vu16 ShWidth;              //0x0018// shacker width ширина импульса работы встряхивателя 1-5 sec
-
-    // Секция датчика искрового разряда
-    vs16 SkipImpSpark;      //0x001e// сколько импульсов синхры пропустить после искры, перед запуском тиристоров
-    vu16 Uth;               //0x0020// Treshold Load voltage for ESpark //проверка на искру
-    vu16 Ith;               //0x0022// Treshold Load Current for ESpark
-    vu16 K_SensSpark;//Koef sensitivity spark чувствительность искры, коэф * число искры = на сколько отбрасывается угол, 1 - 10мкс
-    
-    // Секция тиристорного регулятора
-    vu16 Amax;              //0x0028// 44920 max thyristors angle
-    vu16 Amin;              //0x002a// 8 min thyristors angle
-    vu16 TirImpWidth;      //0x002c// Tiristor impulse width  ширина управляющего импульса
-    vu16 TirPWM_Pulse;     //0x002e// скважность высокочастотного наполнения имульсов тиристоров
-    
-    // Секция нулей АЦП
-    vu16 KADC_Uload;
-    vu16 KADC_Iload; //коэффициент для калибровки
-    vu16 KADC_Ish;
-
-    vu16 Uload_offs;          //смещение нуля для калибровки
-    vu16 Iload_offs;          //0x0032// Iload offset
-    vu16 Ish_offs;            //0x0034// Ish   offset
-    
-    //vu16  koef_Uth;// 208 //0x0036//
-   // vu16 koef_Ith;// 150 /* 10% от номинального тока */ //0x0038//
-    vu16 Vcc;// 2087//1200 //0x003a//
-    vu16 R1;// 26 //0x003c//
-    vu16 R2;// 100 //0x003e//
-    vu16 R3;// (220+150) //0x0040//
-    
-   // vu16 Ftlim; //крайнее ограничение
-
   };
 
 
@@ -185,47 +138,11 @@ typedef union {
 //параметры расположеные в RAM
   struct TRAM_DATA {
     _FLG0 FLAGS;        //флаги управления и индикации;
-    // Секция задания
-    vu16 Iz;
-    vu16 Uz;
-    vu16 Az;
-    // Секция регулирования
-    vu16 A;             //угол управления тиристорами, время, сколько держать уровень в 0
-    // Секция мнгновенного измерения для отладки
-    vu16 V_Ref;         //внутренний референс
-    vu16 _Iload;        //non filtred ток нагрузки II
-    vu16 _Uload;        //non filtred напряжение нагрузки
-    vu16 _Ish;          //non filtred ток нагрузки I
-    // Секция калиброванного измерения
-    vu16 Iload;         //ток нагрузки
-    vu16 Uload;         //напряжение нагрузки
+
     vu16 counter1;           //
-    // Секция измерения за период
     vu16 counter2;        //
     vu16 counter3;        //
-    vu16 Ish_avg;          //
-    //добавить по искре
-    vu16 Spark_cnt;          //
-    
-    // переменные защита от дурака - изменять значения нельзя, но если вдруг кто захочет - 
-    vu16 A_idiot;            //
-    vu16 Iload_idiot;        //
-    vu16 Uload_idiot;        //
-    vu16 Ish_idiot;          //
 
-    
-    /*только для настройки*/
-vu16 Spark_cnt_view;          //
-vu16 Il_buffer;          //
-vu16 Ul_buffer;          //
-vu16 load_buf; //
-
-//переменные для усреднения на дисплее - чтобы проще было смотреть
-    vu16 Iload_Efiltr;        //
-    vu16 Uload_Efiltr;        //
-
-    
-   // vu16 V_Ref;         //внутренний референс
 } ;
 
 struct TCLBR_DATA {

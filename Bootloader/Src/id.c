@@ -1,4 +1,4 @@
 #include "id.h"
 
 /*__attribute__ ((section ("ID")))*/
-const char DeviceID[]  ="00000001 LIP v1.0.0 15.01.2024 www.intmash.ru";
+const char DeviceID[]  ="Bootloader v1.1.0 12.02.2024 www.intmash.ru";
