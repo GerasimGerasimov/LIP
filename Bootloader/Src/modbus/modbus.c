@@ -289,11 +289,11 @@ u16 crc;
 //  dest = (u16*)&aFlashTmpBuffer[0] + (pC->Buffer[_u_start_addr_lo]);//RAM_DATA.Iload....<<1
   
   
-  dest = (u16*)(aFlashTmpBuffer+((u32)&FLASH_DATA.Iz - (u32)&FLASH_DATA.MODBUS1));
-  *dest = DATA_1;
-
-  dest = (u16*)(aFlashTmpBuffer+((u32)&FLASH_DATA.Uz - (u32)&FLASH_DATA.MODBUS1));
-  *dest = DATA_2;
+//  dest = (u16*)(aFlashTmpBuffer+((u32)&FLASH_DATA.Iz - (u32)&FLASH_DATA.MODBUS1));
+//  *dest = DATA_1;
+//
+//  dest = (u16*)(aFlashTmpBuffer+((u32)&FLASH_DATA.Uz - (u32)&FLASH_DATA.MODBUS1));
+//  *dest = DATA_2;
   
 /*  do {
     w.b[1] = *source++;

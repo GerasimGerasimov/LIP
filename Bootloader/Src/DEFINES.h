@@ -1,8 +1,8 @@
 #pragma once
 
-#include "stm32f10x.h"//библиотека STM
+#include "stm32f10x.h"//Р±РёР±Р»РёРѕС‚РµРєР° STM
  
-//для работы со светиками
+//РґР»СЏ СЂР°Р±РѕС‚С‹ СЃРѕ СЃРІРµС‚РёРєР°РјРё
 #define LED_RUN_ON   GPIOB->BRR = GPIO_Pin_5
 #define LED_RUN_OFF  GPIOB->BSRR = GPIO_Pin_5
 #define LED_RUN_ST   GPIOB->ODR & GPIO_Pin_5
@@ -16,16 +16,16 @@
 #define LED_LINK2_OFF  GPIOB->BSRR = GPIO_Pin_8
 #define LED_LINK2_ST   GPIOB->ODR & GPIO_Pin_8
 
-//ефи
+//РµС„Рё
 #define ADC1_DR_Address    ((u32)0x4001244C)
 
 //#define Angle180 44928
 
 #define SYNC_EXTI_LINE (1<<11)
 
-#define TIM2_PERIOD     360 //200:kHz период шим
+#define TIM2_PERIOD     360 //200:kHz РїРµСЂРёРѕРґ С€РёРј
 #define TIM2_CH_3_4_Q   108 //30% duty cycle
 
 #define FLASH_PAGE_SIZE    ((u16)0x400)
 
-#define SYNC_fail_cnt 10 //сколько пропусков синхры уже критично 1= 10 мс
+#define SYNC_fail_cnt 10 //СЃРєРѕР»СЊРєРѕ РїСЂРѕРїСѓСЃРєРѕРІ СЃРёРЅС…СЂС‹ СѓР¶Рµ РєСЂРёС‚РёС‡РЅРѕ 1= 10 РјСЃ

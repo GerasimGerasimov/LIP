@@ -1135,6 +1135,9 @@
             </file>
         </group>
         <file>
+            <name>$PROJ_DIR$\..\bootloader.cpp</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\crc16.c</name>
         </file>
         <file>

@@ -80,13 +80,6 @@ struct TFLASH_DATA {
 	bavu16 MODBUS1;         //0x0000// device addres and baud rate for uart1 (modbus1);
 	bavu16 MODBUS2;         //0x0002// device addres and baud rate for uart2 (modbus2);
     
-    // Секция задания
-    vu16 Iz;                //0x0004// Iz
-    vu16 Uz;                //0x0006// Uz max
-    vu16 VA_fall_norm;      //0x0008// скорость спада Альфа нормальная 5%/s=9градусов=500тиков 1s=100синхр,1синхра - 5 тиков
-    vu16 VA_rise;           //0x000a// скорость нарастаний  Альфа при остановке
-    vu16 VA_fall_spark;     //0x000c скорость спада Альфа после искры 1градус на синхру?=55тиков
-
   };
 
 
