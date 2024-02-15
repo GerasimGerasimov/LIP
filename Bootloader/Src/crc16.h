@@ -31,4 +31,10 @@
  * $Id: crc16.h,v 1.4 2003/09/09 18:49:15 avm Exp $
  */
  
- unsigned short crc16(unsigned char *puchMsg, int DataLen);
+ #ifdef __cplusplus
+     extern "C" unsigned short crc16(unsigned char *puchMsg, int DataLen);
+     extern "C" void FrameEndCrc16(unsigned char *Frame, unsigned int FrameSize);
+ #else
+    unsigned short crc16(unsigned char *puchMsg, int DataLen);
+    void FrameEndCrc16(unsigned char *Frame, unsigned int FrameSize);
+#endif

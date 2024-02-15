@@ -23,6 +23,7 @@
 #include "DEFINES.h" //все основные, относящиеся только к плате дефайны
 #include "modbus/modbus.h"
 #include "stm32f10x_it.h"
+#include "bootloader.h"
 
     
 /* defines ------------------------------------------------------------------*/
@@ -42,6 +43,18 @@
 int main(void)              //главная программа
 {
 
+  //GPIO_INIT_Configuration();
+  //INIT_ON;
+  //if (INIT_IST != 0) {
+//    LED_ALARM_OFF;
+//    ++RAM_DATA.counter2;
+//    if (isBootLoaderMustBeStart() != true) {
+//      if ( isApplicationReadyToStart()) {
+//        jumpToApplication();
+//      }
+//    }
+ // }
+
   Init();                   //инициализация переферии  
 
   LED_RUN_OFF;
@@ -55,6 +68,7 @@ int main(void)              //главная программа
     {
       if (LED_LINK1_ST) LED_LINK1_ON;
       else LED_LINK1_OFF; 
+      ++RAM_DATA.counter3;
     }
     ++RAM_DATA.counter1;
   }

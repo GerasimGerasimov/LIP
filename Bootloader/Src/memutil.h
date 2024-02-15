@@ -25,6 +25,14 @@ extern void u8_mem_cpy( u8 *s, u8 *d, u8 c);
 extern void FlashSectorWrite(u32 FlashSectorAddr, u32 Buffer);
 extern void CopyFlashToTmpBuffer(u32 Addr);
 
-
+  #ifdef __cplusplus
+    extern "C" void StartFlashChange();
+    extern "C" void EndFlashChange();
+    extern "C" FLASH_Status EraseFlashPage(u32 Addr);
+  #else
+    extern void StartFlashChange();
+    extern void EndFlashChange();
+    extern FLASH_Status EraseFlashPage(u32 Addr);
+  #endif
 
 #endif

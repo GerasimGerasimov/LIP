@@ -119,3 +119,13 @@ unsigned short crc16(unsigned char *puchMsg, int DataLen)
   }
   return ((unsigned short)CRCHi << 8 | CRCLo) ;
 }
+
+void FrameEndCrc16(unsigned char *Frame, unsigned int FrameSize)
+{
+  unsigned int  crc;
+  crc = crc16(Frame, FrameSize-2);//подсчет CRC буфера
+
+     //запись CRC в конец буфера
+   Frame[FrameSize-2] = (unsigned char)(crc >> 8);
+   Frame[FrameSize-1] = (unsigned char)(crc & 0xff); 
+}

@@ -16,6 +16,13 @@
 #define LED_LINK2_OFF  GPIOB->BSRR = GPIO_Pin_8
 #define LED_LINK2_ST   GPIOB->ODR & GPIO_Pin_8
 
+//вход на ноге USB_P PA12 если его перед стартом
+//замкнуть на GND то Bootloader не будет стартовать приложение
+#define INIT_ON   GPIOA->BRR = GPIO_Pin_12
+#define INIT_OFF  GPIOA->BSRR = GPIO_Pin_12
+#define INIT_OST   (GPIOA->ODR & GPIO_Pin_12)
+#define INIT_IST   (GPIOA->IDR & GPIO_Pin_12) 
+
 //ефи
 #define ADC1_DR_Address    ((u32)0x4001244C)
 

@@ -8,6 +8,7 @@
 #include "id.h"
 #include "flashdata.h"
 #include "ramdata.h"
+#include "bootloader.h"
 
 #include "DEFINES.h" //все основные, относящиеся только к плате дефайны
 
@@ -191,6 +192,8 @@ bool command_decode(TClient *pC){
                    //REinit(); 
                    return (FALSE);
 	case 0x11: GetDeviceID(pC);//flash_time = 1; //читаем флеш 
+                   return (TRUE);
+  case 0xB0: BootLoader(pC);
                    return (TRUE);
 	default:  return (FALSE);
       };

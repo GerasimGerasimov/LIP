@@ -75,4 +75,18 @@ void swp_copy_u16( u8 *s, u16 *d, u8 c){
 }
 */
 
+FLASH_Status EraseFlashPage(u32 Addr) {
 
+  return FLASH_ErasePage(Addr); 
+}
+
+void StartFlashChange() {
+   __disable_irq(); // handles nested interrupt
+  FLASH_Unlock();  // Unlock the Flash Program Erase controller
+  FLASH_ClearFlag(FLASH_FLAG_BSY | FLASH_FLAG_EOP | FLASH_FLAG_PGERR | FLASH_FLAG_WRPRTERR | FLASH_FLAG_OPTERR);
+}
+
+void EndFlashChange() {
+  FLASH_Lock();
+  __enable_irq(); // handles nested interrupt
+}

@@ -1,9 +1,9 @@
 #include "bootloader.h"
-//#include "crc16.h"
+#include "crc16.h"
 //#include <string.h>
 //#include "str.h"
 //#include "STM32F4xx_intmash_MBbasicCommands.h"
-//#include "STM32F4xx_Intmash_Flash.h"
+#include "memutil.h"
 #include "bastypes.h"
 #include <vector>
 
@@ -18,30 +18,31 @@
 #define BOOT_PAGES_LIST_HEAD_SIZE    3
 #define BOOT_GET_MEM_HEAD_SIZE       5
 
-//u16 getPagesList(ModbusSlaveType* Slave);
-//u16 setErasedPages(ModbusSlaveType* Slave);
-//u16 readMemoryBlockFromAddr(ModbusSlaveType* Slave);
-//u16 writeCodeToFlash(ModbusSlaveType* Slave);
-//u16 startApplication(ModbusSlaveType* Slave);
+#define CRC_SIZE 2 //размер crc-2 байта
 
-//u16 BootLoader(ModbusSlaveType* Slave){
-//  u8 cmd = Slave->Buffer[BOOT_CMD_CODE_OFFSET];
-//  switch (cmd) {
-//    case BOOT_CMD_GET_PAGES_LIST:
-//        return getPagesList(Slave);
-//    case BOOT_CMD_SET_ERASED_PAGES:
-//        return setErasedPages(Slave);
-//    case BOOT_CMD_SET_START_APPLICATION:
-//        return startApplication(Slave);
-//    case BOOT_CMD_GET_MEMORY_FROM_ADDR:
-//        return readMemoryBlockFromAddr(Slave);
-//    case BOOT_CMD_PUT_AREA_CODE:
-//        return writeCodeToFlash(Slave);
-//    default:
-//      return 0;
-//  }
-//  
-//}
+u16 getPagesList(TClient* Slave);
+u16 setErasedPages(TClient* Slave);
+u16 readMemoryBlockFromAddr(TClient* Slave);
+u16 writeCodeToFlash(TClient* Slave);
+u16 startApplication(TClient* Slave);
+
+u16 BootLoader(TClient* Slave){
+  u8 cmd = Slave->Buffer[BOOT_CMD_CODE_OFFSET];
+  switch (cmd) {
+    case BOOT_CMD_GET_PAGES_LIST:
+        return getPagesList(Slave);
+    case BOOT_CMD_SET_ERASED_PAGES:
+        return setErasedPages(Slave);
+    case BOOT_CMD_SET_START_APPLICATION:
+        return startApplication(Slave);
+    case BOOT_CMD_GET_MEMORY_FROM_ADDR:
+        return readMemoryBlockFromAddr(Slave);
+    case BOOT_CMD_PUT_AREA_CODE:
+        return writeCodeToFlash(Slave);
+    default:
+      return 0;
+  }
+}
 
 //������:
 //01.B0.03.AAAAAAAA.CC��.CRC
@@ -55,30 +56,30 @@
 //� ������ ������:
 //01.B0.03.0000.CRC
 
-//u16 readMemoryBlockFromAddr(ModbusSlaveType* Slave) {
-//  /* TODO change address-endian at backend  */
-//  const tU32Union StartAddr = {
-//    .B[0] = Slave->Buffer[6],
-//    .B[1] = Slave->Buffer[5],
-//    .B[2] = Slave->Buffer[4],
-//    .B[3] = Slave->Buffer[3]
-//  };
-//  const tU16Union count = {
-//    .B[0] = Slave->Buffer[8],
-//    .B[1] = Slave->Buffer[7],
-//  };
-//  /*TODO  if count is more than the Slave->Buffer length,
-//          the count should be as the Slave->Buffer lenght*/
-//  u8_mem_cpy( (unsigned char *)StartAddr.I, &Slave->Buffer[BOOT_GET_MEM_HEAD_SIZE], count.I);
-//  Slave->Buffer[3] =  count.B[1];
-//  Slave->Buffer[4] =  count.B[0];
-//  
-//  u16 DataLength = count.I;
-//  DataLength += BOOT_GET_MEM_HEAD_SIZE;//��������� ����� ���������   
-//  DataLength += CRC_SIZE;//��������� ����� crc 
+u16 readMemoryBlockFromAddr(TClient* Slave) {
+  /* TODO change address-endian at backend  */
+  const baulong StartAddr = {
+    .b[0] = Slave->Buffer[6],
+    .b[1] = Slave->Buffer[5],
+    .b[2] = Slave->Buffer[4],
+    .b[3] = Slave->Buffer[3]
+  };
+  const bauint count = {
+    .b[0] = Slave->Buffer[8],
+    .b[1] = Slave->Buffer[7],
+  };
+  /*TODO  if count is more than the Slave->Buffer length,
+          the count should be as the Slave->Buffer lenght*/
+//  u8_mem_cpy( (unsigned char *)StartAddr.L, &Slave->Buffer[BOOT_GET_MEM_HEAD_SIZE], count.i);
+  Slave->Buffer[3] =  count.b[1];
+  Slave->Buffer[4] =  count.b[0];
+  
+  u16 DataLength = count.i;
+  DataLength += BOOT_GET_MEM_HEAD_SIZE;//��������� ����� ���������   
+  DataLength += CRC_SIZE;//��������� ����� crc 
 //  FrameEndCrc16((u8*)Slave->Buffer, DataLength);
-//  return DataLength;
-//}
+  return DataLength;
+}
 
 //�������� ������� ������ �������������� JSON
 //0x00000000 HE �������������� JSON,
@@ -215,19 +216,18 @@ const char PagesList[] =
  "{\"start\": \"0x0801F800\", \"size\": 1023}," \
  "{\"start\": \"0x0801FC00\", \"size\": 1023}]";
 
-//u16 getPagesList(ModbusSlaveType* Slave){
-//  //return GetDeviceID(Slave);
-//  u16 DataLength = 0; //������ ������������ �������
-//  DataLength = strlen(PagesList);
-//  //Slave->Buffer[BOOT_PAGES_LIST_DATA_SECTION + 0] = (DataLength >> 8) & 0x00FF;
-//  //Slave->Buffer[BOOT_PAGES_LIST_DATA_SECTION + 1] = (DataLength) & 0x00FF;
-//  //DataLength  = 5;
-//  strcpy((char *) &Slave->Buffer[BOOT_PAGES_LIST_HEAD_SIZE], PagesList);
-//  DataLength += BOOT_PAGES_LIST_HEAD_SIZE;//��������� ����� ���������   
-//  DataLength += CRC_SIZE;//��������� ����� crc 
-//  FrameEndCrc16((u8*)Slave->Buffer, DataLength);
-//  return DataLength;
-//}
+u16 getPagesList(TClient* Slave){
+  u16 DataLength = 0; //������ ������������ �������
+  DataLength = strlen(PagesList);
+  //Slave->Buffer[BOOT_PAGES_LIST_DATA_SECTION + 0] = (DataLength >> 8) & 0x00FF;
+  //Slave->Buffer[BOOT_PAGES_LIST_DATA_SECTION + 1] = (DataLength) & 0x00FF;
+  //DataLength  = 5;
+  strcpy((char *) &Slave->Buffer[BOOT_PAGES_LIST_HEAD_SIZE], PagesList);
+  DataLength += BOOT_PAGES_LIST_HEAD_SIZE;//��������� ����� ���������   
+  DataLength += CRC_SIZE;//��������� ����� crc 
+  FrameEndCrc16((u8*)Slave->Buffer, DataLength);
+  return DataLength;
+}
 
 //�������� �������� �������
 //������
@@ -248,26 +248,26 @@ std::vector<u32> getPagesAddrList( u8 * buff) {
     return Pages;
 }
 
-//FLASH_Status erasePages(const std::vector<u32> Pages) {
-//  FLASH_Status status;
-//  StartFlashChange();
-//    for (const u32 & page: Pages) {
-//       status = EraseFlashPage(page);
-//       if (status != FLASH_COMPLETE) break;
-//    }
-//  EndFlashChange();
-//  return status;
-//}
+FLASH_Status erasePages(const std::vector<u32> Pages) {
+  FLASH_Status status;
+  StartFlashChange();
+    for (const u32 & page: Pages) {
+       status = EraseFlashPage(page);
+       if (status != FLASH_COMPLETE) break;
+    }
+  EndFlashChange();
+  return status;
+}
 
-//u16 setErasedPages(ModbusSlaveType* Slave){
-//  const std::vector<u32> Pages = getPagesAddrList((u8 *) &Slave->Buffer[3]);
-//  FLASH_Status status = erasePages(Pages);
-//  Slave->Buffer[4] = status;
-//  u16 DataLength  = 4;
-//  DataLength += CRC_SIZE;//��������� ����� crc 
-//  FrameEndCrc16((u8*)Slave->Buffer, DataLength);
-//  return DataLength;
-//}
+u16 setErasedPages(TClient* Slave){
+  const std::vector<u32> Pages = getPagesAddrList((u8 *) &Slave->Buffer[3]);
+  FLASH_Status status = erasePages(Pages);
+  Slave->Buffer[4] = status;
+  u16 DataLength  = 4;
+  DataLength += CRC_SIZE;//��������� ����� crc 
+  FrameEndCrc16((u8*)Slave->Buffer, DataLength);
+  return DataLength;
+}
 
 /*
 Respond:
@@ -279,98 +279,110 @@ DD... - data bytes
 Answer:
 01.B0.04
 */
-//void writeCodeSpase(u32 startAddr, u16 count, u8 * buff) {
-//  StartFlashChange();
-//  while (count-- != 0) { 
-//    FLASH_ProgramByte(startAddr++, *buff++);
-//  }
-//  EndFlashChange();
-//}
+void writeCodeSpase(u32 startAddr, u16 count, u8 * buff) {
+  StartFlashChange();
+  while (count-- != 0) { 
+    FLASH_ProgramOptionByteData(startAddr++, *buff++);
+  }
+  EndFlashChange();
+}
 
 /*TODO Need to rid up an error with length of data more than 240 bytes, because RX/TX buffer have 16KB length.*/
 
-//u16 writeCodeToFlash(ModbusSlaveType* Slave) { 
-//  const tU16Union count = {
-//    .B[0] = Slave->Buffer[4],
-//    .B[1] = Slave->Buffer[3],
-//  };
-//  const tU32Union StartAddr = {
-//    .B[0] = Slave->Buffer[8],
-//    .B[1] = Slave->Buffer[7],
-//    .B[2] = Slave->Buffer[6],
-//    .B[3] = Slave->Buffer[5]
-//  };    
-//  u8 * pData = (u8 * ) &Slave->Buffer[9];
-//  writeCodeSpase(StartAddr.I, count.I, pData);
-//  u16 DataLength  = 3;
-//  DataLength += CRC_SIZE;//crc 
-//  FrameEndCrc16((u8*)Slave->Buffer, DataLength);
-//  return DataLength;
-//}
+u16 writeCodeToFlash(TClient* Slave) { 
+  const bauint count = {
+    .b[0] = Slave->Buffer[4],
+    .b[1] = Slave->Buffer[3],
+  };
+  const baulong StartAddr = {
+    .b[0] = Slave->Buffer[8],
+    .b[1] = Slave->Buffer[7],
+    .b[2] = Slave->Buffer[6],
+    .b[3] = Slave->Buffer[5]
+  };    
+  u8 * pData = (u8 * ) &Slave->Buffer[9];
+  writeCodeSpase(StartAddr.L, count.i, pData);
+  u16 DataLength  = 3;
+  DataLength += CRC_SIZE;//crc 
+  FrameEndCrc16((u8*)Slave->Buffer, DataLength);
+  return DataLength;
+}
 
 #define APPLICATION_ADDRESS 0x08008000
 
-//void jumpToApplication(void) {
-//   /* Устанавливаем адрес перехода на основную программу */
-//   /* Переход производится выполнением функции, адрес которой указывается вручную */
-//   /* +4 байта потому, что в самом начале расположен указатель на вектор прерывания */ 
-//   uint32_t jumpAddress = *(__IO uint32_t*) (APPLICATION_ADDRESS + 4); 
-//   typedef void(*pFunction)(void);//объявляем пользовательский тип
-//   pFunction Jump_To_Application = (pFunction) jumpAddress;
-//   
-//   /*Сбрасываем всю периферию на APB1 */
-//   RCC->APB1RSTR = 0xFFFFFFFF; RCC->APB1RSTR = 0x0; 
-//  /*Сбрасываем всю периферию на APB2 */ 
-//   RCC->APB2RSTR = 0xFFFFFFFF; RCC->APB2RSTR = 0x0; 
-//   RCC->APB1ENR = 0x0; /* Выключаем всю периферию на APB1 */ 
-//   RCC->APB2ENR = 0x0; /* Выключаем всю периферию на APB2 */
-//   RCC->AHB1ENR = 0x0; /* Выключаем всю периферию на AHB */
-//   RCC->AHB2ENR = 0x0; /* Выключаем всю периферию на AHB */   
-//   RCC->AHB3ENR = 0x0; /* Выключаем всю периферию на AHB */   
-//   /* Сбрасываем все источники тактования по умолчанию, переходим на HSI*/
-//   RCC_DeInit();  
-//   
-//   /* Выключаем прерывания */
-//   __disable_irq(); 
-//   /* Переносим адрес вектора прерываний */
-//   SCB->VTOR = APPLICATION_ADDRESS;//
-//   /* Переносим адрес стэка */ 
-//    __set_MSP(*(__IO uint32_t*) APPLICATION_ADDRESS); 
-//    /* Переходим в основную программу */  
-//    Jump_To_Application(); 
-//}
+void jumpToApplication(void) {
+   /* Устанавливаем адрес перехода на основную программу */
+   /* Переход производится выполнением функции, адрес которой указывается вручную */
+   /* +4 байта потому, что в самом начале расположен указатель на вектор прерывания */ 
+   uint32_t jumpAddress = *(__IO uint32_t*) (APPLICATION_ADDRESS + 4); 
+   typedef void(*pFunction)(void);//объявляем пользовательский тип
+   pFunction Jump_To_Application = (pFunction) jumpAddress;
+   
+   /*Сбрасываем всю периферию на APB1 */
+   RCC->APB1RSTR = 0xFFFFFFFF; RCC->APB1RSTR = 0x0; 
+  /*Сбрасываем всю периферию на APB2 */ 
+   RCC->APB2RSTR = 0xFFFFFFFF; RCC->APB2RSTR = 0x0; 
+   RCC->APB1ENR = 0x0; /* Выключаем всю периферию на APB1 */ 
+   RCC->APB2ENR = 0x0; /* Выключаем всю периферию на APB2 */
+   RCC->AHBENR = 0x0; /* Выключаем всю периферию на AHB */
 
-//__no_init char BootLoaderStart[6] @ "BOOT_CMD";
-//
-//bool isBootLoaderMustBeStart(void) {
-//  if ( ((BootLoaderStart[0] == 0xA5)  &&
-//       (BootLoaderStart[1]  == 0x5A)  &&
-//       (BootLoaderStart[2]  == 0xA5)  &&
-//       (BootLoaderStart[3]  == 0x5A)) &&
-//       (crc16((unsigned char *) &BootLoaderStart, 6) == 0)
-//      )
-//   {
-//     return true;
-//   } else {
-//    return false;
-//   }
-//}
+   /* Сбрасываем все источники тактования по умолчанию, переходим на HSI*/
+   RCC_DeInit();  
+   
+   /* Выключаем прерывания */
+   __disable_irq(); 
+   /* Переносим адрес вектора прерываний */
+   SCB->VTOR = APPLICATION_ADDRESS;//
+   /* Переносим адрес стэка */ 
+    __set_MSP(*(__IO uint32_t*) APPLICATION_ADDRESS); 
+    /* Переходим в основную программу */  
+    Jump_To_Application(); 
+}
 
-//bool isApplicationReadyToStart(void) {
-//  /*TODO to check the signature
-//   Code from 0x08008000 not 0xFF.0xFF.0xFF.0xFF.0xFF.0xFF....*/
-//  uint32_t jumpAddress = *(__IO uint32_t*) (APPLICATION_ADDRESS + 4); 
-//  return (bool) (jumpAddress != 0xFFFFFFFF);
-//}
+__no_init char BootLoaderStart[6] @ "BOOT_CMD";
+
+bool isBootLoaderMustBeStart(void) {
+  if ( ((BootLoaderStart[0] == 0xA5)  &&
+       (BootLoaderStart[1]  == 0x5A)  &&
+       (BootLoaderStart[2]  == 0xA5)  &&
+       (BootLoaderStart[3]  == 0x5A)) &&
+       (crc16((unsigned char *) &BootLoaderStart, 6) == 0)
+      )
+   {
+     return true;
+   } else {
+    return false;
+   }
+}
+
+typedef struct appCheckInfo {
+  u32 AppSize;
+  u16 AppCrc;
+  u16 AppInfoCrc;
+} TAppCheckInfo;
+
+typedef TAppCheckInfo* pAppCheckInfo;
+
+#define APP_INFO_LOCATION 0x08008200
+#define APP_INFO_SIZE 8
+#define APP_LOCATION APP_INFO_LOCATION + APP_INFO_SIZE
+
+bool isApplicationReadyToStart(void) {
+  const pAppCheckInfo AppCheckInfo = (pAppCheckInfo) APP_INFO_LOCATION;
+  return (bool)(crc16((unsigned char *) AppCheckInfo, APP_INFO_SIZE) == 0)
+         ? (bool)(crc16((unsigned char *) APP_LOCATION, AppCheckInfo->AppSize) 
+                   == AppCheckInfo->AppCrc)
+         : false; //header is not valid
+}
 
 //01.B0.02.CRC
-//u16 startApplication(ModbusSlaveType* Slave) {
-//  BootLoaderStart[0] = 0x00;
-//  BootLoaderStart[1] = 0x00;
-//  BootLoaderStart[2] = 0x00;
-//  BootLoaderStart[3] = 0x00; 
-//  BootLoaderStart[4] = 0x00;
-//  BootLoaderStart[5] = 0x00;   
-//  NVIC_SystemReset();
-//  return 0;
-//}
+u16 startApplication(TClient* Slave) {
+  BootLoaderStart[0] = 0x00;
+  BootLoaderStart[1] = 0x00;
+  BootLoaderStart[2] = 0x00;
+  BootLoaderStart[3] = 0x00; 
+  BootLoaderStart[4] = 0x00;
+  BootLoaderStart[5] = 0x00;   
+  NVIC_SystemReset();
+  return 0;
+}
