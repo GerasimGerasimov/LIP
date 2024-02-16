@@ -47,7 +47,7 @@ int main(void)              //главная программа
   //INIT_ON;
   //if (INIT_IST != 0) {
 //    LED_ALARM_OFF;
-//    ++RAM_DATA.counter2;
+//    
 //    if (isBootLoaderMustBeStart() != true) {
 //      if ( isApplicationReadyToStart()) {
 //        jumpToApplication();
@@ -68,9 +68,9 @@ int main(void)              //главная программа
     {
       if (LED_LINK1_ST) LED_LINK1_ON;
       else LED_LINK1_OFF; 
-      ++RAM_DATA.counter3;
+      
     }
-    ++RAM_DATA.counter1;
+    
   }
 }
 

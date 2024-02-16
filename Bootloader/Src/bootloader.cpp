@@ -5,6 +5,7 @@
 //#include "STM32F4xx_intmash_MBbasicCommands.h"
 #include "memutil.h"
 #include "bastypes.h"
+#include "ramdata.h"
 #include <vector>
 
 //������� ����������
@@ -27,6 +28,7 @@ u16 writeCodeToFlash(TClient* Slave);
 u16 startApplication(TClient* Slave);
 
 u16 BootLoader(TClient* Slave){
+  ++RAM_DATA.counter2;
   u8 cmd = Slave->Buffer[BOOT_CMD_CODE_OFFSET];
   switch (cmd) {
     case BOOT_CMD_GET_PAGES_LIST:
@@ -217,6 +219,7 @@ const char PagesList[] =
  "{\"start\": \"0x0801FC00\", \"size\": 1023}]";
 
 u16 getPagesList(TClient* Slave){
+  ++RAM_DATA.counter1;
   u16 DataLength = 0; //������ ������������ �������
   DataLength = strlen(PagesList);
   //Slave->Buffer[BOOT_PAGES_LIST_DATA_SECTION + 0] = (DataLength >> 8) & 0x00FF;
@@ -260,6 +263,7 @@ FLASH_Status erasePages(const std::vector<u32> Pages) {
 }
 
 u16 setErasedPages(TClient* Slave){
+  ++RAM_DATA.counter3;
   const std::vector<u32> Pages = getPagesAddrList((u8 *) &Slave->Buffer[3]);
   FLASH_Status status = erasePages(Pages);
   Slave->Buffer[4] = status;
@@ -363,7 +367,7 @@ typedef struct appCheckInfo {
 
 typedef TAppCheckInfo* pAppCheckInfo;
 
-#define APP_INFO_LOCATION 0x08008200
+#define APP_INFO_LOCATION 0x08008400
 #define APP_INFO_SIZE 8
 #define APP_LOCATION APP_INFO_LOCATION + APP_INFO_SIZE
 
