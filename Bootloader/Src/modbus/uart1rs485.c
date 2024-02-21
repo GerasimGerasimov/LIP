@@ -12,6 +12,7 @@
 #include "ramdata.h"
 #include "modbus.h"
 #include "stm32f10x.h"
+#include "ramdata.h"//TODO
 #include "DEFINES.h" //все основные, относящиеся только к плате дефайны
 
 TClient uart1data;
@@ -22,7 +23,7 @@ void U1SetTimer(unsigned int Delay);  //зарядка таймера на подождать перед отпра
 #define SetDIR1ToRX    GPIO_WriteBit(GPIOA, GPIO_Pin_11,  (BitAction)(0));
 #define SetDIR1ToTX    GPIO_WriteBit(GPIOA, GPIO_Pin_11,  (BitAction)(1));
 
-#define U1RXBUFFSIZE  255 //размер буфера приёмника
+#define U1RXBUFFSIZE  5000 //размер буфера приёмника
 
 u8 U1_RX_DATA_READY = 0;//флаг приёма пакета не ждем
 u8 U1_TX_WAIT = 0;//флаг отправки пакета ждем!!!
@@ -44,7 +45,7 @@ void uart1rs485_init (void){
   uart1data.BPS = FLASH_DATA.MODBUS1.b[1];
   uart1data.Idx = 0;//буфер начать с начала
   uart1data.TXCount = 0;
-  uart1data.ClntTimeOut = 200;//200мкс
+  uart1data.ClntTimeOut = 2000;//200мкс
   uart1data.ID = 1;//номер интерфейса
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1,ENABLE);
   USART_InitTypeDef USART_InitStructure;
@@ -162,15 +163,19 @@ void usart1DMA_init (void)
   DMA_InitStructure.DMA_Priority = DMA_Priority_High;
   DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
   DMA_Init(DMA1_Channel4, &DMA_InitStructure); 
-  DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;//направление из переферии в память (буфер)
+  DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;//направление из памяти в переферию
   DMA_Init(DMA1_Channel5, &DMA_InitStructure); 
 }
 
+  static int ini = 2;
 
 void TxDMA1Ch4 (void) {//настройка DMA на передачу данных в UART
-  
   DMA1_Channel4->CCR  &= ~DMA_CCR4_EN;//DMA_Cmd(DMA1_Channel7, DISABLE);//отключаю DMA для получения доступа к регистрам
   DMA1_Channel4->CNDTR = uart1data.TXCount;//сколько байт отправить
+  if(ini != 0){
+    
+    --ini;
+  }
   USART1->SR  &=  ~USART_SR_TC;   //сбросить флаг окончания передачи
   USART1->CR3 |=  USART_CR3_DMAT;
   DMA1->IFCR |= DMA_IFCR_CTCIF4 | DMA_IFCR_CGIF4 | DMA_IFCR_CHTIF4 | DMA_IFCR_CTEIF4;//очищу все флаги прерываний 
@@ -196,6 +201,10 @@ void USART1_IRQHandler(void)
   u32 IIR = USART1->SR;
     if ((IIR & USART_SR_TC) && (USART1->CR1 & USART_CR1_TCIE)) // Передача окончена (последний байт полностью передан в порт)
       { 
+        if(ini != 0){
+          
+          
+        }
         USART1->SR  &=  ~USART_SR_TC;   //сбросить флаг окончания передачи
         USART1->CR1 &=  ~USART_CR1_TCIE;//запретить прерывание по окончании передачи
         USART1->CR3 &=  ~USART_CR3_DMAT;//запретить UART-ту передавать по DMA
@@ -206,14 +215,15 @@ void USART1_IRQHandler(void)
         return;
       }
     if ((IIR & USART_SR_IDLE) & (USART1->CR1 & USART_CR1_IDLEIE)) // Между байтами при приёме обнаружена пауза в 1 IDLE байт
-      {         
+      {       
+        
         IIR = USART1->DR; //сброс флага IDLE
         IIR = USART1->SR;
         USART1->CR1 &=  ~USART_CR1_RE;    //запретить приёмник
         USART1->CR1 &=  ~USART_CR1_IDLEIE;//запретить прерывания по приёму данных
         USART1->CR3 &=  ~USART_CR3_DMAR;  //запретить DMA RX
         DMA1_Channel5->CCR  &= ~DMA_CCR5_EN;//DMA_Cmd(DMA1_Channel6, DISABLE);//выключить DMA на приём
-        uart1data.Idx = (u8)(U1RXBUFFSIZE - DMA1_Channel5->CNDTR);//кол-во принятых байт
+        uart1data.Idx = (u16)(U1RXBUFFSIZE - DMA1_Channel5->CNDTR);//кол-во принятых байт
         U1_RX_DATA_READY = 1;//выставляю флаг основному циклу что пакет данных принят
         U1_TX_WAIT = 0;//нет ожидания передачи
       }

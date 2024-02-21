@@ -193,7 +193,10 @@ bool command_decode(TClient *pC){
                    return (FALSE);
 	case 0x11: GetDeviceID(pC);//flash_time = 1; //читаем флеш 
                    return (TRUE);
-  case 0xB0: BootLoader(pC);
+  case 0xB0: pC->TXCount = BootLoader(pC);
+                  
+
+
                    return (TRUE);
 	default:  return (FALSE);
       };

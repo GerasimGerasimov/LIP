@@ -490,17 +490,22 @@ void DMA_Configuration (void){
 * Output         : None
 * Return         : None
 *******************************************************************************/
+
+#define APP_START_ADDR 0x08008000
+
 void NVIC_Configuration(void)
 {
   NVIC_InitTypeDef NVIC_InitStructure;
 
-#ifdef  VECT_TAB_RAM  
-  /* Set the Vector Table base location at 0x20000000 */ 
-  NVIC_SetVectorTable(NVIC_VectTab_RAM, 0x0); 
-#else  /* VECT_TAB_FLASH  */
-  /* Set the Vector Table base location at 0x08000000 */ 
-  NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x0);   
-#endif
+//#ifdef  VECT_TAB_RAM  
+//  /* Set the Vector Table base location at 0x20000000 */ 
+//  NVIC_SetVectorTable(NVIC_VectTab_RAM, 0x0); 
+//#else  /* VECT_TAB_FLASH  */
+//  /* Set the Vector Table base location at 0x08000000 */ 
+//  NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x0);   
+//#endif
+  
+  SCB->VTOR = APP_START_ADDR;//переносим начало вектора прерываний по указанному адресу
   
   NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
   //группа два - значит 2 бита для приоритета и 2 для подприоритета

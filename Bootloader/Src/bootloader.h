@@ -14,3 +14,5 @@
     extern bool isBootLoaderMustBeStart(void);
     extern bool isApplicationReadyToStart(void);
   #endif
+
+u16 getPagesList(TClient* Slave);

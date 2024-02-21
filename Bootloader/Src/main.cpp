@@ -46,13 +46,13 @@ int main(void)              //главная программа
   //GPIO_INIT_Configuration();
   //INIT_ON;
   //if (INIT_IST != 0) {
-//    LED_ALARM_OFF;
-//    
-//    if (isBootLoaderMustBeStart() != true) {
-//      if ( isApplicationReadyToStart()) {
-//        jumpToApplication();
-//      }
-//    }
+/*     LED_ALARM_OFF;
+    
+    if (isBootLoaderMustBeStart() != true) {
+      if ( isApplicationReadyToStart()) {
+        jumpToApplication();
+      }
+    } */
  // }
 
   Init();                   //инициализация переферии  
@@ -62,6 +62,8 @@ int main(void)              //главная программа
   LED_LINK2_OFF;
   LED_ALARM_ON;
 
+  //TClient Slave;
+  
   while (1)//основной цикл программы
   {    
     if ((U1_SwCNT()) ||(U2_SwCNT()))//смотрим пришел ли запрос по Модбасу и 1 и 2 сразу смотрим для проверки
@@ -70,7 +72,12 @@ int main(void)              //главная программа
       else LED_LINK1_OFF; 
       
     }
-    
+    if(INIT_IST != 0){
+      LED_LINK2_ON;
+    }
+    else{
+      LED_LINK2_OFF;
+    }
   }
 }
 
