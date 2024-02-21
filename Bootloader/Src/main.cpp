@@ -43,7 +43,7 @@
 int main(void)              //главная программа
 {
 
-  //GPIO_INIT_Configuration();
+  GPIO_INIT_Configuration();
   //INIT_ON;
   //if (INIT_IST != 0) {
 /*     LED_ALARM_OFF;
@@ -54,13 +54,23 @@ int main(void)              //главная программа
       }
     } */
  // }
+   if(INIT_IST != 0){
+      //LED_LINK2_ON;
+      jumpToApplication();
+    }
+    else{
+      //LED_LINK2_OFF;
+    }
 
   Init();                   //инициализация переферии  
+
 
   LED_RUN_OFF;
   LED_LINK1_OFF;
   LED_LINK2_OFF;
   LED_ALARM_ON;
+
+
 
   //TClient Slave;
   
@@ -72,12 +82,7 @@ int main(void)              //главная программа
       else LED_LINK1_OFF; 
       
     }
-    if(INIT_IST != 0){
-      LED_LINK2_ON;
-    }
-    else{
-      LED_LINK2_OFF;
-    }
+   
   }
 }
 

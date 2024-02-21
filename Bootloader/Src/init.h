@@ -6,7 +6,8 @@
 #ifdef __cplusplus
  extern "C" {
 #endif 
-//extern void GPIO_INIT_Configuration();
+
+extern void GPIO_INIT_Configuration();
 extern void Init (void);
 
 #ifdef __cplusplus

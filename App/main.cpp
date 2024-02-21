@@ -75,6 +75,20 @@ int main(void)              //главная программа
       else LED_LINK1_OFF; 
     }
 
+   static int delayTim = 1000000;
+   if(delayTim < 0){
+     delayTim = 1000000;
+    if(LED_LINK2_ST){
+      LED_LINK2_ON;
+    }
+    else{
+      LED_LINK2_OFF;
+    }
+   }
+   else{
+    --delayTim;
+   }
+
     //page.update();
     
     

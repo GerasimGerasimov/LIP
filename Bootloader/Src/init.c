@@ -57,8 +57,10 @@ void GPIO_INIT_Configuration(){
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
   //порт A                       USB_P
-  GPIO_InitStructure.GPIO_Pin  = GPIO_Pin_12;
+  GPIO_InitStructure.GPIO_Pin  = GPIO_Pin_14;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+  GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable, ENABLE);//remap!  A13 и A14
 }
 
 /*******************************************************************************
@@ -81,19 +83,14 @@ void GPIO_Configuration(void){
   /* настраиваем ноги не привязанные к переферии, как open-drain*/
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
   //порт А:                          Dout1           Dout2        Dout3 
-  GPIO_InitStructure.GPIO_Pin  =  GPIO_Pin_13;// | GPIO_Pin_12;
+  GPIO_InitStructure.GPIO_Pin  =  GPIO_Pin_13 | GPIO_Pin_13;// | GPIO_Pin_12;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
   
     //порт B:                     LED_RUN    LED_LINK1      LED_ALARM    LED_LINK2      FR_FCS       FR_DATA        FR_CLK      
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_6  | GPIO_Pin_7 | GPIO_Pin_8;// | GPIO_Pin_13 | GPIO_Pin_14;// | GPIO_Pin_15;
   GPIO_Init(GPIOB, &GPIO_InitStructure);
 
-
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
-  //порт A                       USB_P
-  GPIO_InitStructure.GPIO_Pin  = GPIO_Pin_14;
-  GPIO_Init(GPIOA, &GPIO_InitStructure);
-  GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable, ENABLE);//remap!  A13 и A14
+  
  //   GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable, ENABLE);//remap! 
   
   /* настраиваем ноги не привязанные к переферии, как push-pull*/
