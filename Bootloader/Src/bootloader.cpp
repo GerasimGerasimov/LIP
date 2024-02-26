@@ -286,24 +286,55 @@ Answer:
 */
 void writeCodeSpase(u32 startAddr, u16 count, u8 * buff) {
   StartFlashChange();
-    //int i = count - 1;
-    FLASH_Status status = FLASH_COMPLETE;
-    int i = 0;
-    
+
+  FLASH_Status status = FLASH_COMPLETE;
+  u8 data;
+  //status = FLASH_ErasePage(startAddr);
+  //FLASH_Unlock();  // Unlock the Flash Program Erase controller
+  //FLASH_ClearFlag(FLASH_FLAG_BSY | FLASH_FLAG_EOP | FLASH_FLAG_PGERR | FLASH_FLAG_WRPRTERR);
   while (count-- != 0) { 
-    
-    //if((i - count) < 8){
-      status = FLASH_ProgramOptionByteData(startAddr++, *buff++);
-   // }
-    //else{
-   //   FLASH_ProgramOptionByteData(startAddr++, *buff++);
-   // }
-   if(status == FLASH_COMPLETE){
-      
-      
-   }
+//    ++RAM_DATA.counter1;
+    data = *buff;
+    status = FLASH_ProgramOptionByteData(startAddr++, data);
+    ++buff;
+/*     if(status == FLASH_COMPLETE){
+      ++RAM_DATA.counter2;
+    }
+    if(status == FLASH_ERROR_WRP){
+      ++RAM_DATA.counter3;
+    } */
+
   }
   EndFlashChange();
+}
+
+
+void FlashSectorWriteBootloader(u32 FlashSectorAddr, u32 Buffer, u32 Count)
+{
+  volatile FLASH_Status FLASHStatus;
+  u32 *source = (u32 *) Buffer;
+  u32 Data;
+  Count /= 4;
+
+  FLASH_Unlock();  // Unlock the Flash Program Erase controller
+  /* Clear All pending flags */
+  FLASH_ClearFlag(FLASH_FLAG_BSY | FLASH_FLAG_EOP | FLASH_FLAG_PGERR | FLASH_FLAG_WRPRTERR);
+  //FLASHStatus = FLASH_ErasePage(FlashSectorAddr);// Erase the FLASH pages
+  while(Count !=0 )
+  {
+    ++RAM_DATA.counter1;
+    Data = *source;
+    FLASHStatus = FLASH_ProgramWord(FlashSectorAddr, Data);
+    FlashSectorAddr += 4;
+    source ++;
+    Count --;
+    if(FLASHStatus == FLASH_COMPLETE){
+      ++RAM_DATA.counter2;
+    }
+    if(FLASHStatus == FLASH_ERROR_WRP){
+      ++RAM_DATA.counter3;
+    }
+  }
 }
 
 /*TODO Need to rid up an error with length of data more than 240 bytes, because RX/TX buffer have 16KB length.*/
@@ -320,8 +351,26 @@ u16 writeCodeToFlash(TClient* Slave) {
     .b[2] = Slave->Buffer[6],
     .b[3] = Slave->Buffer[5]
   };    
-  u8 * pData = (u8 * ) &Slave->Buffer[9];
-  writeCodeSpase(StartAddr.L, count.i, pData);
+  //u8 * pData = (u8 * ) &Slave->Buffer[9];
+  //writeCodeSpase(StartAddr.L, count.i, pData);
+  u32* Data = (u32*) &(Slave->Buffer[9]);
+  __disable_irq();
+  FlashSectorWriteBootloader(StartAddr.L, (u32)Data, count.i);
+  __enable_irq();
+  static int i = 0;
+  if(i == 1){
+    RAM_DATA.data32[0] = StartAddr.L;
+    RAM_DATA.data[0] = count.i;
+    RAM_DATA.data[1] = Slave->Buffer[9];
+    RAM_DATA.data[2] = Slave->Buffer[10];
+    RAM_DATA.data[3] = Slave->Buffer[11];
+    RAM_DATA.data[4] = Slave->Buffer[12];
+    RAM_DATA.data[5] = Slave->Buffer[13];
+    RAM_DATA.data[6] = Slave->Buffer[14];
+    RAM_DATA.data[7] = Slave->Buffer[15];
+
+  }
+  ++i;
   u16 DataLength  = 3;
   DataLength += CRC_SIZE;//crc 
   FrameEndCrc16((u8*)Slave->Buffer, DataLength);

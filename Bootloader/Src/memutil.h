@@ -22,14 +22,15 @@ typedef union {//массив DWORD, WORD, BYTE
 extern a32a16a8 FlashTmpBuffer;
 extern void u8_mem_cpy( u8 *s, u8 *d, u8 c);
 //extern void swp_copy_u16( u8 *s, u16 *d, u8 c);
-extern void FlashSectorWrite(u32 FlashSectorAddr, u32 Buffer);
 extern void CopyFlashToTmpBuffer(u32 Addr);
 
   #ifdef __cplusplus
     extern "C" void StartFlashChange();
     extern "C" void EndFlashChange();
     extern "C" FLASH_Status EraseFlashPage(u32 Addr);
+    extern "C" void FlashSectorWrite(u32 FlashSectorAddr, u32 Buffer);
   #else
+    extern void FlashSectorWrite(u32 FlashSectorAddr, u32 Buffer);
     extern void StartFlashChange();
     extern void EndFlashChange();
     extern FLASH_Status EraseFlashPage(u32 Addr);

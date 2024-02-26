@@ -843,7 +843,7 @@
                 </option>
                 <option>
                     <name>DoFill</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>FillerByte</name>
@@ -851,11 +851,11 @@
                 </option>
                 <option>
                     <name>FillerStart</name>
-                    <state>0x0</state>
+                    <state>0x08008000</state>
                 </option>
                 <option>
                     <name>FillerEnd</name>
-                    <state>0x0</state>
+                    <state>0x08008200</state>
                 </option>
                 <option>
                     <name>CrcSize</name>
@@ -1158,6 +1158,9 @@
                 <name>$PROJ_DIR$\..\Page\Page.cpp</name>
             </file>
         </group>
+        <file>
+            <name>$PROJ_DIR$\..\app_check_info.c</name>
+        </file>
         <file>
             <name>$PROJ_DIR$\..\Buffer.cpp</name>
         </file>

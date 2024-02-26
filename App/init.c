@@ -73,6 +73,7 @@ void Init (void)
   //SPI2_Configuration();
   DMA_Configuration();
   NVIC_Configuration();
+  __enable_irq();
   /*
   check_fram();//проверяем ключ параметров
   check_flash();//проверяем флеш-сектора данных

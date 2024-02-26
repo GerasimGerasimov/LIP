@@ -135,7 +135,9 @@ typedef union {
     vu16 counter1;           //
     vu16 counter2;        //
     vu16 counter3;        //
+    vu16 counter4;
     vu16 data[8];
+    vu32 data32[8];
 
 } ;
 
