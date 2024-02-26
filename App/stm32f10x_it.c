@@ -31,8 +31,6 @@
 #include "flashdata.h"
 
 #include "DEFINES.h" //все основные, относящиеся только к плате дефайны
-#include "lip/tirist.h"
-#include "lip/fails.h"
 #include "init.h"
 
 /** @addtogroup Examples
@@ -41,51 +39,14 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
-#define _175grad 0xAA79
 
 
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-//static u8 num_avg = 0;
-//static u32 E_Uload = 0;
-//static u32 E_Iload = 0;
-//static u32 E_Ish = 0;
-
-//static u8 num_avg_Efiltr = 0;
-//static u32 Efiltr_Uload = 0;
-//static u32 Efiltr_Iload = 0;
 
 
-//static u16 dA = 0; //на сколько отбрасывать Альфа
-//static u16 A_NormMode = 0; //значение отброшенного угла = RAM_DATA.A +dA
- u8 Pause_Imp = 0; //сколько импульсов осталось подождать перед запуском
- bool NormalMode = TRUE; //если пришла искра и скорость надо большую для сбрасывания угла - false
 
-//static u16 Shake_cnt = 0; //ширина имупльса включения встряхивателя
-//static u32 Shake_stop_cnt = 0; //часть периода встряхивателя, пока он не включен
 
-//static u8 SYNC_cnt = 0; //ширина имупльса включения встряхивателя
- u16 SYNC_Yes =0; //срабатывать только на нужную синхру, отбрасывать джиттер
-
-//дла проверки на частую искру
-//static bool SPARK = FALSE; //нет искры - фалсе
-//static u8 SPARK_cnt = 0; //счетчик искр - в полупериод была исрка или нет
-//static u8 SP_buf_cnt = 0; //счетчик записи/проверки SPARK_cnt в буфер и проверки на аварию
-//u8 Spark_Pause_Imp=0; //akfu отсчета полупериодов - сколько не делать проверку на мтз 
-  
-//static u8 FAIL_flgcnt = 0; //сколько держать замкнутым контактор, флаг аварии
-//u16 Il_buf[100]; 
-//u16 Ul_buf[100];
-//u8 i_buf_main=0; //счетчик для записи осцил
-/* Private function prototypes -----------------------------------------------*/
-// дефайны перед функцией обработки DMA. Параметры аналоговой схемы
-/*#define Uth 208
-//#define Ith 150
-//#define Vcc 2087
-//#define R1 26
-//#define R2 100
-//#define R3 (220+150)
-*/
 /* Private functions ---------------------------------------------------------*/
 
 
@@ -120,23 +81,18 @@ void TIM2_IRQHandler(void)
 //управление тиристорами - угол и шим
 void TIM4_IRQHandler(void)
 {
-   
+   ++RAM_DATA.counter1;
  //  if ((TIM4->SR & TIM_FLAG_CC1)&&(TIM4->DIER & TIM_IT_CC1)) 
   if (TIM4->SR & TIM_IT_CC1)
    {
      TIM4->CR1 &= ~TIM_CR1_CEN;//остановить таймер
-     TIM4->SR = 0;     
-     TxThyristorON(); //отсчитался угол, включаем шим - импульс управления тиристором
-     TIM4->CR1 |= TIM_CR1_CEN;//TIMER1_START;
-     
+     ++RAM_DATA.counter2;
    }
  //  if ((TIM4->SR & TIM_FLAG_CC2)&&(TIM4->DIER & TIM_IT_CC2)) 
   if (TIM4->SR & TIM_IT_CC2)
    { 
-     TIM4->CR1 &= ~TIM_CR1_CEN;//остановить таймер
-     TIM4->SR = 0;
-     AllThyristorsOFF(); //импульс кончился, выкл шим    
-    
+     TIM4->CR1 &= ~TIM_CR1_CEN;//остановить таймер 
+     ++RAM_DATA.counter3;
    }
    
    
@@ -146,13 +102,13 @@ void TIM4_IRQHandler(void)
 //дма
 void DMA1_Channel3_IRQHandler(void)//прерывание вызывается, когда переданы все данные в SPI
 { 
-  ++RAM_DATA.counter1;
+
   if (DMA_GetITStatus(DMA1_IT_TC3)){
     DMA_Cmd(DMA1_Channel3, DISABLE);
 
     //ожидание, пока SPI закончит отправку
     while(SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_BSY) == SET){
-      ++RAM_DATA.counter3;
+
     };
 
     GPIO_SetBits(GPIOA, GPIO_Pin_6); //ON
@@ -166,7 +122,6 @@ void DMA1_Channel3_IRQHandler(void)//прерывание вызывается, 
 
     DMA_Cmd(DMA1_Channel3, ENABLE);
     
-    ++RAM_DATA.counter2;
   }
 }
 

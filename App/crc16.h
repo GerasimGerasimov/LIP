@@ -1,3 +1,4 @@
+#pragma once
 /*
  * OpenMODBUS/TCP to RS-232/485 MODBUS RTU gateway
  *
@@ -31,4 +32,14 @@
  * $Id: crc16.h,v 1.4 2003/09/09 18:49:15 avm Exp $
  */
  
+#ifdef __cplusplus
+    extern "C" {
+#endif
+
  unsigned short crc16(unsigned char *puchMsg, int DataLen);
+ void FrameEndCrc16(unsigned char *Frame, unsigned int FrameSize);
+
+
+#ifdef __cplusplus
+    }
+#endif

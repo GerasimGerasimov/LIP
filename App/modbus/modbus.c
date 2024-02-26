@@ -23,6 +23,10 @@ void ModbusFlashWrite(u32 DATA_BASE, TClient *pC);
 void ModbusFlashWrite_(u32 DATA_BASE, TClient *pC);
 ////
 
+__no_init char BootLoaderStart[6] @ "BOOT_CMD";
+u8 StartBootLoader(TClient* Slave);
+void BootLoadCmdFillZero();
+
 void frame_end(TClient *pC);
 
 void ModbusInit(void){
@@ -192,6 +196,8 @@ bool command_decode(TClient *pC){
                    return (FALSE);
 	case 0x11: GetDeviceID(pC);//flash_time = 1; //читаем флеш 
                    return (TRUE);
+  case 0xB0: StartBootLoader(pC);
+                  return (TRUE);
 	default:  return (FALSE);
       };
     };
@@ -277,7 +283,7 @@ void ModbusFlashWrite_DATA(u16 DATA_1, u16 DATA_2){
 u16 crc;
   u16 *dest;
  // u8 *source;
-  bauint w; //for swaping modbus packets
+  //bauint w; //for swaping modbus packets
   //0)копировать основной сектор флэша во временный буфер aFlashTmpBuffer
   CopyFlashToTmpBuffer_((u32)&FLASH_DATA, (u32)&aFlashTmpBuffer);
   //1) получить из буфера номер регистра 
@@ -330,3 +336,21 @@ u16 crc;
   //pC->TXCount=6;
  // frame_end(pC);
 }  
+
+u8 StartBootLoader(TClient* Slave) {
+  BootLoaderStart[0] = 0xA5;
+  BootLoaderStart[1] = 0x5A;
+  BootLoaderStart[2] = 0xA5;
+  BootLoaderStart[3] = 0x5A; 
+  FrameEndCrc16((u8*)BootLoaderStart, 6);
+  NVIC_SystemReset();
+}
+
+void BootLoadCmdFillZero() {
+  BootLoaderStart[0] = 0x00;
+  BootLoaderStart[1] = 0x00;
+  BootLoaderStart[2] = 0x00;
+  BootLoaderStart[3] = 0x00; 
+  BootLoaderStart[4] = 0x00;
+  BootLoaderStart[5] = 0x00;
+}

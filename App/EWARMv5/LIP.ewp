@@ -1132,15 +1132,6 @@
             </file>
         </group>
         <group>
-            <name>lip</name>
-            <file>
-                <name>$PROJ_DIR$\..\lip\fails.c</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\lip\tirist.c</name>
-            </file>
-        </group>
-        <group>
             <name>modbus</name>
             <file>
                 <name>$PROJ_DIR$\..\modbus\modbus.c</name>
@@ -1169,9 +1160,6 @@
         </file>
         <file>
             <name>$PROJ_DIR$\..\flashdata.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\fram\fram.c</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\id.c</name>

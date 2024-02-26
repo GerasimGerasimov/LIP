@@ -16,11 +16,10 @@
 #include "crc16.h"//модуль контрольной суммы
 #include "init.h"//функции инициализации
 
-#include "fram/fram.h"
-#include "lip/tirist.h"
-#include "lip/fails.h"
+
 #include "modbus/uart1rs485.h"//связь по 485 интерфейсу, по протоколу MODBUS1 (клиент)
 #include "modbus/uart2rs485.h"//связь по 485 интерфейсу, по протоколу MODBUS2 (клиент)
+#include "modbus/modbus.h"
 
 #include "DEFINES.h" //все основные, относящиеся только к плате дефайны
 #include "modbus/modbus.h"
@@ -53,6 +52,7 @@ void Fail_Check(void);
 int main(void)              //главная программа
 {
 
+  BootLoadCmdFillZero();
   Init();                   //инициализация переферии  
 
 
@@ -75,19 +75,6 @@ int main(void)              //главная программа
       else LED_LINK1_OFF; 
     }
 
-   static int delayTim = 1000000;
-   if(delayTim < 0){
-     delayTim = 1000000;
-    if(LED_LINK2_ST){
-      LED_LINK2_ON;
-    }
-    else{
-      LED_LINK2_OFF;
-    }
-   }
-   else{
-    --delayTim;
-   }
 
     //page.update();
     
@@ -96,45 +83,6 @@ int main(void)              //главная программа
 }
 
 
-//нажали кнопку Пуск-Старт
-void START(void)
-{
-  if (RAM_DATA.FLAGS.BA.TR_ENABLE == 0)//если мы не в режиме пуска, еще не разрешали работу
-  {
-    //if (RAM_DATA.FLAGS.BA.DOUT1_FAIL == 0) //ошибок нет, флаг не выставлен
-    //если есть ошибки - ничего не делаем
-     if (RAM_DATA.FLAGS.BA.SYNCF | RAM_DATA.FLAGS.BA.SHC | RAM_DATA.FLAGS.BA.OPC |\
-         RAM_DATA.FLAGS.BA.OVH | RAM_DATA.FLAGS.BA.THFOC | RAM_DATA.FLAGS.BA.THFAO |\
-          RAM_DATA.FLAGS.BA.FQS | RAM_DATA.FLAGS.BA.MTZ_L | RAM_DATA.FLAGS.BA.MTZ_SH)
-    {    }
-    else //если нет ошибок
-    {
-      Init_soft(); //сброс всего в начальное значение
-      RAM_DATA.FLAGS.BA.TR_ENABLE =1; //разрешили включение тиристоров - разрешать при кнопке Пуск   
-    } 
-  }
-  else {} //на повторное нажатие пуска не реагируем и просто сбрасываем его
-  
-  RAM_DATA.FLAGS.BA.DI4_START = 0; //сбросили флаг нажатой кнопки, чтобы посторно не инициализировать все
-}
- 
-
-void STOP(void)
-{
-  if (RAM_DATA.FLAGS.BA.WAIT == 0)//находимся не в режиме ожидания, первое нажатие стоп
-  {
-     RAM_DATA.FLAGS.BA.A_STOP = 1; // флаг повышения угла перед остановкой      ,
-    // 
-  }
-  else //уже в состоянии ожидания, пришла деблокировка
-  {
-    Fail_Reset();
-//флаг сброса остановки не сбрасываем, чтобы потом заново не проделывать весь путь остановки
-  }
-  RAM_DATA.FLAGS.BA.DI3_STOP = 0; //сбросили флаг нажатой кнопки
-   
- 
-}
 
 
 /*инициализация флагов и переменных предварительная*/
@@ -169,14 +117,8 @@ void Init_soft(void)
   //зачем оно надо в рамке?
   RAM_DATA.Iz = FLASH_DATA.Iz; 
   RAM_DATA.Uz = FLASH_DATA.Uz;
-  RAM_DATA.Az = FLASH_DATA.Amax;
-  
-  /*обнуление переменных, используемых в работе тиристоров в прерываниях*/
-  NormalMode = true; //обнуление всех переменных, нужных в работе тиристоров
-  Pause_Imp = 0;
- // SYNC_Yes = 0;               
-                 
-                 
+  RAM_DATA.Az = FLASH_DATA.Amax;            
+             
 }
 //сброс всех аварий
 void Fail_Reset(void)
@@ -194,60 +136,6 @@ void Fail_Reset(void)
   RAM_DATA.FLAGS.BA.DOUT1_FAIL = 0;
   RAM_DATA.FLAGS.BA.DOUT3_SIGN = 0; //зажгли светик АВАРИЯ
 }
-
-//проверка на наличие аварий и действия при наличие какой-либо
-void Fail_Check(void)
-{
-  if (  RAM_DATA.FLAGS.BA.MTZ_L | RAM_DATA.FLAGS.BA.MTZ_SH ) //авария мтз
-  {
-    RAM_DATA.FLAGS.BA.TR_ENABLE =0; //все запретили
-    RAM_DATA.FLAGS.BA.WAIT = 1; //режим ожидания вкл
-    RAM_DATA.FLAGS.BA.DOUT1_FAIL = 1; //выбили автомат
-    RAM_DATA.FLAGS.BA.DOUT3_SIGN = 1; //зажгли светик АВАРИЯ
-    RAM_DATA.A = FLASH_DATA.Amax; //угол альфа выставили максимальный
-    return; //вышли и не проверяем остальное
-  }
-  if (RAM_DATA.FLAGS.BA.SYNCF)
-  {
-    RAM_DATA.FLAGS.BA.TR_ENABLE =0; //все запретили
-    RAM_DATA.FLAGS.BA.WAIT = 1; //режим ожидания вкл
-    RAM_DATA.FLAGS.BA.DOUT3_SIGN = 1; //зажгли светик АВАРИЯ
-    RAM_DATA.A = FLASH_DATA.Amax; //угол альфа выставили максимальный
-    return; //вышли и не проверяем остальное
-  }
-  //любая другая авария - не так страшно
-  if ( RAM_DATA.FLAGS.BA.SHC | RAM_DATA.FLAGS.BA.OPC |\
-  RAM_DATA.FLAGS.BA.OVH | RAM_DATA.FLAGS.BA.THFOC | RAM_DATA.FLAGS.BA.THFAO | RAM_DATA.FLAGS.BA.FQS)
-  {
-    RAM_DATA.FLAGS.BA.DOUT3_SIGN = 1; //зажгли светик АВАРИЯ
-    STOP(); //вызвали состояние стоп/ожидание
-  }
-  else {}
-    
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #ifdef  USE_FULL_ASSERT

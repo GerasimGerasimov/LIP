@@ -49,8 +49,8 @@ int main(void)              //главная программа
     LED_ALARM_OFF;
     
     if (isBootLoaderMustBeStart() != true) {
-      if ( isApplicationReadyToStart()) {
-        jumpToApplication();
+      if (isApplicationReadyToStart()) {
+          jumpToApplication();
       }
     }
   }

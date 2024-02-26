@@ -1,3 +1,4 @@
+#pragma once
 /*
  * OpenMODBUS/TCP to RS-232/485 MODBUS RTU gateway
  *

@@ -11,7 +11,9 @@
 #define r_min_DEVICE_FLASH_DATA 0x2000
 #define r_max_DEVICE_FLASH_DATA 0x207F
 
-
+#ifdef __cplusplus
+    extern "C" {
+#endif
 
 extern void ModbusInit(void);
 extern bool ModbusMemRead(TClient *pC);
@@ -22,4 +24,10 @@ extern void frame_end(TClient *pC);
 void CopyFlashToTmpBuffer_(u32 Addr, u32 Buff);
 extern void FlashWrite(u32 DATA_BASE);
 void ModbusFlashWrite_DATA(u16 DATA_1, u16 DATA_2);
+
+void BootLoadCmdFillZero();
+
+#ifdef __cplusplus
+    }
+#endif
 #endif
