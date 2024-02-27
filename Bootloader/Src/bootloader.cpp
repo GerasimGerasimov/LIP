@@ -287,15 +287,15 @@ Answer:
 void writeCodeSpase(u32 startAddr, u16 count, u8 * buff) {
   StartFlashChange();
 
-  FLASH_Status status = FLASH_COMPLETE;
+  
   u8 data;
-  //status = FLASH_ErasePage(startAddr);
+  
   //FLASH_Unlock();  // Unlock the Flash Program Erase controller
   //FLASH_ClearFlag(FLASH_FLAG_BSY | FLASH_FLAG_EOP | FLASH_FLAG_PGERR | FLASH_FLAG_WRPRTERR);
   while (count-- != 0) { 
 
     data = *buff;
-    status = FLASH_ProgramOptionByteData(startAddr++, data);
+    FLASH_ProgramOptionByteData(startAddr++, data);
     ++buff;
   }
   EndFlashChange();

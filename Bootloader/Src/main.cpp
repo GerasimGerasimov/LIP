@@ -16,7 +16,6 @@
 #include "crc16.h"//модуль контрольной суммы
 #include "init.h"//функции инициализации
 
-#include "fram/fram.h"
 #include "modbus/uart1rs485.h"//связь по 485 интерфейсу, по протоколу MODBUS1 (клиент)
 #include "modbus/uart2rs485.h"//связь по 485 интерфейсу, по протоколу MODBUS2 (клиент)
 

@@ -1144,9 +1144,6 @@
             <name>$PROJ_DIR$\..\flashdata.c</name>
         </file>
         <file>
-            <name>$PROJ_DIR$\..\fram\fram.c</name>
-        </file>
-        <file>
             <name>$PROJ_DIR$\..\id.c</name>
         </file>
         <file>

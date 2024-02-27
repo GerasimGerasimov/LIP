@@ -38,11 +38,7 @@
 
 
 /* Private function prototypes -----------------------------------------------*/
-void START(void);
-void STOP(void);
-void Init_soft(void);
 void Fail_Reset(void);
-void Fail_Check(void);
 /* Private variables ---------------------------------------------------------*/
     
     
@@ -62,7 +58,7 @@ int main(void)              //главная программа
   LED_LINK2_OFF;
   LED_ALARM_OFF;
   /*дополнительная инициализация софта, которую потом отдельной цункцией запилить*/
-  Init_soft();// тут сброс всего в  начальное значение
+  //Init_soft();// тут сброс всего в  начальное значение
   Fail_Reset();//сброс флагов аварий
   //Page page;
 
@@ -76,6 +72,8 @@ int main(void)              //главная программа
     }
 
 
+  //GPIO_WriteBit(GPIOA, GPIO_Pin_0,  (BitAction)(0));
+  //GPIO_WriteBit(GPIOA, GPIO_Pin_0,  (BitAction)(1));
     //page.update();
     
     
@@ -110,14 +108,7 @@ void Init_soft(void)
   RAM_DATA.FLAGS.BA.TR_ENABLE =0; //запретили включение тиристоров - разрешать при кнопке Пуск
   RAM_DATA.FLAGS.BA.TR1 = 0;//сброс флага тиристоров
   RAM_DATA.FLAGS.BA.TR2 = 0;//сброс флага тиристоров
-  
-  RAM_DATA.A = FLASH_DATA.Amax; //угол альфа максимальный
-  RAM_DATA.Spark_cnt = 0; //сбросили счетчик, сколько длилась искра
-  
-  //зачем оно надо в рамке?
-  RAM_DATA.Iz = FLASH_DATA.Iz; 
-  RAM_DATA.Uz = FLASH_DATA.Uz;
-  RAM_DATA.Az = FLASH_DATA.Amax;            
+        
              
 }
 //сброс всех аварий

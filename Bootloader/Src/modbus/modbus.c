@@ -281,9 +281,9 @@ void REinit(void)
 //запись данный внутри программы во флеш
 void ModbusFlashWrite_DATA(u16 DATA_1, u16 DATA_2){
 u16 crc;
-  u16 *dest;
+  //u16 *dest;
  // u8 *source;
-  bauint w; //for swaping modbus packets
+  //bauint w; //for swaping modbus packets
   //0)копировать основной сектор флэша во временный буфер aFlashTmpBuffer
   CopyFlashToTmpBuffer_((u32)&FLASH_DATA, (u32)&aFlashTmpBuffer);
   //1) получить из буфера номер регистра 

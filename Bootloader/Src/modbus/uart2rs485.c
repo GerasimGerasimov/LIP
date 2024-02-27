@@ -22,7 +22,7 @@ void U2SetTimer(unsigned int Delay);  //зарядка таймера на подождать перед отпра
 #define SetDIR2ToRX    GPIO_WriteBit(GPIOA, GPIO_Pin_0,  (BitAction)(0));
 #define SetDIR2ToTX    GPIO_WriteBit(GPIOA, GPIO_Pin_0,  (BitAction)(1));
 
-#define U2RXBUFFSIZE  255 //размер буфера приёмника
+#define U2RXBUFFSIZE  5000 //размер буфера приёмника
 
 u8 U2_RX_DATA_READY = 0;//флаг приёма пакета не ждем
 u8 U2_TX_WAIT = 0;//флаг отправки пакета ждем!!!
@@ -44,7 +44,7 @@ void uart2rs485_init (void){
   uart2data.BPS = FLASH_DATA.MODBUS2.b[1];
   uart2data.Idx = 0;//буфер начать с начала
   uart2data.TXCount = 0;
-  uart2data.ClntTimeOut = 200;//200мкс
+  uart2data.ClntTimeOut = 2000;//200мкс
   uart2data.ID = 2;//номер интерфейса
   RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2,ENABLE);
   USART_InitTypeDef USART_InitStructure;

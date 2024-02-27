@@ -15,10 +15,9 @@
 void GPIO_Configuration(void);
 void NVIC_Configuration(void);
 void TIM1_Configuration(void);
-void TIM2_Configuration(void);
-void TIM3_Configuration(void);
-void TIM4_Configuration(void);
-void ADC_Configuration (void);
+//void TIM2_Configuration(void);
+//void TIM3_Configuration(void);
+//void TIM4_Configuration(void);
 void Systic_init(void);
 void EXTI_init(void);
 void DMA_Configuration (void);
@@ -30,21 +29,13 @@ void SPI2_Configuration();
 uint8_t arr[15]; //TODO проверка DMA
 
 void fillArr(){
-  arr[0] = ~((uint8_t)(RAM_DATA.Iz % 256)) ;
-  arr[1] = ~((uint8_t)(RAM_DATA.Uz % 256)) ;
-  arr[2] = ~((uint8_t)(RAM_DATA.Az % 256)) ;
-  arr[3] = ~((uint8_t)(RAM_DATA.A % 256)) ;
-  arr[4] = ~((uint8_t)(RAM_DATA.V_Ref % 256)) ;
-  arr[5] = ~((uint8_t)(RAM_DATA._Iload % 256)) ;
-  arr[6] = ~((uint8_t)(RAM_DATA._Uload % 256)) ;
-  arr[7] = ~((uint8_t)(RAM_DATA._Ish % 256)) ;
-  arr[8] = ~((uint8_t)(RAM_DATA.Iload % 256)) ;
-  arr[9] = ~((uint8_t)(RAM_DATA.Uload_idiot % 256)) ;
-  arr[10] = ~((uint8_t)(RAM_DATA.Ish_idiot % 256)) ;
-  arr[11] = ~((uint8_t)(RAM_DATA.Spark_cnt_view % 256)) ;
-  arr[12] = ~((uint8_t)(RAM_DATA.Il_buffer % 256)) ;
-  arr[13] = ~((uint8_t)(RAM_DATA.Ul_buffer % 256)) ;
-  arr[14] = ~((uint8_t)(RAM_DATA.load_buf % 256)) ;
+  //uint16_t volatile* arrPtr = &RAM_DATA.Iz;
+  for(int i = 0; i < 15; ++i){
+    //arr[i] = ~((uint8_t)(RAM_DATA.Iz % 256)) ;
+    //++arrPtr;
+    arr[i] = ~((uint8_t)(1 << (i % 8)));
+  }
+
 }
 
 ErrorStatus HSEStartUpStatus;
@@ -213,7 +204,7 @@ void GPIO_Configuration(void){
     //порт B:                     SPI2_SCK     SPI2_MISO
   GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_13 | GPIO_Pin_14;  
   GPIO_Init(GPIOB, &GPIO_InitStructure); 
-  GPIO_PinRemapConfig(GPIO_PartialRemap2_TIM2, ENABLE);//remap! T2_CH3->PB.10  
+  GPIO_PinRemapConfig(GPIO_FullRemap_TIM2, ENABLE);//remap! T2_CH3->PB.10  
 
 
 
@@ -249,177 +240,117 @@ void TIM1_Configuration(void){
 
 //*****************************************************************************
 //T2 канал TIM2_CH3 - имп. управления тиристорами - шим ноги, один канал
-void TIM2_Configuration(void){
-  
-  TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
-  TIM_OCInitTypeDef  TIM_OCInitStructure;
-  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
-//управление ШИМ высокочастотного наполнения импульсов управления
-//тиристорами находится на таймере TIM2
-//T = TIM2_CH3 PB.10 remap!!
-//нужно сформировать (когда резрешено) наполнение 200кГц со скважностью 30%
-//TIM2 сидит на APB1 частота которой 72 МГц
-//какое число нужно зарядить в таймеры чтоб получить 200кГц
-//72 МГц/200000 = 360 - это будет период таймера TIM2 (TIM_Period)
-//теперь, какое число нужно зарядить в каналы 1 и 2 чтобы получить сважность 30%
-//360 * 0,3 = 108 (это будет TIM_Pulse)
-  TIM_TimeBaseStructInit(&TIM_TimeBaseStructure);
-  /* Time base configuration */
-  TIM_TimeBaseStructure.TIM_Period =360;// TIM2_PERIOD;
-  TIM_TimeBaseStructure.TIM_Prescaler = 0;
-  TIM_TimeBaseStructure.TIM_ClockDivision = 0;
-  TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-  TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
-
-  /* T PWM2 Mode configuration: Channel 3 */
-  TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM2;
-  TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
-  TIM_OCInitStructure.TIM_Pulse = 0;//TIM2_CH_3_4_Q;//TIM2_CH_3_4_Q;//OFF
-  TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High; 
-  TIM_OC3Init(TIM2, &TIM_OCInitStructure);
-
-  /* TIMER 2 IT enable */
-    TIM_ITConfig(TIM2, TIM_IT_Update, DISABLE);
-
-  /* TIMER 2enable counter */
-  TIM_Cmd(TIM2, ENABLE);
-//  TIM2->CR1 &= ~TIM_CR1_CEN;//остановить таймер
-//   TIM2->CNT = 0xffff; //уровень должен быть 1
-  
- 
-}
+//void TIM2_Configuration(void){
+//  
+//  TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+//  TIM_OCInitTypeDef  TIM_OCInitStructure;
+//  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+////управление ШИМ высокочастотного наполнения импульсов управления
+////тиристорами находится на таймере TIM2
+////T = TIM2_CH3 PB.10 remap!!
+////нужно сформировать (когда резрешено) наполнение 200кГц со скважностью 30%
+////TIM2 сидит на APB1 частота которой 72 МГц
+////какое число нужно зарядить в таймеры чтоб получить 200кГц
+////72 МГц/200000 = 360 - это будет период таймера TIM2 (TIM_Period)
+////теперь, какое число нужно зарядить в каналы 1 и 2 чтобы получить сважность 30%
+////360 * 0,3 = 108 (это будет TIM_Pulse)
+//  TIM_TimeBaseStructInit(&TIM_TimeBaseStructure);
+//  /* Time base configuration */
+//  TIM_TimeBaseStructure.TIM_Period =360;// TIM2_PERIOD;
+//  TIM_TimeBaseStructure.TIM_Prescaler = 0;
+//  TIM_TimeBaseStructure.TIM_ClockDivision = 0;
+//  TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+//  TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
+//
+//  /* T PWM2 Mode configuration: Channel 3 */
+//  TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM2;
+//  TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+//  TIM_OCInitStructure.TIM_Pulse = 0;//TIM2_CH_3_4_Q;//TIM2_CH_3_4_Q;//OFF
+//  TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High; 
+//  TIM_OC3Init(TIM2, &TIM_OCInitStructure);
+//
+//  /* TIMER 2 IT enable */
+//    TIM_ITConfig(TIM2, TIM_IT_Update, DISABLE);
+//
+//  /* TIMER 2enable counter */
+//  TIM_Cmd(TIM2, ENABLE);
+////  TIM2->CR1 &= ~TIM_CR1_CEN;//остановить таймер
+////   TIM2->CNT = 0xffff; //уровень должен быть 1
+//  
+// 
+//}
 //******************************************************************************
 //Таймер тактирования АЦП (частота переполнения и вых триггера 10 кГц)
-void TIM3_Configuration(void){
-  TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
-  TIM_OCInitTypeDef        TIM_OCInitStructure;
-  
-  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
-   /* Time Base configuration */
-  TIM_TimeBaseStructure.TIM_Prescaler = 0;
-  TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-  TIM_TimeBaseStructure.TIM_Period = 7200;
-  TIM_TimeBaseStructure.TIM_ClockDivision = 0;
-  TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
-  TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
-  
-  TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM2;
-  TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
-  TIM_OCInitStructure.TIM_OCPolarity = TIM_OCNPolarity_High; 
-  TIM_OCInitStructure.TIM_Pulse = 5000;
- // TIM_OC1Init(TIM3, &TIM_OCInitStructure);
-  
-    TIM_OC4Init(TIM3, &TIM_OCInitStructure);
-  TIM_OC4PreloadConfig(TIM3, TIM_OCPreload_Enable);
-  
-  TIM_SelectOutputTrigger(TIM3, TIM_TRGOSource_OC4Ref); //1
-
-  TIM_ITConfig(TIM3, TIM_IT_Update, DISABLE);
-   /* TIM3 counter enable */
-  //TIM_Cmd(TIM3, ENABLE);
-  TIM3->SR = 0;  
-}
+//void TIM3_Configuration(void){
+//  TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+//  TIM_OCInitTypeDef        TIM_OCInitStructure;
+//  
+//  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
+//   /* Time Base configuration */
+//  TIM_TimeBaseStructure.TIM_Prescaler = 0;
+//  TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+//  TIM_TimeBaseStructure.TIM_Period = 7200;
+//  TIM_TimeBaseStructure.TIM_ClockDivision = 0;
+//  TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
+//  TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
+//  
+//  TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM2;
+//  TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+//  TIM_OCInitStructure.TIM_OCPolarity = TIM_OCNPolarity_High; 
+//  TIM_OCInitStructure.TIM_Pulse = 5000;
+// // TIM_OC1Init(TIM3, &TIM_OCInitStructure);
+//  
+//    TIM_OC4Init(TIM3, &TIM_OCInitStructure);
+//  TIM_OC4PreloadConfig(TIM3, TIM_OCPreload_Enable);
+//  
+//  TIM_SelectOutputTrigger(TIM3, TIM_TRGOSource_OC4Ref); //1
+//
+//  TIM_ITConfig(TIM3, TIM_IT_Update, DISABLE);
+//   /* TIM3 counter enable */
+//  //TIM_Cmd(TIM3, ENABLE);
+//  TIM3->SR = 0;  
+//}
 //******************************************************************************
 //таймер для управлениями тиристорами - сифу, угол (1тик = 1мкс) два канала
-void TIM4_Configuration(void){
-  TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
-  TIM_OCInitTypeDef        TIM_OCInitStructure;
-  
-  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE);
-   /* Time Base configuration */
-  TIM_TimeBaseStructure.TIM_Prescaler = 72-1;
-  TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-  TIM_TimeBaseStructure.TIM_Period = 0xffff;
-  TIM_TimeBaseStructure.TIM_ClockDivision = 0;
-  TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
-  TIM_TimeBaseInit(TIM4, &TIM_TimeBaseStructure);
-
-  TIM_TimeBaseInit(TIM4, &TIM_TimeBaseStructure);
-  
-  TIM_OCInitStructure.TIM_Pulse = 0;
-  TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_Timing;
-  TIM_OC1Init(TIM4, &TIM_OCInitStructure);
-  TIM_OC2Init(TIM4, &TIM_OCInitStructure);
-  
-   /* TIM4 counter enable */
-  TIM4->CCR1 = 0; //длинна угла
-  TIM4->CCR2 =  0; //длинна угла +длинна импульса управления
-
-  TIM4->SR = 0;
-    TIM_ITConfig(TIM4, TIM_IT_CC1 | TIM_IT_CC2, ENABLE);//
-  TIM_Cmd(TIM4, DISABLE);
-
-
-}
+//void TIM4_Configuration(void){
+//  TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+//  TIM_OCInitTypeDef        TIM_OCInitStructure;
+//  
+//  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE);
+//   /* Time Base configuration */
+//  TIM_TimeBaseStructure.TIM_Prescaler = 72-1;
+//  TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+//  TIM_TimeBaseStructure.TIM_Period = 0xffff;
+//  TIM_TimeBaseStructure.TIM_ClockDivision = 0;
+//  TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
+//  TIM_TimeBaseInit(TIM4, &TIM_TimeBaseStructure);
+//
+//  TIM_TimeBaseInit(TIM4, &TIM_TimeBaseStructure);
+//  
+//  TIM_OCInitStructure.TIM_Pulse = 0;
+//  TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_Timing;
+//  TIM_OC1Init(TIM4, &TIM_OCInitStructure);
+//  TIM_OC2Init(TIM4, &TIM_OCInitStructure);
+//  
+//   /* TIM4 counter enable */
+//  TIM4->CCR1 = 0; //длинна угла
+//  TIM4->CCR2 =  0; //длинна угла +длинна импульса управления
+//
+//  TIM4->SR = 0;
+//    TIM_ITConfig(TIM4, TIM_IT_CC1 | TIM_IT_CC2, ENABLE);//
+//  TIM_Cmd(TIM4, DISABLE);
+//
+//
+//}
+////******************************************************************************
+//
+//void Systic_init(void)
+//{
+//  SysTick->LOAD  = 0xffff;      /* set reload register */  
+//  SysTick->VAL   = 0;           /* Load the SysTick Counter Value */
+//  SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk;
+//}
 //******************************************************************************
-
-void Systic_init(void)
-{
-  SysTick->LOAD  = 0xffff;      /* set reload register */  
-  SysTick->VAL   = 0;           /* Load the SysTick Counter Value */
-  SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk;
-}
-//******************************************************************************
-
-/* ADC1 configuration ------------------------------------------------------*/
-void ADC_Configuration (void){
- 
-  
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1,  ENABLE);
-  /* Resets ADC1 */
-  RCC_ADCCLKConfig(RCC_PCLK2_Div6);
-  ADC_InitTypeDef ADC_InitStructure;
-  ADC_DeInit(ADC1);
-     
-  /* ADC1 configuration ------------------------------------------------------*/
-//  ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
-  ADC_InitStructure.ADC_ScanConvMode = ENABLE;
-  ADC_InitStructure.ADC_ContinuousConvMode = DISABLE; //ENABLE;
-  ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_T3_TRGO;
-  ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
-  ADC_InitStructure.ADC_NbrOfChannel = 4;
-  ADC_Init(ADC1, &ADC_InitStructure);
-  //  ADC_TempSensorVrefintCmd(ENABLE); //вкл внутр референс
-
-  ADC_DiscModeCmd(ADC1, DISABLE);
-
-  /* ADC1 regular channels 5, 6, 7 configuration */ 
-   ADC_RegularChannelConfig(ADC1, ADC_Channel_17, 1,  ADC_SampleTime_28Cycles5);// VREF
-  ADC_RegularChannelConfig(ADC1, ADC_Channel_5, 2, ADC_SampleTime_28Cycles5);
-  ADC_RegularChannelConfig(ADC1, ADC_Channel_6, 3, ADC_SampleTime_28Cycles5);
-  ADC_RegularChannelConfig(ADC1, ADC_Channel_7, 4, ADC_SampleTime_28Cycles5);
-
-   ADC_ExternalTrigInjectedConvConfig(ADC1, ADC_ExternalTrigInjecConv_T3_CC4);
-  ADC_InjectedSequencerLengthConfig(ADC1,1);
-  ADC_InjectedChannelConfig(ADC1, ADC_Channel_16, 1, ADC_SampleTime_28Cycles5);
-  ADC_ExternalTrigInjectedConvCmd(ADC1, ENABLE);
-
-      ADC1->CR2 |=  ((uint32_t)0x00800000);//CR2_TSVREFE_Set;      
-  
-  /* Enable ADC1 */
-  ADC_Cmd(ADC1, ENABLE);
-
-  /* Enable ADC1 reset calibaration register */   
-  ADC_ResetCalibration(ADC1);
-  /* Check the end of ADC1 reset calibration register */
-  while(ADC_GetResetCalibrationStatus(ADC1));
-
-  /* Start ADC1 calibaration */
-  ADC_StartCalibration(ADC1);
-  /* Check the end of ADC1 calibration */
-  while(ADC_GetCalibrationStatus(ADC1));
-  
-  /* Enable the start of conversion for ADC1 through exteral trigger */
-  ADC_ExternalTrigConvCmd(ADC1, ENABLE);
-     
-  /* Start ADC1 Software Conversion */ 
-//  ADC_SoftwareStartConvCmd(ADC1, ENABLE);
-  
-    /* Enable ADC1 DMA */
-  ADC_DMACmd(ADC1, ENABLE);
-  
-   ADC_ITConfig(ADC1, ADC_IT_EOC, DISABLE);
-}
 
 //*******************************************************************************
 void RTC_init(void)
@@ -455,7 +386,7 @@ void RTC_init(void)
         //PWR->CR &= ~PWR_CR_DBP;
 }
 //******************************************************************************
-//дма для ацп
+//дма для SPI1 (отправка данных на индикаторы)
 void DMA_Configuration (void){
   DMA_InitTypeDef DMA_InitStructure;
   RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
@@ -481,7 +412,7 @@ void DMA_Configuration (void){
   DMA_ITConfig(DMA1_Channel3, DMA_IT_TC, ENABLE);
   DMA_Cmd(DMA1_Channel3, ENABLE);
 
-  SPI_I2S_DMACmd(SPI1, SPI_I2S_DMAReq_Tx, ENABLE);
+  SPI_I2S_DMACmd(SPI1, SPI_I2S_DMAReq_Tx, ENABLE); // разрешение DMA работать с SPI
 }
 
 /*******************************************************************************
@@ -518,18 +449,18 @@ void NVIC_Configuration(void)
    NVIC_Init(&NVIC_InitStructure);
 
     /* Enable the TIM2 gloabal Interrupt */
-   NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;
-   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
-   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-   NVIC_Init(&NVIC_InitStructure);
-   
-       /* Enable the TIM4 gloabal Interrupt */
-   NVIC_InitStructure.NVIC_IRQChannel = TIM4_IRQn;
-   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
-   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-   NVIC_Init(&NVIC_InitStructure);
+//   NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;
+//   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+//   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
+//   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+//   NVIC_Init(&NVIC_InitStructure);
+//   
+//       /* Enable the TIM4 gloabal Interrupt */
+//   NVIC_InitStructure.NVIC_IRQChannel = TIM4_IRQn;
+//   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+//   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+//   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+//   NVIC_Init(&NVIC_InitStructure);
    
   /* Enable the USART1 Interrupt */
   NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;

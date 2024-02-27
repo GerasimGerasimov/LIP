@@ -81,18 +81,18 @@ void TIM2_IRQHandler(void)
 //управление тиристорами - угол и шим
 void TIM4_IRQHandler(void)
 {
-   ++RAM_DATA.counter1;
+
  //  if ((TIM4->SR & TIM_FLAG_CC1)&&(TIM4->DIER & TIM_IT_CC1)) 
   if (TIM4->SR & TIM_IT_CC1)
    {
      TIM4->CR1 &= ~TIM_CR1_CEN;//остановить таймер
-     ++RAM_DATA.counter2;
+
    }
  //  if ((TIM4->SR & TIM_FLAG_CC2)&&(TIM4->DIER & TIM_IT_CC2)) 
   if (TIM4->SR & TIM_IT_CC2)
    { 
      TIM4->CR1 &= ~TIM_CR1_CEN;//остановить таймер 
-     ++RAM_DATA.counter3;
+
    }
    
    
