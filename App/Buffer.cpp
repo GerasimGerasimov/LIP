@@ -1,9 +1,16 @@
 #include "Buffer.h"
 
-Buffer::Buffer(uint8_t size) {
-	buffer.resize(size);
-	status = Status::READ;
+Buffer::Buffer() {
+	
+	status = Status::EMPTY;
 	iterator = buffer.rbegin();
+}
+
+Buffer& Buffer::operator=(Buffer& buf) {
+	buffer = buf.buffer;
+	buf.swapStatus();
+	swapStatus();
+	return *this;
 }
 
 uint32_t Buffer::getAddrBuffer() {
@@ -19,18 +26,26 @@ Status Buffer::getStatus() {
 }
 
 void Buffer::swapStatus() {
-	if (status == Status::READ) {
-		status = Status::SENT;
+	if (status != Status::EMPTY) {
+		status = Status::EMPTY;
+		iterator = buffer.rbegin();
 	}
 	else {
-		status = Status::READ;
+		status = Status::FILL;
 	}
-	iterator = buffer.rbegin();
 }
 
+
 void Buffer::addData(std::vector<uint8_t>& data) {
-	for (const auto& i : data) {
-		*iterator = i;
-		++iterator;
+	if (!buffer.empty()) {
+		for (const auto& i : data) {
+			*iterator = i;
+			++iterator;
+		}
 	}
+}
+
+//для добавления элементов контейнер должен иметь необходимый размер
+void Buffer::setSizeBuffer(uint8_t size) {
+	buffer.resize(size);
 }

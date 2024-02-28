@@ -1,6 +1,7 @@
 #include "LIP_5Nx.h"
 #include "ramdata.h"
 #include "spi.h"
+#include "array"
 
 
 LIP_5Nx::LIP_5Nx(){
@@ -14,8 +15,23 @@ void LIP_5Nx::setValue(std::string& data){
             continue;
         }
         uint8_t symbol = getChar(*i);
-        SPI::getInstance().spi_send(symbol);
+        
     }
+}
+
+std::vector<uint8_t>& LIP_5Nx::getValue(std::string& data) {
+    std::vector<uint8_t> result(DataSize);
+    for (auto i = data.begin(); i != data.end(); ++i) {
+        if (*i == '.') {
+            dot = true;
+            continue;
+        }
+        uint8_t symbol = getChar(*i);
+        result.push_back(symbol);
+    }
+
+
+    return result;
 }
 
 const char LIP_5Nx::ASCIITable[96] = {

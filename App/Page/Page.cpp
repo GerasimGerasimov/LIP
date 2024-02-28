@@ -4,24 +4,29 @@
 
 Page::Page(){
     Indicator *indicator;
+    int sizeSegment = 0;
     for(int i = 0; i < 3; ++i){
         indicator = new LIP_5Nx;
-        List.push_back(indicator);
+        ListIndicators.push_back(indicator);
+        sizeSegment += indicator->getDataSize();
     }
     str = "2356.8";
     str2 = "qwert";
     str3 = "wasd.f";
+    bufferData.setSizeBuffer(sizeSegment);
+    bufferSender.setSizeBuffer(sizeSegment);
 }
 
 Page::~Page(){
-    for(auto& n : List){
+    for(auto& n : ListIndicators){
         delete n;
     }
 }
 
 void Page::update(){
-    List[0]->setValue(str3);
-    List[1]->setValue(str2);
-    List[2]->setValue(str);
+
+    bufferData.addData(ListIndicators[0]->getValue(str));
+    bufferData.addData(ListIndicators[1]->getValue(str2));
+    bufferData.addData(ListIndicators[2]->getValue(str3));
     Indicator::bringOutValue();
 }
