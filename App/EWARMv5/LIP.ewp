@@ -1159,6 +1159,9 @@
             <name>$PROJ_DIR$\..\crc16.c</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\DMAIndicator.cpp</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\flashdata.c</name>
         </file>
         <file>

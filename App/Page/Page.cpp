@@ -1,6 +1,7 @@
 #include "Page.h"
 
 #include "Indicator/LIP_5Nx.h"
+#include "DMAIndicator.h"
 
 Page::Page(){
     Indicator *indicator;
@@ -10,11 +11,14 @@ Page::Page(){
         ListIndicators.push_back(indicator);
         sizeSegment += indicator->getDataSize();
     }
-    str = "2356.8";
-    str2 = "qwert";
-    str3 = "wasd.f";
+    str = "11111";
+    str2 = "12.770";
+    str3 = "vvd.11";
     bufferData.setSizeBuffer(sizeSegment);
     bufferSender.setSizeBuffer(sizeSegment);
+    update();
+    bufferSender = bufferData;
+    DMAIndicator::getInstance().setMemoryBaseAddr(bufferSender.getAddrBuffer());
 }
 
 Page::~Page(){
@@ -24,9 +28,11 @@ Page::~Page(){
 }
 
 void Page::update(){
-
-    bufferData.addData(ListIndicators[0]->getValue(str));
-    bufferData.addData(ListIndicators[1]->getValue(str2));
-    bufferData.addData(ListIndicators[2]->getValue(str3));
-    Indicator::bringOutValue();
+    std::vector<uint8_t> res = ListIndicators[0]->getValue(str);
+    bufferData.addData(res);
+    res = ListIndicators[1]->getValue(str2);
+    bufferData.addData(res);
+    res = ListIndicators[2]->getValue(str3);
+    bufferData.addData(res);
+    //Indicator::bringOutValue();
 }

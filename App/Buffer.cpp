@@ -1,9 +1,11 @@
 #include "Buffer.h"
 
+
+
 Buffer::Buffer() {
 	
 	status = Status::EMPTY;
-	iterator = buffer.rbegin();
+	
 }
 
 Buffer& Buffer::operator=(Buffer& buf) {
@@ -38,8 +40,8 @@ void Buffer::swapStatus() {
 
 void Buffer::addData(std::vector<uint8_t>& data) {
 	if (!buffer.empty()) {
-		for (const auto& i : data) {
-			*iterator = i;
+		for (auto i = data.rbegin(); i != data.rend(); ++i) {
+			*iterator = *i;
 			++iterator;
 		}
 	}
@@ -48,4 +50,5 @@ void Buffer::addData(std::vector<uint8_t>& data) {
 //для добавления элементов контейнер должен иметь необходимый размер
 void Buffer::setSizeBuffer(uint8_t size) {
 	buffer.resize(size);
+	iterator = buffer.rbegin();
 }

@@ -50,7 +50,7 @@ int main(void)              //главная программа
 
   BootLoadCmdFillZero();
   Init();                   //инициализация переферии  
-
+  Page page;
 
   
   LED_RUN_ON;

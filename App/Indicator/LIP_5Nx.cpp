@@ -19,9 +19,10 @@ void LIP_5Nx::setValue(std::string& data){
     }
 }
 
-std::vector<uint8_t>& LIP_5Nx::getValue(std::string& data) {
-    std::vector<uint8_t> result(DataSize);
-    for (auto i = data.begin(); i != data.end(); ++i) {
+std::vector<uint8_t> LIP_5Nx::getValue(std::string& data) {
+    std::vector<uint8_t> result;
+    result.reserve(DataSize);
+    for (auto i = data.rbegin(); i != data.rend(); ++i) {
         if (*i == '.') {
             dot = true;
             continue;
