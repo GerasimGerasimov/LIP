@@ -4,7 +4,6 @@
 #include "crc16.h"
 #include "memutil.h"
 #include "uart1rs485.h"
-#include "uart2rs485.h"
 #include "id.h"
 #include "flashdata.h"
 #include "ramdata.h"
@@ -275,7 +274,6 @@ u16 crc;
 void REinit(void)
 {
    uart1rs485_ReInit();
-   uart2rs485_ReInit();
 }
 
 //запись данный внутри программы во флеш

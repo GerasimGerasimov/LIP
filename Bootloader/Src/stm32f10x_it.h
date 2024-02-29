@@ -25,13 +25,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x.h"
 
-extern u16 Il_buf[100]; 
-extern u16 Ul_buf[100];
-extern u8 i_buf_main;
 
-extern u16 SYNC_Yes;
-extern u8 Pause_Imp;
-extern bool NormalMode;
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
