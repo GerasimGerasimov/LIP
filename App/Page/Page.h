@@ -20,3 +20,4 @@ public:
     void update();
 };
 
+void updateDMA();

@@ -401,7 +401,7 @@ void DMA_Configuration (void){
   DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
   DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;
   DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralDST;
-  DMA_InitStructure.DMA_BufferSize = 15;
+  DMA_InitStructure.DMA_BufferSize = 0;
   DMA_InitStructure.DMA_Priority = DMA_Priority_High;
   DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
   DMA_Init(DMA1_Channel3, &DMA_InitStructure);
@@ -410,7 +410,7 @@ void DMA_Configuration (void){
   
   /* Enable DMA1 Channel1 complete transfer interrupt */
   DMA_ITConfig(DMA1_Channel3, DMA_IT_TC, ENABLE);
-  DMA_Cmd(DMA1_Channel3, ENABLE);
+  //DMA_Cmd(DMA1_Channel3, ENABLE);
 
   SPI_I2S_DMACmd(SPI1, SPI_I2S_DMAReq_Tx, ENABLE); // разрешение DMA работать с SPI
 }

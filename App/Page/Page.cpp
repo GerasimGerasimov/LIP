@@ -1,7 +1,12 @@
 #include "Page.h"
-
 #include "Indicator/LIP_5Nx.h"
 #include "DMAIndicator.h"
+#include "ramdata.h"
+
+#include <sstream>
+#include <iomanip>
+
+Page* pageFunction;
 
 Page::Page(){
     Indicator *indicator;
@@ -16,10 +21,13 @@ Page::Page(){
     str3 = "vvd.11";
     bufferData.setSizeBuffer(sizeSegment);
     bufferSender.setSizeBuffer(sizeSegment);
-    update();
-    bufferSender = bufferData;
     DMAIndicator::getInstance().setMemoryBaseAddr(bufferSender.getAddrBuffer());
+    DMAIndicator::getInstance().DMAstart(sizeSegment);
+    pageFunction = this;
 }
+
+
+
 
 Page::~Page(){
     for(auto& n : ListIndicators){
@@ -28,11 +36,22 @@ Page::~Page(){
 }
 
 void Page::update(){
+    bufferSender.swapStatus();
+    bufferData.swapStatus();
+    std::stringstream stream;
+    stream << std::setfill('0') << std::setw(5) << RAM_DATA.data[3];
+    str = "";
+    stream >> str;
     std::vector<uint8_t> res = ListIndicators[0]->getValue(str);
     bufferData.addData(res);
     res = ListIndicators[1]->getValue(str2);
     bufferData.addData(res);
     res = ListIndicators[2]->getValue(str3);
     bufferData.addData(res);
-    //Indicator::bringOutValue();
+    bufferSender = bufferData;
+    Indicator::bringOutValue();
+}
+
+void updateDMA(){
+    pageFunction->update();
 }

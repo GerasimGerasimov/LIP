@@ -8,10 +8,10 @@ define symbol __ICFEDIT_region_ROM_start__      = 0x08008000;
 define symbol __ICFEDIT_region_ROM_end__        = 0x080147FF;
 define symbol __ICFEDIT_region_RAM_start__      = 0x20000008;
 define symbol __ICFEDIT_region_RAM_end__        = 0x20004000;
-define symbol __ICFEDIT_region_FD_start__       = 0x08014800;
-define symbol __ICFEDIT_region_FD_end__         = 0x08014BFF;
-define symbol __ICFEDIT_region_BKFD_start__     = 0x08014C00;
-define symbol __ICFEDIT_region_BKFD_end__       = 0x08014FFF;
+define symbol __ICFEDIT_region_FD_start__       = 0x0801F800;
+define symbol __ICFEDIT_region_FD_end__         = 0x0801FBFF;
+define symbol __ICFEDIT_region_BKFD_start__     = 0x0801FC00;
+define symbol __ICFEDIT_region_BKFD_end__       = 0x0801FFFF;
 define symbol __ICFEDIT_region_BOOT_CMD_start__ = 0x20000000;
 define symbol __ICFEDIT_region_BOOT_CMD_end__   = 0x20000007;
 /*-Sizes-*/

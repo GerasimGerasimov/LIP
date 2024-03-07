@@ -320,6 +320,13 @@ void FlashSectorWriteBootloader(u32 FlashSectorAddr, u32 Buffer, u32 Count)
     FlashSectorAddr += 4;
     source ++;
     Count --;
+    if(FLASH_COMPLETE == FLASHStatus){
+      ++RAM_DATA.counter1;
+    }
+    if(FLASH_ERROR_WRP == FLASHStatus){
+      ++RAM_DATA.counter2;
+    }
+    ++RAM_DATA.counter3;
   }
 }
 
@@ -412,6 +419,10 @@ typedef TAppCheckInfo* pAppCheckInfo;
 
 bool isApplicationReadyToStart(void) {
   const pAppCheckInfo AppCheckInfo = (pAppCheckInfo) APP_INFO_LOCATION;
+  RAM_DATA.data[0] = AppCheckInfo->AppCrc;
+  RAM_DATA.data[1] = AppCheckInfo->AppInfoCrc;
+  RAM_DATA.data32[0] = AppCheckInfo->AppSize;
+  RAM_DATA.data[2] = crc16((unsigned char *) APP_LOCATION, AppCheckInfo->AppSize);
   return (bool)(crc16((unsigned char *) AppCheckInfo, APP_INFO_SIZE) == 0)
          ? (bool)(crc16((unsigned char *) APP_LOCATION, AppCheckInfo->AppSize) 
                    == AppCheckInfo->AppCrc)
