@@ -1123,6 +1123,15 @@
     <group>
         <name>User</name>
         <group>
+            <name>DevicePollManager</name>
+            <file>
+                <name>$PROJ_DIR$\..\DevicePollManager\DevicePollManager.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\DevicePollManager\Slot.cpp</name>
+            </file>
+        </group>
+        <group>
             <name>Indicator</name>
             <file>
                 <name>$PROJ_DIR$\..\Indicator\Indicator.cpp</name>

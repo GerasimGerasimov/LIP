@@ -133,7 +133,7 @@ void SPI2_Configuration(){
   RCC_APB2PeriphClockCmd(RCC_APB1Periph_SPI2, ENABLE);
   SPI_InitStructure.SPI_Direction = SPI_Direction_1Line_Rx;
   SPI_InitStructure.SPI_Mode = SPI_Mode_Slave;
-  SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b;
+  SPI_InitStructure.SPI_DataSize = SPI_DataSize_16b;
   SPI_InitStructure.SPI_CPOL = SPI_CPOL_High;
   SPI_InitStructure.SPI_CPHA = SPI_CPHA_2Edge;
   SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
