@@ -11,7 +11,7 @@ private:
     SPI(const SPI&&) = delete;
     SPI& operator=(const SPI&&) = delete;
 public:
-    void spi_send(uint8_t data);
+    void spi_send(uint16_t data);
     uint8_t spi_receve();
     static SPI& getInstance();
 };

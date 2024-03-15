@@ -2,14 +2,14 @@
 #include "ramdata.h"
 
 
-void SPI::spi_send(uint8_t data){
-    while(SPI_I2S_GetFlagStatus(SPI1,SPI_I2S_FLAG_TXE) == RESET){
+void SPI::spi_send(uint16_t data){
+    while(SPI_I2S_GetFlagStatus(SPI2,SPI_I2S_FLAG_TXE) == RESET){
       
     };  // ждём пока данные уйдут
-    SPI_I2S_SendData(SPI1,data);
+    SPI_I2S_SendData(SPI2,data);
     
-    while(SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_BSY) == SET){
-      
+    while(SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_BSY) == SET){
+      ++RAM_DATA.counter[2];
     };
 }
 

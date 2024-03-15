@@ -61,7 +61,7 @@ void Init (void)
  
   TIM_Cmd(TIM3, ENABLE);
   SPI1_Configuration();
-  //SPI2_Configuration();
+  SPI2_Configuration();
   DMA_Configuration();
   NVIC_Configuration();
   __enable_irq();
@@ -130,9 +130,9 @@ void SPI1_Configuration(void){
 
 void SPI2_Configuration(){
   SPI_InitTypeDef  SPI_InitStructure;
-  RCC_APB2PeriphClockCmd(RCC_APB1Periph_SPI2, ENABLE);
-  SPI_InitStructure.SPI_Direction = SPI_Direction_1Line_Rx;
-  SPI_InitStructure.SPI_Mode = SPI_Mode_Slave;
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI2, ENABLE);
+  SPI_InitStructure.SPI_Direction = SPI_Direction_1Line_Tx;
+  SPI_InitStructure.SPI_Mode = SPI_Mode_Master;
   SPI_InitStructure.SPI_DataSize = SPI_DataSize_16b;
   SPI_InitStructure.SPI_CPOL = SPI_CPOL_High;
   SPI_InitStructure.SPI_CPHA = SPI_CPHA_2Edge;
@@ -141,7 +141,8 @@ void SPI2_Configuration(){
   SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
   SPI_InitStructure.SPI_CRCPolynomial = 7;
   SPI_Init(SPI2, &SPI_InitStructure);
-  //SPI_Cmd(SPI2, ENABLE);
+  SPI_Cmd(SPI2, ENABLE);
+  ++RAM_DATA.counter[3];
 }
 
 void GPIO_Configuration(void){

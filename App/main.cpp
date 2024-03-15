@@ -70,6 +70,13 @@ int main(void)              //главная программа
       else LED_LINK1_OFF; 
     }
     
+    SPI::getInstance().spi_send(0xF0F0);
+    //Indicator::bringOutValue();
+    GPIO_SetBits(GPIOB, GPIO_Pin_12); //ON
+    GPIO_ResetBits(GPIOB, GPIO_Pin_12); //OFF
+
+
+
   }
 }
 
