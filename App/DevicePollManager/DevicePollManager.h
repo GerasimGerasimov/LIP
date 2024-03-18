@@ -9,6 +9,8 @@
 #define MB_MASTER_BUF_SIZE  256
 #define MB_MASTER_SLOTS_MAX 24
 
+
+class DevicePollManager {
 enum class DevicePollManagerStatus {
 	WAIT_IDLE = 1,
 	WAIT_RESPOND = 2,
@@ -17,14 +19,13 @@ enum class DevicePollManagerStatus {
 	SEND_REQUEST = 5
 };
 
-class DevicePollManager {
 public:
 	static DevicePollManager& getInstance();
 
 	void init(std::vector <Slot> slots);
 	void execute(void);
 	std::vector <Slot> Slots;
-	u16 Status;
+	DevicePollManagerStatus Status;
 	Slot* getSlotByDevPosAndSection(const std::string& device, const std::string& section);
 	Slot* CreateCustomSlot(std::string devname, std::string section);
 private:

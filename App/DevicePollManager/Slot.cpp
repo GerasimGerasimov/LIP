@@ -57,8 +57,8 @@ bool Slot::isReplyCRCValid(s16 result, u8* reply) {
 
 void Slot::validation(s16 result, u8* reply) {
 	(isReplyCRCValid(result, reply))
-		? (Flags &= ~(u16)SlotStateFlags::CRC_ERR)
-		: (Flags |=  (u16)SlotStateFlags::CRC_ERR);
+		? (Flags &= ~(u16)StateFlags::CRC_ERR)
+		: (Flags |=  (u16)StateFlags::CRC_ERR);
 	RespondLenghtOrErrorCode = result;
 	if (onData)
 		onData(this, reply);

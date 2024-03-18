@@ -16,7 +16,11 @@ enum class RespondErrorCodes : s16 {
 	CMD = -3
 };
 
-enum class SlotStateFlags {
+
+class Slot {
+	using TSlotDataHandler = std::function<void(Slot* slot, u8* reply)>;
+public:
+enum class StateFlags {
 	REPEATING_TRANSMIT = 1,
 	SKIP_SLOT = 2,
 	TIMEOUT_ERR = 4,
@@ -24,9 +28,6 @@ enum class SlotStateFlags {
 	DATA_VALID = 16
 };
 
-class Slot {
-	using TSlotDataHandler = std::function<void(Slot* slot, u8* reply)>;
-public:
 	u16 Flags;
 	u16 RespondLenghtOrErrorCode;
 	virtual void init(void);
