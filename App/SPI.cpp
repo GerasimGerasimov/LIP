@@ -9,7 +9,7 @@ void SPI::spi_send(uint16_t data){
     SPI_I2S_SendData(SPI2,data);
     
     while(SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_BSY) == SET){
-      ++RAM_DATA.counter[2];
+      
     };
 }
 
