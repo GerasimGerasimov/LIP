@@ -56,7 +56,7 @@ void Init (void)
   
   usart1DMA_init();
   uart1rs485_init();
-  usart2DMA_init();
+  
   uart2rs485_init();
  
   TIM_Cmd(TIM3, ENABLE);
@@ -159,12 +159,12 @@ void GPIO_Configuration(void){
   //порт А:                          Dout1           Dout2        Dout3 
   GPIO_InitStructure.GPIO_Pin  =  GPIO_Pin_14 | GPIO_Pin_13;// | GPIO_Pin_12;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
-  GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable, ENABLE);//remap!  A13 и A14
+  //GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable, ENABLE);//remap!  A13 и A14
     //порт B:                     LED_RUN    LED_LINK1      LED_ALARM    LED_LINK2      FR_FCS       FR_DATA        FR_CLK      
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_6  | GPIO_Pin_7 | GPIO_Pin_8;// | GPIO_Pin_13 | GPIO_Pin_14;// | GPIO_Pin_15;
   GPIO_Init(GPIOB, &GPIO_InitStructure);
 
-    GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable, ENABLE);//remap! 
+    //GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable, ENABLE);//remap! 
   
   /* настраиваем ноги не привязанные к переферии, как push-pull*/
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;  
@@ -205,7 +205,7 @@ void GPIO_Configuration(void){
     //порт B:                     SPI2_SCK     SPI2_MISO
   GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_13 | GPIO_Pin_14;  
   GPIO_Init(GPIOB, &GPIO_InitStructure); 
-  GPIO_PinRemapConfig(GPIO_FullRemap_TIM2, ENABLE);//remap! T2_CH3->PB.10  
+  //GPIO_PinRemapConfig(GPIO_FullRemap_TIM2, ENABLE);//remap! T2_CH3->PB.10  
 
 
 

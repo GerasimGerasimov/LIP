@@ -275,7 +275,7 @@ u16 crc;
 void REinit(void)
 {
    uart1rs485_ReInit();
-   uart2rs485_ReInit();
+   //uart2rs485_ReInit();
 }
 
 //запись данный внутри программы во флеш

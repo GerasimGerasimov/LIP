@@ -7,11 +7,11 @@
 #endif 
 
     extern void uart2rs485_init (void);
-    extern void uart2rs485_ReInit (void);
-    extern void TxDMA1Ch7 (void);
-    extern u8 U2_SwCNT (void);
-    void TIM1_user_U2(void); 
-    extern void usart2DMA_init (void);
+    //extern void uart2rs485_ReInit (void);
+    extern void TxDMA1Ch7 (u8 b_size, u8 *buf_out);
+    //extern u8 U2_SwCNT (void);
+    //void TIM1_user_U2(void); 
+    extern void usart2DMA_init (u8 *buf_in);
     
 #ifdef __cplusplus
 }

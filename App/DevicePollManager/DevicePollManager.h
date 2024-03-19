@@ -28,6 +28,7 @@ public:
 	DevicePollManagerStatus Status;
 	Slot* getSlotByDevPosAndSection(const std::string& device, const std::string& section);
 	Slot* CreateCustomSlot(std::string devname, std::string section);
+	void addSlot(Slot* newSlot);
 private:
 	DevicePollManager();
 	DevicePollManager(const DevicePollManager&) = delete;

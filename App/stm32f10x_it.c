@@ -82,7 +82,7 @@ void SysTickHandler(void)
 void TIM1_CC_IRQHandler (void)
 {
   if ((TIM1->SR & TIM_FLAG_CC1)&&(TIM1->DIER & TIM_IT_CC1)) TIM1_user_U1();
-  if ((TIM1->SR & TIM_FLAG_CC2)&&(TIM1->DIER & TIM_IT_CC2)) TIM1_user_U2();    
+  //if ((TIM1->SR & TIM_FLAG_CC2)&&(TIM1->DIER & TIM_IT_CC2)) TIM1_user_U2();    
 }
 
 /*******************************************************************************
@@ -118,7 +118,7 @@ u8 SPI_DIO_Processing()
   else {//чип 74HC165 уже выбран
     if (!isWaitReceive) {//если ещё не жду отправки (с параллельным приёмом!)
 
-      SPI2->DR = 0xFFFF;// //то оптправить по SPI единицы, чтобы в ответ получить состояние дискретных входов
+      SPI2->DR = 0xF0F0;// //то оптправить по SPI единицы, чтобы в ответ получить состояние дискретных входов
       isWaitReceive = true;
     } else {
 
@@ -127,6 +127,7 @@ u8 SPI_DIO_Processing()
       DI_CE_UP;//"освобождаю" кристалл
       DI_LOCK_UP;
       isWaitReceive = false;
+      
       RAM_DATA.data[0] = ~(SPI2->DR);
       /* (InputsPolarity == DIO_MODE_NORMAL)
                           ? SPI_DIO->DR
@@ -140,7 +141,7 @@ u8 SPI_DIO_Processing()
 void TIM4_IRQHandler(void)
 {
   TIM4->SR = 0;
-
+  ++RAM_DATA.counter[0];
    SPI_DIO_Processing();
     
 }
@@ -160,7 +161,10 @@ void EXTI15_10_IRQHandler(void)
 
 }
   
-
+void USART2_IRQHandler(void){
+  TxRx1Finish();
+  
+}
 
 
 /******************************************************************************/

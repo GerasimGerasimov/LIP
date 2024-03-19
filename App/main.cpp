@@ -26,9 +26,11 @@
 #include "spi.h"
 #include "Indicator/LIP_5Nx.h"
 #include "Page/Page.h"
-
+#include "DevicePollManager/Slot.h"
+#include "DevicePollManager/DevicePollManager.h"
 #include "stm32f10x_it.h"
 
+#include <vector>
     
 /* defines ------------------------------------------------------------------*/
 //#define max_drebezg 0x0005//0x2000 // сколько раз нужно проверить нажатие кнопки для подавления дребезга контактов 
@@ -50,6 +52,7 @@ int main(void)              //главная программа
 
   BootLoadCmdFillZero();
   Init();                   //инициализация переферии  
+  
   Page page;
 
   
@@ -60,17 +63,21 @@ int main(void)              //главная программа
   /*дополнительная инициализация софта, которую потом отдельной цункцией запилить*/
   //Init_soft();// тут сброс всего в  начальное значение
   Fail_Reset();//сброс флагов аварий
-
-
+  Slot* slot = new Slot;
+  std::vector<u8> command = {0x01, 0x10, 0x00, 0x06, 0x00, 0x01, 0x02, 0x00, 0x55 };
+  usart2DMA_init(slot->InputBuf);
+  slot->addcmd(command);
+  //TxDMA1Ch7(slot->cmdLen, slot->OutBuf);
+  DevicePollManager::getInstance().addSlot(slot);
   while (1)//основной цикл программы
   {    
-    if ((U1_SwCNT()) ||(U2_SwCNT()))//смотрим пришел ли запрос по Модбасу и 1 и 2 сразу смотрим для проверки
+    if (U1_SwCNT())//смотрим пришел ли запрос по Модбасу и 1 и 2 сразу смотрим для проверки
     {
       if (LED_LINK1_ST) LED_LINK1_ON;
       else LED_LINK1_OFF; 
     }
+  DevicePollManager::getInstance().execute();
     
-
 
 
   }

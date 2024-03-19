@@ -1,5 +1,7 @@
 #include "DevicePollManager.h"
 #include "crc16.h"
+#include "modbus/uart2rs485.h"
+#include "ramdata.h"
 //#include "consolelog.h"
 
 //#include "U1RamUpdate.h"
@@ -13,6 +15,13 @@
 //u8 DevicePollManager::Reply[256] = {};
 //s16 DevicePollManager::ReplyResult = 0;
 
+DevicePollManager::DevicePollManager(){
+	slot = nullptr;
+	idx = 0;
+	Status = DevicePollManagerStatus::TOGGLE_SLOT;
+	ReplyResult = 0;
+}
+
 DevicePollManager& DevicePollManager::getInstance() {
 	static DevicePollManager poolManager;
 	return poolManager;
@@ -24,13 +33,18 @@ void DevicePollManager::init(std::vector <Slot> slots) {
 }
 
 void DevicePollManager::execute(void) {
+
+	RAM_DATA.data[1] = (u16)Status;
 	switch (Status)
 	{
 	case DevicePollManagerStatus::SEND_REQUEST:
 		//ComMasterDriver::send({ (u8*)&slot->OutBuf, slot->cmdLen, slot->TimeOut, {checkRespond} });
+		++RAM_DATA.counter[1];
+		TxDMA1Ch7(slot->cmdLen, (u8*)&slot->OutBuf);
 		Status = DevicePollManagerStatus::WAIT_RESPOND;
 		break;
 	case DevicePollManagerStatus::WAIT_RESPOND:
+		++RAM_DATA.counter[3];
 		break;
 	case DevicePollManagerStatus::PARSE_RESPOND:
 		slot->validation(ReplyResult, (u8*) &Reply);
@@ -39,6 +53,7 @@ void DevicePollManager::execute(void) {
 	case DevicePollManagerStatus::TOGGLE_SLOT:
 		slot = getNextSlot();
 		Status = setActionBySlot();
+		++RAM_DATA.counter[2];
 		break;
 	default:
 		break;
@@ -96,4 +111,8 @@ Slot* DevicePollManager::CreateCustomSlot(std::string devname, std::string secti
         res->Flags |= (u16)Slot::StateFlags::SKIP_SLOT;
 	res->TimeOut = 2000;
 	return res;
+}
+
+void DevicePollManager::addSlot(Slot *newSlot){
+	Slots.push_back(*newSlot);
 }
