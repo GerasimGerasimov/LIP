@@ -191,7 +191,8 @@ typedef union {
     // Секция задания
     vu16 data[8];
     vu32 data32[8];
-    
+    vu32 UsedMem; //4 байта
+    vu32 TotalMem; //4 байта
 } ;
 
 struct TCLBR_DATA {

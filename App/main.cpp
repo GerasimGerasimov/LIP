@@ -28,6 +28,7 @@
 #include "Page/Page.h"
 #include "DevicePollManager/Slot.h"
 #include "DevicePollManager/DevicePollManager.h"
+#include "livecontrol.h"
 #include "stm32f10x_it.h"
 
 #include <vector>
@@ -77,7 +78,7 @@ int main(void)              //главная программа
       else LED_LINK1_OFF; 
     }
   DevicePollManager::getInstance().execute();
-    
+    ctrlSysLive();
 
 
   }

@@ -1180,6 +1180,9 @@
             <name>$PROJ_DIR$\..\init.c</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\livecontrol.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\main.cpp</name>
         </file>
         <file>
