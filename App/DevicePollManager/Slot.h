@@ -30,7 +30,7 @@ enum class StateFlags {
 
 	u16 Flags;
 	u16 RespondLenghtOrErrorCode;
-	virtual void init(void);
+	void init(void);
 	void addcmd(u8 cmd[], u8 size);
 	void addcmd(const std::vector<u8> &v);
 	void validation(s16 result, u8* reply);

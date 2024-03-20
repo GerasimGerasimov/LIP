@@ -16,5 +16,6 @@ public:
     LIP_5Nx();
     virtual void setValue(std::string& data) override;
     virtual std::vector<uint8_t> getValue(std::string & data) override;
+    virtual ~LIP_5Nx(){};
 };
 

@@ -193,6 +193,9 @@ typedef union {
     vu32 data32[8];
     vu32 UsedMem; //4 байта
     vu32 TotalMem; //4 байта
+    vu32 arena;
+    vu32 totalFreeSpace;
+    u16 DI;
 } ;
 
 struct TCLBR_DATA {

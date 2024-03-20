@@ -10,4 +10,6 @@ void ctrlSysLive() {
    IARHeapInfo = __iar_dlmallinfo();
    RAM_DATA.UsedMem = IARHeapInfo.uordblks;
    RAM_DATA.TotalMem = IARHeapInfo.usmblks;
+   RAM_DATA.arena = IARHeapInfo.arena;
+   RAM_DATA.totalFreeSpace = IARHeapInfo.fordblks;
 }

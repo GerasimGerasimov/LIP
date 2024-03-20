@@ -53,7 +53,7 @@ void DevicePollManager::execute(void) {
 	case DevicePollManagerStatus::TOGGLE_SLOT:
 		slot = getNextSlot();
 		Status = setActionBySlot();
-		++RAM_DATA.counter[2];
+		
 		break;
 	default:
 		break;

@@ -29,6 +29,7 @@
 #include "crc16.h"
 #include "ramdata.h"
 #include "flashdata.h"
+#include "livecontrol.h"
 
 #include "DEFINES.h" //все основные, относящиеся только к плате дефайны
 #include "init.h"
@@ -128,7 +129,7 @@ u8 SPI_DIO_Processing()
       DI_LOCK_UP;
       isWaitReceive = false;
       
-      RAM_DATA.data[0] = ~(SPI2->DR);
+      RAM_DATA.DI = ~(SPI2->DR);
       /* (InputsPolarity == DIO_MODE_NORMAL)
                           ? SPI_DIO->DR
                           : ~(SPI_DIO->DR); */
@@ -142,7 +143,8 @@ void TIM4_IRQHandler(void)
 {
   TIM4->SR = 0;
   ++RAM_DATA.counter[0];
-   SPI_DIO_Processing();
+   SPI_DIO_Processing();   
+  ctrlSysLive();
     
 }
 
