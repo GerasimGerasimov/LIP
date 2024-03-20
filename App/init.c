@@ -16,7 +16,7 @@ void GPIO_Configuration(void);
 void NVIC_Configuration(void);
 void TIM1_Configuration(void);
 //void TIM2_Configuration(void);
-//void TIM3_Configuration(void);
+void TIM3_Configuration(void);
 void TIM4_Configuration(void);
 void Systic_init(void);
 void EXTI_init(void);
@@ -47,7 +47,7 @@ void Init (void)
   GPIO_Configuration();
   TIM1_Configuration(); //модбас
   //TIM2_Configuration();//шим тиристора
-  //TIM3_Configuration(); //тактирование ацп
+  TIM3_Configuration(); //тактирование modbusMaster
   TIM4_Configuration();// общего назначения, используется для отсекания времени угла/шим
   
   //ADC_Configuration();
@@ -281,36 +281,36 @@ void TIM1_Configuration(void){
 // 
 //}
 //******************************************************************************
-//Таймер тактирования АЦП (частота переполнения и вых триггера 10 кГц)
-//void TIM3_Configuration(void){
-//  TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
-//  TIM_OCInitTypeDef        TIM_OCInitStructure;
-//  
-//  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
-//   /* Time Base configuration */
-//  TIM_TimeBaseStructure.TIM_Prescaler = 0;
-//  TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-//  TIM_TimeBaseStructure.TIM_Period = 7200;
-//  TIM_TimeBaseStructure.TIM_ClockDivision = 0;
-//  TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
-//  TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
-//  
+//Таймер (частота переполнения и вых триггера 10 кГц)
+void TIM3_Configuration(void){
+  TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+  //TIM_OCInitTypeDef        TIM_OCInitStructure;
+  
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
+   /* Time Base configuration */
+  TIM_TimeBaseStructure.TIM_Prescaler = 0;
+  TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+  TIM_TimeBaseStructure.TIM_Period = 7200;
+  TIM_TimeBaseStructure.TIM_ClockDivision = 0;
+  TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
+  TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
+  
 //  TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM2;
 //  TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
 //  TIM_OCInitStructure.TIM_OCPolarity = TIM_OCNPolarity_High; 
 //  TIM_OCInitStructure.TIM_Pulse = 5000;
-// // TIM_OC1Init(TIM3, &TIM_OCInitStructure);
-//  
+ // TIM_OC1Init(TIM3, &TIM_OCInitStructure);
+  
 //    TIM_OC4Init(TIM3, &TIM_OCInitStructure);
 //  TIM_OC4PreloadConfig(TIM3, TIM_OCPreload_Enable);
-//  
+  
 //  TIM_SelectOutputTrigger(TIM3, TIM_TRGOSource_OC4Ref); //1
-//
-//  TIM_ITConfig(TIM3, TIM_IT_Update, DISABLE);
-//   /* TIM3 counter enable */
-//  //TIM_Cmd(TIM3, ENABLE);
-//  TIM3->SR = 0;  
-//}
+
+  TIM_ITConfig(TIM3, TIM_IT_Update, ENABLE);
+   /* TIM3 counter enable */
+  TIM_Cmd(TIM3, ENABLE/* DISABLE */);
+  TIM3->SR = 0;  
+}
 //******************************************************************************
 //таймер для управлениями тиристорами - сифу, угол (1тик = 1мкс) два канала
 void TIM4_Configuration(void){
@@ -457,6 +457,12 @@ void NVIC_Configuration(void)
 //   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 //   NVIC_Init(&NVIC_InitStructure);
 //   
+/* Enable the TIM3 gloabal Interrupt */
+   NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;
+   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
+   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+   NVIC_Init(&NVIC_InitStructure);
 //       /* Enable the TIM4 gloabal Interrupt */
    NVIC_InitStructure.NVIC_IRQChannel = TIM4_IRQn;
    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
