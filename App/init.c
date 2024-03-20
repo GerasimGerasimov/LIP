@@ -308,7 +308,7 @@ void TIM3_Configuration(void){
 
   TIM_ITConfig(TIM3, TIM_IT_Update, ENABLE);
    /* TIM3 counter enable */
-  TIM_Cmd(TIM3, ENABLE/* DISABLE */);
+  TIM_Cmd(TIM3, DISABLE);
   TIM3->SR = 0;  
 }
 //******************************************************************************

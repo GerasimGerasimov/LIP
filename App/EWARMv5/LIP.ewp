@@ -1132,6 +1132,15 @@
             </file>
         </group>
         <group>
+            <name>Drivers</name>
+            <group>
+                <name>Communications</name>
+                <file>
+                    <name>$PROJ_DIR$\..\Drivers\Communications\com_master_driver.cpp</name>
+                </file>
+            </group>
+        </group>
+        <group>
             <name>Indicator</name>
             <file>
                 <name>$PROJ_DIR$\..\Indicator\Indicator.cpp</name>

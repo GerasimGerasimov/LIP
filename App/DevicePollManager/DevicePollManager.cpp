@@ -39,12 +39,12 @@ void DevicePollManager::execute(void) {
 	{
 	case DevicePollManagerStatus::SEND_REQUEST:
 		//ComMasterDriver::send({ (u8*)&slot->OutBuf, slot->cmdLen, slot->TimeOut, {checkRespond} });
-		++RAM_DATA.counter[1];
+		
 		TxDMA1Ch7(slot->cmdLen, (u8*)&slot->OutBuf);
 		Status = DevicePollManagerStatus::WAIT_RESPOND;
 		break;
 	case DevicePollManagerStatus::WAIT_RESPOND:
-		++RAM_DATA.counter[3];
+		
 		break;
 	case DevicePollManagerStatus::PARSE_RESPOND:
 		slot->validation(ReplyResult, (u8*) &Reply);
@@ -115,4 +115,8 @@ Slot* DevicePollManager::CreateCustomSlot(std::string devname, std::string secti
 
 void DevicePollManager::addSlot(Slot *newSlot){
 	Slots.push_back(*newSlot);
+}
+
+extern "C" void checkRespondC(){
+	
 }

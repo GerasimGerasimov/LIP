@@ -70,6 +70,9 @@ int main(void)              //главная программа
   slot->addcmd(command);
   //TxDMA1Ch7(slot->cmdLen, slot->OutBuf);
   DevicePollManager::getInstance().addSlot(slot);
+
+  bool start = true;
+  
   while (1)//основной цикл программы
   {    
     if (U1_SwCNT())//смотрим пришел ли запрос по Модбасу и 1 и 2 сразу смотрим для проверки
@@ -77,8 +80,20 @@ int main(void)              //главная программа
       if (LED_LINK1_ST) LED_LINK1_ON;
       else LED_LINK1_OFF; 
     }
-    DevicePollManager::getInstance().execute();
-
+    
+    if(RAM_DATA.DI == 2){
+      if(start){
+        start = false;
+        //TxDMA1Ch7(slot->cmdLen, slot->OutBuf);
+      }
+    }
+    else if(RAM_DATA.DI == 3){
+      start = true;
+      
+      
+    }
+        DevicePollManager::getInstance().execute();
+    
   }
 }
 

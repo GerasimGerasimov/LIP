@@ -151,6 +151,8 @@ void TIM4_IRQHandler(void)
 void TIM3_IRQHandler(){
   TIM3->SR = 0;
   ++RAM_DATA.counter[2];
+  TIM_Cmd(TIM3, DISABLE);
+
 }
 
 
