@@ -1139,6 +1139,9 @@
                     <name>$PROJ_DIR$\..\Drivers\Communications\com_master_driver.cpp</name>
                 </file>
             </group>
+            <file>
+                <name>$PROJ_DIR$\..\Drivers\STM32F10x_Intmash_USART.c</name>
+            </file>
         </group>
         <group>
             <name>Indicator</name>
