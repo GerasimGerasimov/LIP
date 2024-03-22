@@ -48,11 +48,14 @@ void UsartDriverInit (Intmash_Usart *UserUsartStr)
   //потом настраиваю сам УАРТ и запускаю его  
 
   USART_InitStructure.USART_BaudRate = UserUsartStr->USART_BaudRate;  
-  if (UserUsartStr->USART_StopBits < 4) USART_InitStructure.USART_StopBits = (u16)UserUsartStr->USART_StopBits << 12;
-  else USART_InitStructure.USART_StopBits = USART_StopBits_1;
-  if (UserUsartStr->USART_Parity == 2) USART_InitStructure.USART_Parity = USART_Parity_Even;//четны 
-  else if (UserUsartStr->USART_Parity == 1) USART_InitStructure.USART_Parity = USART_Parity_Odd;//нечетны
-  else USART_InitStructure.USART_Parity = USART_Parity_No; //нет контроля четности
+  //if (UserUsartStr->USART_StopBits < 4) USART_InitStructure.USART_StopBits = (u16)UserUsartStr->USART_StopBits << 12;
+  //else USART_InitStructure.USART_StopBits = USART_StopBits_1;
+  USART_InitStructure.USART_StopBits = UserUsartStr->USART_StopBits;
+  //if (UserUsartStr->USART_Parity == 2) USART_InitStructure.USART_Parity = USART_Parity_Even;//четны 
+  //else if (UserUsartStr->USART_Parity == 1) USART_InitStructure.USART_Parity = USART_Parity_Odd;//нечетны
+  //else USART_InitStructure.USART_Parity = USART_Parity_No; //нет контроля четности
+  USART_InitStructure.USART_Parity = UserUsartStr->USART_Parity;
+  
   if (USART_InitStructure.USART_Parity == USART_Parity_No)USART_InitStructure.USART_WordLength = USART_WordLength_8b;
   else USART_InitStructure.USART_WordLength = USART_WordLength_9b;
   

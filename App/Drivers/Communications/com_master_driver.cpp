@@ -2,13 +2,9 @@
 //#include "ModbusMasterConf.h"
 #include "ramdata.h"
 
-typedef struct {  
-  void (*OnTimeOut)(void);//процедура которая вызывается если данные не получены
-  void (*OnRecieve)(void);//что делаем после получения каких-то данных
-  u8 InBufLen;//сколько данных принято
-} MBmasterSlotType;
+
 //std::function<void()>
-MBmasterSlotType SlotMaster;//TODO 
+//TODO 
 //TDriverComReadEndHandler ComMasterDriver::onReadEnd = nullptr;
 //u8* ComMasterDriver::outbuf = nullptr;
 //u16 ComMasterDriver::OutBufLen = 0;
@@ -24,14 +20,14 @@ ComMasterDriver &ComMasterDriver::getInstance(){
 }
 
 void ComMasterDriver::onReadData(void){
-  //LinkLED::setState(NO_LNK_ERR);
+  
   if (ComMasterDriver::onReadEnd) {
     ComMasterDriver::onReadEnd(SlotMaster.InBufLen, reply);
   }
 }
 
 void ComMasterDriver::onTimeOut(void){
-  //LinkLED::setState(ERR_TIME_OUT);
+  
   if (ComMasterDriver::onReadEnd) {
     ComMasterDriver::onReadEnd(ERR_TIME_OUT, reply);
   }
@@ -44,26 +40,11 @@ void ComMasterDriver::send(TComMasterTask task) {
     TimeOut = task.TimeOut;
     SlotMaster.OnRecieve = onReadData;
     SlotMaster.OnTimeOut = onTimeOut;
-    //ModbusMasterSetCondition(TimeOut, (u8*)&ComMasterDriver::reply);
-    //ModbusMasterSend(outbuf, OutBufLen); 
+    ModbusMaster.SetCondition(TimeOut, (u8*)&ComMasterDriver::reply);
+    ModbusMaster.Send(outbuf, OutBufLen); 
 }
 
-void ComMasterDriver::com_thread(void) {
-}
-
-
-void ComMasterDriver::open() {
-}
-
-void ComMasterDriver::close() {
-
-}
-
-void ComMasterDriver::create_com_thread(void) {
-
-}
-
-ComMasterDriver::ComMasterDriver(){
+ComMasterDriver::ComMasterDriver() : ModbusMaster(&SlotMaster){
   onReadEnd = nullptr;
   outbuf = nullptr;
   TimeOut = 0;

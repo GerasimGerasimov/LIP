@@ -4,6 +4,7 @@
 #include <string>
 #include <functional>
 #include "stm32f10x.h"
+#include "modbus/ModbusMasterConf.h"
 //#include "icommastert.h"
 //result >= 0 длина ответа
 //result = -1 ошибка
@@ -20,19 +21,18 @@ class ComMasterDriver {
 public:
 	static ComMasterDriver& getInstance();
 
-	void open();
+
 	void send(TComMasterTask task);
-	void close();
+
 private:
 	ComMasterDriver();
 	ComMasterDriver(const ComMasterDriver&) = delete;
 	ComMasterDriver& operator=(const ComMasterDriver&) = delete;
 	ComMasterDriver(const ComMasterDriver&&) = delete;
 	ComMasterDriver& operator=(const ComMasterDriver&&) = delete;
-
-	void com_thread(void);
-	void create_com_thread(void);
+	static MBmasterSlotType SlotMaster;
 	static TDriverComReadEndHandler onReadEnd;
+	ModbusMasterConf ModbusMaster;
 	u8* outbuf;
 	u16 OutBufLen;
 	u16 TimeOut;

@@ -353,6 +353,8 @@
                     <state>$PROJ_DIR$\..\CMSIS\CM3\DeviceSupport\ST\STM32F10x</state>
                     <state>$PROJ_DIR$\..\STM32F10x_StdPeriph_Driver\inc</state>
                     <state>$PROJ_DIR$\..\</state>
+                    <state>$PROJ_DIR$\..\Drivers\Communications</state>
+                    <state>$PROJ_DIR$\..\Drivers</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -1158,10 +1160,13 @@
                 <name>$PROJ_DIR$\..\modbus\modbus.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\modbus\uart1rs485.c</name>
+                <name>$PROJ_DIR$\..\modbus\ModbusMasterConf.cpp</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\modbus\uart2rs485.c</name>
+                <name>$PROJ_DIR$\..\modbus\STM32F10xUSART2.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\modbus\uart1rs485.c</name>
             </file>
         </group>
         <group>

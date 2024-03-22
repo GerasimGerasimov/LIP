@@ -148,15 +148,6 @@ void TIM4_IRQHandler(void)
     
 }
 
-void TIM3_IRQHandler(){
-  TIM3->SR = 0;
-  ++RAM_DATA.counter[2];
-  TIM_Cmd(TIM3, DISABLE);
-
-}
-
-
-
 /*******************************************************************************/
 void EXTI15_10_IRQHandler(void)
 {
@@ -167,12 +158,6 @@ void EXTI15_10_IRQHandler(void)
     } //пришло прерывание по синхре
 
 }
-  
-void USART2_IRQHandler(void){
-  TxRx1Finish();
-  
-}
-
 
 /******************************************************************************/
 /*                 STM32F10x Peripherals Interrupt Handlers                   */

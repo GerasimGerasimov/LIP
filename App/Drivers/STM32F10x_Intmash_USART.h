@@ -32,8 +32,13 @@ void InitUserUsartData(void) //фукция инициализации структуры
 }
 */
 
+#ifdef __cplusplus
+struct Intmash_Usart
+  #else
 typedef struct 
+#endif
 {
+
   USART_TypeDef* USARTx; //указатель на используемый USART
   DMA_Channel_TypeDef* DMAy_StreamTX; //указатель на поток DMA на передачу данных этого USART
   DMA_Channel_TypeDef* DMAy_StreamRX; //указатель на поток DMA на прием данных этого USART
@@ -46,8 +51,12 @@ typedef struct
   u16 PolarityDIR; //2 - неинверсный, 1 - инверсный, 0 - не используется
   u8 USART_StopBits; //количество стоповых бит 0-1/1-0,5/2-2/3-1,5 
   u8 USART_Parity; // 0 - 0/ 2 - Even / 1- Odd
+  
+  #ifdef __cplusplus
+};
+  #else
 } Intmash_Usart;  
-
+#endif
 
   #ifdef __cplusplus
     extern "C" void UsartDriverInit (Intmash_Usart *UserUsartStr);
