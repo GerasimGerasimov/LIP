@@ -142,7 +142,7 @@ u8 SPI_DIO_Processing()
 void TIM4_IRQHandler(void)
 {
   TIM4->SR = 0;
-  ++RAM_DATA.counter[0];
+  
    SPI_DIO_Processing();   
   ctrlSysLive();
     

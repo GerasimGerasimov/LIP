@@ -21,6 +21,7 @@ Intmash_Usart* STM32F10xUSART2::Usart = nullptr;
 MBmasterSlotType* STM32F10xUSART2::Slot = nullptr;
 
 STM32F10xUSART2::STM32F10xUSART2(Intmash_Usart* usart, MBmasterSlotType* slot) {
+    
     Usart = usart;
     Slot = slot;
     initUsart();
@@ -50,9 +51,9 @@ void STM32F10xUSART2::initUsart() {
 void STM32F10xUSART2::initTIM() {
     TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
-    TIM_TimeBaseStructure.TIM_Prescaler = 0;
+    TIM_TimeBaseStructure.TIM_Prescaler = 7200 - 1;
     TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-    TIM_TimeBaseStructure.TIM_Period = 7200;
+    TIM_TimeBaseStructure.TIM_Period = 0xffff;
     TIM_TimeBaseStructure.TIM_ClockDivision = 0;
     TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
     TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
@@ -97,7 +98,7 @@ void SetMasterTimer(u16 delay){
 
 extern "C" void TIM3_IRQHandler(){
   TIM3->SR = 0;
-  ++RAM_DATA.counter[2];
+  
   
   MBmasterSlotType* slot = STM32F10xUSART2::getSlot();
   if(slot->OnTimeOut){

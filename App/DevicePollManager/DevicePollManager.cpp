@@ -1,6 +1,7 @@
 #include "DevicePollManager.h"
 #include "crc16.h"
 #include "modbus/uart2rs485.h"
+#include "com_master_driver.h"
 #include "ramdata.h"
 //#include "consolelog.h"
 
@@ -11,9 +12,9 @@
 //std::vector <Slot> DevicePollManager::Slots = {};
 //Slot* DevicePollManager::slot = nullptr;
 //u16 DevicePollManager::idx = 0;
-//u16 DevicePollManager::Status = (u16)DevicePollManagerStatus::TOGGLE_SLOT;
-//u8 DevicePollManager::Reply[256] = {};
-//s16 DevicePollManager::ReplyResult = 0;
+DevicePollManager::DevicePollManagerStatus DevicePollManager::Status = DevicePollManager::DevicePollManagerStatus::TOGGLE_SLOT;
+u8 DevicePollManager::Reply[256] = {};
+s16 DevicePollManager::ReplyResult = 0;
 
 DevicePollManager::DevicePollManager(){
 	slot = nullptr;
@@ -34,23 +35,30 @@ void DevicePollManager::init(std::vector <Slot> slots) {
 
 void DevicePollManager::execute(void) {
 
-	RAM_DATA.data[1] = (u16)Status;
+	
+	TComMasterTask task;
 	switch (Status)
 	{
 	case DevicePollManagerStatus::SEND_REQUEST:
-		//ComMasterDriver::send({ (u8*)&slot->OutBuf, slot->cmdLen, slot->TimeOut, {checkRespond} });
-		
-		TxDMA1Ch7(slot->cmdLen, (u8*)&slot->OutBuf);
+		task.pbuff = (u8*)&slot->OutBuf;
+		task.len = slot->cmdLen;
+		task.TimeOut = slot->TimeOut;
+		task.callback = checkRespond;
+		ComMasterDriver::send(task);
+		++RAM_DATA.counter[0];
+		//TxDMA1Ch7(slot->cmdLen, (u8*)&slot->OutBuf);
 		Status = DevicePollManagerStatus::WAIT_RESPOND;
 		break;
 	case DevicePollManagerStatus::WAIT_RESPOND:
 		
 		break;
 	case DevicePollManagerStatus::PARSE_RESPOND:
+		++RAM_DATA.counter[2];
 		slot->validation(ReplyResult, (u8*) &Reply);
  		Status = DevicePollManagerStatus::TOGGLE_SLOT;
 		break;
 	case DevicePollManagerStatus::TOGGLE_SLOT:
+		++RAM_DATA.counter[3];
 		slot = getNextSlot();
 		Status = setActionBySlot();
 		
@@ -117,6 +125,3 @@ void DevicePollManager::addSlot(Slot *newSlot){
 	Slots.push_back(*newSlot);
 }
 
-extern "C" void checkRespondC(){
-	
-}

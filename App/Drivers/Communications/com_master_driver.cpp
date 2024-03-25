@@ -5,19 +5,21 @@
 
 //std::function<void()>
 //TODO 
-//TDriverComReadEndHandler ComMasterDriver::onReadEnd = nullptr;
-//u8* ComMasterDriver::outbuf = nullptr;
-//u16 ComMasterDriver::OutBufLen = 0;
-//u16 ComMasterDriver::TimeOut = 0;
+TDriverComReadEndHandler ComMasterDriver::onReadEnd = nullptr;
+u8* ComMasterDriver::outbuf = nullptr;
+u16 ComMasterDriver::OutBufLen = 0;
+u16 ComMasterDriver::TimeOut = 0;
 u8 ComMasterDriver::reply[256];
+MBmasterSlotType ComMasterDriver::SlotMaster = MBmasterSlotType();
+ModbusMasterConf ComMasterDriver::ModbusMaster = ModbusMasterConf(&SlotMaster);
 
-static const s16 NO_LNK_ERR = 0;
 static const s16 ERR_TIME_OUT = -1;
 
-ComMasterDriver &ComMasterDriver::getInstance(){
+
+/* ComMasterDriver &ComMasterDriver::getInstance(){
   static ComMasterDriver comMasterDriver;
   return comMasterDriver;
-}
+} */
 
 void ComMasterDriver::onReadData(void){
   
@@ -33,19 +35,13 @@ void ComMasterDriver::onTimeOut(void){
   }
 }
 
-void ComMasterDriver::send(TComMasterTask task) {
+void ComMasterDriver::send(TComMasterTask& task) {
     onReadEnd = task.callback;
     outbuf = task.pbuff;
     OutBufLen = task.len;
     TimeOut = task.TimeOut;
-    SlotMaster.OnRecieve = onReadData;
-    SlotMaster.OnTimeOut = onTimeOut;
+    SlotMaster.OnRecieve = &ComMasterDriver::onReadData;
+    SlotMaster.OnTimeOut = &ComMasterDriver::onTimeOut;
     ModbusMaster.SetCondition(TimeOut, (u8*)&ComMasterDriver::reply);
     ModbusMaster.Send(outbuf, OutBufLen); 
-}
-
-ComMasterDriver::ComMasterDriver() : ModbusMaster(&SlotMaster){
-  onReadEnd = nullptr;
-  outbuf = nullptr;
-  TimeOut = 0;
 }

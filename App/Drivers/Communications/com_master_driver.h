@@ -5,6 +5,7 @@
 #include <functional>
 #include "stm32f10x.h"
 #include "modbus/ModbusMasterConf.h"
+#include "DevicePollManager/DevicePollManager.h"
 //#include "icommastert.h"
 //result >= 0 длина ответа
 //result = -1 ошибка
@@ -19,23 +20,22 @@ struct TComMasterTask {
 
 class ComMasterDriver {
 public:
-	static ComMasterDriver& getInstance();
+	//static ComMasterDriver& getInstance();
 
 
-	void send(TComMasterTask task);
-
+	static void send(TComMasterTask& task);
 private:
-	ComMasterDriver();
+/* 	ComMasterDriver();
 	ComMasterDriver(const ComMasterDriver&) = delete;
 	ComMasterDriver& operator=(const ComMasterDriver&) = delete;
 	ComMasterDriver(const ComMasterDriver&&) = delete;
-	ComMasterDriver& operator=(const ComMasterDriver&&) = delete;
+	ComMasterDriver& operator=(const ComMasterDriver&&) = delete; */
 	static MBmasterSlotType SlotMaster;
 	static TDriverComReadEndHandler onReadEnd;
-	ModbusMasterConf ModbusMaster;
-	u8* outbuf;
-	u16 OutBufLen;
-	u16 TimeOut;
+	static ModbusMasterConf ModbusMaster;
+	static u8* outbuf;
+	static u16 OutBufLen;
+	static u16 TimeOut;
 	static u8 reply[256];
 	static void onReadData(void);
 	static void onTimeOut(void);

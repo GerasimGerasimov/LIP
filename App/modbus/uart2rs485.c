@@ -203,7 +203,7 @@ u8 TxRx1Finish(void)
         //переключить на приЄм
         //RxDMA1Ch6();//настройка DMA на чтение данных из UART
         //U2_TX_WAIT = 0;
-        ++RAM_DATA.counter[1];
+        
         return 0;
       }
     if ((IIR & USART_SR_IDLE) & (USART2->CR1 & USART_CR1_IDLEIE)) // ћежду байтами при приЄме обнаружена пауза в 1 IDLE байт
@@ -217,7 +217,7 @@ u8 TxRx1Finish(void)
         //uart2data.Idx = (u8)(U2RXBUFFSIZE - DMA1_Channel6->CNDTR);//кол-во прин€тых байт
         //U2_RX_DATA_READY = 1;//выставл€ю флаг основному циклу что пакет данных прин€т
         //U2_TX_WAIT = 0;//нет ожидани€ передачи
-        ++RAM_DATA.counter[3];
+        
         return (U2RXBUFFSIZE - (u8)DMA1_Channel6->CNDTR);//кол-во прин€тых байт
       }
       return 0;

@@ -44,6 +44,15 @@
 void Fail_Reset(void);
 /* Private variables ---------------------------------------------------------*/
     
+void parseRespond(Slot* slot, u8* reply){
+  RAM_DATA.data[1] = reply[0];
+  RAM_DATA.data[2] = reply[1];
+  RAM_DATA.data[3] = reply[2];
+  RAM_DATA.data[4] = reply[3];
+  RAM_DATA.data[5] = reply[4];
+  //RAM_DATA.data[6] = reply[5];
+  //RAM_DATA.data[7] = reply[6];
+}
     
 /**
   * @brief  Main program.
@@ -53,7 +62,7 @@ int main(void)              //главная программа
 
   BootLoadCmdFillZero();
   Init();                   //инициализация переферии  
-  
+
   Page page;
 
   
@@ -64,12 +73,14 @@ int main(void)              //главная программа
   /*дополнительная инициализация софта, которую потом отдельной цункцией запилить*/
   //Init_soft();// тут сброс всего в  начальное значение
   Fail_Reset();//сброс флагов аварий
-  //Slot* slot = new Slot;
-  //std::vector<u8> command = {0x01, 0x10, 0x00, 0x06, 0x00, 0x01, 0x02, 0x00, 0x55 };
+  Slot* slot = new Slot;
+  std::vector<u8> command = {0x01, 0x10, 0x00, 0x06, 0x00, 0x01, 0x02, 0x00, 0x55 };
   //usart2DMA_init(slot->InputBuf);
-  //slot->addcmd(command);
+  slot->addcmd(command);
   //TxDMA1Ch7(slot->cmdLen, slot->OutBuf);
-  //DevicePollManager::getInstance().addSlot(slot);
+  slot->TimeOut = 1000;
+  //slot->onData = parseRespond;
+  DevicePollManager::getInstance().addSlot(slot);
 
   bool start = true;
   
@@ -92,7 +103,7 @@ int main(void)              //главная программа
       
       
     }
-        //DevicePollManager::getInstance().execute();
+        DevicePollManager::getInstance().execute();
     
   }
 }
