@@ -1,12 +1,10 @@
 #include "STM32F10xUSART2.h"
 #include "STM32F10x_Intmash_USART.h"
-#include "ModbusMasterConf.h"
+#include "com_master_driver.h"
 #include "bastypes.h"
 #include "flashdata.h"
 #include "ramdata.h"
 
-static u16 TimeOut = 0;
-static u8* ReplyPtr = 0;
 
 const u32 U2BPS[]={  
   4800,// 0 
@@ -17,13 +15,12 @@ const u32 U2BPS[]={
 230400// 5
 };
 
-Intmash_Usart* STM32F10xUSART2::Usart = nullptr;
-MBmasterSlotType* STM32F10xUSART2::Slot = nullptr;
 
-STM32F10xUSART2::STM32F10xUSART2(Intmash_Usart* usart, MBmasterSlotType* slot) {
+
+STM32F10xUSART2::STM32F10xUSART2(Intmash_Usart* usart) {
     
     Usart = usart;
-    Slot = slot;
+    //MBmasterSlot = slot;
     initUsart();
     initTIM();
     startNVIC();
@@ -72,55 +69,23 @@ void STM32F10xUSART2::startNVIC() {
     NVIC_Init(&NVIC_InitStructure);
 }
 
-void STM32F10xUSART2::setCondition(u16 timeOut, u8 *replyPtr){
-    TimeOut = timeOut;
-    ReplyPtr = replyPtr;
-}
-
-Intmash_Usart *STM32F10xUSART2::getUsart(){
-    return Usart;
-}
-
-MBmasterSlotType *STM32F10xUSART2::getSlot(){
-    return Slot;
-}
-
-void StopMasterTimer(){
+void STM32F10xUSART2::StopTimer(){
     TIM_Cmd(TIM3, DISABLE);
 }
 
-void SetMasterTimer(u16 delay){
+void STM32F10xUSART2::SetTimer(u16 delay){
     TIM3->CNT = 0;
     TIM3->ARR = delay;//зарядить на нужную паузу.
-    TIM7->SR = 0; //снять флаг прерывания
+    TIM3->SR = 0; //снять флаг прерывания
     TIM_Cmd(TIM3, ENABLE);//запустили снова, ждем когда пауза сработает.
 }
 
 extern "C" void TIM3_IRQHandler(){
   TIM3->SR = 0;
-  
-  
-  MBmasterSlotType* slot = STM32F10xUSART2::getSlot();
-  if(slot->OnTimeOut){
-    slot->OnTimeOut();
-  }
-    StopMasterTimer();
+  ComMasterDriver::TIMHandler();
 }
 
 extern "C" void USART2_IRQHandler(void){
-    Intmash_Usart* usart = STM32F10xUSART2::getUsart();
-    u16 TransferStatus =  UsartTxRxFinish(usart);
-    if (TransferStatus == 0){
-        SetMasterTimer(TimeOut);//установили таймер на ожидание таймаута
-        UsartRecieve(usart, ReplyPtr);
-    }
-    else{
-        StopMasterTimer();
-        MBmasterSlotType* slot = STM32F10xUSART2::getSlot();
-        if(slot->OnRecieve){
-            slot->InBufLen = TransferStatus;
-            slot->OnRecieve();
-        }
-    }
+    ComMasterDriver::interruptHandler();
   
 }

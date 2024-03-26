@@ -24,6 +24,9 @@ public:
 
 
 	static void send(TComMasterTask& task);
+	static u8 reply[256];
+	static void interruptHandler();
+	static void TIMHandler();
 private:
 /* 	ComMasterDriver();
 	ComMasterDriver(const ComMasterDriver&) = delete;
@@ -36,7 +39,6 @@ private:
 	static u8* outbuf;
 	static u16 OutBufLen;
 	static u16 TimeOut;
-	static u8 reply[256];
 	static void onReadData(void);
 	static void onTimeOut(void);
 };

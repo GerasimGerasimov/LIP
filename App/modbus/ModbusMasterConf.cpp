@@ -1,12 +1,15 @@
 #include "ModbusMasterConf.h"
+#include "ramdata.h"
 
-ModbusMasterConf::ModbusMasterConf(MBmasterSlotType* slot) : Slot(slot), UsartMaster(&UART, slot){
+ModbusMasterConf::ModbusMasterConf(MBmasterSlotType* slot) : Slot(slot), UsartMaster(&UART){
     Slot->OnTimeOut = 0;
     Slot->OnRecieve = 0;
 }
 
 void ModbusMasterConf::SetCondition(u16 timeOut, u8* replyPtr){
-    UsartMaster.setCondition(timeOut, replyPtr);
+    TimeOut = timeOut;
+    ReplyPtr = replyPtr;
+    RAM_DATA.data32[1] = (u32)replyPtr;
 }
 
 void ModbusMasterConf::Send(u8* data, u8 len) {
@@ -16,4 +19,30 @@ void ModbusMasterConf::Send(u8* data, u8 len) {
 
 void ModbusMasterConf::Reboot() {
     UsartTxRxFinish(&UART);
+}
+
+void ModbusMasterConf::interruptHandler(){
+        
+    u16 TransferStatus =  UsartTxRxFinish(&UART);
+    if (TransferStatus == 0){
+        UsartMaster.SetTimer(TimeOut);//установили таймер на ожидание таймаута
+        UsartRecieve(&UART, ReplyPtr);
+    }
+    else{
+        UsartMaster.StopTimer();
+        
+        if(Slot->OnRecieve){
+            Slot->InBufLen = TransferStatus;
+            //RAM_DATA.data[7] = TransferStatus;
+            Slot->OnRecieve();
+        }
+    }
+}
+
+void ModbusMasterConf::TIMHandler(){
+    
+  if(Slot->OnTimeOut){
+    Slot->OnTimeOut();
+  }
+    UsartMaster.StopTimer();
 }

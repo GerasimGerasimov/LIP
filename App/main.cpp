@@ -28,7 +28,7 @@
 #include "Page/Page.h"
 #include "DevicePollManager/Slot.h"
 #include "DevicePollManager/DevicePollManager.h"
-
+#include "com_master_driver.h"
 #include "stm32f10x_it.h"
 
 #include <vector>
@@ -44,13 +44,34 @@
 void Fail_Reset(void);
 /* Private variables ---------------------------------------------------------*/
     
+void swp_copy_u16(u8* s, u16* d, u8 c) {
+    bauint w;
+    while (c--) {
+        //сваплю и копирую
+        w.b[1] = *s++;
+        w.b[0] = *s++;
+        *d++ = w.i;
+    }
+}
+
 void parseRespond(Slot* slot, u8* reply){
-  RAM_DATA.data[1] = reply[0];
-  RAM_DATA.data[2] = reply[1];
-  RAM_DATA.data[3] = reply[2];
-  RAM_DATA.data[4] = reply[3];
-  RAM_DATA.data[5] = reply[4];
-  //RAM_DATA.data[6] = reply[5];
+  
+  //u8 regs_count = reply[2] >> 1;
+  //swp_copy_u16((u8*)&reply[3], (u16*)&slot->InputBuf,	regs_count);
+		//slot->InputBufValidBytes = regs_count;
+		slot->Flags |= (u16)Slot::StateFlags::DATA_VALID;
+    //if(slot->RespondLenghtOrErrorCode == 5){
+
+  //RAM_DATA.data[1] = regs_count;
+  //RAM_DATA.data[2] = reply[0];
+  //RAM_DATA.data[3] = reply[1];
+  //RAM_DATA.data[4] = reply[2];
+  //RAM_DATA.data[4] = ComMasterDriver::reply[3];
+  //RAM_DATA.data[5] = ComMasterDriver::reply[4];
+  //RAM_DATA.data[6] = slot->InputBufValidBytes;
+
+    //}
+  
   //RAM_DATA.data[7] = reply[6];
 }
     
@@ -74,11 +95,12 @@ int main(void)              //главная программа
   //Init_soft();// тут сброс всего в  начальное значение
   Fail_Reset();//сброс флагов аварий
   Slot* slot = new Slot;
-  std::vector<u8> command = {0x01, 0x10, 0x00, 0x06, 0x00, 0x01, 0x02, 0x00, 0x55 };
+  //std::vector<u8> command = {0x01, 0x10, 0x00, 0x06, 0x00, 0x01, 0x02, 0x00, 0x55 };
+  std::vector<u8> command = {0x01, 0x03, 0x00, 0x05, 0x00, 0x01};
   //usart2DMA_init(slot->InputBuf);
   slot->addcmd(command);
   //TxDMA1Ch7(slot->cmdLen, slot->OutBuf);
-  slot->TimeOut = 1000;
+  slot->TimeOut = 100;
   //slot->onData = parseRespond;
   DevicePollManager::getInstance().addSlot(slot);
 

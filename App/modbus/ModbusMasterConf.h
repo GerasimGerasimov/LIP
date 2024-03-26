@@ -22,5 +22,7 @@ public:
 	void SetCondition(u16 timeOut, u8* replyPtr);
 	void Send(u8* data, u8 len);
 	void Reboot();
+	void interruptHandler();
+	void TIMHandler();
 };
 

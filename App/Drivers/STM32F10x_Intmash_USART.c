@@ -1,4 +1,5 @@
 #include "STM32F10x_Intmash_USART.h"
+#include "ramdata.h"
 
 //доступные скорости передачи
 const u32 USARTbaudRate[8]={
@@ -90,6 +91,7 @@ void UsartTransmit(Intmash_Usart *UserUsartStr, u8* Buffer, u8 Cnt)
   //UserUsartStr->DMAy_StreamTX->CR &= ~(uint32_t)DMA_SxCR_EN;//отключаю DMA для получения доступа к регистрам
   UserUsartStr->USARTx->SR  &=  ~USART_SR_TC;   //сбросить флаг окончания передачи 
   DMA_ClearFlag(UserUsartStr->DMA_FLAGS_TX);//почистим флаги стрима ДМА, без этого не работает  
+  //DMA1->IFCR = DMA_IFCR_CTCIF7 | DMA_IFCR_CGIF7 | DMA_IFCR_CHTIF7 | DMA_IFCR_CTEIF7;
  // DMA1->HIFCR = (uint32_t) (DMA_FLAG_FEIF6 | DMA_FLAG_DMEIF6 | DMA_FLAG_TEIF6 | DMA_FLAG_HTIF6 | DMA_FLAG_TCIF6);//почистим флаги стрима ДМА, без этого не работает  
   UserUsartStr->DMAy_StreamTX->CNDTR = Cnt;//сколько байт отправить
   UserUsartStr->DMAy_StreamTX->CMAR = (uint32_t)Buffer;
@@ -118,7 +120,8 @@ void UsartRecieve (Intmash_Usart *UserUsartStr, u8* Buffer)
   
   //UserUsartStr->DMAy_StreamRX->CR &= ~(uint32_t)DMA_SxCR_EN;//отключаю DMA для получения доступа к регистрам
   DMA_Cmd(UserUsartStr->DMAy_StreamRX, DISABLE);
-  DMA_ClearFlag(UserUsartStr->DMA_FLAGS_RX);//почистим флаги стрима ДМА, без этого не работает  
+  DMA_ClearFlag(UserUsartStr->DMA_FLAGS_RX);//почистим флаги стрима ДМА, без этого не работает 
+  //DMA1->IFCR = DMA_IFCR_CTCIF6 | DMA_IFCR_CGIF6 | DMA_IFCR_CHTIF6 | DMA_IFCR_CTEIF6; 
   //DMA1->HIFCR = (uint32_t) (DMA_FLAG_FEIF5 | DMA_FLAG_DMEIF5 | DMA_FLAG_TEIF5 | DMA_FLAG_HTIF5 | DMA_FLAG_TCIF5);
   UserUsartStr->USARTx->CR3 |=  USART_CR3_DMAR;
   UserUsartStr->DMAy_StreamRX->CNDTR = URXBUFFSIZE;
@@ -161,11 +164,24 @@ u8 UsartTxRxFinish(Intmash_Usart *UserUsartStr)
     if ((IIR & USART_SR_IDLE) & (UserUsartStr->USARTx->CR1 & USART_CR1_IDLEIE)) // Между байтами при приёме обнаружена пауза в 1 IDLE байт
       {
         UserUsartStr->USARTx->DR; //сброс флага IDLE
+        for(int i = 0; i < 10000; ++i){};
         UserUsartStr->USARTx->CR1 &=  ~USART_CR1_RE;    //запретить приёмник
         UserUsartStr->USARTx->CR1 &=  ~USART_CR1_IDLEIE;//запретить прерывания по приёму данных
         UserUsartStr->USARTx->CR3 &=  ~USART_CR3_DMAR;  //запретить DMA RX
         //UserUsartStr->DMAy_StreamRX->CR &= ~(uint32_t)DMA_SxCR_EN;//выключить DMA на приём   
         DMA_Cmd(UserUsartStr->DMAy_StreamRX, DISABLE);
+
+        u8* arr = (u8*)UserUsartStr->DMAy_StreamRX->CMAR;
+        RAM_DATA.data32[2] = (u32)arr;
+        RAM_DATA.data[1] = arr[0];
+        RAM_DATA.data[2] = arr[1];
+        RAM_DATA.data[3] = arr[2];
+        RAM_DATA.data[4] = arr[3];
+        RAM_DATA.data[5] = arr[4];
+        RAM_DATA.data[6] = arr[5];
+        RAM_DATA.data[7] = arr[6];
+
+        ++RAM_DATA.counter[1];
         return (URXBUFFSIZE - (u8)UserUsartStr->DMAy_StreamRX->CNDTR);//кол-во принятых байт
       }
     return 0;

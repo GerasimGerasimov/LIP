@@ -37,9 +37,20 @@ void DevicePollManager::execute(void) {
 
 	
 	TComMasterTask task;
+		//static u8 Lo = 0;
+		//static u8 Hi = 0;
+  		//static std::vector<u8> command = {0x01, 0x10, 0x00, 0x06, 0x00, 0x01, 0x02, 0x00, 0x00 };
 	switch (Status)
 	{
 	case DevicePollManagerStatus::SEND_REQUEST:
+		//++Lo;
+		//if(Lo == 255){
+		//	Lo = 0;
+		//	++Hi;
+		//}
+		//command[7] = Hi;
+		//command[8] = Lo;
+		//slot->addcmd(command);
 		task.pbuff = (u8*)&slot->OutBuf;
 		task.len = slot->cmdLen;
 		task.TimeOut = slot->TimeOut;
@@ -58,7 +69,7 @@ void DevicePollManager::execute(void) {
  		Status = DevicePollManagerStatus::TOGGLE_SLOT;
 		break;
 	case DevicePollManagerStatus::TOGGLE_SLOT:
-		++RAM_DATA.counter[3];
+		
 		slot = getNextSlot();
 		Status = setActionBySlot();
 		

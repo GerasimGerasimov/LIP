@@ -8,18 +8,17 @@ class MBmasterSlotType;
 class STM32F10xUSART2
 {
 private:
-	static Intmash_Usart* Usart;
-	static MBmasterSlotType* Slot;
+	Intmash_Usart* Usart;
+
 
 	void initUsart();
 	void initTIM();
 	void startNVIC();
-
 public:
-	STM32F10xUSART2(Intmash_Usart* Usart, MBmasterSlotType* slot);
-	static Intmash_Usart* getUsart();
-	static MBmasterSlotType* getSlot();
-	void setCondition(u16 timeOut, u8* replyPtr);
+	void SetTimer(u16 delay);
+	void StopTimer();
+	STM32F10xUSART2(Intmash_Usart* Usart);
+
 
 };
 

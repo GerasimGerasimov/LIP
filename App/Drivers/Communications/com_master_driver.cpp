@@ -45,3 +45,11 @@ void ComMasterDriver::send(TComMasterTask& task) {
     ModbusMaster.SetCondition(TimeOut, (u8*)&ComMasterDriver::reply);
     ModbusMaster.Send(outbuf, OutBufLen); 
 }
+
+void ComMasterDriver::interruptHandler(){
+  ModbusMaster.interruptHandler();
+}
+
+void ComMasterDriver::TIMHandler(){
+  ModbusMaster.TIMHandler();
+}
