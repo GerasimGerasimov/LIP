@@ -91,8 +91,6 @@ void UsartTransmit(Intmash_Usart *UserUsartStr, u8* Buffer, u8 Cnt)
   //UserUsartStr->DMAy_StreamTX->CR &= ~(uint32_t)DMA_SxCR_EN;//отключаю DMA для получения доступа к регистрам
   UserUsartStr->USARTx->SR  &=  ~USART_SR_TC;   //сбросить флаг окончания передачи 
   DMA_ClearFlag(UserUsartStr->DMA_FLAGS_TX);//почистим флаги стрима ДМА, без этого не работает  
-  //DMA1->IFCR = DMA_IFCR_CTCIF7 | DMA_IFCR_CGIF7 | DMA_IFCR_CHTIF7 | DMA_IFCR_CTEIF7;
- // DMA1->HIFCR = (uint32_t) (DMA_FLAG_FEIF6 | DMA_FLAG_DMEIF6 | DMA_FLAG_TEIF6 | DMA_FLAG_HTIF6 | DMA_FLAG_TCIF6);//почистим флаги стрима ДМА, без этого не работает  
   UserUsartStr->DMAy_StreamTX->CNDTR = Cnt;//сколько байт отправить
   UserUsartStr->DMAy_StreamTX->CMAR = (uint32_t)Buffer;
   UserUsartStr->USARTx->CR3 |=  USART_CR3_DMAT;
@@ -121,8 +119,6 @@ void UsartRecieve (Intmash_Usart *UserUsartStr, u8* Buffer)
   //UserUsartStr->DMAy_StreamRX->CR &= ~(uint32_t)DMA_SxCR_EN;//отключаю DMA для получения доступа к регистрам
   DMA_Cmd(UserUsartStr->DMAy_StreamRX, DISABLE);
   DMA_ClearFlag(UserUsartStr->DMA_FLAGS_RX);//почистим флаги стрима ДМА, без этого не работает 
-  //DMA1->IFCR = DMA_IFCR_CTCIF6 | DMA_IFCR_CGIF6 | DMA_IFCR_CHTIF6 | DMA_IFCR_CTEIF6; 
-  //DMA1->HIFCR = (uint32_t) (DMA_FLAG_FEIF5 | DMA_FLAG_DMEIF5 | DMA_FLAG_TEIF5 | DMA_FLAG_HTIF5 | DMA_FLAG_TCIF5);
   UserUsartStr->USARTx->CR3 |=  USART_CR3_DMAR;
   UserUsartStr->DMAy_StreamRX->CNDTR = URXBUFFSIZE;
   UserUsartStr->DMAy_StreamRX->CMAR = (uint32_t)Buffer;
@@ -164,7 +160,6 @@ u8 UsartTxRxFinish(Intmash_Usart *UserUsartStr)
     if ((IIR & USART_SR_IDLE) & (UserUsartStr->USARTx->CR1 & USART_CR1_IDLEIE)) // Между байтами при приёме обнаружена пауза в 1 IDLE байт
       {
         UserUsartStr->USARTx->DR; //сброс флага IDLE
-        for(int i = 0; i < 10000; ++i){};
         UserUsartStr->USARTx->CR1 &=  ~USART_CR1_RE;    //запретить приёмник
         UserUsartStr->USARTx->CR1 &=  ~USART_CR1_IDLEIE;//запретить прерывания по приёму данных
         UserUsartStr->USARTx->CR3 &=  ~USART_CR3_DMAR;  //запретить DMA RX

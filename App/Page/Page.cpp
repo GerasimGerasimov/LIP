@@ -39,7 +39,12 @@ void Page::update(){
     bufferSender.swapStatus();
     bufferData.swapStatus();
     std::stringstream stream;
-    stream << std::setfill('0') << std::setw(5) << RAM_DATA.data[0];
+    u8 Hi = 0;
+    u8 Lo = 0;
+    Hi = RAM_DATA.data[4];
+    Lo = RAM_DATA.data[5];
+    u16 result = (Hi << 8) + Lo;
+    stream << std::setfill('0') << std::setw(5) << result;
     str = "";
     stream >> str;
     std::vector<uint8_t> res = ListIndicators[0]->getValue(str);
