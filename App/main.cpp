@@ -60,19 +60,16 @@ void parseRespond(Slot* slot, u8* reply){
   //swp_copy_u16((u8*)&reply[3], (u16*)&slot->InputBuf,	regs_count);
 		//slot->InputBufValidBytes = regs_count;
 		slot->Flags |= (u16)Slot::StateFlags::DATA_VALID;
-    //if(slot->RespondLenghtOrErrorCode == 5){
+    
 
-  //RAM_DATA.data[1] = regs_count;
-  //RAM_DATA.data[2] = reply[0];
-  //RAM_DATA.data[3] = reply[1];
-  //RAM_DATA.data[4] = reply[2];
-  //RAM_DATA.data[4] = ComMasterDriver::reply[3];
-  //RAM_DATA.data[5] = ComMasterDriver::reply[4];
-  //RAM_DATA.data[6] = slot->InputBufValidBytes;
 
-    //}
-  
-  //RAM_DATA.data[7] = reply[6];
+  RAM_DATA.data[2] = reply[0];
+  RAM_DATA.data[3] = reply[1];
+  RAM_DATA.data[4] = reply[2];
+  RAM_DATA.data[5] = reply[3];
+  RAM_DATA.data[6] = reply[4];
+  RAM_DATA.data[7] = slot->InputBufValidBytes;
+
 }
     
 /**
@@ -97,11 +94,11 @@ int main(void)              //главная программа
   Slot* slot = new Slot;
   //std::vector<u8> command = {0x01, 0x10, 0x00, 0x06, 0x00, 0x01, 0x02, 0x00, 0x55 };
   std::vector<u8> command = {0x01, 0x03, 0x00, 0x05, 0x00, 0x01};
-  //usart2DMA_init(slot->InputBuf);
+  
   slot->addcmd(command);
-  //TxDMA1Ch7(slot->cmdLen, slot->OutBuf);
+  
   slot->TimeOut = 100;
-  //slot->onData = parseRespond;
+  slot->onData = parseRespond;
   DevicePollManager::getInstance().addSlot(slot);
 
   bool start = true;
@@ -117,7 +114,7 @@ int main(void)              //главная программа
     if(RAM_DATA.DI == 2){
       if(start){
         start = false;
-        //TxDMA1Ch7(slot->cmdLen, slot->OutBuf);
+        
       }
     }
     else if(RAM_DATA.DI == 3){

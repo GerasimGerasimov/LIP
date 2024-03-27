@@ -64,7 +64,6 @@ void DevicePollManager::execute(void) {
 		
 		break;
 	case DevicePollManagerStatus::PARSE_RESPOND:
-		++RAM_DATA.counter[2];
 		slot->validation(ReplyResult, (u8*) &Reply);
  		Status = DevicePollManagerStatus::TOGGLE_SLOT;
 		break;

@@ -1,5 +1,4 @@
 #include "STM32F10x_Intmash_USART.h"
-#include "ramdata.h"
 
 //доступные скорости передачи
 const u32 USARTbaudRate[8]={
@@ -166,17 +165,6 @@ u8 UsartTxRxFinish(Intmash_Usart *UserUsartStr)
         //UserUsartStr->DMAy_StreamRX->CR &= ~(uint32_t)DMA_SxCR_EN;//выключить DMA на приём   
         DMA_Cmd(UserUsartStr->DMAy_StreamRX, DISABLE);
 
-        u8* arr = (u8*)UserUsartStr->DMAy_StreamRX->CMAR;
-        RAM_DATA.data32[2] = (u32)arr;
-        RAM_DATA.data[1] = arr[0];
-        RAM_DATA.data[2] = arr[1];
-        RAM_DATA.data[3] = arr[2];
-        RAM_DATA.data[4] = arr[3];
-        RAM_DATA.data[5] = arr[4];
-        RAM_DATA.data[6] = arr[5];
-        RAM_DATA.data[7] = arr[6];
-
-        ++RAM_DATA.counter[1];
         return (URXBUFFSIZE - (u8)UserUsartStr->DMAy_StreamRX->CNDTR);//кол-во принятых байт
       }
     return 0;

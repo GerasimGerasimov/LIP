@@ -1,5 +1,4 @@
 #include "ModbusMasterConf.h"
-#include "ramdata.h"
 
 ModbusMasterConf::ModbusMasterConf(MBmasterSlotType* slot) : Slot(slot), UsartMaster(&UART){
     Slot->OnTimeOut = 0;
@@ -9,7 +8,6 @@ ModbusMasterConf::ModbusMasterConf(MBmasterSlotType* slot) : Slot(slot), UsartMa
 void ModbusMasterConf::SetCondition(u16 timeOut, u8* replyPtr){
     TimeOut = timeOut;
     ReplyPtr = replyPtr;
-    RAM_DATA.data32[1] = (u32)replyPtr;
 }
 
 void ModbusMasterConf::Send(u8* data, u8 len) {
@@ -33,7 +31,6 @@ void ModbusMasterConf::interruptHandler(){
         
         if(Slot->OnRecieve){
             Slot->InBufLen = TransferStatus;
-            //RAM_DATA.data[7] = TransferStatus;
             Slot->OnRecieve();
         }
     }
