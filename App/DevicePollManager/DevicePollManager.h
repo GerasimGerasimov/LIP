@@ -9,7 +9,7 @@
 #define MB_MASTER_BUF_SIZE  256
 #define MB_MASTER_SLOTS_MAX 24
 
-
+//класс содержит слоты и управляет ими
 class DevicePollManager {
 enum class DevicePollManagerStatus {
 	WAIT_IDLE = 1,
@@ -29,6 +29,7 @@ public:
 	Slot* getSlotByDevPosAndSection(const std::string& device, const std::string& section);
 	Slot* CreateCustomSlot(std::string devname, std::string section);
 	void addSlot(Slot* newSlot);
+	void CreateSlotsByStart();
 private:
 	DevicePollManager();
 	DevicePollManager(const DevicePollManager&) = delete;

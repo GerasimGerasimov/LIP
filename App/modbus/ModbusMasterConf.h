@@ -3,6 +3,7 @@
 #include "ModbusConf.h"
 #include "STM32F10xUSART2.h"
 
+//класс работы Modbus в режиме Master
 struct MBmasterSlotType {
 	void (*OnTimeOut)(void);//процедура которая вызывается если данные не получены
 	void (*OnRecieve)(void);//что делаем после получения каких-то данных

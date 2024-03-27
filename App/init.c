@@ -6,8 +6,7 @@
 #include "memutil.h"
 #include "crc16.h"
 
-#include "modbus/uart1rs485.h"
-#include "modbus/uart2rs485.h"//связь по 485 интерфейсу, по протоколу MODBUS (клиент)
+#include "modbus/uart1rs485.h"//связь по 485 интерфейсу, по протоколу MODBUS (клиент)
 
 #include "DEFINES.h" //все основные, относящиеся только к плате дефайны
 

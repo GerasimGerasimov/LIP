@@ -19,6 +19,7 @@ void ModbusMasterConf::Reboot() {
     UsartTxRxFinish(&UART);
 }
 
+//вызывается из обработчика прерывания USART
 void ModbusMasterConf::interruptHandler(){
         
     u16 TransferStatus =  UsartTxRxFinish(&UART);
@@ -36,6 +37,7 @@ void ModbusMasterConf::interruptHandler(){
     }
 }
 
+//вызывается при срабатывании таймера USART
 void ModbusMasterConf::TIMHandler(){
     
   if(Slot->OnTimeOut){

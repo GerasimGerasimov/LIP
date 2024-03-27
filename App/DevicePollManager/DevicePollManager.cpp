@@ -1,6 +1,5 @@
 #include "DevicePollManager.h"
 #include "crc16.h"
-#include "modbus/uart2rs485.h"
 #include "com_master_driver.h"
 #include "ramdata.h"
 //#include "consolelog.h"
@@ -57,7 +56,7 @@ void DevicePollManager::execute(void) {
 		task.callback = checkRespond;
 		ComMasterDriver::send(task);
 		++RAM_DATA.counter[0];
-		//TxDMA1Ch7(slot->cmdLen, (u8*)&slot->OutBuf);
+		
 		Status = DevicePollManagerStatus::WAIT_RESPOND;
 		break;
 	case DevicePollManagerStatus::WAIT_RESPOND:
@@ -135,3 +134,4 @@ void DevicePollManager::addSlot(Slot *newSlot){
 	Slots.push_back(*newSlot);
 }
 
+void DevicePollManager::CreateSlotsByStart(){}

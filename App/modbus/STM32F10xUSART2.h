@@ -5,6 +5,7 @@
 struct Intmash_Usart;
 class MBmasterSlotType;
 
+//связь по 485 интерфейсу, по протоколу MODBUS2
 class STM32F10xUSART2
 {
 private:

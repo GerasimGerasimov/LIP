@@ -18,7 +18,6 @@
 
 
 #include "modbus/uart1rs485.h"//связь по 485 интерфейсу, по протоколу MODBUS1 (клиент)
-#include "modbus/uart2rs485.h"//связь по 485 интерфейсу, по протоколу MODBUS2 (клиент)
 #include "modbus/modbus.h"
 
 #include "DEFINES.h" //все основные, относящиеся только к плате дефайны

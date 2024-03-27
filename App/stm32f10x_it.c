@@ -24,8 +24,7 @@
 #include "stm32f10x_it.h"
 #include "stm32f10x.h"
 #include "bastypes.h"
-#include "modbus/uart1rs485.h"
-#include "modbus/uart2rs485.h"//связь по 485 интерфейсу, по протоколу MODBUS (клиент)
+#include "modbus/uart1rs485.h"//связь по 485 интерфейсу, по протоколу MODBUS (клиент)
 #include "crc16.h"
 #include "ramdata.h"
 #include "flashdata.h"
@@ -96,6 +95,7 @@ void TIM2_IRQHandler(void)
    TIM2->SR = 0;
 }
 
+//считывание DI с кнопок
 u8 SPI_DIO_Processing()
 {
   u8 RetVal = 0;
@@ -138,7 +138,7 @@ u8 SPI_DIO_Processing()
   return RetVal;
 }
 
-//управление тиристорами - угол и шим
+//таймер для SPI2 дискретных входов
 void TIM4_IRQHandler(void)
 {
   TIM4->SR = 0;

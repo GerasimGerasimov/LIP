@@ -4,7 +4,6 @@
 #include "crc16.h"
 #include "memutil.h"
 #include "uart1rs485.h"
-#include "uart2rs485.h"
 #include "id.h"
 #include "flashdata.h"
 #include "ramdata.h"

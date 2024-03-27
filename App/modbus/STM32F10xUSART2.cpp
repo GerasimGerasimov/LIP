@@ -3,7 +3,6 @@
 #include "com_master_driver.h"
 #include "bastypes.h"
 #include "flashdata.h"
-#include "ramdata.h"
 
 
 const u32 U2BPS[]={  
@@ -20,7 +19,7 @@ const u32 U2BPS[]={
 STM32F10xUSART2::STM32F10xUSART2(Intmash_Usart* usart) {
     
     Usart = usart;
-    //MBmasterSlot = slot;
+    
     initUsart();
     initTIM();
     startNVIC();

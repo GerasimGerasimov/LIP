@@ -1,10 +1,5 @@
 #include "com_master_driver.h"
-//#include "ModbusMasterConf.h"
-#include "ramdata.h"
 
-
-//std::function<void()>
-//TODO 
 TDriverComReadEndHandler ComMasterDriver::onReadEnd = nullptr;
 u8* ComMasterDriver::outbuf = nullptr;
 u16 ComMasterDriver::OutBufLen = 0;
@@ -14,12 +9,6 @@ MBmasterSlotType ComMasterDriver::SlotMaster = MBmasterSlotType();
 ModbusMasterConf ComMasterDriver::ModbusMaster = ModbusMasterConf(&SlotMaster);
 
 static const s16 ERR_TIME_OUT = -1;
-
-
-/* ComMasterDriver &ComMasterDriver::getInstance(){
-  static ComMasterDriver comMasterDriver;
-  return comMasterDriver;
-} */
 
 void ComMasterDriver::onReadData(void){
   
