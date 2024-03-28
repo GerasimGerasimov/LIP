@@ -514,49 +514,49 @@ void EXTI_init(void){
 }
 
 
-void check_flash (void)
-{
-  //функция проверяет целостность уставок во ФЛЕШ
-  u8 *crcl1;
-  u8 *crcl2;
-  u8 *crch1;
-  u8 *crch2;
-  
-  RAM_DATA.FLAGS.BA.backup_error = 0;
-  RAM_DATA.FLAGS.BA.flash_error = 0;
-  if (crc16((u8*)&FLASH_DATA, FlashTmpBufferSize))
-  {    
-    //контрольная сумма не сошлась, сектор битый или после прошивки
-    if (crc16((u8*)&BKFLASH_DATA, FlashTmpBufferSize)) 
-    {
-      RAM_DATA.FLAGS.BA.flash_error = 1; //оба сектора битые или после прошивки
-      RAM_DATA.FLAGS.BA.backup_error = 1; 
-    }
-    else  
-    {
-      FlashSectorWrite((u32)&FLASH_DATA, (u32)&BKFLASH_DATA);//пытаемся восстановить из бэкапа
-      if (crc16((u8*)&FLASH_DATA, FlashTmpBufferSize)) RAM_DATA.FLAGS.BA.flash_error = 1; //не получилось, ставим ошибку
-    }    
-  }
-  else
-  {
-     //нормальная ситуация, сектор в порядке
-    if (crc16((u8*)&BKFLASH_DATA, FlashTmpBufferSize)) 
-    {
-      FlashSectorWrite((u32)&BKFLASH_DATA, (u32)&FLASH_DATA);//резервный сектор битый, пытаемся восстановить
-      if (crc16((u8*)&BKFLASH_DATA, FlashTmpBufferSize)) RAM_DATA.FLAGS.BA.backup_error = 1; //не получилось       
-    }
-    else {//оба сектора в порядке
-      crcl1 = (u8*)&FLASH_DATA + (FlashTmpBufferSize-2);
-      crcl2 = (u8*)&BKFLASH_DATA + (FlashTmpBufferSize-2);
-      crch1 = (u8*)&FLASH_DATA + (FlashTmpBufferSize-1);
-      crch2 = (u8*)&BKFLASH_DATA + (FlashTmpBufferSize-1);
-      if ((*crcl1 != *crcl2)||(*crch1 != *crch2)){//если контрольные суммы у секторов разные
-        FlashSectorWrite((u32)&BKFLASH_DATA, (u32)&FLASH_DATA);//запишем в бекап основной сектор
-      }
-    }
-  }
-}
+//void check_flash (void)
+//{
+//  //функция проверяет целостность уставок во ФЛЕШ
+//  u8 *crcl1;
+//  u8 *crcl2;
+//  u8 *crch1;
+//  u8 *crch2;
+//  
+//  RAM_DATA.FLAGS.BA.backup_error = 0;
+//  RAM_DATA.FLAGS.BA.flash_error = 0;
+//  if (crc16((u8*)&FLASH_DATA, FlashTmpBufferSize))
+//  {    
+//    //контрольная сумма не сошлась, сектор битый или после прошивки
+//    if (crc16((u8*)&BKFLASH_DATA, FlashTmpBufferSize)) 
+//    {
+//      RAM_DATA.FLAGS.BA.flash_error = 1; //оба сектора битые или после прошивки
+//      RAM_DATA.FLAGS.BA.backup_error = 1; 
+//    }
+//    else  
+//    {
+//      FlashSectorWrite((u32)&FLASH_DATA, (u32)&BKFLASH_DATA);//пытаемся восстановить из бэкапа
+//      if (crc16((u8*)&FLASH_DATA, FlashTmpBufferSize)) RAM_DATA.FLAGS.BA.flash_error = 1; //не получилось, ставим ошибку
+//    }    
+//  }
+//  else
+//  {
+//     //нормальная ситуация, сектор в порядке
+//    if (crc16((u8*)&BKFLASH_DATA, FlashTmpBufferSize)) 
+//    {
+//      FlashSectorWrite((u32)&BKFLASH_DATA, (u32)&FLASH_DATA);//резервный сектор битый, пытаемся восстановить
+//      if (crc16((u8*)&BKFLASH_DATA, FlashTmpBufferSize)) RAM_DATA.FLAGS.BA.backup_error = 1; //не получилось       
+//    }
+//    else {//оба сектора в порядке
+//      crcl1 = (u8*)&FLASH_DATA + (FlashTmpBufferSize-2);
+//      crcl2 = (u8*)&BKFLASH_DATA + (FlashTmpBufferSize-2);
+//      crch1 = (u8*)&FLASH_DATA + (FlashTmpBufferSize-1);
+//      crch2 = (u8*)&BKFLASH_DATA + (FlashTmpBufferSize-1);
+//      if ((*crcl1 != *crcl2)||(*crch1 != *crch2)){//если контрольные суммы у секторов разные
+//        FlashSectorWrite((u32)&BKFLASH_DATA, (u32)&FLASH_DATA);//запишем в бекап основной сектор
+//      }
+//    }
+//  }
+//}
 
 
 

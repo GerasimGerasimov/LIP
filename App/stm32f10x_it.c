@@ -30,9 +30,6 @@
 #include "flashdata.h"
 #include "livecontrol.h"
 
-#include "DEFINES.h" //все основные, относящиеся только к плате дефайны
-#include "init.h"
-
 /** @addtogroup Examples
   * @{
   */

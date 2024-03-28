@@ -55,7 +55,7 @@ void DevicePollManager::execute(void) {
 		task.TimeOut = slot->TimeOut;
 		task.callback = checkRespond;
 		ComMasterDriver::send(task);
-		++RAM_DATA.counter[0];
+		//++RAM_DATA.counter[0];
 		
 		Status = DevicePollManagerStatus::WAIT_RESPOND;
 		break;

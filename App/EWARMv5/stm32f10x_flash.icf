@@ -15,8 +15,8 @@ define symbol __ICFEDIT_region_BKFD_end__       = 0x0801FFFF;
 define symbol __ICFEDIT_region_BOOT_CMD_start__ = 0x20000000;
 define symbol __ICFEDIT_region_BOOT_CMD_end__   = 0x20000007;
 /*-Sizes-*/
-define symbol __ICFEDIT_size_cstack__ = 0x400;
-define symbol __ICFEDIT_size_heap__   = 0x2000;
+define symbol __ICFEDIT_size_cstack__ = 0x800;
+define symbol __ICFEDIT_size_heap__   = 0x2500;
 /**** End of ICF editor section. ###ICF###*/
 
 

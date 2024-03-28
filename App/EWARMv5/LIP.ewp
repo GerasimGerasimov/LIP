@@ -1170,6 +1170,12 @@
             </file>
         </group>
         <group>
+            <name>Msg</name>
+            <file>
+                <name>$PROJ_DIR$\..\Msg\msg.cpp</name>
+            </file>
+        </group>
+        <group>
             <name>Page</name>
             <file>
                 <name>$PROJ_DIR$\..\Page\Page.cpp</name>

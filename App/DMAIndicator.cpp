@@ -1,6 +1,5 @@
 #include "DMAIndicator.h"
 #include "ramdata.h"
-#include "init.h"
 #include "Page/Page.h"
 #include "Indicator/Indicator.h"
 
