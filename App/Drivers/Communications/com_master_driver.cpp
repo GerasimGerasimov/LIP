@@ -1,4 +1,5 @@
 #include "com_master_driver.h"
+#include "DevicePollManager/DevicePollManager.h"
 
 TDriverComReadEndHandler ComMasterDriver::onReadEnd = nullptr;
 u8* ComMasterDriver::outbuf = nullptr;
@@ -13,14 +14,14 @@ static const s16 ERR_TIME_OUT = -1;
 void ComMasterDriver::onReadData(void){
   
   if (ComMasterDriver::onReadEnd) {
-    ComMasterDriver::onReadEnd(SlotMaster.InBufLen, reply);
+    ComMasterDriver::onReadEnd(DevicePollManager::getInstance(), SlotMaster.InBufLen, reply);
   }
 }
 
 void ComMasterDriver::onTimeOut(void){
   
   if (ComMasterDriver::onReadEnd) {
-    ComMasterDriver::onReadEnd(ERR_TIME_OUT, reply);
+    ComMasterDriver::onReadEnd(DevicePollManager::getInstance(), ERR_TIME_OUT, reply);
   }
 }
 

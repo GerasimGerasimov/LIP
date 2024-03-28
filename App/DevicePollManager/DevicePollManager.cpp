@@ -2,18 +2,6 @@
 #include "crc16.h"
 #include "com_master_driver.h"
 #include "ramdata.h"
-//#include "consolelog.h"
-
-//#include "U1RamUpdate.h"
-
-//static U1RAMSlot SlotU1RAM;
-
-//std::vector <Slot> DevicePollManager::Slots = {};
-//Slot* DevicePollManager::slot = nullptr;
-//u16 DevicePollManager::idx = 0;
-DevicePollManager::DevicePollManagerStatus DevicePollManager::Status = DevicePollManager::DevicePollManagerStatus::TOGGLE_SLOT;
-u8 DevicePollManager::Reply[256] = {};
-s16 DevicePollManager::ReplyResult = 0;
 
 DevicePollManager::DevicePollManager(){
 	slot = nullptr;
@@ -53,7 +41,7 @@ void DevicePollManager::execute(void) {
 		task.pbuff = (u8*)&slot->OutBuf;
 		task.len = slot->cmdLen;
 		task.TimeOut = slot->TimeOut;
-		task.callback = checkRespond;
+		task.callback = &DevicePollManager::checkRespond;
 		ComMasterDriver::send(task);
 		//++RAM_DATA.counter[0];
 		

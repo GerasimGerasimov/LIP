@@ -6,10 +6,12 @@
 #include "stm32f10x.h"
 #include "modbus/ModbusMasterConf.h"
 
+class DevicePollManager;
+
 //#include "icommastert.h"
 //result >= 0 длина ответа
 //result = -1 ошибка
-using TDriverComReadEndHandler = std::function<void(s16 result, u8* reply)>;
+using TDriverComReadEndHandler = std::function<void(DevicePollManager&, s16 result, u8* reply)>;
 
 struct TComMasterTask {
 	u8* pbuff;
