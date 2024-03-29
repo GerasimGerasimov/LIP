@@ -1155,6 +1155,12 @@
             </file>
         </group>
         <group>
+            <name>ini</name>
+            <file>
+                <name>$PROJ_DIR$\..\ini\parser.cpp</name>
+            </file>
+        </group>
+        <group>
             <name>modbus</name>
             <file>
                 <name>$PROJ_DIR$\..\modbus\modbus.c</name>
@@ -1179,6 +1185,12 @@
             <name>Page</name>
             <file>
                 <name>$PROJ_DIR$\..\Page\Page.cpp</name>
+            </file>
+        </group>
+        <group>
+            <name>Parameters</name>
+            <file>
+                <name>$PROJ_DIR$\..\Parameters\signal.cpp</name>
             </file>
         </group>
         <group>
