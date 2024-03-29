@@ -1181,6 +1181,12 @@
                 <name>$PROJ_DIR$\..\Page\Page.cpp</name>
             </file>
         </group>
+        <group>
+            <name>Router</name>
+            <file>
+                <name>$PROJ_DIR$\..\Router\Router.cpp</name>
+            </file>
+        </group>
         <file>
             <name>$PROJ_DIR$\..\app_check_info.c</name>
         </file>

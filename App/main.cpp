@@ -29,7 +29,6 @@
 #include "DevicePollManager/DevicePollManager.h"
 #include "com_master_driver.h"
 #include "stm32f10x_it.h"
-#include "Msg/msg.h"
 
 #include <vector>
     
@@ -83,7 +82,6 @@ int main(void)              //главная программа
 
   Page page;
 
-  Msg::getInstance();
   LED_RUN_ON;
   LED_LINK1_OFF;
   LED_LINK2_OFF;

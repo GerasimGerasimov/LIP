@@ -126,7 +126,7 @@ u8 SPI_DIO_Processing()
       DI_LOCK_UP;
       isWaitReceive = false;
       
-      RAM_DATA.DI = ~(SPI2->DR);
+      SPI_DIO_Inputs = ~(SPI2->DR);
       /* (InputsPolarity == DIO_MODE_NORMAL)
                           ? SPI_DIO->DR
                           : ~(SPI_DIO->DR); */
@@ -140,7 +140,8 @@ void TIM4_IRQHandler(void)
 {
   TIM4->SR = 0;
   
-   SPI_DIO_Processing();   
+   SPI_DIO_Processing(); 
+   RAM_DATA.DI = SPI_DIO_Inputs;
   ctrlSysLive();
     
 }

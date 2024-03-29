@@ -47,12 +47,6 @@ enum class KeyPressFeature : u32 {
   AutoRepeat
 };
 
-typedef struct {//угу, вдруг мышь подключу ;-)
-  u16 x;
-  u16 y;
-  u8  Key;
-} TMouseState;
-
 typedef struct {//структура сообщения
   u32 Event;//тип сообщения
   //параметры сообщения
