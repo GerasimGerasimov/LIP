@@ -185,17 +185,18 @@ typedef union {
 //параметры расположеные в RAM
   struct TRAM_DATA {
    // _FLG0 FLAGS;        //флаги управления и индикации;
-    vu32 UsedMem; //4 байта
-    vu32 TotalMem; //4 байта
-    vu32 arena;
-    vu32 totalFreeSpace;
+    u32 UsedMem; //4 байта
+    u32 TotalMem; //4 байта
+    u32 arena;
+    u32 totalFreeSpace;
     //данные 32 бит
-    vu32 data32[8];
+    u32 data32[8];
     //данные 16 бит
-    vu16 data[8];
+    u16 data[8];
     //счётчики
-    vu16 counter[8];
-    vu16 DI;
+    u16 counter[8];
+    u16 DI;
+    u16 reserve;
 
 } ;
 

@@ -1190,6 +1190,9 @@
         <group>
             <name>Parameters</name>
             <file>
+                <name>$PROJ_DIR$\..\Parameters\Parameter.cpp</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\..\Parameters\signal.cpp</name>
             </file>
         </group>
