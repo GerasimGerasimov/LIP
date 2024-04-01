@@ -1204,6 +1204,9 @@
             <file>
                 <name>$PROJ_DIR$\..\Parameters\signal.cpp</name>
             </file>
+            <file>
+                <name>$PROJ_DIR$\..\Parameters\TU16BIT.cpp</name>
+            </file>
         </group>
         <group>
             <name>Router</name>

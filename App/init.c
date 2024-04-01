@@ -2,20 +2,20 @@
 #include "stm32f10x.h"
 #include "stm32f10x_gpio.h"
 #include "ramdata.h"
-#include "flashdata.h"//глобальные константы и структура FLASH_DATA
+#include "flashdata.h"//РіР»РѕР±Р°Р»СЊРЅС‹Рµ РєРѕРЅСЃС‚Р°РЅС‚С‹ Рё СЃС‚СЂСѓРєС‚СѓСЂР° FLASH_DATA
 #include "memutil.h"
 #include "crc16.h"
 
-#include "modbus/uart1rs485.h"//связь по 485 интерфейсу, по протоколу MODBUS (клиент)
+#include "modbus/uart1rs485.h"//СЃРІСЏР·СЊ РїРѕ 485 РёРЅС‚РµСЂС„РµР№СЃСѓ, РїРѕ РїСЂРѕС‚РѕРєРѕР»Сѓ MODBUS (РєР»РёРµРЅС‚)
 
-#include "DEFINES.h" //все основные, относящиеся только к плате дефайны
+#include "DEFINES.h" //РІСЃРµ РѕСЃРЅРѕРІРЅС‹Рµ, РѕС‚РЅРѕСЃСЏС‰РёРµСЃСЏ С‚РѕР»СЊРєРѕ Рє РїР»Р°С‚Рµ РґРµС„Р°Р№РЅС‹
 
 
 void GPIO_Configuration(void);
 void NVIC_Configuration(void);
 void TIM1_Configuration(void);
 //void TIM2_Configuration(void);
-void TIM3_Configuration(void);
+//void TIM3_Configuration(void);
 void TIM4_Configuration(void);
 void Systic_init(void);
 void EXTI_init(void);
@@ -25,7 +25,7 @@ void check_flash (void);
 void SPI2_Configuration();
 
 
-uint8_t arr[15]; //TODO проверка DMA
+uint8_t arr[15]; //TODO РїСЂРѕРІРµСЂРєР° DMA
 
 void fillArr(){
   //uint16_t volatile* arrPtr = &RAM_DATA.Iz;
@@ -44,10 +44,10 @@ void Init (void)
   fillArr();
   
   GPIO_Configuration();
-  TIM1_Configuration(); //модбас
-  //TIM2_Configuration();//шим тиристора
-  //TIM3_Configuration(); //тактирование modbusMaster
-  TIM4_Configuration();// общего назначения, используется для отсекания времени угла/шим
+  TIM1_Configuration(); //РјРѕРґР±Р°СЃ
+  //TIM2_Configuration();//С€РёРј С‚РёСЂРёСЃС‚РѕСЂР°
+  //TIM3_Configuration(); //С‚Р°РєС‚РёСЂРѕРІР°РЅРёРµ modbusMaster
+  TIM4_Configuration();// РѕР±С‰РµРіРѕ РЅР°Р·РЅР°С‡РµРЅРёСЏ, РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ РѕС‚СЃРµРєР°РЅРёСЏ РІСЂРµРјРµРЅРё СѓРіР»Р°/С€РёРј
   
   //ADC_Configuration();
 
@@ -65,9 +65,9 @@ void Init (void)
   NVIC_Configuration();
   __enable_irq();
   /*
-  check_fram();//проверяем ключ параметров
-  check_flash();//проверяем флеш-сектора данных
-  //по результатам проверки делаем необходимые восстановительные операции
+  check_fram();//РїСЂРѕРІРµСЂСЏРµРј РєР»СЋС‡ РїР°СЂР°РјРµС‚СЂРѕРІ
+  check_flash();//РїСЂРѕРІРµСЂСЏРµРј С„Р»РµС€-СЃРµРєС‚РѕСЂР° РґР°РЅРЅС‹С…
+  //РїРѕ СЂРµР·СѓР»СЊС‚Р°С‚Р°Рј РїСЂРѕРІРµСЂРєРё РґРµР»Р°РµРј РЅРµРѕР±С…РѕРґРёРјС‹Рµ РІРѕСЃСЃС‚Р°РЅРѕРІРёС‚РµР»СЊРЅС‹Рµ РѕРїРµСЂР°С†РёРё
   if (RAM_DATA.FLAGS.BA.flash_error) mem_status = 2;
   else mem_status = 0;
   if (RAM_DATA.FLAGS.BA.fram_error) mem_status++;
@@ -75,8 +75,8 @@ void Init (void)
   switch (mem_status) {
     case 0x00: crcl = (u8*)&FLASH_DATA + (FlashTmpBufferSize-2);      
                crch = (u8*)&FLASH_DATA + (FlashTmpBufferSize-1);
-               if ((*crcl != Fram_Buffer[FramTmpBufferSize-2])||(*crch != Fram_Buffer[FramTmpBufferSize-1])){//если контрольные суммы у секторов разные
-                FlashSectorWrite((u32)&FLASH_DATA, (u32)&Fram_Buffer);//запишем в основной сектор
+               if ((*crcl != Fram_Buffer[FramTmpBufferSize-2])||(*crch != Fram_Buffer[FramTmpBufferSize-1])){//РµСЃР»Рё РєРѕРЅС‚СЂРѕР»СЊРЅС‹Рµ СЃСѓРјРјС‹ Сѓ СЃРµРєС‚РѕСЂРѕРІ СЂР°Р·РЅС‹Рµ
+                FlashSectorWrite((u32)&FLASH_DATA, (u32)&Fram_Buffer);//Р·Р°РїРёС€РµРј РІ РѕСЃРЅРѕРІРЅРѕР№ СЃРµРєС‚РѕСЂ
                 FlashSectorWrite((u32)&BKFLASH_DATA, (u32)&Fram_Buffer);
                 check_flash();
                }
@@ -153,55 +153,55 @@ void GPIO_Configuration(void){
                           ENABLE);
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   
-  /* настраиваем ноги не привязанные к переферии, как open-drain*/
+  /* РЅР°СЃС‚СЂР°РёРІР°РµРј РЅРѕРіРё РЅРµ РїСЂРёРІСЏР·Р°РЅРЅС‹Рµ Рє РїРµСЂРµС„РµСЂРёРё, РєР°Рє open-drain*/
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
-  //порт А:                          Dout1           Dout2        Dout3 
+  //РїРѕСЂС‚ Рђ:                          Dout1           Dout2        Dout3 
   GPIO_InitStructure.GPIO_Pin  =  GPIO_Pin_14 | GPIO_Pin_13;// | GPIO_Pin_12;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
-  //GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable, ENABLE);//remap!  A13 и A14
-    //порт B:                     LED_RUN    LED_LINK1      LED_ALARM    LED_LINK2      FR_FCS       FR_DATA        FR_CLK      
+  //GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable, ENABLE);//remap!  A13 Рё A14
+    //РїРѕСЂС‚ B:                     LED_RUN    LED_LINK1      LED_ALARM    LED_LINK2      FR_FCS       FR_DATA        FR_CLK      
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_6  | GPIO_Pin_7 | GPIO_Pin_8;// | GPIO_Pin_13 | GPIO_Pin_14;// | GPIO_Pin_15;
   GPIO_Init(GPIOB, &GPIO_InitStructure);
 
     //GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable, ENABLE);//remap! 
   
-  /* настраиваем ноги не привязанные к переферии, как push-pull*/
+  /* РЅР°СЃС‚СЂР°РёРІР°РµРј РЅРѕРіРё РЅРµ РїСЂРёРІСЏР·Р°РЅРЅС‹Рµ Рє РїРµСЂРµС„РµСЂРёРё, РєР°Рє push-pull*/
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;  
-  //порт А:                        DIR1         DIR2       SPI1_LCLK
+  //РїРѕСЂС‚ Рђ:                        DIR1         DIR2       SPI1_LCLK
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11 | GPIO_Pin_0 | GPIO_Pin_6;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
 
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12 | GPIO_Pin_15;
   GPIO_Init(GPIOB, &GPIO_InitStructure);
 
-  /* настраиваем входы переферии как input floating */
+  /* РЅР°СЃС‚СЂР°РёРІР°РµРј РІС…РѕРґС‹ РїРµСЂРµС„РµСЂРёРё РєР°Рє input floating */
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;  
-  //порт А:                     UART1_Rx       UART2_Rx     DI5_TERM       
+  //РїРѕСЂС‚ Рђ:                     UART1_Rx       UART2_Rx     DI5_TERM       
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_3;// | GPIO_Pin_15; 
   GPIO_Init(GPIOA, &GPIO_InitStructure);  
-  //порт В:  дискретные входы     DI3_STOP     DI4_START       SYNC          TR1           TR2             
+  //РїРѕСЂС‚ Р’:  РґРёСЃРєСЂРµС‚РЅС‹Рµ РІС…РѕРґС‹     DI3_STOP     DI4_START       SYNC          TR1           TR2             
   GPIO_InitStructure.GPIO_Pin =  /* GPIO_Pin_4 | */ GPIO_Pin_3;// | GPIO_Pin_11;// | GPIO_Pin_1 | GPIO_Pin_0;  
   GPIO_Init(GPIOB, &GPIO_InitStructure); 
-    //порт C:  дискретные входы       DI1           DI2_BURNING         
+    //РїРѕСЂС‚ C:  РґРёСЃРєСЂРµС‚РЅС‹Рµ РІС…РѕРґС‹       DI1           DI2_BURNING         
 //  GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_14 | GPIO_Pin_15;  
 //  GPIO_Init(GPIOC, &GPIO_InitStructure);  
  
     /* Connect EXTI_Line11 to SYNC input PB.11 GPIO Pin */
 //  GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource11);
   
-  /* настраиваем ноги аналоговых сигналов*/
+  /* РЅР°СЃС‚СЂР°РёРІР°РµРј РЅРѕРіРё Р°РЅР°Р»РѕРіРѕРІС‹С… СЃРёРіРЅР°Р»РѕРІ*/
 //  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;  
-  //порт А:                     ADC_I         ADC_U      ADC_Ish   
+  //РїРѕСЂС‚ Рђ:                     ADC_I         ADC_U      ADC_Ish   
 //  GPIO_InitStructure.GPIO_Pin = 
 //  GPIO_Init(GPIOA, &GPIO_InitStructure);
   
-  /* настраиваем выходы переферии как push-pull */
+  /* РЅР°СЃС‚СЂР°РёРІР°РµРј РІС‹С…РѕРґС‹ РїРµСЂРµС„РµСЂРёРё РєР°Рє push-pull */
    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-  //порт А:                       UART1_Tx     UART2_Tx    SPI1_SCK     SPI1_MOSI  
+  //РїРѕСЂС‚ Рђ:                       UART1_Tx     UART2_Tx    SPI1_SCK     SPI1_MOSI  
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9 | GPIO_Pin_2 | GPIO_Pin_5 | GPIO_Pin_7; 
   GPIO_Init(GPIOA, &GPIO_InitStructure);
     
-    //порт B:                     SPI2_SCK     SPI2_MISO
+    //РїРѕСЂС‚ B:                     SPI2_SCK     SPI2_MISO
   GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_13 | GPIO_Pin_14;  
   GPIO_Init(GPIOB, &GPIO_InitStructure); 
   //GPIO_PinRemapConfig(GPIO_FullRemap_TIM2, ENABLE);//remap! T2_CH3->PB.10  
@@ -211,7 +211,7 @@ void GPIO_Configuration(void){
 
 }
 //******************************************************************************
-//Таймер для работы с MODBUS два канала
+//РўР°Р№РјРµСЂ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ MODBUS РґРІР° РєР°РЅР°Р»Р°
 void TIM1_Configuration(void){
   
   TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
@@ -239,21 +239,21 @@ void TIM1_Configuration(void){
 
 
 //*****************************************************************************
-//T2 канал TIM2_CH3 - имп. управления тиристорами - шим ноги, один канал
+//T2 РєР°РЅР°Р» TIM2_CH3 - РёРјРї. СѓРїСЂР°РІР»РµРЅРёСЏ С‚РёСЂРёСЃС‚РѕСЂР°РјРё - С€РёРј РЅРѕРіРё, РѕРґРёРЅ РєР°РЅР°Р»
 //void TIM2_Configuration(void){
 //  
 //  TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
 //  TIM_OCInitTypeDef  TIM_OCInitStructure;
 //  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
-////управление ШИМ высокочастотного наполнения импульсов управления
-////тиристорами находится на таймере TIM2
+////СѓРїСЂР°РІР»РµРЅРёРµ РЁРРњ РІС‹СЃРѕРєРѕС‡Р°СЃС‚РѕС‚РЅРѕРіРѕ РЅР°РїРѕР»РЅРµРЅРёСЏ РёРјРїСѓР»СЊСЃРѕРІ СѓРїСЂР°РІР»РµРЅРёСЏ
+////С‚РёСЂРёСЃС‚РѕСЂР°РјРё РЅР°С…РѕРґРёС‚СЃСЏ РЅР° С‚Р°Р№РјРµСЂРµ TIM2
 ////T = TIM2_CH3 PB.10 remap!!
-////нужно сформировать (когда резрешено) наполнение 200кГц со скважностью 30%
-////TIM2 сидит на APB1 частота которой 72 МГц
-////какое число нужно зарядить в таймеры чтоб получить 200кГц
-////72 МГц/200000 = 360 - это будет период таймера TIM2 (TIM_Period)
-////теперь, какое число нужно зарядить в каналы 1 и 2 чтобы получить сважность 30%
-////360 * 0,3 = 108 (это будет TIM_Pulse)
+////РЅСѓР¶РЅРѕ СЃС„РѕСЂРјРёСЂРѕРІР°С‚СЊ (РєРѕРіРґР° СЂРµР·СЂРµС€РµРЅРѕ) РЅР°РїРѕР»РЅРµРЅРёРµ 200РєР“С† СЃРѕ СЃРєРІР°Р¶РЅРѕСЃС‚СЊСЋ 30%
+////TIM2 СЃРёРґРёС‚ РЅР° APB1 С‡Р°СЃС‚РѕС‚Р° РєРѕС‚РѕСЂРѕР№ 72 РњР“С†
+////РєР°РєРѕРµ С‡РёСЃР»Рѕ РЅСѓР¶РЅРѕ Р·Р°СЂСЏРґРёС‚СЊ РІ С‚Р°Р№РјРµСЂС‹ С‡С‚РѕР± РїРѕР»СѓС‡РёС‚СЊ 200РєР“С†
+////72 РњР“С†/200000 = 360 - СЌС‚Рѕ Р±СѓРґРµС‚ РїРµСЂРёРѕРґ С‚Р°Р№РјРµСЂР° TIM2 (TIM_Period)
+////С‚РµРїРµСЂСЊ, РєР°РєРѕРµ С‡РёСЃР»Рѕ РЅСѓР¶РЅРѕ Р·Р°СЂСЏРґРёС‚СЊ РІ РєР°РЅР°Р»С‹ 1 Рё 2 С‡С‚РѕР±С‹ РїРѕР»СѓС‡РёС‚СЊ СЃРІР°Р¶РЅРѕСЃС‚СЊ 30%
+////360 * 0,3 = 108 (СЌС‚Рѕ Р±СѓРґРµС‚ TIM_Pulse)
 //  TIM_TimeBaseStructInit(&TIM_TimeBaseStructure);
 //  /* Time base configuration */
 //  TIM_TimeBaseStructure.TIM_Period =360;// TIM2_PERIOD;
@@ -274,13 +274,13 @@ void TIM1_Configuration(void){
 //
 //  /* TIMER 2enable counter */
 //  TIM_Cmd(TIM2, ENABLE);
-////  TIM2->CR1 &= ~TIM_CR1_CEN;//остановить таймер
-////   TIM2->CNT = 0xffff; //уровень должен быть 1
+////  TIM2->CR1 &= ~TIM_CR1_CEN;//РѕСЃС‚Р°РЅРѕРІРёС‚СЊ С‚Р°Р№РјРµСЂ
+////   TIM2->CNT = 0xffff; //СѓСЂРѕРІРµРЅСЊ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ 1
 //  
 // 
 //}
 //******************************************************************************
-//Таймер (частота переполнения и вых триггера 10 кГц)
+//РўР°Р№РјРµСЂ (С‡Р°СЃС‚РѕС‚Р° РїРµСЂРµРїРѕР»РЅРµРЅРёСЏ Рё РІС‹С… С‚СЂРёРіРіРµСЂР° 10 РєР“С†)
 //void TIM3_Configuration(void){
 //  TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
 //  //TIM_OCInitTypeDef        TIM_OCInitStructure;
@@ -311,7 +311,7 @@ void TIM1_Configuration(void){
 //  TIM3->SR = 0;  
 //}
 //******************************************************************************
-//таймер для управлениями тиристорами - сифу, угол (1тик = 1мкс) два канала
+//С‚Р°Р№РјРµСЂ РґР»СЏ СѓРїСЂР°РІР»РµРЅРёСЏРјРё С‚РёСЂРёСЃС‚РѕСЂР°РјРё - СЃРёС„Сѓ, СѓРіРѕР» (1С‚РёРє = 1РјРєСЃ) РґРІР° РєР°РЅР°Р»Р°
 void TIM4_Configuration(void){
   TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
 //  TIM_OCInitTypeDef        TIM_OCInitStructure;
@@ -333,8 +333,8 @@ void TIM4_Configuration(void){
 //  TIM_OC2Init(TIM4, &TIM_OCInitStructure);
 //  
 //   /* TIM4 counter enable */
-//  TIM4->CCR1 = 0; //длинна угла
-//  TIM4->CCR2 =  0; //длинна угла +длинна импульса управления
+//  TIM4->CCR1 = 0; //РґР»РёРЅРЅР° СѓРіР»Р°
+//  TIM4->CCR2 =  0; //РґР»РёРЅРЅР° СѓРіР»Р° +РґР»РёРЅРЅР° РёРјРїСѓР»СЊСЃР° СѓРїСЂР°РІР»РµРЅРёСЏ
 
   TIM4->SR = 0;
     TIM_ITConfig(TIM4, TIM_IT_Update /* | TIM_IT_CC2 */, ENABLE);//
@@ -387,7 +387,7 @@ void RTC_init(void)
         //PWR->CR &= ~PWR_CR_DBP;
 }
 //******************************************************************************
-//дма для SPI1 (отправка данных на индикаторы)
+//РґРјР° РґР»СЏ SPI1 (РѕС‚РїСЂР°РІРєР° РґР°РЅРЅС‹С… РЅР° РёРЅРґРёРєР°С‚РѕСЂС‹)
 void DMA_Configuration (void){
   DMA_InitTypeDef DMA_InitStructure;
   RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
@@ -413,7 +413,7 @@ void DMA_Configuration (void){
   DMA_ITConfig(DMA1_Channel3, DMA_IT_TC, ENABLE);
   //DMA_Cmd(DMA1_Channel3, ENABLE);
 
-  SPI_I2S_DMACmd(SPI1, SPI_I2S_DMAReq_Tx, ENABLE); // разрешение DMA работать с SPI
+  SPI_I2S_DMACmd(SPI1, SPI_I2S_DMAReq_Tx, ENABLE); // СЂР°Р·СЂРµС€РµРЅРёРµ DMA СЂР°Р±РѕС‚Р°С‚СЊ СЃ SPI
 }
 
 /*******************************************************************************
@@ -438,10 +438,10 @@ void NVIC_Configuration(void)
 //  NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x0);   
 //#endif
   
-  SCB->VTOR = APP_START_ADDR;//переносим начало вектора прерываний по указанному адресу
+  SCB->VTOR = APP_START_ADDR;//РїРµСЂРµРЅРѕСЃРёРј РЅР°С‡Р°Р»Рѕ РІРµРєС‚РѕСЂР° РїСЂРµСЂС‹РІР°РЅРёР№ РїРѕ СѓРєР°Р·Р°РЅРЅРѕРјСѓ Р°РґСЂРµСЃСѓ
   
   NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
-  //группа два - значит 2 бита для приоритета и 2 для подприоритета
+  //РіСЂСѓРїРїР° РґРІР° - Р·РЅР°С‡РёС‚ 2 Р±РёС‚Р° РґР»СЏ РїСЂРёРѕСЂРёС‚РµС‚Р° Рё 2 РґР»СЏ РїРѕРґРїСЂРёРѕСЂРёС‚РµС‚Р°
   /* Enable the TIM1 gloabal Interrupt */
    NVIC_InitStructure.NVIC_IRQChannel = TIM1_CC_IRQn;
    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
@@ -507,7 +507,7 @@ void EXTI_init(void){
   /* Configure EXTI_Line11 to generate an interrupt on falling edge */  
   EXTI_InitStructure.EXTI_Line = EXTI_Line11;
   EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising_Falling;//EXTI_Trigger_Falling; //по спаду и фронту
+  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising_Falling;//EXTI_Trigger_Falling; //РїРѕ СЃРїР°РґСѓ Рё С„СЂРѕРЅС‚Сѓ
   EXTI_InitStructure.EXTI_LineCmd = ENABLE;
   EXTI_Init(&EXTI_InitStructure);
   
@@ -516,7 +516,7 @@ void EXTI_init(void){
 
 //void check_flash (void)
 //{
-//  //функция проверяет целостность уставок во ФЛЕШ
+//  //С„СѓРЅРєС†РёСЏ РїСЂРѕРІРµСЂСЏРµС‚ С†РµР»РѕСЃС‚РЅРѕСЃС‚СЊ СѓСЃС‚Р°РІРѕРє РІРѕ Р¤Р›Р•РЁ
 //  u8 *crcl1;
 //  u8 *crcl2;
 //  u8 *crch1;
@@ -526,33 +526,33 @@ void EXTI_init(void){
 //  RAM_DATA.FLAGS.BA.flash_error = 0;
 //  if (crc16((u8*)&FLASH_DATA, FlashTmpBufferSize))
 //  {    
-//    //контрольная сумма не сошлась, сектор битый или после прошивки
+//    //РєРѕРЅС‚СЂРѕР»СЊРЅР°СЏ СЃСѓРјРјР° РЅРµ СЃРѕС€Р»Р°СЃСЊ, СЃРµРєС‚РѕСЂ Р±РёС‚С‹Р№ РёР»Рё РїРѕСЃР»Рµ РїСЂРѕС€РёРІРєРё
 //    if (crc16((u8*)&BKFLASH_DATA, FlashTmpBufferSize)) 
 //    {
-//      RAM_DATA.FLAGS.BA.flash_error = 1; //оба сектора битые или после прошивки
+//      RAM_DATA.FLAGS.BA.flash_error = 1; //РѕР±Р° СЃРµРєС‚РѕСЂР° Р±РёС‚С‹Рµ РёР»Рё РїРѕСЃР»Рµ РїСЂРѕС€РёРІРєРё
 //      RAM_DATA.FLAGS.BA.backup_error = 1; 
 //    }
 //    else  
 //    {
-//      FlashSectorWrite((u32)&FLASH_DATA, (u32)&BKFLASH_DATA);//пытаемся восстановить из бэкапа
-//      if (crc16((u8*)&FLASH_DATA, FlashTmpBufferSize)) RAM_DATA.FLAGS.BA.flash_error = 1; //не получилось, ставим ошибку
+//      FlashSectorWrite((u32)&FLASH_DATA, (u32)&BKFLASH_DATA);//РїС‹С‚Р°РµРјСЃСЏ РІРѕСЃСЃС‚Р°РЅРѕРІРёС‚СЊ РёР· Р±СЌРєР°РїР°
+//      if (crc16((u8*)&FLASH_DATA, FlashTmpBufferSize)) RAM_DATA.FLAGS.BA.flash_error = 1; //РЅРµ РїРѕР»СѓС‡РёР»РѕСЃСЊ, СЃС‚Р°РІРёРј РѕС€РёР±РєСѓ
 //    }    
 //  }
 //  else
 //  {
-//     //нормальная ситуация, сектор в порядке
+//     //РЅРѕСЂРјР°Р»СЊРЅР°СЏ СЃРёС‚СѓР°С†РёСЏ, СЃРµРєС‚РѕСЂ РІ РїРѕСЂСЏРґРєРµ
 //    if (crc16((u8*)&BKFLASH_DATA, FlashTmpBufferSize)) 
 //    {
-//      FlashSectorWrite((u32)&BKFLASH_DATA, (u32)&FLASH_DATA);//резервный сектор битый, пытаемся восстановить
-//      if (crc16((u8*)&BKFLASH_DATA, FlashTmpBufferSize)) RAM_DATA.FLAGS.BA.backup_error = 1; //не получилось       
+//      FlashSectorWrite((u32)&BKFLASH_DATA, (u32)&FLASH_DATA);//СЂРµР·РµСЂРІРЅС‹Р№ СЃРµРєС‚РѕСЂ Р±РёС‚С‹Р№, РїС‹С‚Р°РµРјСЃСЏ РІРѕСЃСЃС‚Р°РЅРѕРІРёС‚СЊ
+//      if (crc16((u8*)&BKFLASH_DATA, FlashTmpBufferSize)) RAM_DATA.FLAGS.BA.backup_error = 1; //РЅРµ РїРѕР»СѓС‡РёР»РѕСЃСЊ       
 //    }
-//    else {//оба сектора в порядке
+//    else {//РѕР±Р° СЃРµРєС‚РѕСЂР° РІ РїРѕСЂСЏРґРєРµ
 //      crcl1 = (u8*)&FLASH_DATA + (FlashTmpBufferSize-2);
 //      crcl2 = (u8*)&BKFLASH_DATA + (FlashTmpBufferSize-2);
 //      crch1 = (u8*)&FLASH_DATA + (FlashTmpBufferSize-1);
 //      crch2 = (u8*)&BKFLASH_DATA + (FlashTmpBufferSize-1);
-//      if ((*crcl1 != *crcl2)||(*crch1 != *crch2)){//если контрольные суммы у секторов разные
-//        FlashSectorWrite((u32)&BKFLASH_DATA, (u32)&FLASH_DATA);//запишем в бекап основной сектор
+//      if ((*crcl1 != *crcl2)||(*crch1 != *crch2)){//РµСЃР»Рё РєРѕРЅС‚СЂРѕР»СЊРЅС‹Рµ СЃСѓРјРјС‹ Сѓ СЃРµРєС‚РѕСЂРѕРІ СЂР°Р·РЅС‹Рµ
+//        FlashSectorWrite((u32)&BKFLASH_DATA, (u32)&FLASH_DATA);//Р·Р°РїРёС€РµРј РІ Р±РµРєР°Рї РѕСЃРЅРѕРІРЅРѕР№ СЃРµРєС‚РѕСЂ
 //      }
 //    }
 //  }
