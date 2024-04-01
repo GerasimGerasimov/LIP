@@ -32,6 +32,8 @@
 
 #include <vector>
     
+
+#include "Parameters/GeneralCaseSignal.h"
 /* defines ------------------------------------------------------------------*/
 //#define max_drebezg 0x0005//0x2000 // сколько раз нужно проверить нажатие кнопки для подавления дребезга контактов 
 /*---------------------------------------------------------------------------*/
@@ -81,6 +83,10 @@ int main(void)              //главная программа
   Init();                   //инициализация переферии  
 
   Page page;
+
+  ISignal::PropsPointers props =  { nullptr, nullptr, nullptr, nullptr, nullptr };
+  GeneralCaseSignal signal(props);
+
 
   LED_RUN_ON;
   LED_LINK1_OFF;

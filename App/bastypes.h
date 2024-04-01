@@ -197,7 +197,8 @@ typedef union {
     u16 counter[8];
     u16 DI;
     u16 reserve;
-
+    u16 reserve2;
+    u16 reserve3;
 } ;
 
 struct TCLBR_DATA {
