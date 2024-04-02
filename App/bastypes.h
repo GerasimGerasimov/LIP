@@ -40,8 +40,8 @@ typedef
  
 typedef
   union biauint { // Byte-addressable UINT
-     uint i; // int: Var.i
-     uchar b[2]; // u char: Var.b[0]:Var.b[1]
+     u16 i; // int: Var.i
+     u8 b[2]; // u char: Var.b[0]:Var.b[1]
 	 struct {
 	 	unsigned b0:1;
 	 	unsigned b1:1;

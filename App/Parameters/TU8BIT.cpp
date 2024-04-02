@@ -39,7 +39,7 @@ u16 TU8BIT::string2raw(std::string& src) {
 }
 
 TU8BIT::TU8BIT(ISignal::PropsPointers props) : Parameter(props)
-, MSU(IniParser::getInstance().getElementPtrByNumber(2, '/', props.pOptional)){
+    , MSU(IniParser::getInstance().getElementPtrByNumber(2, '/', props.pOptional)){
     strAddr = IniParser::getInstance().getElementPtrByNumber(1, '/', props.pOptional);
     Addr = ParametersUtils::getSpecialAddrForByte(strAddr);
     Scale = ScaleUtils::getScaleFromProps(props.dev, props.pOptional);

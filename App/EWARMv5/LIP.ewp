@@ -1211,6 +1211,9 @@
                 <name>$PROJ_DIR$\..\Parameters\TFloat.cpp</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\..\Parameters\TPrmList.cpp</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\..\Parameters\TS16BIT.cpp</name>
             </file>
             <file>
