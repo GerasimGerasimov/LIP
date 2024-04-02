@@ -24,16 +24,17 @@ typedef
 
 typedef
   union baulong { // Byte-addressable UINT
-     ulong L;    // 1 DWORD
-     uint  i[2]; // 2 WORD
-     uchar b[4]; // 4 BYTES
+     u32 L;    // 1 DWORD
+     float f;
+     u16 i[2]; // 2 WORD
+     u8 b[4]; // 4 BYTES
   } baulong;
 
 typedef
   union bauqword { // Byte-addressable QWORD 64bit
-    uchar  b[8]; //8  BYTES
-    uint   i[4]; //4  WORD
-    ulong  L[2]; //2 DWORD
+    u8  b[8]; //8  BYTES
+    u16   i[4]; //4  WORD
+    u32  L[2]; //2 DWORD
     signed long long int Q; // QWORD
   }bauqword;
  

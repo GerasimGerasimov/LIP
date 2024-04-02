@@ -33,7 +33,7 @@
 #include <vector>
     
 
-#include "Parameters/TS16BIT.h"
+#include "Parameters/TFloat.h"
 /* defines ------------------------------------------------------------------*/
 //#define max_drebezg 0x0005//0x2000 // сколько раз нужно проверить нажатие кнопки для подавления дребезга контактов 
 /*---------------------------------------------------------------------------*/
@@ -85,7 +85,7 @@ int main(void)              //главная программа
   Page page;
 
   ISignal::PropsPointers props =  { nullptr, nullptr, nullptr, nullptr, nullptr };
-  TS16BIT tu(props);
+  TFloat fl(props);
 
 
   LED_RUN_ON;
