@@ -11,6 +11,7 @@ typedef unsigned long ulong;
 typedef
   union bauint { // Byte-addressable UINT
      u16 i; // int: Var.i
+     s16 s; // int: Var.i
      u8 b[2]; // u char: Var.b[0]:Var.b[1]
   } bauint;
 

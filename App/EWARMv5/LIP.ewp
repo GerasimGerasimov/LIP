@@ -1205,6 +1205,9 @@
                 <name>$PROJ_DIR$\..\Parameters\signal.cpp</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\..\Parameters\TS16BIT.cpp</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\..\Parameters\TU16BIT.cpp</name>
             </file>
         </group>
