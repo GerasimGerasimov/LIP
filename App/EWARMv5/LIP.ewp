@@ -1213,6 +1213,9 @@
             <file>
                 <name>$PROJ_DIR$\..\Parameters\TU16BIT.cpp</name>
             </file>
+            <file>
+                <name>$PROJ_DIR$\..\Parameters\TU32BIT.cpp</name>
+            </file>
         </group>
         <group>
             <name>Router</name>
