@@ -1205,6 +1205,9 @@
                 <name>$PROJ_DIR$\..\Parameters\signal.cpp</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\..\Parameters\TBit.cpp</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\..\Parameters\TFloat.cpp</name>
             </file>
             <file>
