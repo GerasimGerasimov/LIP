@@ -33,7 +33,7 @@
 #include <vector>
     
 
-#include "Parameters/TPrmList.h"
+#include "Parameters/Scale.h"
 /* defines ------------------------------------------------------------------*/
 //#define max_drebezg 0x0005//0x2000 // сколько раз нужно проверить нажатие кнопки для подавления дребезга контактов 
 /*---------------------------------------------------------------------------*/
@@ -84,8 +84,8 @@ int main(void)              //главная программа
 
   Page page;
 
-  ISignal::PropsPointers props =  { nullptr, nullptr, nullptr, nullptr, nullptr };
-  TPrmList listp(props);
+  Scale::Props props =  { nullptr, nullptr, 0 };
+  Scale listp(props);
 
 
   LED_RUN_ON;
