@@ -55,7 +55,7 @@ std::string GeneralCaseSignal::validation(const TSlotHandlerArsg& args) {
 GeneralCaseSignal::GeneralCaseSignal(ISignal::PropsPointers props) : Parameter(props)
 	, MSU(IniParser::getInstance().getElementPtrByNumber(2, '/', props.pOptional)) {
 	strAddr = IniParser::getInstance().getElementPtrByNumber(1, '/', props.pOptional);
-	Addr = ParametersUtils::getByteOffsetFromSlahedAddrStr(strAddr); //TODO
+	Addr = ParametersUtils::getByteOffsetFromSlahedAddrStr(strAddr);
 	Scale = ScaleUtils::getScaleFromProps(props.dev, props.pOptional);
 }
 
