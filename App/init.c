@@ -318,7 +318,7 @@ void TIM4_Configuration(void){
   
   RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE);
    /* Time Base configuration */
-  TIM_TimeBaseStructure.TIM_Prescaler = 9;
+  TIM_TimeBaseStructure.TIM_Prescaler = 100 - 1;
   TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
   TIM_TimeBaseStructure.TIM_Period = 7200;
   TIM_TimeBaseStructure.TIM_ClockDivision = 0;
