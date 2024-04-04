@@ -21,7 +21,8 @@ SignalFactoty::SignalFactoty() {
 }
 
 SignalFactoty& SignalFactoty::getInstance() {
-    // TODO: вставьте здесь оператор return
+    static SignalFactoty factory;
+	return factory;
 }
 
 ISignal::PropsPointers SignalFactoty::getSignalProps(const char* dev, const char* source, const int srcLen) {

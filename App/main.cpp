@@ -33,7 +33,8 @@
 #include <vector>
     
 
-#include "Parameters/Scale.h"
+//#include "Parameters/SignalFactoty.h"
+//#include "ini/IniResources.h"
 /* defines ------------------------------------------------------------------*/
 //#define max_drebezg 0x0005//0x2000 // сколько раз нужно проверить нажатие кнопки для подавления дребезга контактов 
 /*---------------------------------------------------------------------------*/
@@ -84,10 +85,10 @@ int main(void)              //главная программа
 
   Page page;
 
-  Scale::Props props =  { nullptr, nullptr, 0 };
-  Scale listp(props);
-
-
+  //Scale::Props props =  { nullptr, nullptr, 0 };
+  //Scale listp(props);
+  //SignalFactoty::getInstance();
+  //IniResources::getInstance();
   LED_RUN_ON;
   LED_LINK1_OFF;
   LED_LINK2_OFF;
