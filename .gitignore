@@ -22,3 +22,5 @@ Visual Studio/
 ~$*.vsd
 *.hex
 
+x64/
+.vs/
