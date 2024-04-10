@@ -1,7 +1,9 @@
 #include "MainWindow.h"
 #include "LIP-emulator.h"
+#include "Divers/WinIndicator/Win7Segment.h"
 
-HINSTANCE MainWindow::hInst = NULL;                                // òåêóùèé ýêçåìïëÿð
+HINSTANCE MainWindow::hInst = NULL;   // Ñ‚ÐµÐºÑƒÑ‰Ð¸Ð¹ ÑÐºÐ·ÐµÐ¼Ð¿Ð»ÑÑ€
+Win7Segment* MainWindow::indicator = nullptr;
 
 ATOM MainWindow::MyRegisterClass(HINSTANCE hInstance) {
     WNDCLASSEXW wcex;
@@ -24,27 +26,47 @@ ATOM MainWindow::MyRegisterClass(HINSTANCE hInstance) {
 }
 
 BOOL MainWindow::InitInstance(HINSTANCE hInstance, int nCmdShow) {
-    hInst = hInstance; // Ñîõðàíèòü ìàðêåð ýêçåìïëÿðà â ãëîáàëüíîé ïåðåìåííîé
+    hInst = hInstance; // Ð¡Ð¾Ñ…Ñ€Ð°Ð½Ð¸Ñ‚ÑŒ Ð¼Ð°Ñ€ÐºÐµÑ€ ÑÐºÐ·ÐµÐ¼Ð¿Ð»ÑÑ€Ð°
 
     HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+        CW_USEDEFAULT, 0, 800, 600, nullptr, nullptr, hInstance, nullptr);
 
     if (!hWnd) {
         return FALSE;
     }
-
+    static BaseWindow::Parameter param;
+    param.parrent = hWnd;
+    param.rect.left = 260;
+    param.rect.top = 160;
+    param.rect.right = 335;
+    param.rect.bottom = 250;
+    indicator = new Win7Segment(param);
+    indicator->init();
+    
+    
     ShowWindow(hWnd, nCmdShow);
     UpdateWindow(hWnd);
 
     return TRUE;
 }
 
+const int ID_BUTTON9(3900);
+
 LRESULT MainWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
+    TCHAR greeting[] = _T("Hello, LIP desctop.");
+    
     switch (message) {
+    case WM_CREATE:
+        /*CreateWindow(L"button", L"--< ÐšÐÐžÐŸÐšÐ >--", BS_PUSHBUTTON |
+            WS_VISIBLE | WS_CHILD | WS_TABSTOP, 60, 60, 120, 25, hWnd,
+            (HMENU)ID_BUTTON9, NULL, NULL);*/
+        
+        
+        break;
     case WM_COMMAND:
     {
         int wmId = LOWORD(wParam);
-        // Ðàçîáðàòü âûáîð â ìåíþ:
+        // Ð Ð°Ð·Ð¾Ð±Ñ€Ð°Ñ‚ÑŒ Ð²Ñ‹Ð±Ð¾Ñ€ Ð² Ð¼ÐµÐ½ÑŽ:
         switch (wmId) {
         case IDM_ABOUT:
             DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
@@ -61,7 +83,10 @@ LRESULT MainWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
     {
         PAINTSTRUCT ps;
         HDC hdc = BeginPaint(hWnd, &ps);
-        // TODO: Äîáàâüòå ñþäà ëþáîé êîä ïðîðèñîâêè, èñïîëüçóþùèé HDC...
+        // TODO: Ð”Ð¾Ð±Ð°Ð²ÑŒÑ‚Ðµ ÑÑŽÐ´Ð° Ð»ÑŽÐ±Ð¾Ð¹ ÐºÐ¾Ð´ Ð¿Ñ€Ð¾Ñ€Ð¸ÑÐ¾Ð²ÐºÐ¸, Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÑŽÑ‰Ð¸Ð¹ HDC...
+        indicator->createSegment();
+        indicator->on1(hdc);
+        TextOut(hdc, 100, 100, greeting, _tcslen(greeting));
         EndPaint(hWnd, &ps);
     }
     break;

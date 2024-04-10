@@ -16,6 +16,12 @@
     <Filter Include="WinAppWindow">
       <UniqueIdentifier>{9fbc6bbf-98e8-43dc-9df3-a985c0cb0111}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Drivers">
+      <UniqueIdentifier>{2d2183d0-e02c-4662-a276-24e8490b053f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Drivers\WinIndicator">
+      <UniqueIdentifier>{d6b5f9e3-18cc-4812-af48-5b48d80a6bc0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -31,6 +37,15 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="WinAppWindow\MainWindow.h">
+      <Filter>WinAppWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Divers\WinIndicator\Win7Segment.h">
+      <Filter>Drivers\WinIndicator</Filter>
+    </ClInclude>
+    <ClInclude Include="Divers\WinIndicator\BaseWindow.h">
+      <Filter>Drivers\WinIndicator</Filter>
+    </ClInclude>
+    <ClInclude Include="Divers\WinIndicator\Segment.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -39,6 +54,15 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="WinAppWindow\MainWindow.cpp">
+      <Filter>WinAppWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Divers\WinIndicator\Win7Segment.cpp">
+      <Filter>Drivers\WinIndicator</Filter>
+    </ClCompile>
+    <ClCompile Include="Divers\WinIndicator\BaseWindow.cpp">
+      <Filter>Drivers\WinIndicator</Filter>
+    </ClCompile>
+    <ClCompile Include="Divers\WinIndicator\Segment.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
