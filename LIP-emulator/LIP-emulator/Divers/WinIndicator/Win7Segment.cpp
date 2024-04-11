@@ -7,12 +7,17 @@ void Win7Segment::createSegment() {
     param.parrent = hwnd;
     for (const auto& n : LocationSegments) {
         param.rect = n;
-        Segments.push_back(new Segment(param));
+        Segments.push_back(std::make_unique<Segment>(param));
     }
 
-    for (const auto& n : Segments) {
-        n->init();
-    }
+}
+
+int Win7Segment::getWidth() const {
+    return width;
+}
+
+int Win7Segment::getHeight() const {
+    return height;
 }
 
 void Win7Segment::fillLocationSegment() {
@@ -75,7 +80,7 @@ void Win7Segment::init() {
 
 void Win7Segment::on1(HDC hdc) {
     Segments[0]->turnOn(hdc);
-    Segments[1]->turnOff(hdc);
+    //Segments[1]->turnOff(hdc);
 }
 
 

@@ -13,7 +13,7 @@ BaseWindow::BaseWindow(Parameter param) {
 	rect.bottom = param.rect.bottom;
 	width = rect.right - rect.left;
 	height = rect.bottom - rect.top;
-	//init();
+	init();
 }
 
 BaseWindow::~BaseWindow() {}

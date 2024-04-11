@@ -1,9 +1,9 @@
 #include "MainWindow.h"
 #include "LIP-emulator.h"
-#include "Divers/WinIndicator/Win7Segment.h"
+#include "Divers/WinIndicator/WinLIP_5Nx.h"
 
 HINSTANCE MainWindow::hInst = NULL;   // текущий экземпляр
-Win7Segment* MainWindow::indicator = nullptr;
+WinLIP_5Nx* MainWindow::indicator = nullptr;
 
 ATOM MainWindow::MyRegisterClass(HINSTANCE hInstance) {
     WNDCLASSEXW wcex;
@@ -36,12 +36,11 @@ BOOL MainWindow::InitInstance(HINSTANCE hInstance, int nCmdShow) {
     }
     static BaseWindow::Parameter param;
     param.parrent = hWnd;
-    param.rect.left = 260;
-    param.rect.top = 160;
-    param.rect.right = 330;
-    param.rect.bottom = 250;
-    indicator = new Win7Segment(param);
-    indicator->init();
+    param.rect.left = 100;
+    param.rect.top = 100;
+    param.rect.right = 510;
+    param.rect.bottom = 210;
+    indicator = new WinLIP_5Nx(param);
     
     
     ShowWindow(hWnd, nCmdShow);
@@ -84,9 +83,9 @@ LRESULT MainWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
         PAINTSTRUCT ps;
         HDC hdc = BeginPaint(hWnd, &ps);
         // TODO: Добавьте сюда любой код прорисовки, использующий HDC...
-        indicator->createSegment();
-        indicator->on1(hdc);
-        TextOut(hdc, 100, 100, greeting, _tcslen(greeting));
+        indicator->createIndicator();
+        //indicator->on1(hdc);
+        //TextOut(hdc, 100, 100, greeting, _tcslen(greeting));
         EndPaint(hWnd, &ps);
     }
     break;

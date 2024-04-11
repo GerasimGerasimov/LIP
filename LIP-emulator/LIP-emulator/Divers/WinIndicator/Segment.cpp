@@ -5,7 +5,9 @@ Segment::Segment(Parameter param) : BaseWindow(param){
 	
 	brushOn = CreateSolidBrush(RGB(0, 255, 0));
 	brushOff = CreateSolidBrush(RGB(255, 0, 0));
-	//hdc = nullptr;
+
+	hdc = GetDC(param.parrent);
+	//turnOff();
 }
 
 void Segment::turnOn(HDC Hdc) {
@@ -16,15 +18,12 @@ void Segment::turnOn(HDC Hdc) {
 	FillRect(Hdc, &rect, brushOn);
 }
 
-void Segment::turnOff(HDC Hdc) {
-	HDC hdc = GetDC(hwnd);
-	if (!hdc) {
-		return;
-	}
-	FillRect(hdc, &rect, brushOff);
+void Segment::turnOff() {
+	RECT newRect{ 0, 0, height, width };
+	PAINTSTRUCT ps;
+	BeginPaint(hwnd, &ps);
+	HDC newHDC = GetDC(Parrent);
+	FillRect(newHDC, &rect, brushOff);
+	EndPaint(hwnd, &ps);
 }
 
-//void Segment::init() {
-//	BaseWindow::init();
-//	
-//}

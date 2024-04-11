@@ -10,12 +10,13 @@ protected:
 	RECT rect;
 	int width;
 	int height;
+	virtual void init();
 public:
 	struct Parameter{
 		HWND parrent;
 		RECT rect;
 	};
-	virtual void init();
+	
 	BaseWindow(Parameter param);
 	virtual ~BaseWindow();
 };

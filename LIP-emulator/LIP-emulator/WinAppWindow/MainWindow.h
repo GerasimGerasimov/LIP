@@ -4,14 +4,14 @@
 
 #define MAX_LOADSTRING 100
 
-class Win7Segment;
+class WinLIP_5Nx;
 
 class MainWindow
 {
 private:
 	
 public:
-	static Win7Segment* indicator;
+	static WinLIP_5Nx* indicator;
 	static HINSTANCE hInst;                                // текущий экземпляр
 	WCHAR szTitle[MAX_LOADSTRING];                  // Текст строки заголовка
 	WCHAR szWindowClass[MAX_LOADSTRING];            // имя класса главного окна

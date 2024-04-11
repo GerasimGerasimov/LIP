@@ -48,6 +48,9 @@
     <ClInclude Include="Divers\WinIndicator\Segment.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="Divers\WinIndicator\WinLIP_5Nx.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LIP-emulator.cpp">
@@ -63,6 +66,9 @@
       <Filter>Drivers\WinIndicator</Filter>
     </ClCompile>
     <ClCompile Include="Divers\WinIndicator\Segment.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Divers\WinIndicator\WinLIP_5Nx.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
