@@ -50,7 +50,7 @@ void Win7Segment::fillLocationSegment() {
     rectSegment.left = border.left - segmentWeight;
     rectSegment.top = border.top;
     rectSegment.right = rectSegment.left + segmentWeight;
-    rectSegment.bottom = height - border.bottom;
+    rectSegment.bottom = (height / 2);
     LocationSegments.push_back(rectSegment);
     rectSegment.left = border.left;
     rectSegment.top = (height / 2.0) - (segmentWeight / 2);
@@ -73,14 +73,9 @@ Win7Segment::Win7Segment(Parameter param) : BaseWindow(param){
     fillLocationSegment();
 }
 
-void Win7Segment::init() {
-    BaseWindow::init();
-  
-}
-
 void Win7Segment::on1(HDC hdc) {
     Segments[0]->turnOn(hdc);
-    //Segments[1]->turnOff(hdc);
+    
 }
 
 

@@ -19,7 +19,7 @@ private:
 	int segmentWeight;
 public:
 	Win7Segment(Parameter param);
-	void init() override;
+
 	void on1(HDC hdc);
 	void createSegment();
 	int getWidth() const;

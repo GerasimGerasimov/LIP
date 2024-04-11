@@ -49,10 +49,10 @@ BOOL MainWindow::InitInstance(HINSTANCE hInstance, int nCmdShow) {
     return TRUE;
 }
 
-const int ID_BUTTON9(3900);
+//const int ID_BUTTON9(3900);
 
 LRESULT MainWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
-    TCHAR greeting[] = _T("Hello, LIP desctop.");
+    //TCHAR greeting[] = _T("Hello, LIP desctop.");
     
     switch (message) {
     case WM_CREATE:
