@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../framework.h"
+#include "framework.h"
 
 class BaseWindow
 {
@@ -8,7 +8,8 @@ protected:
 	HWND hwnd = NULL;
 	HWND Parrent;
 	RECT rect;
-
+	int width;
+	int height;
 public:
 	struct Parameter{
 		HWND parrent;

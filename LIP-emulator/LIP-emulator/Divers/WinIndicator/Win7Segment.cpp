@@ -2,49 +2,75 @@
 
 
 void Win7Segment::createSegment() {
-    /*HWND hs = CreateWindow(L"static", L"", WS_VISIBLE | WS_CHILD  | WS_BORDER, 10, 8, 45, 4, hwnd,
-        NULL, NULL, NULL);*/
-    BaseWindow::Parameter param{ hwnd, {10, 8, 55, 12 } };
 
-    Segments.push_back(new Segment(param));
-    param.rect.top = 40;
-    param.rect.bottom = 44;
-    Segments.push_back(new Segment(param));
-    param.rect.top = 76;
-    param.rect.bottom = 80;
-    Segments.push_back(new Segment(param));
-    param.rect.left = 4;
-    param.rect.right = 8;
-    param.rect.top = 12;
-    param.rect.bottom = 38;
-    Segments.push_back(new Segment(param));
-    param.rect.top = 46;
-    param.rect.bottom = 74;
-    Segments.push_back(new Segment(param));
-    param.rect.left = 57;
-    param.rect.right = 61;
-    Segments.push_back(new Segment(param));
-    param.rect.top = 12;
-    param.rect.bottom = 38;
-    Segments.push_back(new Segment(param));
-    param.rect.top = 78;
-    param.rect.left = 59;
-    param.rect.right = 63;
-    param.rect.bottom = 82;
-    Segments.push_back(new Segment(param));
+    BaseWindow::Parameter param;
+    param.parrent = hwnd;
+    for (const auto& n : LocationSegments) {
+        param.rect = n;
+        Segments.push_back(new Segment(param));
+    }
 
     for (const auto& n : Segments) {
         n->init();
     }
 }
 
-Win7Segment::Win7Segment(Parameter param) : BaseWindow(param){
+void Win7Segment::fillLocationSegment() {
+    RECT rectSegment = {0};
+    rectSegment.left = border.left;
+    rectSegment.top = border.top;
+    rectSegment.right = width - border.right;
+    rectSegment.bottom = rectSegment.top + segmentWeight;
+    LocationSegments.push_back(rectSegment);
+    rectSegment.left = width - border.right;
+    rectSegment.top = border.top;
+    rectSegment.right = rectSegment.left + segmentWeight;
+    rectSegment.bottom = (height / 2);
+    LocationSegments.push_back(rectSegment);
+    rectSegment.left = width - border.right;
+    rectSegment.top = (height / 2);
+    rectSegment.right = rectSegment.left + segmentWeight;
+    rectSegment.bottom = height - border.bottom;
+    LocationSegments.push_back(rectSegment);
+    rectSegment.left = border.left;
+    rectSegment.top = height - border.bottom - segmentWeight;
+    rectSegment.right = width - border.right;
+    rectSegment.bottom = rectSegment.top + segmentWeight;
+    LocationSegments.push_back(rectSegment);
+    rectSegment.left = border.left - segmentWeight;
+    rectSegment.top = (height / 2);
+    rectSegment.right = rectSegment.left + segmentWeight;
+    rectSegment.bottom = height - border.bottom;
+    LocationSegments.push_back(rectSegment);
+    rectSegment.left = border.left - segmentWeight;
+    rectSegment.top = border.top;
+    rectSegment.right = rectSegment.left + segmentWeight;
+    rectSegment.bottom = height - border.bottom;
+    LocationSegments.push_back(rectSegment);
+    rectSegment.left = border.left;
+    rectSegment.top = (height / 2.0) - (segmentWeight / 2);
+    rectSegment.right = width - border.right;
+    rectSegment.bottom = (height / 2.0) + (segmentWeight / 2);
+    LocationSegments.push_back(rectSegment);
+    rectSegment.left = width - border.right + segmentWeight * 2;
+    rectSegment.top = height - border.bottom - segmentWeight;
+    rectSegment.right = rectSegment.left + segmentWeight;
+    rectSegment.bottom = rectSegment.top + segmentWeight;
+    LocationSegments.push_back(rectSegment);
+}
 
+Win7Segment::Win7Segment(Parameter param) : BaseWindow(param){
+    segmentWeight = 4;
+    border.left = 10;
+    border.top = 8;
+    border.right = 18;
+    border.bottom = 10;
+    fillLocationSegment();
 }
 
 void Win7Segment::init() {
     BaseWindow::init();
-    //createSegment();
+  
 }
 
 void Win7Segment::on1(HDC hdc) {

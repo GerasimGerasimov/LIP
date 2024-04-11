@@ -38,7 +38,7 @@ BOOL MainWindow::InitInstance(HINSTANCE hInstance, int nCmdShow) {
     param.parrent = hWnd;
     param.rect.left = 260;
     param.rect.top = 160;
-    param.rect.right = 335;
+    param.rect.right = 330;
     param.rect.bottom = 250;
     indicator = new Win7Segment(param);
     indicator->init();
