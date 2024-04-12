@@ -1,7 +1,8 @@
 #include "WinLIPModule.h"
 
-WinLIPModule::WinLIPModule(Parameter param, int CountIndicator) : IndicatorContainer(param) {
+WinLIPModule::WinLIPModule(Parameter param, int CountIndicator, RECT newBorder) : IndicatorContainer(param) {
 	count = CountIndicator;
+	border = newBorder;
 	widthIndicator = param.rect.right - param.rect.left - border.left - border.right;
 	heightIndicator = (param.rect.bottom - param.rect.top + (count - 1) * indent) / count - border.bottom - border.top;
 	
@@ -23,11 +24,11 @@ void WinLIPModule::createSegment() {
 	}
 }
 
-RECT WinLIPModule::getRect(int CountIndicator) {
-	RECT rect;
-	rect.left = 0;
-	rect.top = 0;
-	rect.right = widthChildIndicator + border.left + border.right;
-	rect.bottom = border.top + border.bottom + CountIndicator * heightChildIndicator + (CountIndicator - 1) * indent;
-	return rect;
-}
+//RECT WinLIPModule::getRect(int CountIndicator) {
+//	RECT rect;
+//	rect.left = 0;
+//	rect.top = 0;
+//	rect.right = widthChildIndicator + border.left + border.right;
+//	rect.bottom = border.top + border.bottom + CountIndicator * heightChildIndicator + (CountIndicator - 1) * indent;
+//	return rect;
+//}

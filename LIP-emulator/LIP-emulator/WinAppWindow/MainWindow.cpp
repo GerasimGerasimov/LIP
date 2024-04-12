@@ -5,6 +5,10 @@
 HINSTANCE MainWindow::hInst = NULL;   // текущий экземпляр
 WinLIPModule* MainWindow::indicator = nullptr;
 
+void MainWindow::createObject() {
+    createIndicator();
+}
+
 ATOM MainWindow::MyRegisterClass(HINSTANCE hInstance) {
     WNDCLASSEXW wcex;
 
@@ -25,10 +29,28 @@ ATOM MainWindow::MyRegisterClass(HINSTANCE hInstance) {
     return RegisterClassExW(&wcex);
 }
 
+void MainWindow::createIndicator() {
+
+    BaseWindow::Parameter param;
+    param.parrent = hWnd;
+    int countIndicator = 3;
+    int indent = 10;
+    int diserWidthIndicator = 410;
+    int diserHeightIndicator = 110;
+    RECT borderIndicator{ 10, 10, 10, 10 };
+    RECT rectModule;
+    rectModule.left = indent;
+    rectModule.right = indent + diserWidthIndicator + borderIndicator.right + borderIndicator.left;
+    rectModule.top = indent;
+    rectModule.bottom = indent + borderIndicator.top + borderIndicator.bottom + countIndicator * diserHeightIndicator + (countIndicator - 1) * indent;
+    param.rect = rectModule;
+    indicator = new WinLIPModule(param, countIndicator, borderIndicator);
+}
+
 BOOL MainWindow::InitInstance(HINSTANCE hInstance, int nCmdShow) {
     hInst = hInstance; // Сохранить маркер экземпляра
 
-    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+    hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, 0, 1024, 768, nullptr, nullptr, hInstance, nullptr);
 
     if (!hWnd) {
@@ -40,17 +62,7 @@ BOOL MainWindow::InitInstance(HINSTANCE hInstance, int nCmdShow) {
     ShowWindow(hWnd, nCmdShow);
     UpdateWindow(hWnd);
 
-    static BaseWindow::Parameter param;
-    param.parrent = hWnd;
-    int countIndicator = 2;
-    int indent = 10;
-    RECT rectModule = WinLIPModule::getRect(countIndicator);
-    rectModule.left += indent;
-    rectModule.right += indent;
-    rectModule.top += indent;
-    rectModule.bottom += indent;
-    param.rect = rectModule;
-    indicator = new WinLIPModule(param, countIndicator);
+    createObject();
 
     //indicator->turnOff();
     return TRUE;
@@ -89,7 +101,7 @@ LRESULT MainWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
     {
         PAINTSTRUCT ps;
         HDC hdc = BeginPaint(hWnd, &ps);
-        //indicator->turnOff();
+        //indicator->getRect(5);
         EndPaint(hWnd, &ps);
     }
     break;

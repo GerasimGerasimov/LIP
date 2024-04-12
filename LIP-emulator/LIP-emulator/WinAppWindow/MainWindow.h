@@ -9,7 +9,9 @@ class WinLIPModule;
 class MainWindow
 {
 private:
-	
+	HWND hWnd;
+	void createObject();
+	void createIndicator();
 public:
 	static WinLIPModule* indicator;
 	static HINSTANCE hInst;                                // текущий экземпляр
