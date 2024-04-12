@@ -22,6 +22,9 @@
     <Filter Include="Drivers\WinIndicator">
       <UniqueIdentifier>{d6b5f9e3-18cc-4812-af48-5b48d80a6bc0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Drivers\DI">
+      <UniqueIdentifier>{b5c9dc6d-589b-4755-9cfe-bfcec54ff460}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -57,6 +60,12 @@
     <ClInclude Include="Divers\WinIndicator\IndicatorContainer.h">
       <Filter>Drivers\WinIndicator</Filter>
     </ClInclude>
+    <ClInclude Include="Divers\BaseObject.h">
+      <Filter>Drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="Divers\DI\WinDI.h">
+      <Filter>Drivers\DI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LIP-emulator.cpp">
@@ -82,6 +91,12 @@
     </ClCompile>
     <ClCompile Include="Divers\WinIndicator\IndicatorContainer.cpp">
       <Filter>Drivers\WinIndicator</Filter>
+    </ClCompile>
+    <ClCompile Include="Divers\BaseObject.cpp">
+      <Filter>Drivers</Filter>
+    </ClCompile>
+    <ClCompile Include="Divers\DI\WinDI.cpp">
+      <Filter>Drivers\DI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

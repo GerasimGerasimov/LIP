@@ -1,12 +1,14 @@
 #include "MainWindow.h"
 #include "LIP-emulator.h"
 #include "Divers/WinIndicator/WinLIPModule.h"
+#include "DI/WinDI.h"
 
 HINSTANCE MainWindow::hInst = NULL;   // текущий экземпляр
 WinLIPModule* MainWindow::indicator = nullptr;
 
 void MainWindow::createObject() {
     createIndicator();
+    createDI();
 }
 
 ATOM MainWindow::MyRegisterClass(HINSTANCE hInstance) {
@@ -31,9 +33,9 @@ ATOM MainWindow::MyRegisterClass(HINSTANCE hInstance) {
 
 void MainWindow::createIndicator() {
 
-    BaseWindow::Parameter param;
+    BaseObject::Parameter param;
     param.parrent = hWnd;
-    int countIndicator = 3;
+    int countIndicator = 4;
     int indent = 10;
     int diserWidthIndicator = 410;
     int diserHeightIndicator = 110;
@@ -66,6 +68,13 @@ BOOL MainWindow::InitInstance(HINSTANCE hInstance, int nCmdShow) {
 
     //indicator->turnOff();
     return TRUE;
+}
+
+void MainWindow::createDI() {
+    BaseObject::Parameter param;
+    param.parrent = hWnd;
+    param.rect = {500, 10, 0, 0};
+    winDI = new WinDI(param);
 }
 
 //const int ID_BUTTON9(3900);

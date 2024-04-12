@@ -7,7 +7,7 @@ Segment::Segment(Parameter param) : BaseWindow(param){
 	brushOff = CreateSolidBrush(RGB(0, 0, 0));
 
 	hdc = GetDC(hwnd);
-	turnOff();
+	//turnOff();
 }
 
 void Segment::turnOn(HDC Hdc) {

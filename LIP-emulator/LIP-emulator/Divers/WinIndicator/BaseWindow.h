@@ -1,23 +1,12 @@
 #pragma once
 
-#include "framework.h"
+#include "BaseObject.h"
 
-class BaseWindow
+class BaseWindow : public BaseObject
 {
 protected:
-	HWND hwnd = NULL;
-	HWND Parrent;
-	RECT rect;
-	int width;
-	int height;
-	void init();
+	void createIndicatorWindow();
 public:
-	struct Parameter{
-		HWND parrent;
-		RECT rect;
-	};
-	
 	BaseWindow(Parameter param);
-	virtual ~BaseWindow();
 };
 

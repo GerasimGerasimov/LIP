@@ -11,7 +11,7 @@ class Win7Segment : public BaseWindow
 {
 private:
 	 
-	std::vector<std::unique_ptr<BaseWindow>> Segments;
+	std::vector<std::unique_ptr<BaseObject>> Segments;
 	std::vector<RECT> LocationSegments;
 
 	void fillLocationSegment();
