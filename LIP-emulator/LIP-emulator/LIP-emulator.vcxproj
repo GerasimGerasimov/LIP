@@ -129,8 +129,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Divers\WinIndicator\BaseWindow.h" />
+    <ClInclude Include="Divers\WinIndicator\IndicatorContainer.h" />
     <ClInclude Include="Divers\WinIndicator\Segment.h" />
     <ClInclude Include="Divers\WinIndicator\Win7Segment.h" />
+    <ClInclude Include="Divers\WinIndicator\WinLIPModule.h" />
     <ClInclude Include="Divers\WinIndicator\WinLIP_5Nx.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="LIP-emulator.h" />
@@ -140,8 +142,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Divers\WinIndicator\BaseWindow.cpp" />
+    <ClCompile Include="Divers\WinIndicator\IndicatorContainer.cpp" />
     <ClCompile Include="Divers\WinIndicator\Segment.cpp" />
     <ClCompile Include="Divers\WinIndicator\Win7Segment.cpp" />
+    <ClCompile Include="Divers\WinIndicator\WinLIPModule.cpp" />
     <ClCompile Include="Divers\WinIndicator\WinLIP_5Nx.cpp" />
     <ClCompile Include="LIP-emulator.cpp" />
     <ClCompile Include="WinAppWindow\MainWindow.cpp" />

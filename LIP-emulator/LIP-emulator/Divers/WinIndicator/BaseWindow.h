@@ -10,7 +10,7 @@ protected:
 	RECT rect;
 	int width;
 	int height;
-	virtual void init();
+	void init();
 public:
 	struct Parameter{
 		HWND parrent;

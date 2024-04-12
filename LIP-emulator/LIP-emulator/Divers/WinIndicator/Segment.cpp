@@ -11,10 +11,7 @@ Segment::Segment(Parameter param) : BaseWindow(param){
 }
 
 void Segment::turnOn(HDC Hdc) {
-	//hdc = GetDC(this->hwnd);
-	//if (!hdc) {
-	//	return;
-	//}
+
 	FillRect(Hdc, &rect, brushOn);
 }
 

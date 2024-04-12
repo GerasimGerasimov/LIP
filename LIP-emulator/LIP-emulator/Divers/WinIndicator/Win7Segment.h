@@ -11,7 +11,7 @@ class Win7Segment : public BaseWindow
 {
 private:
 	 
-	std::vector<std::unique_ptr<Segment>> Segments;
+	std::vector<std::unique_ptr<BaseWindow>> Segments;
 	std::vector<RECT> LocationSegments;
 
 	void fillLocationSegment();
@@ -20,10 +20,11 @@ private:
 public:
 	Win7Segment(Parameter param);
 
-	void on1(HDC hdc);
+	//void on1(HDC hdc);
 	void createSegment();
-	int getWidth() const;
-	int getHeight() const;
+	//int getWidth() const;
+	//int getHeight() const;
+	//void turnOff();
 };
 
 /*

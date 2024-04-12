@@ -1,9 +1,9 @@
 #include "MainWindow.h"
 #include "LIP-emulator.h"
-#include "Divers/WinIndicator/WinLIP_5Nx.h"
+#include "Divers/WinIndicator/WinLIPModule.h"
 
 HINSTANCE MainWindow::hInst = NULL;   // текущий экземпляр
-WinLIP_5Nx* MainWindow::indicator = nullptr;
+WinLIPModule* MainWindow::indicator = nullptr;
 
 ATOM MainWindow::MyRegisterClass(HINSTANCE hInstance) {
     WNDCLASSEXW wcex;
@@ -29,23 +29,30 @@ BOOL MainWindow::InitInstance(HINSTANCE hInstance, int nCmdShow) {
     hInst = hInstance; // Сохранить маркер экземпляра
 
     HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, 0, 800, 600, nullptr, nullptr, hInstance, nullptr);
+        CW_USEDEFAULT, 0, 1024, 768, nullptr, nullptr, hInstance, nullptr);
 
     if (!hWnd) {
         return FALSE;
     }
-    static BaseWindow::Parameter param;
-    param.parrent = hWnd;
-    param.rect.left = 100;
-    param.rect.top = 100;
-    param.rect.right = 510;
-    param.rect.bottom = 210;
-    indicator = new WinLIP_5Nx(param);
+    
     
     
     ShowWindow(hWnd, nCmdShow);
     UpdateWindow(hWnd);
 
+    static BaseWindow::Parameter param;
+    param.parrent = hWnd;
+    int countIndicator = 2;
+    int indent = 10;
+    RECT rectModule = WinLIPModule::getRect(countIndicator);
+    rectModule.left += indent;
+    rectModule.right += indent;
+    rectModule.top += indent;
+    rectModule.bottom += indent;
+    param.rect = rectModule;
+    indicator = new WinLIPModule(param, countIndicator);
+
+    //indicator->turnOff();
     return TRUE;
 }
 
@@ -82,15 +89,15 @@ LRESULT MainWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
     {
         PAINTSTRUCT ps;
         HDC hdc = BeginPaint(hWnd, &ps);
-        // TODO: Добавьте сюда любой код прорисовки, использующий HDC...
-        indicator->createIndicator();
-        //indicator->on1(hdc);
-        //TextOut(hdc, 100, 100, greeting, _tcslen(greeting));
+        //indicator->turnOff();
         EndPaint(hWnd, &ps);
     }
     break;
     case WM_DESTROY:
         PostQuitMessage(0);
+        break;
+    case WM_SHOWWINDOW:
+
         break;
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);

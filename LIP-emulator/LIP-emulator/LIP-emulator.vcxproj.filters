@@ -45,11 +45,17 @@
     <ClInclude Include="Divers\WinIndicator\BaseWindow.h">
       <Filter>Drivers\WinIndicator</Filter>
     </ClInclude>
-    <ClInclude Include="Divers\WinIndicator\Segment.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="Divers\WinIndicator\WinLIP_5Nx.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Drivers\WinIndicator</Filter>
+    </ClInclude>
+    <ClInclude Include="Divers\WinIndicator\Segment.h">
+      <Filter>Drivers\WinIndicator</Filter>
+    </ClInclude>
+    <ClInclude Include="Divers\WinIndicator\WinLIPModule.h">
+      <Filter>Drivers\WinIndicator</Filter>
+    </ClInclude>
+    <ClInclude Include="Divers\WinIndicator\IndicatorContainer.h">
+      <Filter>Drivers\WinIndicator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -65,11 +71,17 @@
     <ClCompile Include="Divers\WinIndicator\BaseWindow.cpp">
       <Filter>Drivers\WinIndicator</Filter>
     </ClCompile>
-    <ClCompile Include="Divers\WinIndicator\Segment.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="Divers\WinIndicator\WinLIP_5Nx.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Drivers\WinIndicator</Filter>
+    </ClCompile>
+    <ClCompile Include="Divers\WinIndicator\Segment.cpp">
+      <Filter>Drivers\WinIndicator</Filter>
+    </ClCompile>
+    <ClCompile Include="Divers\WinIndicator\WinLIPModule.cpp">
+      <Filter>Drivers\WinIndicator</Filter>
+    </ClCompile>
+    <ClCompile Include="Divers\WinIndicator\IndicatorContainer.cpp">
+      <Filter>Drivers\WinIndicator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

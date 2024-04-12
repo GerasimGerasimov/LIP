@@ -12,13 +12,19 @@ void Win7Segment::createSegment() {
 
 }
 
-int Win7Segment::getWidth() const {
-    return width;
-}
+//int Win7Segment::getWidth() const {
+//    return width;
+//}
+//
+//int Win7Segment::getHeight() const {
+//    return height;
+//}
 
-int Win7Segment::getHeight() const {
-    return height;
-}
+//void Win7Segment::turnOff() {
+//    for (const auto& n : Segments) {
+//        n->turnOff();
+//    }
+//}
 
 void Win7Segment::fillLocationSegment() {
     RECT rectSegment = {0};
@@ -71,12 +77,13 @@ Win7Segment::Win7Segment(Parameter param) : BaseWindow(param){
     border.right = 18;
     border.bottom = 10;
     fillLocationSegment();
+    createSegment();
 }
 
-void Win7Segment::on1(HDC hdc) {
-    Segments[0]->turnOn(hdc);
-    
-}
+//void Win7Segment::on1(HDC hdc) {
+//    Segments[0]->turnOn(hdc);
+//    
+//}
 
 
 
