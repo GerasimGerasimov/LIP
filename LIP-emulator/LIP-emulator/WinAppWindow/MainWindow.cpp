@@ -3,8 +3,17 @@
 #include "Divers/WinIndicator/WinLIPModule.h"
 #include "DI/WinDI.h"
 
-HINSTANCE MainWindow::hInst = NULL;   // текущий экземпляр
-WinLIPModule* MainWindow::indicator = nullptr;
+namespace MainWindow {
+    HWND hWnd;
+    WinLIPModule* indicator;
+    HINSTANCE hInst;                                // текущий экземпляр
+    WCHAR szTitle[MAX_LOADSTRING];                  // Текст строки заголовка
+    WCHAR szWindowClass[MAX_LOADSTRING];            // имя класса главного окна
+    WinDI* winDI;
+    void createObject();
+    void createIndicator();
+    void createDI();
+}
 
 void MainWindow::createObject() {
     createIndicator();
@@ -73,7 +82,7 @@ BOOL MainWindow::InitInstance(HINSTANCE hInstance, int nCmdShow) {
 void MainWindow::createDI() {
     BaseObject::Parameter param;
     param.parrent = hWnd;
-    param.rect = {500, 10, 0, 0};
+    param.rect = {500, 10, 0, 0}; //длина и ширина вычисляются самим объектом 
     winDI = new WinDI(param);
 }
 

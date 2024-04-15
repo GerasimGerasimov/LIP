@@ -6,17 +6,6 @@
 
 #include "MainWindow.h"
 
-// Глобальные переменные:
-//HINSTANCE hInst;                                // текущий экземпляр
-//WCHAR szTitle[MAX_LOADSTRING];                  // Текст строки заголовка
-//WCHAR szWindowClass[MAX_LOADSTRING];            // имя класса главного окна
-
-// Отправить объявления функций, включенных в этот модуль кода:
-//ATOM                MyRegisterClass(HINSTANCE hInstance);
-//BOOL                InitInstance(HINSTANCE, int);
-//LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
-//INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
-
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
@@ -26,14 +15,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     // TODO: Разместите код здесь.
-    MainWindow window;
+
     // Инициализация глобальных строк
-    LoadStringW(hInstance, IDS_APP_TITLE, window.szTitle, MAX_LOADSTRING);
-    LoadStringW(hInstance, IDC_LIPEMULATOR, window.szWindowClass, MAX_LOADSTRING);
-    window.MyRegisterClass(hInstance);
+    LoadStringW(hInstance, IDS_APP_TITLE, MainWindow::szTitle, MAX_LOADSTRING);
+    LoadStringW(hInstance, IDC_LIPEMULATOR, MainWindow::szWindowClass, MAX_LOADSTRING);
+    MainWindow::MyRegisterClass(hInstance);
 
     // Выполнить инициализацию приложения:
-    if (!window.InitInstance (hInstance, nCmdShow))
+    if (!MainWindow::InitInstance (hInstance, nCmdShow))
     {
         return FALSE;
     }
