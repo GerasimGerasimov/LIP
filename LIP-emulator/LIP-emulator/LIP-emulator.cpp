@@ -3,8 +3,9 @@
 
 #include "framework.h"
 #include "LIP-emulator.h"
-
+#include "threads/MainThread.h"
 #include "MainWindow.h"
+
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -30,7 +31,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_LIPEMULATOR));
 
     MSG msg;
-
+    
+    //MainThread::createMCU();
     // Цикл основного сообщения:
     while (GetMessage(&msg, nullptr, 0, 0))
     {
@@ -41,5 +43,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
     }
 
+    //MainThread::closeMCU();
     return (int) msg.wParam;
 }

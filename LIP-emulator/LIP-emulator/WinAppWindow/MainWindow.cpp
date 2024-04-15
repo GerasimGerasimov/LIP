@@ -150,3 +150,7 @@ INT_PTR MainWindow::About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
     }
     return (INT_PTR)FALSE;
 }
+
+void MainWindow::setData(std::vector<uint8_t> vecData) {
+    indicator->setData(vecData);
+}

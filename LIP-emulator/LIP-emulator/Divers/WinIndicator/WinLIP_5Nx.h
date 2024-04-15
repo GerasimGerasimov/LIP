@@ -13,6 +13,6 @@ public:
 	WinLIP_5Nx(Parameter param);
 	void createIndicator();
 	//void turnOff();
-
+	int getByteIndication();
 };
 

@@ -13,6 +13,7 @@ public:
 	WinLIPModule(Parameter param, int CountIndicator, RECT newBorder);
 	void createSegment();
 	//static RECT getRect(int CountIndicator);
+	void setData(std::vector<uint8_t> vecData);
 };
 
 //width 430

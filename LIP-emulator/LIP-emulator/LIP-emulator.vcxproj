@@ -138,6 +138,7 @@
     <ClInclude Include="Divers\WinIndicator\WinLIP_5Nx.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="LIP-emulator.h" />
+    <ClInclude Include="MainThread.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="WinAppWindow\MainWindow.h" />
@@ -152,6 +153,7 @@
     <ClCompile Include="Divers\WinIndicator\WinLIPModule.cpp" />
     <ClCompile Include="Divers\WinIndicator\WinLIP_5Nx.cpp" />
     <ClCompile Include="LIP-emulator.cpp" />
+    <ClCompile Include="threads\MainThread.cpp" />
     <ClCompile Include="WinAppWindow\MainWindow.cpp" />
   </ItemGroup>
   <ItemGroup>

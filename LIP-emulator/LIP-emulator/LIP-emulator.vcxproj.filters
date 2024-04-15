@@ -25,6 +25,9 @@
     <Filter Include="Drivers\DI">
       <UniqueIdentifier>{b5c9dc6d-589b-4755-9cfe-bfcec54ff460}</UniqueIdentifier>
     </Filter>
+    <Filter Include="threads">
+      <UniqueIdentifier>{b1e9a00f-196a-45cb-aa6d-72934ca55c3a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -66,6 +69,9 @@
     <ClInclude Include="Divers\DI\WinDI.h">
       <Filter>Drivers\DI</Filter>
     </ClInclude>
+    <ClInclude Include="MainThread.h">
+      <Filter>threads</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LIP-emulator.cpp">
@@ -97,6 +103,9 @@
     </ClCompile>
     <ClCompile Include="Divers\DI\WinDI.cpp">
       <Filter>Drivers\DI</Filter>
+    </ClCompile>
+    <ClCompile Include="threads\MainThread.cpp">
+      <Filter>threads</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
