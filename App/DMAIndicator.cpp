@@ -17,6 +17,11 @@ DMAIndicator::DMAIndicator() {
 
 }
 
+void DMAIndicator::bringOutValue(){
+  GPIO_SetBits(GPIOA, GPIO_Pin_6); //ON
+  GPIO_ResetBits(GPIOA, GPIO_Pin_6); //OFF
+}
+
 void DMAIndicator::DMAstart(uint32_t BufferSize){
   DMA1_Channel3->CNDTR = BufferSize;
   DMA_Cmd(DMA1_Channel3, ENABLE);
@@ -36,7 +41,7 @@ extern "C" void DMA1_Channel3_IRQHandler(void)//прерывание вызыв�
 
     };
 
-    Indicator::bringOutValue();    
+    DMAIndicator::bringOutValue();
 
     DMA_ClearITPendingBit(DMA1_IT_TC3);
     //DMA1->IFCR |= DMA_ISR_TCIF3; //сбрасываем флаг окончания обмена  

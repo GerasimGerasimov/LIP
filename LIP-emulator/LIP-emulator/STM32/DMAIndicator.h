@@ -5,7 +5,7 @@
 class DMAIndicator
 {
 private:
-	
+
 	DMAIndicator();
 	DMAIndicator(const DMAIndicator&) = delete;
 	DMAIndicator& operator=(const DMAIndicator&) = delete;

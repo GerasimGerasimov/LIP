@@ -34,6 +34,39 @@
     <Filter Include="MCU\App">
       <UniqueIdentifier>{08dcf034-c29c-4bbd-af9b-3c93fb46f7c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MCU\Indicator">
+      <UniqueIdentifier>{d0dbc804-d3c9-42e4-99b2-a1b1b3182c5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MCU\Helpers">
+      <UniqueIdentifier>{9673bd19-91b0-44bc-afa4-899d473a1a1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="STM32">
+      <UniqueIdentifier>{d64935c5-0185-4e4e-a92f-5f831ca99723}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MCU\ini">
+      <UniqueIdentifier>{93e1e4dc-032c-4d3b-a87b-2d444fa09d26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MCU\Router">
+      <UniqueIdentifier>{7f6a03f7-2407-4d69-b1ae-69a63b999e32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MCU\Slots">
+      <UniqueIdentifier>{82a8abc0-02e6-4893-b4c0-ee5c89de6b66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MCU\Msg">
+      <UniqueIdentifier>{c160f1dc-d93c-42c1-a93a-286f96153340}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MCU\Buffer">
+      <UniqueIdentifier>{2c554d83-0f7b-4a38-9354-edbd6f7468e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MCU\Parameters">
+      <UniqueIdentifier>{ef3f0f3b-4cc0-49ad-bf4d-9917aeb424d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MCU\Page">
+      <UniqueIdentifier>{9bbf65dc-3ebe-492d-848a-560726684f69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MCU\DevicePollManager">
+      <UniqueIdentifier>{25bb1cbd-81b6-41e0-a94e-613d87e3363d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -81,6 +114,99 @@
     <ClInclude Include="..\..\App\MCU\App\App.h">
       <Filter>MCU\App</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\App\MCU\Indicator\Indicator.h">
+      <Filter>MCU\Indicator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\Indicator\LIP_5Nx.h">
+      <Filter>MCU\Indicator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\Helpers\utils.h">
+      <Filter>MCU\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="STM32\stm32f10x.h">
+      <Filter>STM32</Filter>
+    </ClInclude>
+    <ClInclude Include="STM32\bastypes.h">
+      <Filter>STM32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\ini\IniResources.h">
+      <Filter>MCU\ini</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\ini\parser.h">
+      <Filter>MCU\ini</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\Router\Router.h">
+      <Filter>MCU\Router</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\Slots\SlotHandlerType.h">
+      <Filter>MCU\Slots</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\Msg\msg.h">
+      <Filter>MCU\Msg</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\Buffer\Buffer.h">
+      <Filter>MCU\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\Parameters\GeneralCaseSignal.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\Parameters\InternalAdresation.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\Parameters\Parameter.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\Parameters\ParametersUtils.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\Parameters\Scale.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\Parameters\scaleutils.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\Parameters\signal.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\Parameters\SignalFactoty.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\Parameters\TBit.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\Parameters\TFloat.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\Parameters\TPrmList.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\Parameters\TS16BIT.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\Parameters\TU8BIT.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\Parameters\TU16BIT.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\Parameters\TU32BIT.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\Page\Page.h">
+      <Filter>MCU\Page</Filter>
+    </ClInclude>
+    <ClInclude Include="STM32\DMAIndicator.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\DevicePollManager\DevicePollManager.h">
+      <Filter>MCU\DevicePollManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\DevicePollManager\Slot.h">
+      <Filter>MCU\DevicePollManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\crc16.h">
+      <Filter>MCU</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LIP-emulator.cpp">
@@ -118,6 +244,87 @@
     </ClCompile>
     <ClCompile Include="..\..\App\MCU\App\App.cpp">
       <Filter>MCU\App</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\Indicator\Indicator.cpp">
+      <Filter>MCU\Indicator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\Indicator\LIP_5Nx.cpp">
+      <Filter>MCU\Indicator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\Helpers\utils.cpp">
+      <Filter>MCU\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\ini\IniResources.cpp">
+      <Filter>MCU\ini</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\ini\parser.cpp">
+      <Filter>MCU\ini</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\Router\Router.cpp">
+      <Filter>MCU\Router</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\Msg\msg.cpp">
+      <Filter>MCU\Msg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\Buffer\Buffer.cpp">
+      <Filter>MCU\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\Parameters\GeneralCaseSignal.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\Parameters\Parameter.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\Parameters\ParametersUtils.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\Parameters\Scale.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\Parameters\scaleutils.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\Parameters\signal.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\Parameters\SignalFactoty.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\Parameters\TBit.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\Parameters\TFloat.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\Parameters\TPrmList.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\Parameters\TS16BIT.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\Parameters\TU8BIT.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\Parameters\TU16BIT.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\Parameters\TU32BIT.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\Page\Page.cpp">
+      <Filter>MCU\Page</Filter>
+    </ClCompile>
+    <ClCompile Include="STM32\DMAIndicator.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\DevicePollManager\DevicePollManager.cpp">
+      <Filter>MCU\DevicePollManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\DevicePollManager\Slot.cpp">
+      <Filter>MCU\DevicePollManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\crc16.c">
+      <Filter>MCU</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

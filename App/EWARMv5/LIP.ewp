@@ -1241,6 +1241,9 @@
                     <name>$PROJ_DIR$\..\MCU\Router\Router.cpp</name>
                 </file>
             </group>
+            <file>
+                <name>$PROJ_DIR$\..\MCU\crc16.c</name>
+            </file>
         </group>
         <group>
             <name>modbus</name>
@@ -1259,9 +1262,6 @@
         </group>
         <file>
             <name>$PROJ_DIR$\..\app_check_info.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\crc16.c</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\DMAIndicator.cpp</name>

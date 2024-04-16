@@ -102,9 +102,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\App\MCU;$(ProjectDir);$(ProjectDir)\WinAppWindow;$(ProjectDir)\Divers;$(ProjectDir)\Divers\WinIndicator;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\STM32;$(ProjectDir)\..\..\App\MCU;$(ProjectDir);$(ProjectDir)\WinAppWindow;$(ProjectDir)\Divers;$(ProjectDir)\Divers\WinIndicator;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -129,6 +129,34 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\App\MCU\App\App.h" />
+    <ClInclude Include="..\..\App\MCU\Buffer\Buffer.h" />
+    <ClInclude Include="..\..\App\MCU\crc16.h" />
+    <ClInclude Include="..\..\App\MCU\DevicePollManager\DevicePollManager.h" />
+    <ClInclude Include="..\..\App\MCU\DevicePollManager\Slot.h" />
+    <ClInclude Include="..\..\App\MCU\Helpers\utils.h" />
+    <ClInclude Include="..\..\App\MCU\Indicator\Indicator.h" />
+    <ClInclude Include="..\..\App\MCU\Indicator\LIP_5Nx.h" />
+    <ClInclude Include="..\..\App\MCU\ini\IniResources.h" />
+    <ClInclude Include="..\..\App\MCU\ini\parser.h" />
+    <ClInclude Include="..\..\App\MCU\Msg\msg.h" />
+    <ClInclude Include="..\..\App\MCU\Page\Page.h" />
+    <ClInclude Include="..\..\App\MCU\Parameters\GeneralCaseSignal.h" />
+    <ClInclude Include="..\..\App\MCU\Parameters\InternalAdresation.h" />
+    <ClInclude Include="..\..\App\MCU\Parameters\Parameter.h" />
+    <ClInclude Include="..\..\App\MCU\Parameters\ParametersUtils.h" />
+    <ClInclude Include="..\..\App\MCU\Parameters\Scale.h" />
+    <ClInclude Include="..\..\App\MCU\Parameters\scaleutils.h" />
+    <ClInclude Include="..\..\App\MCU\Parameters\signal.h" />
+    <ClInclude Include="..\..\App\MCU\Parameters\SignalFactoty.h" />
+    <ClInclude Include="..\..\App\MCU\Parameters\TBit.h" />
+    <ClInclude Include="..\..\App\MCU\Parameters\TFloat.h" />
+    <ClInclude Include="..\..\App\MCU\Parameters\TPrmList.h" />
+    <ClInclude Include="..\..\App\MCU\Parameters\TS16BIT.h" />
+    <ClInclude Include="..\..\App\MCU\Parameters\TU16BIT.h" />
+    <ClInclude Include="..\..\App\MCU\Parameters\TU32BIT.h" />
+    <ClInclude Include="..\..\App\MCU\Parameters\TU8BIT.h" />
+    <ClInclude Include="..\..\App\MCU\Router\Router.h" />
+    <ClInclude Include="..\..\App\MCU\Slots\SlotHandlerType.h" />
     <ClInclude Include="Divers\BaseObject.h" />
     <ClInclude Include="Divers\DI\WinDI.h" />
     <ClInclude Include="Divers\WinIndicator\BaseWindow.h" />
@@ -141,11 +169,40 @@
     <ClInclude Include="LIP-emulator.h" />
     <ClInclude Include="MainThread.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="STM32\bastypes.h" />
+    <ClInclude Include="STM32\DMAIndicator.h" />
+    <ClInclude Include="STM32\stm32f10x.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="WinAppWindow\MainWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\App\MCU\App\App.cpp" />
+    <ClCompile Include="..\..\App\MCU\Buffer\Buffer.cpp" />
+    <ClCompile Include="..\..\App\MCU\crc16.c" />
+    <ClCompile Include="..\..\App\MCU\DevicePollManager\DevicePollManager.cpp" />
+    <ClCompile Include="..\..\App\MCU\DevicePollManager\Slot.cpp" />
+    <ClCompile Include="..\..\App\MCU\Helpers\utils.cpp" />
+    <ClCompile Include="..\..\App\MCU\Indicator\Indicator.cpp" />
+    <ClCompile Include="..\..\App\MCU\Indicator\LIP_5Nx.cpp" />
+    <ClCompile Include="..\..\App\MCU\ini\IniResources.cpp" />
+    <ClCompile Include="..\..\App\MCU\ini\parser.cpp" />
+    <ClCompile Include="..\..\App\MCU\Msg\msg.cpp" />
+    <ClCompile Include="..\..\App\MCU\Page\Page.cpp" />
+    <ClCompile Include="..\..\App\MCU\Parameters\GeneralCaseSignal.cpp" />
+    <ClCompile Include="..\..\App\MCU\Parameters\Parameter.cpp" />
+    <ClCompile Include="..\..\App\MCU\Parameters\ParametersUtils.cpp" />
+    <ClCompile Include="..\..\App\MCU\Parameters\Scale.cpp" />
+    <ClCompile Include="..\..\App\MCU\Parameters\scaleutils.cpp" />
+    <ClCompile Include="..\..\App\MCU\Parameters\signal.cpp" />
+    <ClCompile Include="..\..\App\MCU\Parameters\SignalFactoty.cpp" />
+    <ClCompile Include="..\..\App\MCU\Parameters\TBit.cpp" />
+    <ClCompile Include="..\..\App\MCU\Parameters\TFloat.cpp" />
+    <ClCompile Include="..\..\App\MCU\Parameters\TPrmList.cpp" />
+    <ClCompile Include="..\..\App\MCU\Parameters\TS16BIT.cpp" />
+    <ClCompile Include="..\..\App\MCU\Parameters\TU16BIT.cpp" />
+    <ClCompile Include="..\..\App\MCU\Parameters\TU32BIT.cpp" />
+    <ClCompile Include="..\..\App\MCU\Parameters\TU8BIT.cpp" />
+    <ClCompile Include="..\..\App\MCU\Router\Router.cpp" />
     <ClCompile Include="Divers\BaseObject.cpp" />
     <ClCompile Include="Divers\DI\WinDI.cpp" />
     <ClCompile Include="Divers\WinIndicator\BaseWindow.cpp" />
@@ -155,6 +212,7 @@
     <ClCompile Include="Divers\WinIndicator\WinLIPModule.cpp" />
     <ClCompile Include="Divers\WinIndicator\WinLIP_5Nx.cpp" />
     <ClCompile Include="LIP-emulator.cpp" />
+    <ClCompile Include="STM32\DMAIndicator.cpp" />
     <ClCompile Include="threads\MainThread.cpp" />
     <ClCompile Include="WinAppWindow\MainWindow.cpp" />
   </ItemGroup>

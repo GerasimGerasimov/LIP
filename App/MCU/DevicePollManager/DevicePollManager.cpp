@@ -1,7 +1,6 @@
 #include "DevicePollManager.h"
-#include "crc16.h"
-#include "com_master_driver.h"
-#include "ramdata.h"
+//#include "com_master_driver.h" //TODO
+//#include "ramdata.h"
 
 DevicePollManager::DevicePollManager(){
 	slot = nullptr;
@@ -23,7 +22,7 @@ void DevicePollManager::init(std::vector <Slot> slots) {
 void DevicePollManager::execute(void) {
 
 	
-	TComMasterTask task;
+	//TComMasterTask task; //TODO com_master_driver
 		//static u8 Lo = 0;
 		//static u8 Hi = 0;
   		//static std::vector<u8> command = {0x01, 0x10, 0x00, 0x06, 0x00, 0x01, 0x02, 0x00, 0x00 };
@@ -38,11 +37,11 @@ void DevicePollManager::execute(void) {
 		//command[7] = Hi;
 		//command[8] = Lo;
 		//slot->addcmd(command);
-		task.pbuff = (u8*)&slot->OutBuf;
-		task.len = slot->cmdLen;
-		task.TimeOut = slot->TimeOut;
-		task.callback = &DevicePollManager::checkRespond;
-		ComMasterDriver::send(task);
+		//task.pbuff = (u8*)&slot->OutBuf;
+		//task.len = slot->cmdLen;
+		//task.TimeOut = slot->TimeOut;
+		//task.callback = &DevicePollManager::checkRespond;
+		//ComMasterDriver::send(task);
 		//++RAM_DATA.counter[0];
 		
 		Status = DevicePollManagerStatus::WAIT_RESPOND;

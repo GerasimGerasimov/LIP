@@ -1,8 +1,4 @@
 #include "LIP_5Nx.h"
-#include "ramdata.h"
-#include "spi.h"
-#include "array"
-
 
 LIP_5Nx::LIP_5Nx(){
     DataSize = 5;

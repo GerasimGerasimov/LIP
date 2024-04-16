@@ -8,7 +8,7 @@
 #include <array>
 
 const std::string TBit::SignalType = "TBit";
-const std::array<u16, 16> Mask2BitNumber = { 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768 };
+const std::array<u16, 16> TBit::Mask2BitNumber = { 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768 };
 
 const std::string TBit::value(const TSlotHandlerArsg& args) {
     bool input = getRawValue(args);
