@@ -13,6 +13,7 @@ private:
 	void createSegment();
 public:
 	Segment(Parameter param);
+	//для однообразия кода используется std::vector<uint8_t>
 	void setData(std::vector<uint8_t>& vecData) override;
 
 };

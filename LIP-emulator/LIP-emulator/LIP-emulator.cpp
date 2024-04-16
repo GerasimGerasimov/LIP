@@ -46,6 +46,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
     }
 
-    //MainThread::closeMCU();
+    MainThread::closeMCU();
     return (int) msg.wParam;
 }

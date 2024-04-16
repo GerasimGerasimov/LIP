@@ -1,6 +1,7 @@
 #include "MainThread.h"
 #include "framework.h"
 #include "MainWindow.h"
+#include "App/App.h"
 
 #include <vector>
 
@@ -10,6 +11,7 @@ namespace MainThread {
 }
 
 DWORD WINAPI mcuMain(LPVOID lpParam) {
+	App::getInstance();
 	Sleep(1000);
 	int byteCount = 15;
 	std::vector<uint8_t> vecData(byteCount);
@@ -32,6 +34,7 @@ void MainThread::createMCU() {
 
 void MainThread::closeMCU() {
 	if (hMCUMainThread != NULL) {
+		MainWindow::close();
 		CloseHandle(hMCUMainThread);
 	}
 }

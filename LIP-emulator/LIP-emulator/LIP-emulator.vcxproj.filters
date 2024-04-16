@@ -28,6 +28,12 @@
     <Filter Include="threads">
       <UniqueIdentifier>{b1e9a00f-196a-45cb-aa6d-72934ca55c3a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MCU">
+      <UniqueIdentifier>{87c3417c-d3df-4c09-b318-c702cfe02c60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MCU\App">
+      <UniqueIdentifier>{08dcf034-c29c-4bbd-af9b-3c93fb46f7c9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -72,6 +78,9 @@
     <ClInclude Include="MainThread.h">
       <Filter>threads</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\App\MCU\App\App.h">
+      <Filter>MCU\App</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LIP-emulator.cpp">
@@ -106,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="threads\MainThread.cpp">
       <Filter>threads</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\App\App.cpp">
+      <Filter>MCU\App</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

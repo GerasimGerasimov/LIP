@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\WinAppWindow;$(ProjectDir)\Divers;$(ProjectDir)\Divers\WinIndicator;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\App\MCU;$(ProjectDir);$(ProjectDir)\WinAppWindow;$(ProjectDir)\Divers;$(ProjectDir)\Divers\WinIndicator;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -128,6 +128,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\App\MCU\App\App.h" />
     <ClInclude Include="Divers\BaseObject.h" />
     <ClInclude Include="Divers\DI\WinDI.h" />
     <ClInclude Include="Divers\WinIndicator\BaseWindow.h" />
@@ -144,6 +145,7 @@
     <ClInclude Include="WinAppWindow\MainWindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\App\MCU\App\App.cpp" />
     <ClCompile Include="Divers\BaseObject.cpp" />
     <ClCompile Include="Divers\DI\WinDI.cpp" />
     <ClCompile Include="Divers\WinIndicator\BaseWindow.cpp" />

@@ -154,3 +154,14 @@ INT_PTR MainWindow::About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 void MainWindow::setData(std::vector<uint8_t> &vecData) {
     indicator->setData(vecData);
 }
+
+void MainWindow::close() {
+    if (winDI) {
+        delete winDI;
+        winDI = nullptr;
+    }
+    if (indicator) {
+        delete indicator;
+        indicator = nullptr;
+    }
+}
