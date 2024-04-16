@@ -34,13 +34,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     MSG msg;
     
     //TODO проверка работы индикаторов
-    int byteCount = 15;
-    std::vector<uint8_t> vecData(byteCount);
-    for (int i = 0; i < byteCount; ++i) {
-        vecData[i] = i;
-    }
-    MainWindow::setData(vecData);
-    //MainThread::createMCU();
+
+    MainThread::createMCU();
     // Цикл основного сообщения:
     while (GetMessage(&msg, nullptr, 0, 0))
     {

@@ -11,3 +11,9 @@ BaseObject::BaseObject(Parameter param) {
 }
 
 BaseObject::~BaseObject() {}
+
+void BaseObject::setData(std::vector<uint8_t>& vecData) {}
+
+int BaseObject::getByteIndication() {
+	return 0;
+}

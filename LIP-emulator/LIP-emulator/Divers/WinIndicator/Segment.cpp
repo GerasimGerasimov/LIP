@@ -2,17 +2,18 @@
 
 void Segment::setColor(HBRUSH brush) {
 	RECT newRect{ 0, 0, width, height };
-	PAINTSTRUCT ps;
-	BeginPaint(hwnd, &ps);
-
 	FillRect(hdc, &newRect, brush);
-	EndPaint(hwnd, &ps);
 }
 
-Segment::Segment(Parameter param) : BaseWindow(param){
+void Segment::createSegment() {
+	hwnd = CreateWindow(L"static", L"", WS_VISIBLE | WS_CHILD, rect.left, rect.top, width, height, Parrent,
+		NULL, NULL, NULL);
+}
+
+Segment::Segment(Parameter param) : BaseObject(param){
+	createSegment();
 	
-	
-	brushOn = CreateSolidBrush(RGB(0, 255, 0));
+	brushOn = CreateSolidBrush(RGB(100, 255, 100));
 	brushOff = CreateSolidBrush(RGB(0, 0, 0));
 
 	hdc = GetDC(hwnd);

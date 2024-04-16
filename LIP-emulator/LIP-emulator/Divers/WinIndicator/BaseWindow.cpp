@@ -8,9 +8,3 @@ void BaseWindow::createIndicatorWindow() {
 BaseWindow::BaseWindow(Parameter param) : BaseObject(param){
 	createIndicatorWindow();
 }
-
-void BaseWindow::setData(std::vector<uint8_t>& vecData) {}
-
-int BaseWindow::getByteIndication() {
-	return 0;
-}

@@ -8,7 +8,7 @@
 class IndicatorContainer : public BaseWindow
 {
 protected:
-	std::vector<std::unique_ptr<BaseWindow>> Indicators;
+	std::vector<std::unique_ptr<BaseObject>> Indicators;
 	RECT border;
 	int indent;
 	int widthIndicator; //длина дочернего индикатора

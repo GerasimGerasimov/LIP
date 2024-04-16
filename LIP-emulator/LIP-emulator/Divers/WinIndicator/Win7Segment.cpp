@@ -97,10 +97,7 @@ void Win7Segment::setData(std::vector<uint8_t>& vecData) {
     }
     for (int i = 0; i < Indicators.size(); ++i) {
         std::vector<uint8_t> state(1);
-        
-        uint8_t newint = vecData[0] & (1 << i);
-        state[0] = ((vecData[0]) & (1 << i));
-        
+        state[0] = ((vecData[0]) & (1 << i)); 
         Indicators[i]->setData(state);
     }
 }
