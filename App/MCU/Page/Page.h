@@ -5,7 +5,7 @@
 #include <string>
 
 #include "Indicator/Indicator.h"
-#include "Buffer.h"
+#include "Buffer/Buffer.h"
 
 class Page
 {

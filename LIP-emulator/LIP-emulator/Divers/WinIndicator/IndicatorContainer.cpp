@@ -21,7 +21,10 @@ IndicatorContainer::IndicatorContainer(Parameter param) : BaseWindow(param) {
 }
 
 void IndicatorContainer::setData(std::vector<uint8_t>& vecData) {
+	//итератор для сохранения используемого элемента
 	std::vector<uint8_t>::iterator iterator = vecData.begin();
+	//данные приходят в обратном порядке
+	//для переворачивания данных обратно - отправляются данные начиная в с последнего индиккатора
 	for (auto n = Indicators.rbegin(); n != Indicators.rend(); ++n) {
 		int byteCount = (*n)->getByteIndication();
 		std::vector<uint8_t> dataIndicator;

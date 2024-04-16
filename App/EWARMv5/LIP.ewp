@@ -355,6 +355,7 @@
                     <state>$PROJ_DIR$\..\</state>
                     <state>$PROJ_DIR$\..\Drivers\Communications</state>
                     <state>$PROJ_DIR$\..\Drivers</state>
+                    <state>$PROJ_DIR$\..\MCU</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -1125,15 +1126,6 @@
     <group>
         <name>User</name>
         <group>
-            <name>DevicePollManager</name>
-            <file>
-                <name>$PROJ_DIR$\..\DevicePollManager\DevicePollManager.cpp</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\DevicePollManager\Slot.cpp</name>
-            </file>
-        </group>
-        <group>
             <name>Drivers</name>
             <group>
                 <name>Communications</name>
@@ -1146,22 +1138,109 @@
             </file>
         </group>
         <group>
-            <name>Indicator</name>
-            <file>
-                <name>$PROJ_DIR$\..\Indicator\Indicator.cpp</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Indicator\LIP_5Nx.cpp</name>
-            </file>
-        </group>
-        <group>
-            <name>ini</name>
-            <file>
-                <name>$PROJ_DIR$\..\ini\IniResources.cpp</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\ini\parser.cpp</name>
-            </file>
+            <name>MCU</name>
+            <group>
+                <name>Buffer</name>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\Buffer\Buffer.cpp</name>
+                </file>
+            </group>
+            <group>
+                <name>DevicePollManager</name>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\DevicePollManager\DevicePollManager.cpp</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\DevicePollManager\Slot.cpp</name>
+                </file>
+            </group>
+            <group>
+                <name>Helpers</name>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\Helpers\utils.cpp</name>
+                </file>
+            </group>
+            <group>
+                <name>Indicator</name>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\Indicator\Indicator.cpp</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\Indicator\LIP_5Nx.cpp</name>
+                </file>
+            </group>
+            <group>
+                <name>ini</name>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\ini\IniResources.cpp</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\ini\parser.cpp</name>
+                </file>
+            </group>
+            <group>
+                <name>Msg</name>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\Msg\msg.cpp</name>
+                </file>
+            </group>
+            <group>
+                <name>Page</name>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\Page\Page.cpp</name>
+                </file>
+            </group>
+            <group>
+                <name>Parameters</name>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\Parameters\GeneralCaseSignal.cpp</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\Parameters\Parameter.cpp</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\Parameters\ParametersUtils.cpp</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\Parameters\Scale.cpp</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\Parameters\scaleutils.cpp</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\Parameters\signal.cpp</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\Parameters\SignalFactoty.cpp</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\Parameters\TBit.cpp</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\Parameters\TFloat.cpp</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\Parameters\TPrmList.cpp</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\Parameters\TS16BIT.cpp</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\Parameters\TU16BIT.cpp</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\Parameters\TU32BIT.cpp</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\Parameters\TU8BIT.cpp</name>
+                </file>
+            </group>
+            <group>
+                <name>Router</name>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\Router\Router.cpp</name>
+                </file>
+            </group>
         </group>
         <group>
             <name>modbus</name>
@@ -1178,71 +1257,8 @@
                 <name>$PROJ_DIR$\..\modbus\uart1rs485.c</name>
             </file>
         </group>
-        <group>
-            <name>Msg</name>
-            <file>
-                <name>$PROJ_DIR$\..\Msg\msg.cpp</name>
-            </file>
-        </group>
-        <group>
-            <name>Page</name>
-            <file>
-                <name>$PROJ_DIR$\..\Page\Page.cpp</name>
-            </file>
-        </group>
-        <group>
-            <name>Parameters</name>
-            <file>
-                <name>$PROJ_DIR$\..\Parameters\GeneralCaseSignal.cpp</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Parameters\Parameter.cpp</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Parameters\ParametersUtils.cpp</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Parameters\Scale.cpp</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Parameters\scaleutils.cpp</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Parameters\signal.cpp</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Parameters\TBit.cpp</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Parameters\TFloat.cpp</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Parameters\TPrmList.cpp</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Parameters\TS16BIT.cpp</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Parameters\TU16BIT.cpp</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Parameters\TU32BIT.cpp</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Parameters\TU8BIT.cpp</name>
-            </file>
-        </group>
-        <group>
-            <name>Router</name>
-            <file>
-                <name>$PROJ_DIR$\..\Router\Router.cpp</name>
-            </file>
-        </group>
         <file>
             <name>$PROJ_DIR$\..\app_check_info.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\Buffer.cpp</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\crc16.c</name>
@@ -1276,9 +1292,6 @@
         </file>
         <file>
             <name>$PROJ_DIR$\..\stm32f10x_it.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\utils.cpp</name>
         </file>
     </group>
 </project>
