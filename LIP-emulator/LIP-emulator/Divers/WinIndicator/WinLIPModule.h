@@ -7,13 +7,9 @@ class WinLIPModule : public IndicatorContainer
 {
 private:
 	int count;
-	//static const int widthChildIndicator = 410;
-	//static const int heightChildIndicator = 110;
 public:
 	WinLIPModule(Parameter param, int CountIndicator, RECT newBorder);
 	void createSegment();
-	//static RECT getRect(int CountIndicator);
-	void setData(std::vector<uint8_t> vecData);
 };
 
 //width 430

@@ -24,10 +24,6 @@ void WinLIPModule::createSegment() {
 	}
 }
 
-void WinLIPModule::setData(std::vector<uint8_t>) {
-
-}
-
 //RECT WinLIPModule::getRect(int CountIndicator) {
 //	RECT rect;
 //	rect.left = 0;

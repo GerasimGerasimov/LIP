@@ -2,29 +2,32 @@
 
 #include "BaseWindow.h"
 #include "Segment.h"
+#include "IndicatorContainer.h"
 
 #include <vector>
 #include <memory>
 
 // 7-сегментный индикатор
-class Win7Segment : public BaseWindow
+class Win7Segment : public IndicatorContainer
 {
 private:
-	 
-	std::vector<std::unique_ptr<BaseObject>> Segments;
+	enum class Type {
+		ANODE,
+		KATHODE
+	};
+
+	static const Type type = Type::ANODE;
 	std::vector<RECT> LocationSegments;
 
 	void fillLocationSegment();
-	RECT border;
 	int segmentWeight;
+	std::vector<uint8_t> splitData(std::vector<uint8_t>::iterator& iterator, int byte) override;
 public:
 	Win7Segment(Parameter param);
-
+	void setData(std::vector<uint8_t>& vecData) override;
 	//void on1(HDC hdc);
 	void createSegment();
-	//int getWidth() const;
-	//int getHeight() const;
-	//void turnOff();
+	int getByteIndication() override;
 };
 
 /*

@@ -31,6 +31,10 @@ int WinLIP_5Nx::getByteIndication() {
 	return count;
 }
 
+//void WinLIP_5Nx::setData(std::vector<uint8_t>& vecData) {
+//
+//}
+
 //void WinLIP_5Nx::turnOff() {
 //	for (const auto& n : Indicators) {
 //		n->turnOff();

@@ -1,5 +1,14 @@
 #include "Segment.h"
 
+void Segment::setColor(HBRUSH brush) {
+	RECT newRect{ 0, 0, width, height };
+	PAINTSTRUCT ps;
+	BeginPaint(hwnd, &ps);
+
+	FillRect(hdc, &newRect, brush);
+	EndPaint(hwnd, &ps);
+}
+
 Segment::Segment(Parameter param) : BaseWindow(param){
 	
 	
@@ -7,20 +16,14 @@ Segment::Segment(Parameter param) : BaseWindow(param){
 	brushOff = CreateSolidBrush(RGB(0, 0, 0));
 
 	hdc = GetDC(hwnd);
-	//turnOff();
 }
 
-void Segment::turnOn(HDC Hdc) {
-
-	FillRect(Hdc, &rect, brushOn);
-}
-
-void Segment::turnOff() {
-	RECT newRect{ 0, 0, width, height };
-	PAINTSTRUCT ps;
-	BeginPaint(hwnd, &ps);
-	
-	FillRect(hdc, &newRect, brushOff);
-	EndPaint(hwnd, &ps);
+void Segment::setData(std::vector<uint8_t>& vecData) {
+	if (vecData[0] == 0) {
+		setColor(brushOff);
+	}
+	else {
+		setColor(brushOn);
+	}
 }
 

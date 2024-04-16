@@ -16,6 +16,6 @@ namespace MainWindow
 	LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 
-	void setData(std::vector<uint8_t> vecData);
+	void setData(std::vector<uint8_t> &vecData);
 };
 

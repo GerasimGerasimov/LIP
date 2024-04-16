@@ -44,7 +44,7 @@ void MainWindow::createIndicator() {
 
     BaseObject::Parameter param;
     param.parrent = hWnd;
-    int countIndicator = 4;
+    int countIndicator = 3;
     int indent = 10;
     int diserWidthIndicator = 410;
     int diserHeightIndicator = 110;
@@ -151,6 +151,6 @@ INT_PTR MainWindow::About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
     return (INT_PTR)FALSE;
 }
 
-void MainWindow::setData(std::vector<uint8_t> vecData) {
+void MainWindow::setData(std::vector<uint8_t> &vecData) {
     indicator->setData(vecData);
 }
