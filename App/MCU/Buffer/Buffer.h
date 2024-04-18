@@ -10,10 +10,10 @@
 class Buffer
 {
 private:
-	std::vector<uint8_t> buffer;
 	Status status;
 	std::vector<uint8_t>::reverse_iterator iterator;
 public:
+	std::vector<uint8_t> buffer;
 	Buffer();
 	Buffer& operator=(Buffer& buf);
 	uint32_t getAddrBuffer();

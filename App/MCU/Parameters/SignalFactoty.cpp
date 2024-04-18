@@ -14,7 +14,8 @@ const std::map<std::string, std::function<ISignal*(ISignal::PropsPointers)>> Typ
 	{"TInteger", [](ISignal::PropsPointers props) {return new TS16BIT(props); }},
 	{"TBit", [](ISignal::PropsPointers props) {return new TBit(props); }},
 	{"TWORD", [](ISignal::PropsPointers props) {return new TU16BIT(props); }},
-	{"TPrmList", [](ISignal::PropsPointers props) {return new TPrmList(props); }}
+	{"TPrmList", [](ISignal::PropsPointers props) {return new TPrmList(props); }},
+	{"TDWORD", [](ISignal::PropsPointers props) {return new TU32BIT(props); }}
 };
 
 SignalFactoty::SignalFactoty() {

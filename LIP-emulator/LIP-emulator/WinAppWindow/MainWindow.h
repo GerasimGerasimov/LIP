@@ -18,5 +18,7 @@ namespace MainWindow
 
 	void setData(std::vector<uint8_t> &vecData);
 	void close();
+	void TimeStart(TIMERPROC proc);
+	extern UINT IDT_TIMER1;
 };
 

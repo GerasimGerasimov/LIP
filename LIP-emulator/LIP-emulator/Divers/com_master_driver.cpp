@@ -27,7 +27,7 @@ DWORD __stdcall ComMasterDriver::com_thread(LPVOID lpParam) {
 		if (onReadEdnd) {
 			onReadEdnd(result, reply);
 		}
-		::SuspendThread(handleThread); //приостановить поток
+		SuspendThread(handleThread); //приостановить поток
 	}
 	return 0;
 }
@@ -72,5 +72,5 @@ void ComMasterDriver::send(TComMasterTask task) {
 	outBuf = task.pbuff;
 	outBufLen = task.len;
 	TimeOut = task.TimeOut;
-	::ResumeThread(handleThread); //возобновление потока
+	ResumeThread(handleThread); //возобновление потока
 }

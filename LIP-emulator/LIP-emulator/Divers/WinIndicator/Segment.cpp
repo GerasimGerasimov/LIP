@@ -13,7 +13,7 @@ void Segment::createSegment() {
 Segment::Segment(Parameter param) : BaseObject(param){
 	createSegment();
 	
-	brushOn = CreateSolidBrush(RGB(100, 255, 100));
+	brushOn = CreateSolidBrush(RGB(0, 255, 0));
 	brushOff = CreateSolidBrush(RGB(0, 0, 0));
 
 	hdc = GetDC(hwnd);

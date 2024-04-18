@@ -2,6 +2,7 @@
 #include "ramdata.h"
 #include "Page/Page.h"
 #include "Indicator/Indicator.h"
+#include "Buffer/Buffer.h"
 
 
 DMAIndicator& DMAIndicator::getInstance() {
@@ -9,8 +10,9 @@ DMAIndicator& DMAIndicator::getInstance() {
     return dma;
 }
 
-void DMAIndicator::setMemoryBaseAddr(uint32_t BaseAddr) {
-    DMA1_Channel3->CMAR = BaseAddr;
+void DMAIndicator::setMemoryBaseAddr(Buffer& buf) {
+  
+    DMA1_Channel3->CMAR = buf.getAddrBuffer();
 }
 
 DMAIndicator::DMAIndicator() {

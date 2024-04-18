@@ -16,12 +16,12 @@ Page::Page(){
         ListIndicators.push_back(indicator);
         sizeSegment += indicator->getDataSize();
     }
-    str = "11111";
-    str2 = "12.770";
-    str3 = "vvd.11";
+    str = "56789";
+    str2 = "12.7.7.0";
+    str3 = "vvd.1A";
     bufferData.setSizeBuffer(sizeSegment);
     bufferSender.setSizeBuffer(sizeSegment);
-    DMAIndicator::getInstance().setMemoryBaseAddr(bufferSender.getAddrBuffer());
+    DMAIndicator::getInstance().setMemoryBaseAddr(bufferSender);
     DMAIndicator::getInstance().DMAstart(sizeSegment);
     pageFunction = this;
 }

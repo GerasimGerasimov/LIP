@@ -2,6 +2,8 @@
 
 #include <stdint.h>
 
+class Buffer;
+
 class DMAIndicator
 {
 private:
@@ -14,7 +16,7 @@ private:
 public:
 	void DMAstart(uint32_t BufferSize);
 	static DMAIndicator& getInstance();
-	void setMemoryBaseAddr(uint32_t addr);
+	void setMemoryBaseAddr(Buffer& buf);
 	static void bringOutValue();
 };
 

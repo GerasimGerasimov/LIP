@@ -11,6 +11,7 @@ namespace MainWindow {
     WCHAR szTitle[MAX_LOADSTRING];                  // Текст строки заголовка
     WCHAR szWindowClass[MAX_LOADSTRING];            // имя класса главного окна
     WinDI* winDI;
+    UINT IDT_TIMER1 = 1;
     void createObject();
     void createIndicator();
     void createDI();
@@ -48,8 +49,8 @@ void MainWindow::createIndicator() {
     param.parrent = hWnd;
     int countIndicator = 3;
     int indent = 10;
-    int diserWidthIndicator = 410;
-    int diserHeightIndicator = 110;
+    int diserWidthIndicator = 310;
+    int diserHeightIndicator = 90;
     RECT borderIndicator{ 10, 10, 10, 10 };
     RECT rectModule;
     rectModule.left = indent;
@@ -166,4 +167,8 @@ void MainWindow::close() {
         delete indicator;
         indicator = nullptr;
     }
+}
+
+void MainWindow::TimeStart(TIMERPROC proc) {
+    SetTimer(hWnd, IDT_TIMER1, 100, proc);
 }
