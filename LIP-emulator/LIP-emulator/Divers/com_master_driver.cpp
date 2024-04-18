@@ -6,7 +6,7 @@ DWORD ComMasterDriver::comThreatId = 0;
 TDriverComReadEndHandler ComMasterDriver::onReadEdnd = nullptr;
 u8* ComMasterDriver::outBuf = nullptr;
 u16 ComMasterDriver::outBufLen = 0;
-u16 ComMasterDriver::DelayAfterWrite = 0;
+u16 ComMasterDriver::TimeOut = 0;
 u8 ComMasterDriver::reply[256];
 
 void ComMasterDriver::create_com_thread() {
@@ -20,7 +20,7 @@ DWORD __stdcall ComMasterDriver::com_thread(LPVOID lpParam) {
 	DWORD fSuccess;
 	while (true) {
 		fSuccess = WriteFile(handleCom, outBuf, outBufLen, &Count, NULL);
-		Sleep(DelayAfterWrite);
+		Sleep(TimeOut);
 		ButesToRead = 256;
 		fSuccess = ReadFile(handleCom, &reply, ButesToRead, &Count, NULL);
 		s16 result = (fSuccess > 0) ? Count : -1;
@@ -71,6 +71,6 @@ void ComMasterDriver::send(TComMasterTask task) {
 	onReadEdnd = task.callback;
 	outBuf = task.pbuff;
 	outBufLen = task.len;
-	DelayAfterWrite = task.DelayAfterWrite;
+	TimeOut = task.TimeOut;
 	::ResumeThread(handleThread); //возобновление потока
 }

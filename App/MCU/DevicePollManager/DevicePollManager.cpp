@@ -1,11 +1,19 @@
 #include "DevicePollManager.h"
-//#include "com_master_driver.h" //TODO
+#include "com_master_driver.h" //TODO
 //#include "ramdata.h"
+
+void checkRespond(s16 result, u8* reply) {
+	if (result > 0) {
+		std::memcpy(DevicePollManager::getInstance().Reply, reply, result);
+	} 
+	DevicePollManager::getInstance().ReplyResult = result;
+	DevicePollManager::getInstance().status = DevicePollManager::Status::PARSE_RESPOND;
+}
 
 DevicePollManager::DevicePollManager(){
 	slot = nullptr;
 	idx = 0;
-	Status = DevicePollManagerStatus::TOGGLE_SLOT;
+	status = Status::TOGGLE_SLOT;
 	ReplyResult = 0;
 }
 
@@ -22,13 +30,13 @@ void DevicePollManager::init(std::vector <Slot> slots) {
 void DevicePollManager::execute(void) {
 
 	
-	//TComMasterTask task; //TODO com_master_driver
+	TComMasterTask task; //TODO com_master_driver
 		//static u8 Lo = 0;
 		//static u8 Hi = 0;
   		//static std::vector<u8> command = {0x01, 0x10, 0x00, 0x06, 0x00, 0x01, 0x02, 0x00, 0x00 };
-	switch (Status)
+	switch (status)
 	{
-	case DevicePollManagerStatus::SEND_REQUEST:
+	case Status::SEND_REQUEST:
 		//++Lo;
 		//if(Lo == 255){
 		//	Lo = 0;
@@ -37,26 +45,26 @@ void DevicePollManager::execute(void) {
 		//command[7] = Hi;
 		//command[8] = Lo;
 		//slot->addcmd(command);
-		//task.pbuff = (u8*)&slot->OutBuf;
-		//task.len = slot->cmdLen;
-		//task.TimeOut = slot->TimeOut;
-		//task.callback = &DevicePollManager::checkRespond;
-		//ComMasterDriver::send(task);
+		task.pbuff = (u8*)&slot->OutBuf;
+		task.len = slot->cmdLen;
+		task.TimeOut = slot->TimeOut;
+		task.callback = checkRespond;
+		ComMasterDriver::send(task);
 		//++RAM_DATA.counter[0];
 		
-		Status = DevicePollManagerStatus::WAIT_RESPOND;
+		status = Status::WAIT_RESPOND;
 		break;
-	case DevicePollManagerStatus::WAIT_RESPOND:
+	case Status::WAIT_RESPOND:
 		
 		break;
-	case DevicePollManagerStatus::PARSE_RESPOND:
+	case Status::PARSE_RESPOND:
 		slot->validation(ReplyResult, (u8*) &Reply);
- 		Status = DevicePollManagerStatus::TOGGLE_SLOT;
+ 		status = Status::TOGGLE_SLOT;
 		break;
-	case DevicePollManagerStatus::TOGGLE_SLOT:
+	case Status::TOGGLE_SLOT:
 		
 		slot = getNextSlot();
-		Status = setActionBySlot();
+		status = setActionBySlot();
 		
 		break;
 	default:
@@ -64,16 +72,16 @@ void DevicePollManager::execute(void) {
 	}
 }
 
-DevicePollManager::DevicePollManagerStatus DevicePollManager::setActionBySlot(void) {
-	if (slot == NULL) return DevicePollManagerStatus::TOGGLE_SLOT;
+DevicePollManager::Status DevicePollManager::setActionBySlot(void) {
+	if (slot == NULL) return Status::TOGGLE_SLOT;
 
 	if (slot->Flags & (u16)Slot::StateFlags::SKIP_SLOT) {
-		return DevicePollManagerStatus::TOGGLE_SLOT;
+		return Status::TOGGLE_SLOT;
 	}
 	else {
 		return (slot->isIntervalDone())
-			? DevicePollManagerStatus::SEND_REQUEST
-			: DevicePollManagerStatus::TOGGLE_SLOT;
+			? Status::SEND_REQUEST
+			: Status::TOGGLE_SLOT;
 	}
 }
 
@@ -90,14 +98,6 @@ Slot* DevicePollManager::getNextSlot(void) {
 	else {
 		return nullptr;
 	}
-}
-
-void DevicePollManager::checkRespond(s16 result, u8* reply) {
-	if (result > 0) {
-		std::memcpy(Reply, reply, result);
-	} 
-	ReplyResult = result;
-	Status = DevicePollManagerStatus::PARSE_RESPOND;
 }
 
 Slot* DevicePollManager::getSlotByDevPosAndSection(const std::string& device, const std::string& section) {

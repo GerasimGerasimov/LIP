@@ -11,7 +11,7 @@
 
 //класс содержит слоты и управляет ими
 class DevicePollManager {
-enum class DevicePollManagerStatus {
+enum class Status {
 	WAIT_IDLE = 1,
 	WAIT_RESPOND = 2,
 	PARSE_RESPOND = 3,
@@ -25,7 +25,7 @@ public:
 	void init(std::vector <Slot> slots);
 	void execute(void);
 	std::vector <Slot> Slots;
-	DevicePollManagerStatus Status;
+	Status status;
 	Slot* getSlotByDevPosAndSection(const std::string& device, const std::string& section);
 	Slot* CreateCustomSlot(std::string devname, std::string section);
 	void addSlot(Slot* newSlot);
@@ -37,14 +37,14 @@ private:
 	DevicePollManager(const DevicePollManager&&) = delete;
 	DevicePollManager& operator=(const DevicePollManager&&) = delete;
 
-	void checkRespond(s16 result, u8* reply);
+	friend void checkRespond(s16 result, u8* reply);
 	Slot* slot;
 	u16 idx;
 	Slot* getNextSlot(void);
-	DevicePollManagerStatus setActionBySlot(void);
+	Status setActionBySlot(void);
 	u8 Reply[256];
 	s16 ReplyResult;
-
+	
 };
 
 #endif

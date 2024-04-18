@@ -14,14 +14,14 @@ static const s16 ERR_TIME_OUT = -1;
 void ComMasterDriver::onReadData(void){
   
   if (ComMasterDriver::onReadEnd) {
-    ComMasterDriver::onReadEnd(DevicePollManager::getInstance(), SlotMaster.InBufLen, reply);
+    ComMasterDriver::onReadEnd(SlotMaster.InBufLen, reply);
   }
 }
 
 void ComMasterDriver::onTimeOut(void){
   
   if (ComMasterDriver::onReadEnd) {
-    ComMasterDriver::onReadEnd(DevicePollManager::getInstance(), ERR_TIME_OUT, reply);
+    ComMasterDriver::onReadEnd(ERR_TIME_OUT, reply);
   }
 }
 

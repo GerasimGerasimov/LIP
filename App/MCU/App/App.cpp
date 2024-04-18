@@ -3,6 +3,7 @@
 #include "DevicePollManager/Slot.h"
 #include "DevicePollManager/DevicePollManager.h"
 #include "modbus/modbus.h"
+//#include "ramdata.h"
 
 App::App() {
 }
@@ -18,8 +19,6 @@ void parseRespond(Slot* slot, u8* reply) {
 	//swp_copy_u16((u8*)&reply[3], (u16*)&slot->InputBuf,	regs_count);
 		  //slot->InputBufValidBytes = regs_count;
 	slot->Flags |= (u16)Slot::StateFlags::DATA_VALID;
-
-
 
 	//RAM_DATA.data[2] = reply[0];
 	//RAM_DATA.data[3] = reply[1];
