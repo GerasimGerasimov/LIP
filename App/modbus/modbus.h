@@ -27,6 +27,8 @@ void ModbusFlashWrite_DATA(u16 DATA_1, u16 DATA_2);
 
 void BootLoadCmdFillZero();
 
+void processModbusSlave();
+
 #ifdef __cplusplus
     }
 #endif

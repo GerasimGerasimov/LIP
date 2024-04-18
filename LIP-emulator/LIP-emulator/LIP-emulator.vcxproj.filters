@@ -67,6 +67,9 @@
     <Filter Include="MCU\DevicePollManager">
       <UniqueIdentifier>{25bb1cbd-81b6-41e0-a94e-613d87e3363d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="STM32\modbus">
+      <UniqueIdentifier>{d8500a81-8edf-4801-ad1f-f67940e03c50}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -107,9 +110,6 @@
     </ClInclude>
     <ClInclude Include="Divers\DI\WinDI.h">
       <Filter>Drivers\DI</Filter>
-    </ClInclude>
-    <ClInclude Include="MainThread.h">
-      <Filter>threads</Filter>
     </ClInclude>
     <ClInclude Include="..\..\App\MCU\App\App.h">
       <Filter>MCU\App</Filter>
@@ -195,9 +195,6 @@
     <ClInclude Include="..\..\App\MCU\Page\Page.h">
       <Filter>MCU\Page</Filter>
     </ClInclude>
-    <ClInclude Include="STM32\DMAIndicator.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\App\MCU\DevicePollManager\DevicePollManager.h">
       <Filter>MCU\DevicePollManager</Filter>
     </ClInclude>
@@ -206,6 +203,18 @@
     </ClInclude>
     <ClInclude Include="..\..\App\MCU\crc16.h">
       <Filter>MCU</Filter>
+    </ClInclude>
+    <ClInclude Include="Divers\com_master_driver.h">
+      <Filter>Drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="STM32\DMAIndicator.h">
+      <Filter>STM32</Filter>
+    </ClInclude>
+    <ClInclude Include="threads\MainThread.h">
+      <Filter>threads</Filter>
+    </ClInclude>
+    <ClInclude Include="STM32\modbus\modbus.h">
+      <Filter>STM32\modbus</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -314,9 +323,6 @@
     <ClCompile Include="..\..\App\MCU\Page\Page.cpp">
       <Filter>MCU\Page</Filter>
     </ClCompile>
-    <ClCompile Include="STM32\DMAIndicator.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\App\MCU\DevicePollManager\DevicePollManager.cpp">
       <Filter>MCU\DevicePollManager</Filter>
     </ClCompile>
@@ -325,6 +331,12 @@
     </ClCompile>
     <ClCompile Include="..\..\App\MCU\crc16.c">
       <Filter>MCU</Filter>
+    </ClCompile>
+    <ClCompile Include="Divers\com_master_driver.cpp">
+      <Filter>Drivers</Filter>
+    </ClCompile>
+    <ClCompile Include="STM32\DMAIndicator.cpp">
+      <Filter>STM32</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

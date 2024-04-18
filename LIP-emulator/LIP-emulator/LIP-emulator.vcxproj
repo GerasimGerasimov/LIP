@@ -158,6 +158,7 @@
     <ClInclude Include="..\..\App\MCU\Router\Router.h" />
     <ClInclude Include="..\..\App\MCU\Slots\SlotHandlerType.h" />
     <ClInclude Include="Divers\BaseObject.h" />
+    <ClInclude Include="Divers\com_master_driver.h" />
     <ClInclude Include="Divers\DI\WinDI.h" />
     <ClInclude Include="Divers\WinIndicator\BaseWindow.h" />
     <ClInclude Include="Divers\WinIndicator\IndicatorContainer.h" />
@@ -167,12 +168,13 @@
     <ClInclude Include="Divers\WinIndicator\WinLIP_5Nx.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="LIP-emulator.h" />
-    <ClInclude Include="MainThread.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="STM32\bastypes.h" />
     <ClInclude Include="STM32\DMAIndicator.h" />
+    <ClInclude Include="STM32\modbus\modbus.h" />
     <ClInclude Include="STM32\stm32f10x.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="threads\MainThread.h" />
     <ClInclude Include="WinAppWindow\MainWindow.h" />
   </ItemGroup>
   <ItemGroup>
@@ -204,6 +206,7 @@
     <ClCompile Include="..\..\App\MCU\Parameters\TU8BIT.cpp" />
     <ClCompile Include="..\..\App\MCU\Router\Router.cpp" />
     <ClCompile Include="Divers\BaseObject.cpp" />
+    <ClCompile Include="Divers\com_master_driver.cpp" />
     <ClCompile Include="Divers\DI\WinDI.cpp" />
     <ClCompile Include="Divers\WinIndicator\BaseWindow.cpp" />
     <ClCompile Include="Divers\WinIndicator\IndicatorContainer.cpp" />

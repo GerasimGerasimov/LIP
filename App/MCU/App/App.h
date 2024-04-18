@@ -10,5 +10,6 @@ private:
 	App& operator=(const App&&) = delete;
 public:
 	static App& getInstance();
+	void run();
 };
 

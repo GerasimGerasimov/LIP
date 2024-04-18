@@ -1140,6 +1140,12 @@
         <group>
             <name>MCU</name>
             <group>
+                <name>App</name>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\App\App.cpp</name>
+                </file>
+            </group>
+            <group>
                 <name>Buffer</name>
                 <file>
                     <name>$PROJ_DIR$\..\MCU\Buffer\Buffer.cpp</name>

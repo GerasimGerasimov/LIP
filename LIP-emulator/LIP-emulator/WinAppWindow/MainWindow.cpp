@@ -2,6 +2,7 @@
 #include "LIP-emulator.h"
 #include "Divers/WinIndicator/WinLIPModule.h"
 #include "DI/WinDI.h"
+#include "com_master_driver.h"
 
 namespace MainWindow {
     HWND hWnd;
@@ -18,6 +19,7 @@ namespace MainWindow {
 void MainWindow::createObject() {
     createIndicator();
     createDI();
+    ComMasterDriver::open();
 }
 
 ATOM MainWindow::MyRegisterClass(HINSTANCE hInstance) {

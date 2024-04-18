@@ -1,40 +1,15 @@
 /**
   ******************************************************************************
-  * @file    intmash\projects\CHG.CTRL.CPU\firmware\CHG.CTRL.CPU
-  * @author  Sledin A.S. (Следин А.С.)
-  * @version V0.0.2
-  * @date    30/04/2013
-  * @brief   Main program body.
   ******************************************************************************
   */  
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f10x.h"//библиотека STM
 #include "bastypes.h"//основные типы данных, объявление типов структур RAM_DATA и FLASH_DATA
 #include "ramdata.h"//глобальные переменные и структура RAM_DATA
-#include "flashdata.h"//глобальные константы и структура FLASH_DATA
-#include "crc16.h"//модуль контрольной суммы
 #include "init.h"//функции инициализации
-
-
-#include "modbus/uart1rs485.h"//связь по 485 интерфейсу, по протоколу MODBUS1 (клиент)
+#include "App/App.h"
 #include "modbus/modbus.h"
-
 #include "DEFINES.h" //все основные, относящиеся только к плате дефайны
-#include "modbus/modbus.h"
-#include "spi.h"
-#include "Indicator/LIP_5Nx.h"
-#include "Page/Page.h"
-#include "DevicePollManager/Slot.h"
-#include "DevicePollManager/DevicePollManager.h"
-#include "com_master_driver.h"
-#include "stm32f10x_it.h"
-
-#include <vector>
-    
-
-//#include "Parameters/SignalFactoty.h"
-//#include "ini/IniResources.h"
 /* defines ------------------------------------------------------------------*/
 //#define max_drebezg 0x0005//0x2000 // сколько раз нужно проверить нажатие кнопки для подавления дребезга контактов 
 /*---------------------------------------------------------------------------*/
@@ -46,34 +21,6 @@
 void Fail_Reset(void);
 /* Private variables ---------------------------------------------------------*/
     
-void swp_copy_u16(u8* s, u16* d, u8 c) {
-    bauint w;
-    while (c--) {
-        //сваплю и копирую
-        w.b[1] = *s++;
-        w.b[0] = *s++;
-        *d++ = w.i;
-    }
-}
-
-void parseRespond(Slot* slot, u8* reply){
-  
-  //u8 regs_count = reply[2] >> 1;
-  //swp_copy_u16((u8*)&reply[3], (u16*)&slot->InputBuf,	regs_count);
-		//slot->InputBufValidBytes = regs_count;
-		slot->Flags |= (u16)Slot::StateFlags::DATA_VALID;
-    
-
-
-  RAM_DATA.data[2] = reply[0];
-  RAM_DATA.data[3] = reply[1];
-  RAM_DATA.data[4] = reply[2];
-  RAM_DATA.data[5] = reply[3];
-  RAM_DATA.data[6] = reply[4];
-  RAM_DATA.data[7] = slot->InputBufValidBytes;
-
-}
-    
 /**
   * @brief  Main program.
   */
@@ -83,57 +30,16 @@ int main(void)              //главная программа
   BootLoadCmdFillZero();
   Init();                   //инициализация переферии  
 
-  Page page;
-
-  //Scale::Props props =  { nullptr, nullptr, 0 };
-  //Scale listp(props);
-  //SignalFactoty::getInstance();
-  //IniResources::getInstance();
   LED_RUN_ON;
   LED_LINK1_OFF;
   LED_LINK2_OFF;
   LED_ALARM_OFF;
-  /*дополнительная инициализация софта, которую потом отдельной цункцией запилить*/
-  //Init_soft();// тут сброс всего в  начальное значение
-  //Fail_Reset();//сброс флагов аварий
-  Slot* slot = new Slot;
-  //std::vector<u8> command = {0x01, 0x10, 0x00, 0x06, 0x00, 0x01, 0x02, 0x00, 0x55 };
-  std::vector<u8> command = {0x01, 0x03, 0x00, 0x05, 0x00, 0x01};
   
-  slot->addcmd(command);
-  
-  slot->TimeOut = 100;
-  slot->onData = parseRespond;
-  DevicePollManager::getInstance().addSlot(slot);
-
   bool start = true;
   
-  while (1)//основной цикл программы
-  {    
-    if (U1_SwCNT())//смотрим пришел ли запрос по Модбасу и 1 и 2 сразу смотрим для проверки
-    {
-      if (LED_LINK1_ST) LED_LINK1_ON;
-      else LED_LINK1_OFF; 
-    }
-    
-    if(RAM_DATA.DI == 2){
-      if(start){
-        start = false;
-        
-      }
-    }
-    else if(RAM_DATA.DI == 3){
-      start = true;
-      
-      
-    }
-        DevicePollManager::getInstance().execute();
-    
-  }
+  App::getInstance().run();
+
 }
-
-
-
 
 /*инициализация флагов и переменных предварительная*/
 //void Init_soft(void)

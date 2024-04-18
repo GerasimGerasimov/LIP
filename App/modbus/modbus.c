@@ -353,3 +353,11 @@ void BootLoadCmdFillZero() {
   BootLoaderStart[4] = 0x00;
   BootLoaderStart[5] = 0x00;
 }
+
+void processModbusSlave(){
+  if (U1_SwCNT())//смотрим пришел ли запрос по Модбасу и 1 и 2 сразу смотрим для проверки
+    {
+      if (LED_LINK1_ST) LED_LINK1_ON;
+      else LED_LINK1_OFF; 
+    }
+}
