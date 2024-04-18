@@ -14,7 +14,7 @@ Segment::Segment(Parameter param) : BaseObject(param){
 	createSegment();
 	
 	brushOn = CreateSolidBrush(RGB(0, 255, 0));
-	brushOff = CreateSolidBrush(RGB(0, 0, 0));
+	brushOff = CreateSolidBrush(RGB(255, 255, 255));
 
 	hdc = GetDC(hwnd);
 }

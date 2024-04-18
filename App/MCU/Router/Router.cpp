@@ -2,7 +2,7 @@
 
 
 Router::Router() {
-	page = nullptr;
+	CurrentPage = nullptr;
 	BackPage = nullptr;
 }
 

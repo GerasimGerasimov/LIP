@@ -21,7 +21,7 @@ public:
 	};
 
 	static Router& getInstance();
-	Page* page;
+	Page* CurrentPage;
 	Page* BackPage;
 	void ProcessMessage(TMessage* m);
 	void setTask(Task task);
