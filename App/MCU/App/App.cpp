@@ -3,6 +3,7 @@
 #include "DevicePollManager/Slot.h"
 #include "DevicePollManager/DevicePollManager.h"
 #include "modbus/modbus.h"
+#include "Slots/HandlerSlotRead.h"
 //#include "ramdata.h"
 
 App::App() {
@@ -40,7 +41,7 @@ void App::run() {
 	slot->addcmd(command);
 
 	slot->TimeOut = 100;
-	slot->onData = parseRespond;
+	slot->onData = HandlerSlotRead::parseSlotRead;//parseRespond;
 
 	DevicePollManager::getInstance().addSlot(slot);
 

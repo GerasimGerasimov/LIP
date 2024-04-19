@@ -156,6 +156,7 @@
     <ClInclude Include="..\..\App\MCU\Parameters\TU32BIT.h" />
     <ClInclude Include="..\..\App\MCU\Parameters\TU8BIT.h" />
     <ClInclude Include="..\..\App\MCU\Router\Router.h" />
+    <ClInclude Include="..\..\App\MCU\Slots\HandlerSlotRead.h" />
     <ClInclude Include="..\..\App\MCU\Slots\SlotHandlerType.h" />
     <ClInclude Include="Divers\BaseObject.h" />
     <ClInclude Include="Divers\com_master_driver.h" />
@@ -206,6 +207,7 @@
     <ClCompile Include="..\..\App\MCU\Parameters\TU32BIT.cpp" />
     <ClCompile Include="..\..\App\MCU\Parameters\TU8BIT.cpp" />
     <ClCompile Include="..\..\App\MCU\Router\Router.cpp" />
+    <ClCompile Include="..\..\App\MCU\Slots\HandlerSlotRead.cpp" />
     <ClCompile Include="Divers\BaseObject.cpp" />
     <ClCompile Include="Divers\com_master_driver.cpp" />
     <ClCompile Include="Divers\DI\WinDI.cpp" />

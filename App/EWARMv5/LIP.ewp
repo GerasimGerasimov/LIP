@@ -1247,6 +1247,12 @@
                     <name>$PROJ_DIR$\..\MCU\Router\Router.cpp</name>
                 </file>
             </group>
+            <group>
+                <name>Slots</name>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\Slots\HandlerSlotRead.cpp</name>
+                </file>
+            </group>
             <file>
                 <name>$PROJ_DIR$\..\MCU\crc16.c</name>
             </file>

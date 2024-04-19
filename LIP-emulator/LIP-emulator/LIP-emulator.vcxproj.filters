@@ -219,6 +219,9 @@
     <ClInclude Include="OutStream.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\App\MCU\Slots\HandlerSlotRead.h">
+      <Filter>MCU\Slots</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LIP-emulator.cpp">
@@ -343,6 +346,9 @@
     </ClCompile>
     <ClCompile Include="OutStream.cpp">
       <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\Slots\HandlerSlotRead.cpp">
+      <Filter>MCU\Slots</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
