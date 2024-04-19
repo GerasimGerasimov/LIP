@@ -2,8 +2,7 @@
 
 
 Router::Router() {
-	CurrentPage = nullptr;
-	BackPage = nullptr;
+	
 }
 
 Router& Router::getInstance() {

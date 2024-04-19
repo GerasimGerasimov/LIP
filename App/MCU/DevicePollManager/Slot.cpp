@@ -36,17 +36,21 @@ void Slot::init(void) {
 }
 
 void Slot::addcmd(u8 cmd[], u8 size) {
-	std::memcpy(OutBuf, cmd, size);
+	OutBuf.resize(size +2 );
+	std::memcpy(OutBuf.data(), cmd, size);
+	InputBuf.resize(OutBuf[5] * 2 + 2);
 	cmdLen = size + 2;
-	FrameEndCrc16((u8*)&OutBuf, cmdLen);
+	FrameEndCrc16((u8*)OutBuf.data(), cmdLen);
 }
 
 
 void Slot::addcmd(const std::vector<u8>& v) {
 	//GIST копирование вектора в массив
-	std::memcpy(OutBuf, v.data(), v.size());
+	OutBuf.resize(v.size() + 2);
+	std::memcpy(OutBuf.data(), v.data(), v.size());
+	InputBuf.resize(OutBuf[5] * 2 + 2);
 	cmdLen = v.size() + 2;
-	FrameEndCrc16((u8*)&OutBuf, cmdLen);
+	FrameEndCrc16((u8*)OutBuf.data(), cmdLen);
 }
 
 bool Slot::isReplyCRCValid(s16 result, u8* reply) {

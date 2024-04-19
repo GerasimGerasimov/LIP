@@ -45,7 +45,7 @@ void DevicePollManager::execute(void) {
 		//command[7] = Hi;
 		//command[8] = Lo;
 		//slot->addcmd(command);
-		task.pbuff = (u8*)&slot->OutBuf;
+		task.pbuff = (u8*)slot->OutBuf.data();
 		task.len = slot->cmdLen;
 		task.TimeOut = slot->TimeOut;
 		task.callback = checkRespond;

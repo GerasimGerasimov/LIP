@@ -1,8 +1,9 @@
 #pragma once
 
+#include "Page/Page.h"
+
 #include <string>
 
-class Page;
 class TMessage;
 
 class Router
@@ -21,8 +22,8 @@ public:
 	};
 
 	static Router& getInstance();
-	Page* CurrentPage;
-	Page* BackPage;
+	Page CurrentPage;
+
 	void ProcessMessage(TMessage* m);
 	void setTask(Task task);
 };

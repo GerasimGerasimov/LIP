@@ -18,7 +18,7 @@ void HandlerSlotRead::parseSlotRead(Slot* slot, u8* reply) {
 		if (isReadCmdGotAnError(reply[(u8)ModbusReadRegister::CMD_POS])) throw (int)RespondErrorCodes::CMD;
 		u8 regs_count = reply[(u8)ModbusReadRegister::ANSW_BYTES_POS] >> 1;
 		Utils::swp_copy_u16((u8*)&reply[(u8)ModbusReadRegister::ANSW_DATA_POS],
-			(u16*)&slot->InputBuf,
+			(u16*)slot->InputBuf.data(),
 			regs_count);
 		slot->InputBufValidBytes = regs_count;
 		slot->Flags |= (u16)Slot::StateFlags::DATA_VALID;
