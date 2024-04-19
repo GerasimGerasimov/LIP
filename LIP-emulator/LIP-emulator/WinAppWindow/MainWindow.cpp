@@ -2,6 +2,7 @@
 #include "LIP-emulator.h"
 #include "Divers/WinIndicator/WinLIPModule.h"
 #include "DI/WinDI.h"
+#include "OutStream.h"
 #include "com_master_driver.h"
 
 namespace MainWindow {
@@ -15,11 +16,13 @@ namespace MainWindow {
     void createObject();
     void createIndicator();
     void createDI();
+    void createOutText();
 }
 
 void MainWindow::createObject() {
     createIndicator();
     createDI();
+    createOutText();
     ComMasterDriver::open();
 }
 
@@ -87,6 +90,12 @@ void MainWindow::createDI() {
     param.parrent = hWnd;
     param.rect = {500, 10, 0, 0}; //длина и ширина вычисляются самим объектом 
     winDI = new WinDI(param);
+}
+
+void MainWindow::createOutText() {
+    HWND hwnd = CreateWindow(L"EDIT", L"", WS_VISIBLE | WS_CHILD | WS_BORDER | ES_MULTILINE | WS_VSCROLL, 10, 400, 285, 180, hWnd,
+        NULL, NULL, NULL);
+    lip::cout.setHwnd(hwnd);
 }
 
 //const int ID_BUTTON9(3900);

@@ -11,9 +11,9 @@ class Page
 {
 private:
     std::vector<Indicator*> ListIndicators;
-    Buffer bufferSender;
-    Buffer bufferData;
-    std::string str, str2, str3;
+    //Buffer bufferSender;
+    //Buffer bufferData;
+    //std::string str, str2, str3;
 public:
     Page();
     ~Page();

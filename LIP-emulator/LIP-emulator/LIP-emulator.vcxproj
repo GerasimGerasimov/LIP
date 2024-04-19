@@ -168,6 +168,7 @@
     <ClInclude Include="Divers\WinIndicator\WinLIP_5Nx.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="LIP-emulator.h" />
+    <ClInclude Include="OutStream.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="STM32\bastypes.h" />
     <ClInclude Include="STM32\DMAIndicator.h" />
@@ -215,6 +216,7 @@
     <ClCompile Include="Divers\WinIndicator\WinLIPModule.cpp" />
     <ClCompile Include="Divers\WinIndicator\WinLIP_5Nx.cpp" />
     <ClCompile Include="LIP-emulator.cpp" />
+    <ClCompile Include="OutStream.cpp" />
     <ClCompile Include="STM32\DMAIndicator.cpp" />
     <ClCompile Include="threads\MainThread.cpp" />
     <ClCompile Include="WinAppWindow\MainWindow.cpp" />
