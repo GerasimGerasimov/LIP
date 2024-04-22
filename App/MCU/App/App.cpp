@@ -32,8 +32,7 @@ void App::run() {
 
 	//DevicePollManager::getInstance().addSlot(slot);
 	//InternalResources::getInstance();
-	ItemLimits itemLimits = InternalResources::getInstance().getItemLimitsByName((char*)"Page1");
-	std::string str(itemLimits.RootOffset);
+	std::string itemLimits = InternalResources::getInstance().getItemStringByName((char*)"DEV1");
 
 	while (true) {
 		processModbusSlave();

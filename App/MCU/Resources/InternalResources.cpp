@@ -56,12 +56,11 @@ InternalResources::Item* InternalResources::getItemByName(char* Name) {
 	return nullptr;
 }
 
-ItemLimits InternalResources::getItemLimitsByName(char* Name) {
-	ItemLimits res = { 0,0 };
+std::string InternalResources::getItemStringByName(char* Name) {
+	std::string res = "";
 	const Item* item = getItemByName(Name);
 	if (item) {
-		res.Size = item->BinaryDataSize;
-		res.RootOffset = (char*)((char*)Root + item->BinaryDataAddr);
+		res.append(((char*)((char*)Root + item->BinaryDataAddr)), item->BinaryDataSize);
 	}
 	return res;
 }

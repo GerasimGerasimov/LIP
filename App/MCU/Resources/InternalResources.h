@@ -3,11 +3,7 @@
 #include "stm32f10x.h"
 
 #include <vector>
-
-struct ItemLimits {
-	char* RootOffset;
-	int Size;
-};
+#include <string>
 
 class InternalResources
 {
@@ -36,9 +32,9 @@ private:
 	bool isHeaderCrcValid();
 	bool isTotalCrcValid();
 	bool isRequiredName(char* Name1, char* Name2);
+	Item* getItemByName(char* Name);
 public:
 	static InternalResources& getInstance();
-	Item* getItemByName(char* Name);
-	ItemLimits getItemLimitsByName(char* Name);
+	std::string getItemStringByName(char* Name);
 };
 
