@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\STM32;$(ProjectDir)\..\..\App\MCU;$(ProjectDir);$(ProjectDir)\WinAppWindow;$(ProjectDir)\Divers;$(ProjectDir)\Divers\WinIndicator;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\STM32;$(ProjectDir)\..\..\App\MCU;$(ProjectDir);$(ProjectDir)\WinAppWindow;$(ProjectDir)\Drivers;$(ProjectDir)\Drivers\WinIndicator;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -158,15 +158,16 @@
     <ClInclude Include="..\..\App\MCU\Router\Router.h" />
     <ClInclude Include="..\..\App\MCU\Slots\HandlerSlotRead.h" />
     <ClInclude Include="..\..\App\MCU\Slots\SlotHandlerType.h" />
-    <ClInclude Include="Divers\BaseObject.h" />
-    <ClInclude Include="Divers\com_master_driver.h" />
-    <ClInclude Include="Divers\DI\WinDI.h" />
-    <ClInclude Include="Divers\WinIndicator\BaseWindow.h" />
-    <ClInclude Include="Divers\WinIndicator\IndicatorContainer.h" />
-    <ClInclude Include="Divers\WinIndicator\Segment.h" />
-    <ClInclude Include="Divers\WinIndicator\Win7Segment.h" />
-    <ClInclude Include="Divers\WinIndicator\WinLIPModule.h" />
-    <ClInclude Include="Divers\WinIndicator\WinLIP_5Nx.h" />
+    <ClInclude Include="Drivers\BaseObject.h" />
+    <ClInclude Include="Drivers\com_master_driver.h" />
+    <ClInclude Include="Drivers\DI\WinDI.h" />
+    <ClInclude Include="Drivers\Resources\OSResources.h" />
+    <ClInclude Include="Drivers\WinIndicator\BaseWindow.h" />
+    <ClInclude Include="Drivers\WinIndicator\IndicatorContainer.h" />
+    <ClInclude Include="Drivers\WinIndicator\Segment.h" />
+    <ClInclude Include="Drivers\WinIndicator\Win7Segment.h" />
+    <ClInclude Include="Drivers\WinIndicator\WinLIPModule.h" />
+    <ClInclude Include="Drivers\WinIndicator\WinLIP_5Nx.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="LIP-emulator.h" />
     <ClInclude Include="OutStream.h" />
@@ -208,15 +209,16 @@
     <ClCompile Include="..\..\App\MCU\Parameters\TU8BIT.cpp" />
     <ClCompile Include="..\..\App\MCU\Router\Router.cpp" />
     <ClCompile Include="..\..\App\MCU\Slots\HandlerSlotRead.cpp" />
-    <ClCompile Include="Divers\BaseObject.cpp" />
-    <ClCompile Include="Divers\com_master_driver.cpp" />
-    <ClCompile Include="Divers\DI\WinDI.cpp" />
-    <ClCompile Include="Divers\WinIndicator\BaseWindow.cpp" />
-    <ClCompile Include="Divers\WinIndicator\IndicatorContainer.cpp" />
-    <ClCompile Include="Divers\WinIndicator\Segment.cpp" />
-    <ClCompile Include="Divers\WinIndicator\Win7Segment.cpp" />
-    <ClCompile Include="Divers\WinIndicator\WinLIPModule.cpp" />
-    <ClCompile Include="Divers\WinIndicator\WinLIP_5Nx.cpp" />
+    <ClCompile Include="Drivers\BaseObject.cpp" />
+    <ClCompile Include="Drivers\com_master_driver.cpp" />
+    <ClCompile Include="Drivers\DI\WinDI.cpp" />
+    <ClCompile Include="Drivers\Resources\OSResources.cpp" />
+    <ClCompile Include="Drivers\WinIndicator\BaseWindow.cpp" />
+    <ClCompile Include="Drivers\WinIndicator\IndicatorContainer.cpp" />
+    <ClCompile Include="Drivers\WinIndicator\Segment.cpp" />
+    <ClCompile Include="Drivers\WinIndicator\Win7Segment.cpp" />
+    <ClCompile Include="Drivers\WinIndicator\WinLIPModule.cpp" />
+    <ClCompile Include="Drivers\WinIndicator\WinLIP_5Nx.cpp" />
     <ClCompile Include="LIP-emulator.cpp" />
     <ClCompile Include="OutStream.cpp" />
     <ClCompile Include="STM32\DMAIndicator.cpp" />

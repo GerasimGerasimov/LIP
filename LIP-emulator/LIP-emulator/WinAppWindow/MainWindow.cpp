@@ -1,6 +1,6 @@
 #include "MainWindow.h"
 #include "LIP-emulator.h"
-#include "Divers/WinIndicator/WinLIPModule.h"
+#include "WinIndicator/WinLIPModule.h"
 #include "DI/WinDI.h"
 #include "OutStream.h"
 #include "com_master_driver.h"

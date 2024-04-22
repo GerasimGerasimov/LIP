@@ -4,6 +4,7 @@
 #include "DevicePollManager/DevicePollManager.h"
 #include "modbus/modbus.h"
 #include "Slots/HandlerSlotRead.h"
+#include "Resources/OSResources.h"
 //#include "ramdata.h"
 
 App::App() {
@@ -28,7 +29,7 @@ void App::run() {
 	//slot->onData = HandlerSlotRead::parseSlotRead;
 
 	//DevicePollManager::getInstance().addSlot(slot);
-
+	OSResources::getInstance();
 	while (true) {
 		processModbusSlave();
 
