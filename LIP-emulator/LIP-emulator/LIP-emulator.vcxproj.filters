@@ -73,6 +73,12 @@
     <Filter Include="Drivers\Resources">
       <UniqueIdentifier>{a90f98d3-9f38-4655-93de-92ccd7988b32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MCU\Resources">
+      <UniqueIdentifier>{3773b3b3-6d99-468e-9199-e9c79b2e5506}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MCU\IDrivers">
+      <UniqueIdentifier>{5c576d9d-b318-4a69-9d73-7875876d248c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -228,6 +234,12 @@
     <ClInclude Include="Drivers\Resources\OSResources.h">
       <Filter>Drivers\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\App\MCU\Resources\InternalResources.h">
+      <Filter>MCU\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\IDrivers\iresources.h">
+      <Filter>MCU\IDrivers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LIP-emulator.cpp">
@@ -358,6 +370,9 @@
     </ClCompile>
     <ClCompile Include="Drivers\Resources\OSResources.cpp">
       <Filter>Drivers\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\Resources\InternalResources.cpp">
+      <Filter>MCU\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

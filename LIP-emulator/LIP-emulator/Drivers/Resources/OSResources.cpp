@@ -40,6 +40,6 @@ OSResources& OSResources::getInstance() {
 	return resource;
 }
 
-const u8* OSResources::getRes() {
+u8* OSResources::getRes() {
 	return res;
 }

@@ -16,6 +16,6 @@ private:
 	void init();
 public:
 	static OSResources& getInstance();
-	const u8* getRes();
+	u8* getRes();
 };
 

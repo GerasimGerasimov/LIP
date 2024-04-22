@@ -134,6 +134,7 @@
     <ClInclude Include="..\..\App\MCU\DevicePollManager\DevicePollManager.h" />
     <ClInclude Include="..\..\App\MCU\DevicePollManager\Slot.h" />
     <ClInclude Include="..\..\App\MCU\Helpers\utils.h" />
+    <ClInclude Include="..\..\App\MCU\IDrivers\iresources.h" />
     <ClInclude Include="..\..\App\MCU\Indicator\Indicator.h" />
     <ClInclude Include="..\..\App\MCU\Indicator\LIP_5Nx.h" />
     <ClInclude Include="..\..\App\MCU\ini\IniResources.h" />
@@ -155,6 +156,7 @@
     <ClInclude Include="..\..\App\MCU\Parameters\TU16BIT.h" />
     <ClInclude Include="..\..\App\MCU\Parameters\TU32BIT.h" />
     <ClInclude Include="..\..\App\MCU\Parameters\TU8BIT.h" />
+    <ClInclude Include="..\..\App\MCU\Resources\InternalResources.h" />
     <ClInclude Include="..\..\App\MCU\Router\Router.h" />
     <ClInclude Include="..\..\App\MCU\Slots\HandlerSlotRead.h" />
     <ClInclude Include="..\..\App\MCU\Slots\SlotHandlerType.h" />
@@ -207,6 +209,7 @@
     <ClCompile Include="..\..\App\MCU\Parameters\TU16BIT.cpp" />
     <ClCompile Include="..\..\App\MCU\Parameters\TU32BIT.cpp" />
     <ClCompile Include="..\..\App\MCU\Parameters\TU8BIT.cpp" />
+    <ClCompile Include="..\..\App\MCU\Resources\InternalResources.cpp" />
     <ClCompile Include="..\..\App\MCU\Router\Router.cpp" />
     <ClCompile Include="..\..\App\MCU\Slots\HandlerSlotRead.cpp" />
     <ClCompile Include="Drivers\BaseObject.cpp" />

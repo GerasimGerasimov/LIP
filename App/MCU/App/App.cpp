@@ -4,8 +4,10 @@
 #include "DevicePollManager/DevicePollManager.h"
 #include "modbus/modbus.h"
 #include "Slots/HandlerSlotRead.h"
-#include "Resources/OSResources.h"
+#include "Resources/InternalResources.h"
 //#include "ramdata.h"
+
+#include <string>
 
 App::App() {
 }
@@ -29,7 +31,10 @@ void App::run() {
 	//slot->onData = HandlerSlotRead::parseSlotRead;
 
 	//DevicePollManager::getInstance().addSlot(slot);
-	OSResources::getInstance();
+	//InternalResources::getInstance();
+	ItemLimits itemLimits = InternalResources::getInstance().getItemLimitsByName((char*)"Page1");
+	std::string str(itemLimits.RootOffset);
+
 	while (true) {
 		processModbusSlave();
 
