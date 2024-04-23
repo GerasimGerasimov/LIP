@@ -132,6 +132,7 @@
     <ClInclude Include="..\..\App\MCU\Buffer\Buffer.h" />
     <ClInclude Include="..\..\App\MCU\crc16.h" />
     <ClInclude Include="..\..\App\MCU\DevicePollManager\DevicePollManager.h" />
+    <ClInclude Include="..\..\App\MCU\DevicePollManager\Devices.h" />
     <ClInclude Include="..\..\App\MCU\DevicePollManager\Slot.h" />
     <ClInclude Include="..\..\App\MCU\Helpers\utils.h" />
     <ClInclude Include="..\..\App\MCU\IDrivers\iresources.h" />
@@ -187,6 +188,7 @@
     <ClCompile Include="..\..\App\MCU\Buffer\Buffer.cpp" />
     <ClCompile Include="..\..\App\MCU\crc16.c" />
     <ClCompile Include="..\..\App\MCU\DevicePollManager\DevicePollManager.cpp" />
+    <ClCompile Include="..\..\App\MCU\DevicePollManager\Devices.cpp" />
     <ClCompile Include="..\..\App\MCU\DevicePollManager\Slot.cpp" />
     <ClCompile Include="..\..\App\MCU\Helpers\utils.cpp" />
     <ClCompile Include="..\..\App\MCU\Indicator\Indicator.cpp" />

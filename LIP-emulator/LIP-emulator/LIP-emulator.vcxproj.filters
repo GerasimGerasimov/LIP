@@ -240,6 +240,9 @@
     <ClInclude Include="..\..\App\MCU\IDrivers\iresources.h">
       <Filter>MCU\IDrivers</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\App\MCU\DevicePollManager\Devices.h">
+      <Filter>MCU\DevicePollManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LIP-emulator.cpp">
@@ -373,6 +376,9 @@
     </ClCompile>
     <ClCompile Include="..\..\App\MCU\Resources\InternalResources.cpp">
       <Filter>MCU\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\DevicePollManager\Devices.cpp">
+      <Filter>MCU\DevicePollManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
