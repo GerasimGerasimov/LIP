@@ -3,8 +3,7 @@
 #include "DevicePollManager/Slot.h"
 #include "DevicePollManager/DevicePollManager.h"
 #include "modbus/modbus.h"
-#include "Slots/HandlerSlotRead.h"
-#include "Resources/InternalResources.h"
+#include "Router/Router.h"
 //#include "ramdata.h"
 
 #include <string>
@@ -32,11 +31,10 @@ void App::run() {
 
 	//DevicePollManager::getInstance().addSlot(slot);
 	//InternalResources::getInstance();
-	std::string itemLimits = InternalResources::getInstance().getItemStringByName((char*)"DEV1");
 
 	while (true) {
 		processModbusSlave();
-
+		Router::getInstance();
 		//DevicePollManager::getInstance().execute();
 	}
 }

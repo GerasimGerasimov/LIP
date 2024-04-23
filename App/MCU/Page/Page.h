@@ -11,13 +11,15 @@ class Page
 {
 private:
     std::vector<Indicator*> ListIndicators;
-    //Buffer bufferSender;
-    //Buffer bufferData;
-    //std::string str, str2, str3;
+    std::vector<std::string> Configuration;
+
+    void init();
 public:
     Page();
     ~Page();
     void update();
+    
+
 };
 
 void updateDMA();

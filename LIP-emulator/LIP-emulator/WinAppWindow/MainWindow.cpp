@@ -4,6 +4,8 @@
 #include "DI/WinDI.h"
 #include "OutStream.h"
 #include "com_master_driver.h"
+#include "Resources/InternalResources.h"
+#include "ini/parser.h"
 
 namespace MainWindow {
     HWND hWnd;
@@ -47,10 +49,17 @@ ATOM MainWindow::MyRegisterClass(HINSTANCE hInstance) {
 }
 
 void MainWindow::createIndicator() {
-
+    std::string Config = InternalResources::getInstance().getItemStringByName((char*)"Config");
+    std::vector<std::string> Configuration = Parser::splitString(" ", Config);
     BaseObject::Parameter param;
     param.parrent = hWnd;
-    int countIndicator = 3;
+    int countIndicator = 0; //TODO пока только 5N индикатороы countIndicator = Configuration.size();
+    for (const auto& n : Configuration) {
+        if (n == "5N") {
+            ++countIndicator;
+        }
+    }
+    // вычисление размеров модуля с индикаторами
     int indent = 10;
     int diserWidthIndicator = 310;
     int diserHeightIndicator = 90;
@@ -61,7 +70,7 @@ void MainWindow::createIndicator() {
     rectModule.top = indent;
     rectModule.bottom = indent + borderIndicator.top + borderIndicator.bottom + countIndicator * diserHeightIndicator + (countIndicator - 1) * indent;
     param.rect = rectModule;
-    indicator = new WinLIPModule(param, countIndicator, borderIndicator);
+    indicator = new WinLIPModule(param, Configuration, borderIndicator);
 }
 
 BOOL MainWindow::InitInstance(HINSTANCE hInstance, int nCmdShow) {
@@ -93,7 +102,7 @@ void MainWindow::createDI() {
 }
 
 void MainWindow::createOutText() {
-    HWND hwnd = CreateWindow(L"EDIT", L"", WS_VISIBLE | WS_CHILD | WS_BORDER | ES_MULTILINE | WS_VSCROLL, 10, 400, 285, 180, hWnd,
+    HWND hwnd = CreateWindow(L"EDIT", L"", WS_VISIBLE | WS_CHILD | WS_BORDER | ES_MULTILINE | WS_VSCROLL, 620, 10, 285, 180, hWnd,
         NULL, NULL, NULL);
     lip::cout.setHwnd(hwnd);
 }

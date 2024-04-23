@@ -253,3 +253,16 @@ std::vector<std::string> IniParser::getListOfDelimitedStrInclude(char delimiter,
     }
     return res;
 }
+
+std::vector<std::string> Parser::splitString(std::string delimiter, std::string &text) {
+    std::vector<std::string> vecRes;
+    int pos, newPos;
+    pos = 0;
+    do {
+        newPos = text.find(delimiter, pos);
+        vecRes.push_back(text.substr(pos, newPos - pos));
+        pos = newPos;
+        ++pos;
+    } while (newPos != -1);
+    return vecRes;
+}

@@ -3,12 +3,14 @@
 #include "IndicatorContainer.h"
 #include "WinLIP_5Nx.h"
 
+#include <string>
+
 class WinLIPModule : public IndicatorContainer
 {
 private:
-	int count;
+	std::vector<std::string> Configuration;
 public:
-	WinLIPModule(Parameter param, int CountIndicator, RECT newBorder);
+	WinLIPModule(Parameter param, std::vector<std::string> Config, RECT newBorder);
 	void createSegment();
 };
 

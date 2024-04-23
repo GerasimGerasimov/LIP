@@ -1,6 +1,8 @@
 #include "Page.h"
 #include "Indicator/LIP_5Nx.h"
 #include "DMAIndicator.h"
+#include "Resources/InternalResources.h"
+#include "ini/parser.h"
 //#include "ramdata.h"
 
 #include <sstream>
@@ -8,14 +10,25 @@
 
 Page* pageFunction;
 
+void Page::init() {
+    std::string Config = InternalResources::getInstance().getItemStringByName((char*)"Config");
+    Configuration = Parser::splitString(" ", Config);
+    for (const auto& ind : Configuration) {
+        if (ind == "5N") {
+            ListIndicators.push_back(new LIP_5Nx);
+        }
+    }
+}
+
 Page::Page(){
     Indicator *indicator;
     int sizeSegment = 0;
-    for(int i = 0; i < 3; ++i){
-        indicator = new LIP_5Nx;
-        ListIndicators.push_back(indicator);
-        sizeSegment += indicator->getDataSize();
-    }
+    init();
+    //for(int i = 0; i < 3; ++i){
+    //    indicator = new LIP_5Nx;
+    //    ListIndicators.push_back(indicator);
+    //    sizeSegment += indicator->getDataSize();
+    //}
     //str = "56789";
     //str2 = "12.7.7.0";
     //str3 = "vvd.1A";

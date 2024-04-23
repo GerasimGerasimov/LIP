@@ -47,3 +47,6 @@ private:
 	int RootSize;
 };
 
+namespace Parser {
+	std::vector<std::string> splitString(std::string delimiter, std::string &text);
+}
