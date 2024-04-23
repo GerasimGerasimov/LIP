@@ -24,7 +24,7 @@ public:
 	};
 
 	static Router& getInstance();
-	Page* page;
+	Page page;
 	std::string currentPage;
 	void ProcessMessage(TMessage* m);
 	void setTask(Task task);

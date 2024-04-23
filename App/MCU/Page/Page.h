@@ -18,7 +18,8 @@ public:
     Page();
     ~Page();
     void update();
-    
+    uint16_t getByteIndicators();
+    void setIndication(std::string page);
 
 };
 

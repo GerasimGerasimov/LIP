@@ -1,18 +1,17 @@
 #include "LIP_5Nx.h"
+#include "DevicePollManager/Slot.h"
+#include "ini/parser.h"
+
+enum class Structure {
+    DEVICE = 0,
+    SECTION = 1,
+    TAG = 2,
+    TYPE = 3
+};
 
 LIP_5Nx::LIP_5Nx(){
     DataSize = 5;
-}
-
-void LIP_5Nx::setValue(std::string& data){
-    for (auto i = data.rbegin(); i != data.rend(); ++i) {
-        if (*i == '.') {
-            dot = true;
-            continue;
-        }
-        uint8_t symbol = getChar(*i);
-        
-    }
+    slot = new Slot;
 }
 
 std::vector<uint8_t> LIP_5Nx::getValue(std::string& data) {
@@ -29,6 +28,24 @@ std::vector<uint8_t> LIP_5Nx::getValue(std::string& data) {
 
 
     return result;
+}
+
+//установить новый параметр
+void LIP_5Nx::setParameter(std::string param) {
+    if (param == "") {
+        clear();
+        return;
+    }
+    std::vector<std::string> page = Parser::splitString("/", param);
+    parameter.Device = page[static_cast<int>(Structure::DEVICE)];
+    parameter.Section = page[static_cast<int>(Structure::SECTION)];
+    parameter.Tag = page[static_cast<int>(Structure::TAG)];
+    if (page[static_cast<int>(Structure::TYPE)] == "RW") {
+        parameter.type = Type::RW;
+    }
+    else {
+        parameter.type = Type::R;
+    }
 }
 
 const char LIP_5Nx::ASCIITable[96] = {
@@ -70,4 +87,10 @@ uint8_t LIP_5Nx::getChar(char symbol){
         result += 128;
     }
     return result;
+}
+
+void LIP_5Nx::clear() {
+    parameter.Device = "";
+    parameter.Section = "";
+    parameter.Tag = "";
 }

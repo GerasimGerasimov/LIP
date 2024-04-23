@@ -7,7 +7,7 @@
 Router::Router() {
 	currentPage = InternalResources::getInstance().getItemStringByName((char*)"Page1");
 	lip::cout << currentPage;
-	page = new Page();
+	page.setIndication(currentPage);
 }
 
 Router& Router::getInstance() {

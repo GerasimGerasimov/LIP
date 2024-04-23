@@ -21,14 +21,9 @@ void Page::init() {
 }
 
 Page::Page(){
-    Indicator *indicator;
-    int sizeSegment = 0;
+
     init();
-    //for(int i = 0; i < 3; ++i){
-    //    indicator = new LIP_5Nx;
-    //    ListIndicators.push_back(indicator);
-    //    sizeSegment += indicator->getDataSize();
-    //}
+
     //str = "56789";
     //str2 = "12.7.7.0";
     //str3 = "vvd.1A";
@@ -63,6 +58,21 @@ void Page::update(){
     //bufferData.addData(res);
     //bufferSender = bufferData;
     //Indicator::bringOutValue();
+}
+
+uint16_t Page::getByteIndicators() {
+    uint16_t sizeSegment = 0;
+    for (const auto& ind : ListIndicators) {
+        sizeSegment += ind->getDataSize();
+    }
+    return sizeSegment;
+}
+
+void Page::setIndication(std::string page) {
+    std::vector<std::string> newIndication = Parser::splitString("\r\n", page);
+    for (int ind = 0; ind < ListIndicators.size(); ++ind) {
+        ListIndicators[ind]->setParameter(newIndication[ind]);
+    }
 }
 
 void updateDMA(){

@@ -262,7 +262,7 @@ std::vector<std::string> Parser::splitString(std::string delimiter, std::string 
         newPos = text.find(delimiter, pos);
         vecRes.push_back(text.substr(pos, newPos - pos));
         pos = newPos;
-        ++pos;
+        pos += delimiter.size();
     } while (newPos != -1);
     return vecRes;
 }
