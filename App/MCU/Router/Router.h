@@ -6,6 +6,7 @@
 
 class TMessage;
 
+//содержит Page и управляет страницами
 class Router
 {
 private:

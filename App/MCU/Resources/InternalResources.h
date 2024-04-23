@@ -31,10 +31,10 @@ private:
 	bool init();
 	bool isHeaderCrcValid();
 	bool isTotalCrcValid();
-	bool isRequiredName(char* Name1, char* Name2);
-	Item* getItemByName(char* Name);
+	bool isRequiredName(char* Name1, const char* Name2);
+	Item* getItemByName(const char* Name);
 public:
 	static InternalResources& getInstance();
-	std::string getItemStringByName(char* Name);
+	std::string getItemStringByName(const char* Name);
 };
 

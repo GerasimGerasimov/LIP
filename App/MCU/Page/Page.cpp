@@ -11,7 +11,7 @@
 Page* pageFunction;
 
 void Page::init() {
-    std::string Config = InternalResources::getInstance().getItemStringByName((char*)"Config");
+    std::string Config = InternalResources::getInstance().getItemStringByName("Config");
     Configuration = Parser::splitString(" ", Config);
     for (const auto& ind : Configuration) {
         if (ind == "5N") {
@@ -60,6 +60,7 @@ void Page::update(){
     //Indicator::bringOutValue();
 }
 
+//получить общее колличество байт индикаторов
 uint16_t Page::getByteIndicators() {
     uint16_t sizeSegment = 0;
     for (const auto& ind : ListIndicators) {
@@ -68,6 +69,7 @@ uint16_t Page::getByteIndicators() {
     return sizeSegment;
 }
 
+//установить новую страницу
 void Page::setIndication(std::string page) {
     std::vector<std::string> newIndication = Parser::splitString("\r\n", page);
     for (int ind = 0; ind < ListIndicators.size(); ++ind) {
@@ -75,6 +77,7 @@ void Page::setIndication(std::string page) {
     }
 }
 
+//TDOD для DMA
 void updateDMA(){
     pageFunction->update();
 }

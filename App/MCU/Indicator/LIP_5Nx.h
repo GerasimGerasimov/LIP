@@ -7,6 +7,7 @@
 
 class Slot;
 
+//индикатор 5Nxx содержит слот, для чтения конкретного параметра
 class LIP_5Nx : public Indicator
 {
 private:

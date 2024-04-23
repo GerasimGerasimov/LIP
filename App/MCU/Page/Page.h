@@ -7,6 +7,7 @@
 #include "Indicator/Indicator.h"
 #include "Buffer/Buffer.h"
 
+//управляет конкретными индикаторами отображения в данный момент
 class Page
 {
 private:

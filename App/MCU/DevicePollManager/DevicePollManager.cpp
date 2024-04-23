@@ -22,7 +22,7 @@ DevicePollManager& DevicePollManager::getInstance() {
 	return poolManager;
 }
 
-void DevicePollManager::init(std::vector <Slot> slots) {
+void DevicePollManager::init(std::vector <Slot*> slots) {
 	//SlotU1RAM.init();
 	Slots = slots;//{ SlotU1RAM };
 }
@@ -92,7 +92,7 @@ Slot* DevicePollManager::getNextSlot(void) {
 		idx = (++tmp_idx >= size)
 			? 0
 			: tmp_idx;
-		Slot* s = &Slots[idx];
+		Slot* s = Slots[idx];
 		return s;
 	}
 	else {
@@ -102,8 +102,8 @@ Slot* DevicePollManager::getNextSlot(void) {
 
 Slot* DevicePollManager::getSlotByDevPosAndSection(const std::string& device, const std::string& section) {
 	for (auto& s : Slots) {
-		if ((s.Device == device) && (s.Section == section)) {
-			return &s;
+		if ((s->Device == device) && (s->Section == section)) {
+			return s;
 		}
 	}
 	return nullptr;
@@ -118,7 +118,7 @@ Slot* DevicePollManager::CreateCustomSlot(std::string devname, std::string secti
 }
 
 void DevicePollManager::addSlot(Slot *newSlot){
-	Slots.push_back(*newSlot);
+	Slots.push_back(newSlot);
 }
 
 void DevicePollManager::CreateSlotsByStart(){}

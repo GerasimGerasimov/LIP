@@ -1,6 +1,7 @@
 #include "LIP_5Nx.h"
 #include "DevicePollManager/Slot.h"
 #include "ini/parser.h"
+#include "Resources/InternalResources.h"
 
 enum class Structure {
     DEVICE = 0,
@@ -14,6 +15,7 @@ LIP_5Nx::LIP_5Nx(){
     slot = new Slot;
 }
 
+//получить список байт на отправку в SPI
 std::vector<uint8_t> LIP_5Nx::getValue(std::string& data) {
     std::vector<uint8_t> result;
     result.reserve(DataSize);
@@ -63,6 +65,7 @@ const char LIP_5Nx::ASCIITable[96] = {
     0x76, 0x6E, 0x5B, 0x46, 0x30, 0x70, 0x41, 0x00
 };
 
+//получить ASCII символ для индикации
 uint8_t LIP_5Nx::getChar(char symbol){
     if(symbol <= 0x20){
         symbol = 0;
@@ -89,6 +92,7 @@ uint8_t LIP_5Nx::getChar(char symbol){
     return result;
 }
 
+//очистить индикатор
 void LIP_5Nx::clear() {
     parameter.Device = "";
     parameter.Section = "";

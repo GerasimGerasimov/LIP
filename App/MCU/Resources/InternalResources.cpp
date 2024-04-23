@@ -38,7 +38,7 @@ bool InternalResources::isTotalCrcValid() {
 	return (crc == 0);
 }
 
-bool InternalResources::isRequiredName(char* Name1, char* Name2) {
+bool InternalResources::isRequiredName(char* Name1, const char* Name2) {
 	return (bool)(strcmp(Name1, Name2) == 0);
 }
 
@@ -47,7 +47,7 @@ InternalResources& InternalResources::getInstance() {
 	return resource;
 }
 
-InternalResources::Item* InternalResources::getItemByName(char* Name) {
+InternalResources::Item* InternalResources::getItemByName(const char* Name) {
 	for (const auto & item : ValidItems) {
 		if (isRequiredName(item->Name, Name)) {
 			return item;
@@ -56,7 +56,7 @@ InternalResources::Item* InternalResources::getItemByName(char* Name) {
 	return nullptr;
 }
 
-std::string InternalResources::getItemStringByName(char* Name) {
+std::string InternalResources::getItemStringByName(const char* Name) {
 	std::string res = "";
 	const Item* item = getItemByName(Name);
 	if (item) {

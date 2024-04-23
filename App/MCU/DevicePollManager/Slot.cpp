@@ -35,6 +35,7 @@ void Slot::init(void) {
 
 }
 
+//добавление команды массивом
 void Slot::addcmd(u8 cmd[], u8 size) {
 	OutBuf.resize(size +2 );
 	std::memcpy(OutBuf.data(), cmd, size);
@@ -43,7 +44,7 @@ void Slot::addcmd(u8 cmd[], u8 size) {
 	FrameEndCrc16((u8*)OutBuf.data(), cmdLen);
 }
 
-
+//добавление команды std::vector
 void Slot::addcmd(const std::vector<u8>& v) {
 	//GIST копирование вектора в массив
 	OutBuf.resize(v.size() + 2);
@@ -59,6 +60,7 @@ bool Slot::isReplyCRCValid(s16 result, u8* reply) {
 		   : (bool)(crc16(reply, result) == 0);
 }
 
+//проверка CRC вызов обработчика прочитанных данных
 void Slot::validation(s16 result, u8* reply) {
 	(isReplyCRCValid(result, reply))
 		? (Flags &= ~(u16)StateFlags::CRC_ERR)

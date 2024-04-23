@@ -15,8 +15,8 @@ public:
     virtual void setParameter(std::string param);
 protected:
     enum class Type {
-        R,
-        RW
+        R,  //чтение
+        RW  //чтение и запись
     };
     struct Parameter {
         std::string Device = "";

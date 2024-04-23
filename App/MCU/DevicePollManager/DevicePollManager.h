@@ -22,9 +22,9 @@ enum class Status {
 public:
 	static DevicePollManager& getInstance();
 
-	void init(std::vector <Slot> slots);
+	void init(std::vector <Slot*> slots);
 	void execute(void);
-	std::vector <Slot> Slots;
+	std::vector <Slot*> Slots;
 	Status status;
 	Slot* getSlotByDevPosAndSection(const std::string& device, const std::string& section);
 	Slot* CreateCustomSlot(std::string devname, std::string section);
