@@ -41,7 +41,7 @@ void LIP_5Nx::setParameter(std::string param) {
     std::vector<std::string> page = Parser::splitString("/", param);
     parameter.Device = page[static_cast<int>(Structure::DEVICE)];
     parameter.Section = page[static_cast<int>(Structure::SECTION)];
-    parameter.Tag = page[static_cast<int>(Structure::TAG)];
+    parameter.Name = page[static_cast<int>(Structure::TAG)];
     if (page[static_cast<int>(Structure::TYPE)] == "RW") {
         parameter.type = Type::RW;
     }
@@ -96,5 +96,5 @@ uint8_t LIP_5Nx::getChar(char symbol){
 void LIP_5Nx::clear() {
     parameter.Device = "";
     parameter.Section = "";
-    parameter.Tag = "";
+    parameter.Name = "";
 }

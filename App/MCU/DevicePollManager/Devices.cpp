@@ -9,6 +9,7 @@ Devices::Devices() {
 		item = InternalResources::getInstance().getItemStringByName(dev.c_str());
 		if (item != "") {
 			NetworkProps props = getNetworkProps(item);
+			ListDevise[dev] = props;
 		}
 	}
 }
@@ -25,4 +26,18 @@ Devices::NetworkProps Devices::getNetworkProps(std::string& dev) {
 Devices& Devices::getInstance() {
 	static Devices device;
 	return device;
+}
+
+u16 Devices::getDevNetWorkAddr(std::string position) {
+	if (ListDevise.count(position)) {
+		return ListDevise.at(position).NetworkAddr;
+	}
+	return 0;
+}
+
+std::string Devices::getSourceOfDev(std::string position) {
+	if (ListDevise.count(position)) {
+		return ListDevise.at(position).Source;
+	}
+	return "";
 }

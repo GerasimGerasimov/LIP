@@ -1,5 +1,7 @@
 #pragma once
 
+#include "signal.h"
+
 #include <stdint.h>
 #include <string>
 #include <vector>
@@ -21,8 +23,9 @@ protected:
     struct Parameter {
         std::string Device = "";
         std::string Section = "";
-        std::string Tag = "";
+        std::string Name = "";
         Type type = Type::R;
+        ISignal* resources;
     };
     Parameter parameter;
     uint8_t DataSize;

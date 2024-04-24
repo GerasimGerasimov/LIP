@@ -24,5 +24,8 @@ private:
 	NetworkProps getNetworkProps(std::string &dev);
 public:
 	static Devices& getInstance();
+
+	u16 getDevNetWorkAddr(std::string position);
+	std::string getSourceOfDev(std::string position);
 };
 
