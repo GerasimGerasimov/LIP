@@ -5,6 +5,11 @@
 #include <vector>
 #include <string>
 
+struct ItemLimits {
+	char* RootOffset;
+	int Size;
+};
+
 class InternalResources
 {
 	struct Item {
@@ -36,5 +41,6 @@ private:
 public:
 	static InternalResources& getInstance();
 	std::string getItemStringByName(const char* Name);
+	ItemLimits getItemLimitsByName(const char* Name);
 };
 

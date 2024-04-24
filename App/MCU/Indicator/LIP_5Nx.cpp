@@ -2,13 +2,14 @@
 #include "DevicePollManager/Slot.h"
 #include "ini/parser.h"
 #include "Resources/InternalResources.h"
+#include "DevicePollManager/Devices.h"
+#include "ini/IniResources.h"
+#include "OutStream.h"
 
-enum class Structure {
-    DEVICE = 0,
-    SECTION = 1,
-    TAG = 2,
-    TYPE = 3
-};
+#define DEVICE 0
+#define SECTION 1
+#define NAME 2
+#define TYPE 3
 
 LIP_5Nx::LIP_5Nx(){
     DataSize = 5;
@@ -39,10 +40,12 @@ void LIP_5Nx::setParameter(std::string param) {
         return;
     }
     std::vector<std::string> page = Parser::splitString("/", param);
-    parameter.Device = page[static_cast<int>(Structure::DEVICE)];
-    parameter.Section = page[static_cast<int>(Structure::SECTION)];
-    parameter.Name = page[static_cast<int>(Structure::TAG)];
-    if (page[static_cast<int>(Structure::TYPE)] == "RW") {
+    parameter.Device = page[DEVICE];
+    parameter.Section = IniResources::getSection(page[SECTION]);
+    parameter.Name = page[NAME];
+    lip::cout << parameter.Device << "\r\n" << parameter.Section << "\r\n" << parameter.Name << "\r\n";
+    setIsignal();
+    if (page[TYPE] == "RW") {
         parameter.type = Type::RW;
     }
     else {
@@ -97,4 +100,24 @@ void LIP_5Nx::clear() {
     parameter.Device = "";
     parameter.Section = "";
     parameter.Name = "";
+}
+
+void LIP_5Nx::setIsignal() {
+    std::string dev = Devices::getInstance().getSourceOfDev(parameter.Device.c_str());
+    ItemLimits item = InternalResources::getInstance().getItemLimitsByName(dev.c_str());
+    IniParser::getInstance().setRoot(item.RootOffset, item.Size);
+    if (IniParser::getInstance().setSectionToRead(parameter.Section.c_str())) {
+        std::string readResult("");
+        size_t pos;
+        do {
+            readResult = IniParser::getInstance().getNextTagString();
+            if (readResult == "")return;
+            pos = readResult.find(parameter.Name);
+        } while (pos == std::string::npos);
+
+        lip::cout << readResult << "\r\n";
+        pos = readResult.find('=');
+        std::string number = readResult.substr(0, pos);
+        lip::cout << number << "\r\n";
+    }
 }

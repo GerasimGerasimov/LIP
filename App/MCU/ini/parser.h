@@ -18,9 +18,11 @@ typedef struct {
 class IniParser  {
 public:
 	static IniParser& getInstance();
+
 	void init(void);
-	bool setSectionToRead(char* SectionName);
-	TSectionReadResult getNextTagString();
+	bool setSectionToRead(const char* SectionName);
+	TSectionReadResult getNextTagChar();
+	std::string getNextTagString();
 	void setRoot(char* root, int size);
 	std::vector<std::string> getListOfDelimitedString(char delimiter, char* src, int size);
 	std::vector<std::string> getListOfDelimitedStrInclude(char delimiter, char* src, int size);
@@ -37,7 +39,7 @@ private:
 	IniParser& operator=(const IniParser&&) = delete;
 
 	void resetFind(char* start);
-	char* getSectionEntryPoint(char* SectionName);
+	char* getSectionEntryPoint(const char* SectionName);
 	int getTagString(char** position);
 	int isDelimiter(char** ptr, char Delimiter);
 	int getSectionLinesCount(char* SectionName);

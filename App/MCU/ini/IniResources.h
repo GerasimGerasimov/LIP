@@ -2,20 +2,9 @@
 
 #include <string>
 
-class ISignal;
-
-class IniResources
+namespace IniResources
 {
-private:
-	IniResources();
-	IniResources(const IniResources&) = delete;
-	IniResources& operator=(const IniResources&) = delete;
-	IniResources(const IniResources&&) = delete;
-	IniResources& operator=(const IniResources&&) = delete;
-
-	
-public:
-	static IniResources& getInstance();
 	std::string getScaleValueByKey(const std::string& key, const std::string& dev);
+	std::string getSection(std::string section);
 };
 

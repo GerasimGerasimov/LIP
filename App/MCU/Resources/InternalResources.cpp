@@ -58,9 +58,17 @@ InternalResources::Item* InternalResources::getItemByName(const char* Name) {
 
 std::string InternalResources::getItemStringByName(const char* Name) {
 	std::string res = "";
+	ItemLimits itemLimit = getItemLimitsByName(Name);
+	res.append(itemLimit.RootOffset, itemLimit.Size);
+	return res;
+}
+
+ItemLimits InternalResources::getItemLimitsByName(const char* Name) {
+	ItemLimits res = { 0,0 };
 	const Item* item = getItemByName(Name);
 	if (item) {
-		res.append(((char*)((char*)Root + item->BinaryDataAddr)), item->BinaryDataSize);
+		res.Size = item->BinaryDataSize;
+		res.RootOffset = (char*)((char*)Root + item->BinaryDataAddr);
 	}
 	return res;
 }

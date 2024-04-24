@@ -27,7 +27,7 @@ IniParser::IniParser(){
 //возвращает адрес символа следующего за закрывающей квадратной скобкой заданной секции из devece_ini
 //в качестве параметра, передаётся имя секции с квадратными скобками (например [RAM])
 //!!! название секции передаётся в квадратных скобках! "[RAM]"
-char* IniParser::getSectionEntryPoint(char* SectionName) {
+char* IniParser::getSectionEntryPoint(const char* SectionName) {
     char* ptr = (char*)strstr(Root, SectionName);
     if (ptr != 0) {
         ptr += strlen(SectionName);//если фраза есть в тексте, тогда добавляю длину секции
@@ -38,13 +38,13 @@ char* IniParser::getSectionEntryPoint(char* SectionName) {
     return ptr;
 }
 
-bool IniParser::setSectionToRead(char* SectionName) {
+bool IniParser::setSectionToRead(const char* SectionName) {
     char* section = getSectionEntryPoint(SectionName);
     SearchPointer = section;
     return (bool)(section != NULL);
 }
 
-TSectionReadResult IniParser::getNextTagString() {
+TSectionReadResult IniParser::getNextTagChar() {
     do {
         char* tag = NULL;
         int tagSuccess = IniParser::getTagString(&tag);
@@ -60,6 +60,15 @@ TSectionReadResult IniParser::getNextTagString() {
                 return { tag, tagSuccess };
         };
     } while (true);
+}
+
+std::string IniParser::getNextTagString() {
+    TSectionReadResult readResult = getNextTagChar();
+    std::string result{ "" };
+    if (readResult.result != 0) {
+        result.append(readResult.tag, readResult.result);
+    }
+    return result;
 }
 
 int IniParser::isDelimiter(char** ptr, char Delimiter) {

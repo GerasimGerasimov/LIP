@@ -33,7 +33,7 @@ void App::run() {
 
 	//DevicePollManager::getInstance().addSlot(slot);
 	//InternalResources::getInstance();
-	lip::cout <<  Devices::getInstance().getDevNetWorkAddr("U1") << "\r\n" << Devices::getInstance().getSourceOfDev("U1");
+	
 	while (true) {
 		processModbusSlave();
 		Router::getInstance();
