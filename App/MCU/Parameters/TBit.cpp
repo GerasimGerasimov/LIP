@@ -33,8 +33,8 @@ const std::string TBit::validation(const TSlotHandlerArsg& args) {
 }
 
 TBit::TBit(ISignal::PropsPointers props) : Parameter(props) {
-    strAddr = IniParser::getInstance().getElementPtrByNumber(2, '/', props.pOptional);
-    Addr = ParametersUtils::getSpecialAddrForBit(strAddr);
+    strAddr = props.pOptional.strAddr;
+    Addr = ParametersUtils::getSpecialAddrForBit(strAddr.c_str());
 }
 
 std::string TBit::getValue(const TSlotHandlerArsg& args, const char* format) {
@@ -51,7 +51,7 @@ const std::string TBit::getValueHex(std::string& src) {
 }
 
 const std::string TBit::getRegHexAddr() {
-    std::string res(strAddr + 1, 6);
+    std::string res(strAddr.substr(1, -1));
     return res;
 }
 

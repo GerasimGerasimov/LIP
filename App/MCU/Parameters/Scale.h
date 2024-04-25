@@ -11,9 +11,9 @@ protected:
 	std::string getValueFromList(std::vector<std::string> values);
 public:
 	struct Props {
-		char* pKey;
-		char* pValue;
-		int	ValueSize;
+		std::string pKey = "";
+		char* pValue = nullptr;
+		int	ValueSize = 0;
 	};
 
 	Scale(char* source, int scrLen);

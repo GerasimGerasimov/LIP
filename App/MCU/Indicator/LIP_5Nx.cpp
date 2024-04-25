@@ -119,5 +119,6 @@ void LIP_5Nx::setIsignal() {
         pos = readResult.find('=');
         std::string number = readResult.substr(0, pos);
         lip::cout << number << "\r\n";
+        std::vector<std::string> vecstr = Parser::splitString("/", readResult);
     }
 }

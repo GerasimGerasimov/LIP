@@ -27,7 +27,7 @@ SignalFactoty& SignalFactoty::getInstance() {
 }
 
 ISignal::PropsPointers SignalFactoty::getSignalProps(const char* dev, const char* source, const int srcLen) {
-	ISignal::PropsPointers res = { nullptr, nullptr, nullptr, nullptr, nullptr };
+	ISignal::PropsPointers res;
 	res.dev = const_cast<char*>(dev);
 	/*отделить номер параметра со знаком "=" от значащей части параметра (те что разделены слэшем)*/
 	char* src = const_cast<char*>(source);
@@ -40,7 +40,7 @@ ISignal::PropsPointers SignalFactoty::getSignalProps(const char* dev, const char
 			if (IniParser::getInstance().isDelimiterSizeLimited('/', src, size) != -1) {
 				res.pType = src;
 				if (IniParser::getInstance().isDelimiterSizeLimited('/', src, size) != -1) {
-					res.pOptional = src;
+					res.pOptional.opt = src;
 				}
 			}
 		}
@@ -49,7 +49,7 @@ ISignal::PropsPointers SignalFactoty::getSignalProps(const char* dev, const char
 }
 
 Scale::Props SignalFactoty::getScaleProps(const char* source, const int srcLen) {
-	Scale::Props res = { nullptr, nullptr, 0 };
+	Scale::Props res;
 	/*отделить номер параметра со знаком "=" от значащей части параметра (те что разделены слэшем)*/
 	char* src = const_cast<char*>(source);
 	int size = srcLen;
@@ -63,8 +63,8 @@ Scale::Props SignalFactoty::getScaleProps(const char* source, const int srcLen) 
 
 ISignal* SignalFactoty::getSignal(const ISignal::PropsPointers& props) {
 	int size = 100;
-	char* _pType = props.pType;
-	std::string pType = IniParser::getInstance().getElement('/', &_pType, size);
+	//const char* _pType = props.pType.c_str();
+	std::string pType = props.pType;//IniParser::getInstance().getElement('/', &_pType, size);
 	ISignal* s = (TypeToSignal.count(pType))
 		? TypeToSignal.at(pType)(props)
 		: nullptr;

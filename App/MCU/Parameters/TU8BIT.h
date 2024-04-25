@@ -5,7 +5,7 @@
 class TU8BIT : public Parameter
 {
 private:
-	char* MSU;
+	std::string MSU;
 	float Scale;
 	SpecialSignalAddr Addr;
 	static const std::string SignalType;

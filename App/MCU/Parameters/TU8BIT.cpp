@@ -39,16 +39,14 @@ u16 TU8BIT::string2raw(std::string& src) {
 }
 
 TU8BIT::TU8BIT(ISignal::PropsPointers props) : Parameter(props)
-    , MSU(IniParser::getInstance().getElementPtrByNumber(2, '/', props.pOptional)){
-    strAddr = IniParser::getInstance().getElementPtrByNumber(1, '/', props.pOptional);
-    Addr = ParametersUtils::getSpecialAddrForByte(strAddr);
-    Scale = ScaleUtils::getScaleFromProps(props.dev, props.pOptional);
+    , MSU(props.pOptional.MSU){
+    strAddr = props.pOptional.strAddr;
+    Addr = ParametersUtils::getSpecialAddrForByte(strAddr.c_str());
+    Scale = props.pOptional.Scale;
 }
 
 std::string TU8BIT::getMSU() {
-    return (MSU)
-		? IniParser::getInstance().getElement('/', MSU)
-		: "";
+    return MSU;
 }
 
 std::string TU8BIT::getValue(const TSlotHandlerArsg& args, const char* format) {
@@ -67,7 +65,7 @@ const std::string TU8BIT::getValueHex(std::string& src) {
 }
 
 const std::string TU8BIT::getRegHexAddr() {
-    std::string res(strAddr + 1, 6);
+    std::string res(strAddr.substr(1, -1));
     return res;
 }
 

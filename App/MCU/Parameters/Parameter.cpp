@@ -3,14 +3,14 @@
 
 Parameter::Parameter(char* source, int scrLen) 
 	: ISignal(source, scrLen)
-	, Comment(nullptr)
-	, strAddr(nullptr) {
+	, Comment("")
+	, strAddr("") {
 }
 
 Parameter::Parameter(ISignal::PropsPointers props)
 	: ISignal(props)
 	, Comment(props.pComment)
-	, strAddr(nullptr) {
+	, strAddr("") {
 }
 
 const std::string Parameter::getValueHex(std::string& src) {

@@ -4,7 +4,7 @@
 
 #include <string>
 
-s16 ParametersUtils::getByteOffsetFromSlahedAddrStr(char* addr) {
+s16 ParametersUtils::getByteOffsetFromSlahedAddrStr(const char* addr) {
 	//отрицательное значение - значит адрес не декодирован!
 	//используется младшая часть адреса для получения смещения в байтах
 	//т.е. адрес = отрасывается префикс, и младшая часть умножается на 2
@@ -24,7 +24,7 @@ s16 ParametersUtils::getByteOffsetFromSlahedAddrStr(char* addr) {
 }
 
 /*В таком виде r2021.1/ приходит адрес, надо получить смешение и маску для бита*/
-SpecialSignalAddr ParametersUtils::getSpecialAddrForBit(char* addr) {
+SpecialSignalAddr ParametersUtils::getSpecialAddrForBit(const char* addr) {
 	//отрицательное значение - значит адрес не декодирован!
 	//используется младшая часть адреса для получения смещения в байтах
 	//т.е. адрес = отрасывается префикс, и младшая часть умножается на 2
@@ -48,7 +48,7 @@ SpecialSignalAddr ParametersUtils::getSpecialAddrForBit(char* addr) {
 }
 
 /*В таком виде r2021.H(L)/ приходит адрес, надо получить смешение и номер байта*/
-SpecialSignalAddr ParametersUtils::getSpecialAddrForByte(char* addr) {
+SpecialSignalAddr ParametersUtils::getSpecialAddrForByte(const char* addr) {
 	//отрицательное значение - значит адрес не декодирован!
 	//используется младшая часть адреса для получения смещения в байтах
 	//т.е. адрес = отрасывается префикс, и младшая часть умножается на 2

@@ -200,8 +200,8 @@ std::string IniParser::getElement(char delimiter, char** ptr, int& size) {
     return "";
 }
 
-std::string IniParser::getElement(char delimiter, char* ptr) {
-    char* idx = ptr;
+std::string IniParser::getElement(char delimiter, const char* ptr) {
+    char* idx = const_cast<char*>(ptr);
     const char* start = ptr;
     int pos = isDelimiter(&idx, delimiter);
     if (pos > 0) {

@@ -6,9 +6,9 @@ struct SpecialSignalAddr;
 
 namespace ParametersUtils {
 
-	s16 getByteOffsetFromSlahedAddrStr(char* addr);
-	SpecialSignalAddr getSpecialAddrForBit(char* addr);
-	SpecialSignalAddr getSpecialAddrForByte(char* addr);
+	s16 getByteOffsetFromSlahedAddrStr(const char* addr);
+	SpecialSignalAddr getSpecialAddrForBit(const char* addr);
+	SpecialSignalAddr getSpecialAddrForByte(const char* addr);
 	bool isAddrInvalid(s16 Addr);
 	bool isAddrValid(s16 Addr);
 };

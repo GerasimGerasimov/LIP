@@ -33,7 +33,7 @@ protected:
 	virtual std::string value(const TSlotHandlerArsg& args, const char* format);
 	virtual RawReturn getRawValue(const TSlotHandlerArsg& args);
 	std::string validation(const TSlotHandlerArsg& args);
-	char* MSU;
+	std::string MSU;
 	s16 Addr;
 	float Scale;
 };

@@ -2,9 +2,7 @@
 #include "ini/parser.h"
 
 ISignal::ISignal(char* source, int scrLen) 
-	: Name (NULL)
-	, optional (NULL) {
-}
+	: Name ("")	{}
 
 ISignal::ISignal(ISignal::PropsPointers props)
 	: Name (props.pName)
@@ -15,9 +13,7 @@ ISignal::~ISignal(){
 }
 
 std::string ISignal::getName() {
-	return (Name)
-		? IniParser::getInstance().getElement('/', Name)
-		: "";
+	return Name;
 }
 
 std::string ISignal::getValue(const TSlotHandlerArsg& args, const char* format) {
