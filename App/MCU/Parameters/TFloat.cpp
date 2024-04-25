@@ -48,3 +48,7 @@ const std::string TFloat::getValueHex(std::string& src) {
 	std::string res(s);
 	return res;
 }
+
+u8 TFloat::getSizeByte() {
+	return 4;
+}

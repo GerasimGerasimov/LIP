@@ -9,5 +9,6 @@ private:
 public:
 	TS16BIT(ISignal::PropsPointers props);
 	virtual InternalMemAddress getInternalMemAddr() override;
+	u8 getSizeByte() override;
 };
 

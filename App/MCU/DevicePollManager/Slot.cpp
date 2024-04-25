@@ -39,7 +39,7 @@ void Slot::init(void) {
 void Slot::addcmd(u8 cmd[], u8 size) {
 	OutBuf.resize(size +2 );
 	std::memcpy(OutBuf.data(), cmd, size);
-	InputBuf.resize(OutBuf[5] * 2 + 2);
+	InputBuf.resize(OutBuf[5] * 2 + 5);
 	cmdLen = size + 2;
 	FrameEndCrc16((u8*)OutBuf.data(), cmdLen);
 }
@@ -49,7 +49,7 @@ void Slot::addcmd(const std::vector<u8>& v) {
 	//GIST копирование вектора в массив
 	OutBuf.resize(v.size() + 2);
 	std::memcpy(OutBuf.data(), v.data(), v.size());
-	InputBuf.resize(OutBuf[5] * 2 + 2);
+	InputBuf.resize(OutBuf[5] * 2 + 5);
 	cmdLen = v.size() + 2;
 	FrameEndCrc16((u8*)OutBuf.data(), cmdLen);
 }

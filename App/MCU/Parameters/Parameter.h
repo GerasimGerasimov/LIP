@@ -24,5 +24,6 @@ public:
 	virtual const std::string getRegHexAddr();
 	virtual const std::string getWriteCmdType();
 	virtual InternalMemAddress getInternalMemAddr();
+	virtual u8 getSizeByte();
 };
 

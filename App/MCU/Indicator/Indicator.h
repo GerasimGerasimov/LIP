@@ -1,10 +1,10 @@
 #pragma once
 
-#include "signal.h"
-
 #include <stdint.h>
 #include <string>
 #include <vector>
+
+class Parameter;
 
 class Indicator
 {
@@ -20,14 +20,14 @@ protected:
         R,  //чтение
         RW  //чтение и запись
     };
-    struct Parameter {
+    struct Props {
         std::string Device = "";
         std::string Section = "";
         std::string Name = "";
         Type type = Type::R;
-        ISignal* resources;
+        Parameter* resources;
     };
-    Parameter parameter;
+    Props parameter;
     uint8_t DataSize;
 };
 

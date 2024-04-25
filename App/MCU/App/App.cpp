@@ -37,6 +37,6 @@ void App::run() {
 	while (true) {
 		processModbusSlave();
 		Router::getInstance();
-		//DevicePollManager::getInstance().execute();
+		DevicePollManager::getInstance().execute();
 	}
 }

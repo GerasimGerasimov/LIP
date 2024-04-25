@@ -20,6 +20,7 @@ private:
     Slot* slot;
     void clear();
     void setIsignal();
+    void createReadCmd();
 public:
     LIP_5Nx();
     std::vector<uint8_t> getValue(std::string & data) override;

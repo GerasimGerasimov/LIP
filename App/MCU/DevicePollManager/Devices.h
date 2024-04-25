@@ -11,7 +11,7 @@ class Devices
 	struct NetworkProps {
 		std::string Source;
 		std::string COM;
-		u16 NetworkAddr;
+		u8 NetworkAddr;
 	};
 private:
 	Devices();

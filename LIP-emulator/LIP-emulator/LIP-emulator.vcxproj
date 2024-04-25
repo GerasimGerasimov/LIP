@@ -172,6 +172,7 @@
     <ClInclude Include="Drivers\WinIndicator\WinLIPModule.h" />
     <ClInclude Include="Drivers\WinIndicator\WinLIP_5Nx.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="IniString.h" />
     <ClInclude Include="LIP-emulator.h" />
     <ClInclude Include="OutStream.h" />
     <ClInclude Include="Resource.h" />
@@ -224,6 +225,7 @@
     <ClCompile Include="Drivers\WinIndicator\Win7Segment.cpp" />
     <ClCompile Include="Drivers\WinIndicator\WinLIPModule.cpp" />
     <ClCompile Include="Drivers\WinIndicator\WinLIP_5Nx.cpp" />
+    <ClCompile Include="IniString.cpp" />
     <ClCompile Include="LIP-emulator.cpp" />
     <ClCompile Include="OutStream.cpp" />
     <ClCompile Include="STM32\DMAIndicator.cpp" />

@@ -149,3 +149,7 @@ InternalMemAddress TPrmList::getInternalMemAddr() {
     offset += Addr.Option;//0-L, 1-H byte
     return { offset,1,-1 };
 }
+
+u8 TPrmList::getSizeByte() {
+    return 1;
+}

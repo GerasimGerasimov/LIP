@@ -25,5 +25,6 @@ public:
 	virtual const std::string getWriteCmdType() override;
 	virtual const std::string& getSignalType() override;
 	virtual InternalMemAddress getInternalMemAddr() override;
+	u8 getSizeByte() override;
 };
 

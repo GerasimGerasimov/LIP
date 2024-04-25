@@ -243,6 +243,9 @@
     <ClInclude Include="..\..\App\MCU\DevicePollManager\Devices.h">
       <Filter>MCU\DevicePollManager</Filter>
     </ClInclude>
+    <ClInclude Include="IniString.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LIP-emulator.cpp">
@@ -379,6 +382,9 @@
     </ClCompile>
     <ClCompile Include="..\..\App\MCU\DevicePollManager\Devices.cpp">
       <Filter>MCU\DevicePollManager</Filter>
+    </ClCompile>
+    <ClCompile Include="IniString.cpp">
+      <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

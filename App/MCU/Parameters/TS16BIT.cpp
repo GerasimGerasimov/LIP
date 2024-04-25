@@ -21,3 +21,7 @@ InternalMemAddress TS16BIT::getInternalMemAddr() {
     s16 offset = Addr;
     return { offset,2,-1 };
 }
+
+u8 TS16BIT::getSizeByte() {
+	return 2;
+}

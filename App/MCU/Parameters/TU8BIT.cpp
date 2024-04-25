@@ -84,3 +84,7 @@ InternalMemAddress TU8BIT::getInternalMemAddr() {
     offset += Addr.Option;//0-L, 1-H byte
     return { offset,1,-1 };
 }
+
+u8 TU8BIT::getSizeByte() {
+    return 1;
+}

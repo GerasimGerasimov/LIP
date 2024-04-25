@@ -8,7 +8,7 @@
 #include "TBit.h"
 #include "TPrmList.h"
 
-const std::map<std::string, std::function<ISignal*(ISignal::PropsPointers)>> TypeToSignal = {
+const std::map<std::string, std::function<ISignal*(ISignal::PropsPointers)>> SignalFactoty::TypeToSignal = {
 	{"TByte", [](ISignal::PropsPointers props) {return new TU8BIT(props); }},
 	{"TFloat", [](ISignal::PropsPointers props) {return new TFloat(props); }},
 	{"TInteger", [](ISignal::PropsPointers props) {return new TS16BIT(props); }},

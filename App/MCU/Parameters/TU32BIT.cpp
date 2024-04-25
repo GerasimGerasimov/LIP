@@ -38,3 +38,7 @@ InternalMemAddress TU32BIT::getInternalMemAddr() {
 	s16 offset = Addr;
 	return { offset,4,-1 };
 }
+
+u8 TU32BIT::getSizeByte() {
+	return 4;
+}

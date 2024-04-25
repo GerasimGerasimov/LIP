@@ -12,5 +12,6 @@ public:
 	TFloat(ISignal::PropsPointers props);
 	virtual InternalMemAddress getInternalMemAddr() override;
 	virtual const std::string getValueHex(std::string& src) override;
+	u8 getSizeByte() override;
 };
 

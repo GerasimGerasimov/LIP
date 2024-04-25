@@ -28,3 +28,7 @@ const std::string Parameter::getWriteCmdType() {
 InternalMemAddress Parameter::getInternalMemAddr() {
 	return { -1,0,-1 };
 }
+
+u8 Parameter::getSizeByte() {
+	return 0;
+}

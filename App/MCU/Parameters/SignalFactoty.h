@@ -14,7 +14,7 @@ private:
 	SignalFactoty& operator=(const SignalFactoty&) = delete;
 	SignalFactoty(const SignalFactoty&&) = delete;
 	SignalFactoty& operator=(const SignalFactoty&&) = delete;
-	const std::map<std::string, std::function<ISignal* (ISignal::PropsPointers)>> TypeToSignal;
+	const static std::map<std::string, std::function<ISignal* (ISignal::PropsPointers)>> TypeToSignal;
 public:
 	static SignalFactoty& getInstance();
 
