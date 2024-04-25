@@ -15,7 +15,7 @@ const std::string TPrmList::value(const TSlotHandlerArsg& args, const char* form
     // [7+0]            [7+1]                [7+N]
     // /index0#data0#ai0/index1#data1#ai1/.../indexN#dataN#aiN/Base/
     // Вase отличается тем, что в нём нет символа '#'
-    char* options = optional.opt;//приходится сохранять указатели так как метод ниже меняет его
+    char* options = optional;//приходится сохранять указатели так как метод ниже меняет его
     char* plist = IniParser::getInstance().getElementPtrByNumber(4, '/', options);
     char* listAddr = plist;//приходится сохранять указатели так как метод ниже меняет его
     int size = IniParser::getInstance().getStringLenght(&listAddr);
@@ -55,14 +55,16 @@ const std::string TPrmList::validation(const TSlotHandlerArsg& args) {
 }
 
 TPrmList::TPrmList(ISignal::PropsPointers props) : Parameter(props) 
-    , MSU(props.pOptional.MSU) {
-    strAddr = props.pOptional.strAddr;
-    Addr = ParametersUtils::getSpecialAddrForByte(strAddr.c_str());
-    Scale = props.pOptional.Scale;
+    , MSU(IniParser::getInstance().getElementPtrByNumber(2, '/', props.pOptional)) {
+    strAddr = IniParser::getInstance().getElementPtrByNumber(1, '/', props.pOptional);
+    Addr = ParametersUtils::getSpecialAddrForByte(strAddr);
+    Scale = ScaleUtils::getScaleFromProps(props.dev, props.pOptional);
 }
 
 std::string TPrmList::getMSU() {
-    return MSU;
+    return (MSU)
+        ? IniParser::getInstance().getElement('/', MSU)
+        : "";
 }
 
 std::string TPrmList::getValue(const TSlotHandlerArsg& args, const char* format) {
@@ -73,7 +75,7 @@ std::string TPrmList::getValue(const TSlotHandlerArsg& args, const char* format)
 }
 
 std::vector<std::string> TPrmList::getList() {
-    char* options = optional.opt;//приходится сохранять указатели так как метод ниже меняет его
+    char* options = optional;//приходится сохранять указатели так как метод ниже меняет его
     char* plist = IniParser::getInstance().getElementPtrByNumber(4, '/', options);
     char* listAddr = plist;//приходится сохранять указатели так как метод ниже меняет его
     int size = IniParser::getInstance().getStringLenght(&listAddr);
@@ -101,7 +103,7 @@ std::vector<std::string> TPrmList::getList(const std::string& val, s16& ValueInd
 }
 
 std::string TPrmList::getKeyByValue(const std::string& val) {
-    char* options = optional.opt;//приходится сохранять указатели так как метод ниже меняет его
+    char* options = optional;//приходится сохранять указатели так как метод ниже меняет его
     char* plist = IniParser::getInstance().getElementPtrByNumber(4, '/', options);
     char* listAddr = plist;//приходится сохранять указатели так как метод ниже меняет его
     int size = IniParser::getInstance().getStringLenght(&listAddr);
@@ -130,7 +132,7 @@ const std::string TPrmList::getValueHex(std::string& src) {
 }
 
 const std::string TPrmList::getRegHexAddr() {
-    std::string res(strAddr.substr(1, -1));
+    std::string res(strAddr + 1, 6);
     return res;
 }
 

@@ -27,7 +27,7 @@ public:
 	std::vector<std::string> getListOfDelimitedString(char delimiter, char* src, int size);
 	std::vector<std::string> getListOfDelimitedStrInclude(char delimiter, char* src, int size);
 	std::string getElement(char delimiter, char** ptr, int& size);
-	std::string getElement(char delimiter, const char* ptr);
+	std::string getElement(char delimiter, char* ptr);
 	char* getElementPtrByNumber(int number, char delimiter, char* src);
 	int isDelimiterSizeLimited(char delimiter, char*& src, int& size);
 	int getStringLenght(char** ptr);

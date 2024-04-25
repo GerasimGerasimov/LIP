@@ -6,7 +6,7 @@
 class TPrmList : public Parameter
 {
 private:
-	std::string MSU;
+	char* MSU;
 	float Scale;
 	SpecialSignalAddr Addr;
 	static const std::string SignalType;

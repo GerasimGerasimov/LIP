@@ -15,8 +15,8 @@ struct InternalMemAddress;
 class Parameter : public ISignal
 {
 protected:
-	std::string Comment;
-	std::string strAddr;
+	char* Comment;
+	char* strAddr;
 public:
 	Parameter(char* source, int scrLen);
 	Parameter(ISignal::PropsPointers props);

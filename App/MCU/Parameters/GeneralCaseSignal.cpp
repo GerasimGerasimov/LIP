@@ -53,14 +53,16 @@ std::string GeneralCaseSignal::validation(const TSlotHandlerArsg& args) {
 }
 
 GeneralCaseSignal::GeneralCaseSignal(ISignal::PropsPointers props) : Parameter(props)
-	, MSU(props.pOptional.MSU) {
-	strAddr = props.pOptional.strAddr;
-	Addr = ParametersUtils::getByteOffsetFromSlahedAddrStr(strAddr.c_str());
-	Scale = props.pOptional.Scale;
+	, MSU(IniParser::getInstance().getElementPtrByNumber(2, '/', props.pOptional)) {
+	strAddr = IniParser::getInstance().getElementPtrByNumber(1, '/', props.pOptional);
+	Addr = ParametersUtils::getByteOffsetFromSlahedAddrStr(strAddr);
+	Scale = ScaleUtils::getScaleFromProps(props.dev, props.pOptional);
 }
 
 std::string GeneralCaseSignal::getMSU() {
-    return MSU;
+    return (MSU)
+        ? IniParser::getInstance().getElement('/', MSU)
+        : "";
 }
 
 std::string GeneralCaseSignal::getValue(const TSlotHandlerArsg& args, const char* format) {
@@ -69,7 +71,7 @@ std::string GeneralCaseSignal::getValue(const TSlotHandlerArsg& args, const char
 }
 
 const std::string GeneralCaseSignal::getRegHexAddr() {
-    std::string res(strAddr.substr(1, -1));
+    std::string res(strAddr + 1, 4);
     return res;
 }
 

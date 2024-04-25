@@ -9,11 +9,14 @@ std::string Scale::getValueFromList(std::vector<std::string> values) {
 Scale::Scale(char* source, int scrLen) : ISignal(source, scrLen) 
 , ValueSize(0) {}
 
-Scale::Scale(Props props) : ISignal({ "", props.pKey, "", "", props.pValue})
+Scale::Scale(Props props) : ISignal({ nullptr, props.pKey, nullptr, nullptr, props.pValue }) 
 , ValueSize(props.ValueSize) {}
 
 std::string Scale::getName() {
-	return Name;
+	std::string s = (Name)
+		? IniParser::getInstance().getElement('=', Name)
+		: "";
+	return s;
 }
 
 std::string Scale::getValue() {
@@ -25,7 +28,7 @@ std::string Scale::getValue() {
 	//std::string opt = "0,16625";
 	//ValueSize = opt.size();
 	//std::vector<std::string> values = IniParser::getListOfDelimitedStrInclude('/', (char*)opt.c_str(), ValueSize);
-	std::vector<std::string> values = IniParser::getInstance().getListOfDelimitedStrInclude('/', optional.opt, ValueSize);
+	std::vector<std::string> values = IniParser::getInstance().getListOfDelimitedStrInclude('/', optional, ValueSize);
 	return (values.size() == 1)
 		? values[0]
 		: (values.size() == 0)

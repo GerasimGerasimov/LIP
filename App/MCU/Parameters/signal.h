@@ -7,18 +7,11 @@ class TSlotHandlerArsg;
 class ISignal {
 public:
 struct PropsPointers{
-	struct Optional {
-		std::string Offset = "";
-		std::string strAddr = "";
-		std::string MSU = "";
-		float Scale = 1.0;
-		char* opt = nullptr; //нужен для TPrmList
-	};
-	std::string dev = "";
-	std::string pName = "";
-	std::string pComment = "";
-	std::string pType = "";
-	Optional pOptional;
+	char* dev;
+	char* pName;
+	char* pComment;
+	char* pType;
+	char* pOptional;
 };
 
 	ISignal(char* source, int scrLen);
@@ -31,8 +24,9 @@ struct PropsPointers{
 	virtual const std::string& getSignalType();
 	std::string getDefaultValue();
 protected:
-	std::string Name;
-	PropsPointers::Optional optional;
+	char* Name;
+	char* optional;
 };
 
 //typedef ISignal* pSignal;
+
