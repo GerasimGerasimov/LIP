@@ -27,7 +27,7 @@ protected:
         Type type = Type::R;
         Parameter* resources;
     };
-    Props parameter;
-    uint8_t DataSize;
+    
+    uint8_t DataSize = 0;
 };
 

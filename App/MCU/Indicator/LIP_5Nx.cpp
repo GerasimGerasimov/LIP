@@ -1,13 +1,12 @@
 #include "LIP_5Nx.h"
 #include "DevicePollManager/Slot.h"
-#include"DevicePollManager/DevicePollManager.h"
+#include "DevicePollManager/DevicePollManager.h"
 #include "ini/parser.h"
 #include "Resources/InternalResources.h"
 #include "DevicePollManager/Devices.h"
 #include "ini/IniResources.h"
 #include "IniString.h"
 #include "Parameter.h"
-#include "crc16.h"
 #include "Slots/HandlerSlotRead.h"
 #include "OutStream.h"
 
@@ -15,6 +14,8 @@
 #define SECTION 1
 #define NAME 2
 #define TYPE 3
+
+#define COMAND_READ 3
 
 LIP_5Nx::LIP_5Nx(){
     DataSize = 5;
@@ -43,8 +44,9 @@ std::vector<uint8_t> LIP_5Nx::getValue(std::string& data) {
 
 //установить новый параметр
 void LIP_5Nx::setParameter(std::string param) {
+    
+    clear();
     if (param == "") {
-        clear();
         return;
     }
     std::vector<std::string> page = Parser::splitString("/", param);
@@ -52,12 +54,15 @@ void LIP_5Nx::setParameter(std::string param) {
     parameter.Section = IniResources::getSection(page[SECTION]);
     parameter.Name = page[NAME];
     lip::cout << parameter.Device << "\r\n" << parameter.Section << "\r\n" << parameter.Name << "\r\n";
-    setIsignal();
     if (page[TYPE] == "RW") {
         parameter.type = Type::RW;
     }
     else {
         parameter.type = Type::R;
+    }
+    if (setIsignal()) {
+        createReadCmd();
+        slot->Flags &= ~(static_cast<u16>(Slot::StateFlags::SKIP_SLOT));
     }
 }
 
@@ -108,34 +113,38 @@ void LIP_5Nx::clear() {
     parameter.Device = "";
     parameter.Section = "";
     parameter.Name = "";
+    if (parameter.resources) {
+        delete parameter.resources;
+        parameter.resources = nullptr;
+    }
+    slot->Flags |= static_cast<u16>(Slot::StateFlags::SKIP_SLOT);
 }
 
-void LIP_5Nx::setIsignal() {
-    slot->Flags |= static_cast<u16>(Slot::StateFlags::SKIP_SLOT);
+bool LIP_5Nx::setIsignal() {
     std::string dev = Devices::getInstance().getSourceOfDev(parameter.Device.c_str());
     ItemLimits item = InternalResources::getInstance().getItemLimitsByName(dev.c_str());
     IniParser::getInstance().setRoot(item.RootOffset, item.Size);
-    if (IniParser::getInstance().setSectionToRead(parameter.Section.c_str())) {
-        TSectionReadResult readChar{ NULL, 0 };
-        std::string readResult;
-        size_t pos;
-        do {
-            readResult = "";
-            readChar = IniParser::getInstance().getNextTagChar();
-            readResult.append(readChar.tag, readChar.result);
-            if (readResult == "")return;
-            pos = readResult.find(parameter.Name);
-        } while (pos == std::string::npos);
-
-        lip::cout << readResult << "\r\n";
-        pos = readResult.find('=');
-        std::string number = readResult.substr(0, pos);
-        lip::cout << number << "\r\n";
-        ISignal* s = IniString::getSignal(dev, parameter.Section, readChar.tag, readChar.result);
-        parameter.resources = dynamic_cast<Parameter*>(s);
-        createReadCmd();
-        slot->Flags &= ~(static_cast<u16>(Slot::StateFlags::SKIP_SLOT));
+    if (!IniParser::getInstance().setSectionToRead(parameter.Section.c_str())) {  //если нет секции в .ini
+        return false;
     }
+	TSectionReadResult readChar{ NULL, 0 };
+	std::string readResult;
+	size_t pos;
+	do {
+		readResult = "";
+		readChar = IniParser::getInstance().getNextTagChar();
+		readResult.append(readChar.tag, readChar.result);
+		if (readResult == "")return false; //если .ini закончился и ничего не нашлось
+		pos = readResult.find(parameter.Name);
+	} while (pos == std::string::npos);
+
+	lip::cout << readResult << "\r\n";
+	pos = readResult.find('=');
+	std::string number = readResult.substr(0, pos);
+	lip::cout << number << "\r\n";
+	ISignal* s = IniString::getSignal(dev, parameter.Section, readChar.tag, readChar.result);
+	parameter.resources = dynamic_cast<Parameter*>(s);
+	return true;
 }
 
 void LIP_5Nx::createReadCmd() {
@@ -145,7 +154,7 @@ void LIP_5Nx::createReadCmd() {
     std::vector<u8> comand(6);
     u8 count = 0;
     comand[count++] = DevAddr;
-    comand[count++] = 3;
+    comand[count++] = COMAND_READ;
     u16 addr = (u16)std::stoul(RegHexAddr, nullptr, 16);
     comand[count++] = (u8)(addr >> 8) & 0x00FF;
     comand[count++] = (u8)(addr & 0x00FF);
@@ -153,6 +162,6 @@ void LIP_5Nx::createReadCmd() {
     comand[count++] = 0;
     comand[count++] = sizeByte / 2;
     //count += 2;
-    //FrameEndCrc16(comand.data(), count);
+    //FrameEndCrc16(comand.data(), count);//
     slot->addcmd(comand);
 }

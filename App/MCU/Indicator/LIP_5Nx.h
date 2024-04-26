@@ -19,8 +19,9 @@ private:
     uint8_t getChar(char symbol);
     Slot* slot;
     void clear();
-    void setIsignal();
+    bool setIsignal();
     void createReadCmd();
+    Props parameter;
 public:
     LIP_5Nx();
     std::vector<uint8_t> getValue(std::string & data) override;

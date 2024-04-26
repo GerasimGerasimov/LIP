@@ -25,7 +25,8 @@ enum class StateFlags {
 	SKIP_SLOT = 2,
 	TIMEOUT_ERR = 4,
 	CRC_ERR = 8,
-	DATA_VALID = 16
+	DATA_VALID = 16,
+	COMPLETE_READ = 32
 };
 
 	u16 Flags;

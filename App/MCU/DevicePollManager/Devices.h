@@ -25,7 +25,7 @@ private:
 public:
 	static Devices& getInstance();
 
-	u16 getDevNetWorkAddr(std::string position);
+	u8 getDevNetWorkAddr(std::string position);
 	std::string getSourceOfDev(std::string position);
 };
 

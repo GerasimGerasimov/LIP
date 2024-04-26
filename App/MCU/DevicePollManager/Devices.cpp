@@ -28,7 +28,7 @@ Devices& Devices::getInstance() {
 	return device;
 }
 
-u16 Devices::getDevNetWorkAddr(std::string position) {
+u8 Devices::getDevNetWorkAddr(std::string position) {
 	if (ListDevise.count(position)) {
 		return ListDevise.at(position).NetworkAddr;
 	}
