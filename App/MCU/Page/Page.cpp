@@ -1,6 +1,5 @@
 #include "Page.h"
 #include "Indicator/LIP_5Nx.h"
-#include "DMAIndicator.h"
 #include "Resources/InternalResources.h"
 #include "ini/parser.h"
 

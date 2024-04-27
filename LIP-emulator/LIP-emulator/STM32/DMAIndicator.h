@@ -21,6 +21,7 @@ private:
 	std::vector<uint8_t> sendMessage;
 public:
 	void DMAstart(uint32_t BufferSize);
+	void DMAstop();
 	static DMAIndicator& getInstance();
 	void setMemoryBaseAddr(Buffer& buf);
 	static void bringOutValue();

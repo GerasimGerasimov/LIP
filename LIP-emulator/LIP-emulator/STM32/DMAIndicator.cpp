@@ -15,9 +15,12 @@ DMAIndicator::DMAIndicator() {
 }
 
 void DMAIndicator::DMAstart(uint32_t BufferSize) {
-	sendMessage.resize(BufferSize);
+	//sendMessage.resize(BufferSize);
+	MainWindow::setData(DMAIndicator::getInstance().buffer->buffer);
 	//MainWindow::TimeStart(reinterpret_cast<TIMERPROC>(MyTimerProc));
 }
+
+void DMAIndicator::DMAstop() {}
 
 DMAIndicator& DMAIndicator::getInstance() {
 	static DMAIndicator dma;

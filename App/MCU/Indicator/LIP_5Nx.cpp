@@ -161,7 +161,7 @@ bool LIP_5Nx::setIsignal() {
 void LIP_5Nx::createReadCmd() {
     std::string RegHexAddr = parameter.resources->getRegHexAddr();
     const u8 DevAddr = Devices::getInstance().getDevNetWorkAddr(parameter.Device);
-    slot->TimeOut = 500;
+    slot->TimeOut = 50;
     std::vector<u8> comand(6);
     u8 count = 0;
     comand[count++] = DevAddr;
