@@ -6,9 +6,11 @@
 
 Router::Router() {
 	currentPage = InternalResources::getInstance().getItemStringByName("Page2");
-	//lip::cout << currentPage;
+
 	page.setIndication(currentPage);
 	bufferData.setSizeBuffer(page.getSizeSegment());
+	page.setBuffer(&bufferData);
+
 }
 
 Router& Router::getInstance() {

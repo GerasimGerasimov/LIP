@@ -15,6 +15,8 @@ private:
     std::vector<std::string> Configuration;
     uint16_t sizeSegment = 0;
     void init();
+    uint16_t countFillBuffer;
+    Buffer* pageBuffer;
 public:
     Page();
     ~Page();
@@ -22,6 +24,7 @@ public:
     uint16_t getByteIndicators();
     void setIndication(std::string page);
     uint16_t getSizeSegment();
+    void setBuffer(Buffer* newBuffer);
 };
 
 void updateDMA();

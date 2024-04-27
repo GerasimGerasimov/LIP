@@ -30,7 +30,6 @@ Status Buffer::getStatus() {
 void Buffer::swapStatus() {
 	if (status != Status::EMPTY) {
 		status = Status::EMPTY;
-		iterator = buffer.rbegin();
 	}
 	else {
 		status = Status::FILL;
@@ -38,11 +37,13 @@ void Buffer::swapStatus() {
 }
 
 
-void Buffer::addData(std::vector<uint8_t>& data) {
+void Buffer::addData(std::vector<uint8_t>& data, uint16_t start, uint16_t end) {
 	if (!buffer.empty()) {
-		for (auto i = data.rbegin(); i != data.rend(); ++i) {
-			*iterator = *i;
-			++iterator;
+		int bufferSize = buffer.size();
+		int k =  0;
+		for (int i = bufferSize - end; i < bufferSize - start; ++i) {
+			buffer[i] = data[k];
+			++k;
 		}
 	}
 }
@@ -50,5 +51,4 @@ void Buffer::addData(std::vector<uint8_t>& data) {
 //для добавления элементов контейнер должен иметь необходимый размер
 void Buffer::setSizeBuffer(uint8_t size) {
 	buffer.resize(size);
-	iterator = buffer.rbegin();
 }

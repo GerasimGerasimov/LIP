@@ -3,10 +3,6 @@
 #include "DMAIndicator.h"
 #include "Resources/InternalResources.h"
 #include "ini/parser.h"
-//#include "ramdata.h"
-
-#include <sstream>
-#include <iomanip>
 
 Page* pageFunction;
 
@@ -21,19 +17,13 @@ void Page::init() {
 }
 
 Page::Page(){
-
+    countFillBuffer = 0;
+    pageBuffer = nullptr;
     init();
     for (const auto& ind : ListIndicators) {
         sizeSegment += ind->getDataSize();
     }
-    //str = "56789";
-    //str2 = "12.7.7.0";
-    //str3 = "vvd.1A";
-    //bufferData.setSizeBuffer(sizeSegment);
-    //bufferSender.setSizeBuffer(sizeSegment);
-    //DMAIndicator::getInstance().setMemoryBaseAddr(bufferSender);
-    //DMAIndicator::getInstance().DMAstart(sizeSegment);
-    //pageFunction = this;
+
 }
 
 Page::~Page(){
@@ -43,11 +33,22 @@ Page::~Page(){
 }
 
 bool Page::update(){
-    for (const auto& ind : ListIndicators) {
-        if (ind->update()) {
-            ind->getValue();//TODO запись в буффер
+    u16 offsetStart = 0;
+    u16 offsetEnd = 0;
+    for (int i = 0; i < ListIndicators.size(); ++i) {
+        offsetStart = offsetEnd;
+        offsetEnd += ListIndicators[i]->getDataSize();
+        if (ListIndicators[i]->update()) {
+            ++countFillBuffer;
+            std::vector<uint8_t> resultData = ListIndicators[i]->getValue();
+            pageBuffer->addData(resultData, offsetStart, offsetEnd);
         }
     }
+    if (countFillBuffer == ListIndicators.size()) {
+        countFillBuffer = 0;
+        return true;
+    }
+
     return false;
 }
 
@@ -70,6 +71,10 @@ void Page::setIndication(std::string page) {
 
 uint16_t Page::getSizeSegment() {
     return sizeSegment;
+}
+
+void Page::setBuffer(Buffer* newBuffer) {
+    pageBuffer = newBuffer;
 }
 
 //TDOD для DMA
