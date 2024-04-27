@@ -48,7 +48,7 @@ GeneralCaseSignal::RawReturn GeneralCaseSignal::getRawValue(const TSlotHandlerAr
 std::string GeneralCaseSignal::validation(const TSlotHandlerArsg& args) {
 	if (args.InputBufValidBytes == 0) return "***.**";
 	if (ParametersUtils::isAddrInvalid(Addr)) return "err.addr";
-	if ((Addr < args.StartAddrOffset) || (Addr > args.LastAddrOffset)) return "out.addr";
+	//if ((Addr < args.StartAddrOffset) || (Addr > args.LastAddrOffset)) return "out.addr";
 	return "";
 }
 
@@ -77,4 +77,8 @@ const std::string GeneralCaseSignal::getRegHexAddr() {
 
 const std::string GeneralCaseSignal::getWriteCmdType() {
     return "10";
+}
+
+u16 GeneralCaseSignal::getAddr() {
+	return Addr;
 }

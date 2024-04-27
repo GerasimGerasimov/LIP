@@ -11,10 +11,11 @@ class Indicator
 private:
 
 public:
-    virtual std::vector<uint8_t> getValue(std::string& data) = 0;
+    virtual std::vector<uint8_t> getValue() = 0;
+    virtual bool update() = 0;
     uint8_t getDataSize();
     virtual ~Indicator(){};
-    virtual void setParameter(std::string param);
+    virtual void setParameter(std::string param); //установить новую индикацию
 protected:
     enum class Type {
         R,  //чтение

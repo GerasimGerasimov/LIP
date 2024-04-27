@@ -29,6 +29,7 @@ struct RawReturn {
 	virtual std::string getValue(const TSlotHandlerArsg& args, const char* format) override;
 	virtual const std::string getRegHexAddr() override;
 	virtual const std::string getWriteCmdType() override;
+	u16 getAddr() override;
 protected:
 	virtual std::string value(const TSlotHandlerArsg& args, const char* format);
 	virtual RawReturn getRawValue(const TSlotHandlerArsg& args);

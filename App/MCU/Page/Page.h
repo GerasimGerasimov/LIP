@@ -13,15 +13,15 @@ class Page
 private:
     std::vector<Indicator*> ListIndicators;
     std::vector<std::string> Configuration;
-
+    uint16_t sizeSegment = 0;
     void init();
 public:
     Page();
     ~Page();
-    void update();
+    bool update();
     uint16_t getByteIndicators();
     void setIndication(std::string page);
-
+    uint16_t getSizeSegment();
 };
 
 void updateDMA();

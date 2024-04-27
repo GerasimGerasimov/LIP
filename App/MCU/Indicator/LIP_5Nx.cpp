@@ -8,6 +8,7 @@
 #include "IniString.h"
 #include "Parameter.h"
 #include "Slots/HandlerSlotRead.h"
+#include "Slots/SlotHandlerType.h"
 #include "OutStream.h"
 
 #define DEVICE 0
@@ -26,7 +27,9 @@ LIP_5Nx::LIP_5Nx(){
 }
 
 //получить список байт на отправку в SPI
-std::vector<uint8_t> LIP_5Nx::getValue(std::string& data) {
+std::vector<uint8_t> LIP_5Nx::getValue() {
+    std::string data = getValueStr();
+    transformSizeSring(data);
     std::vector<uint8_t> result;
     result.reserve(DataSize);
     for (auto i = data.rbegin(); i != data.rend(); ++i) {
@@ -64,6 +67,13 @@ void LIP_5Nx::setParameter(std::string param) {
         createReadCmd();
         slot->Flags &= ~(static_cast<u16>(Slot::StateFlags::SKIP_SLOT));
     }
+}
+
+bool LIP_5Nx::update() {
+    if (slot->Flags & (static_cast<u16>(Slot::StateFlags::COMPLETE_READ))) {
+        return true;
+    }
+    return false;
 }
 
 const char LIP_5Nx::ASCIITable[96] = {
@@ -144,6 +154,7 @@ bool LIP_5Nx::setIsignal() {
 	lip::cout << number << "\r\n";
 	ISignal* s = IniString::getSignal(dev, parameter.Section, readChar.tag, readChar.result);
 	parameter.resources = dynamic_cast<Parameter*>(s);
+    slot->StartAddrOffset = parameter.resources->getAddr();
 	return true;
 }
 
@@ -164,4 +175,29 @@ void LIP_5Nx::createReadCmd() {
     //count += 2;
     //FrameEndCrc16(comand.data(), count);//
     slot->addcmd(comand);
+}
+
+std::string LIP_5Nx::getValueStr() {
+    slot->Flags &= ~(static_cast<u16>(Slot::StateFlags::COMPLETE_READ));
+    TSlotHandlerArsg args = { &slot->InputBuf[0], slot->InputBufValidBytes, slot->StartAddrOffset, slot->LastAddrOffset };
+    std::string value = parameter.resources->getValue(args, "");
+    return value;
+}
+
+//изменение строки под необходимый размер байт
+void LIP_5Nx::transformSizeSring(std::string& data) {
+    size_t pos = data.find('.');
+    uint8_t size = DataSize;
+    if (pos != std::string::npos) {
+        ++size;
+    }
+    if (data.size() < size) {
+        u8 insertSize = size - data.size();
+        std::string insertStr(insertSize, '0');
+        data.insert(0, insertStr);
+    }
+    else if (data.size() > size) {
+        u8 deleteSize = data.size() - size;
+        data.erase(data.length() - deleteSize);
+    }
 }

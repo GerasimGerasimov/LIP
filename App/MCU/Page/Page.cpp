@@ -23,7 +23,9 @@ void Page::init() {
 Page::Page(){
 
     init();
-
+    for (const auto& ind : ListIndicators) {
+        sizeSegment += ind->getDataSize();
+    }
     //str = "56789";
     //str2 = "12.7.7.0";
     //str3 = "vvd.1A";
@@ -40,24 +42,13 @@ Page::~Page(){
     }
 }
 
-void Page::update(){
-    //bufferSender.swapStatus();
-    //bufferData.swapStatus();
-    //std::stringstream stream;
-
-    //static unsigned short value1 = 0;
-    //stream << std::setfill('0') << std::setw(5) << value1;
-    // ++value1;
-    //str = "";
-    //stream >> str;
-    //std::vector<uint8_t> res = ListIndicators[0]->getValue(str);
-    //bufferData.addData(res);
-    //res = ListIndicators[1]->getValue(str2);
-    //bufferData.addData(res);
-    //res = ListIndicators[2]->getValue(str3);
-    //bufferData.addData(res);
-    //bufferSender = bufferData;
-    //Indicator::bringOutValue();
+bool Page::update(){
+    for (const auto& ind : ListIndicators) {
+        if (ind->update()) {
+            ind->getValue();//TODO запись в буффер
+        }
+    }
+    return false;
 }
 
 //получить общее колличество байт индикаторов
@@ -75,6 +66,10 @@ void Page::setIndication(std::string page) {
     for (int ind = 0; ind < ListIndicators.size(); ++ind) {
         ListIndicators[ind]->setParameter(newIndication[ind]);
     }
+}
+
+uint16_t Page::getSizeSegment() {
+    return sizeSegment;
 }
 
 //TDOD для DMA

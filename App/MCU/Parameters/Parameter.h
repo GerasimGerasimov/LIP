@@ -25,5 +25,6 @@ public:
 	virtual const std::string getWriteCmdType();
 	virtual InternalMemAddress getInternalMemAddr();
 	virtual u8 getSizeByte();
+	virtual u16 getAddr();
 };
 

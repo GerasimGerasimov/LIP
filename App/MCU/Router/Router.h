@@ -15,7 +15,7 @@ private:
 	Router& operator=(const Router&) = delete;
 	Router(const Router&&) = delete;
 	Router& operator=(const Router&&) = delete;
-	Buffer bufferSender;
+	//Buffer bufferSender;
 	Buffer bufferData;
 public:
 	struct Task {
@@ -29,5 +29,6 @@ public:
 	std::string currentPage;
 	void ProcessMessage(TMessage* m);
 	void setTask(Task task);
+	void update();
 };
 

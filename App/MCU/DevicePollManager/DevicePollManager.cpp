@@ -45,7 +45,7 @@ void DevicePollManager::execute(void) {
 		//command[7] = Hi;
 		//command[8] = Lo;
 		//slot->addcmd(command);
-		slot->Flags &= ~(static_cast<u16>(Slot::StateFlags::COMPLETE_READ));
+		
 		task.pbuff = (u8*)slot->OutBuf.data();
 		task.len = slot->cmdLen;
 		task.TimeOut = slot->TimeOut;

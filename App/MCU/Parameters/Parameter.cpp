@@ -32,3 +32,7 @@ InternalMemAddress Parameter::getInternalMemAddr() {
 u8 Parameter::getSizeByte() {
 	return 0;
 }
+
+u16 Parameter::getAddr() {
+	return 0;
+}
