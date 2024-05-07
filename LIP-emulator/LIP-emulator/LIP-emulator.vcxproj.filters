@@ -231,9 +231,6 @@
     <ClInclude Include="Drivers\DI\WinDI.h">
       <Filter>Drivers\DI</Filter>
     </ClInclude>
-    <ClInclude Include="Drivers\Resources\OSResources.h">
-      <Filter>Drivers\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\App\MCU\Resources\InternalResources.h">
       <Filter>MCU\Resources</Filter>
     </ClInclude>
@@ -243,8 +240,11 @@
     <ClInclude Include="..\..\App\MCU\DevicePollManager\Devices.h">
       <Filter>MCU\DevicePollManager</Filter>
     </ClInclude>
-    <ClInclude Include="IniString.h">
+    <ClInclude Include="..\..\App\MCU\Parameters\IniString.h">
       <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="Drivers\Resources\os_resources.h">
+      <Filter>Drivers\Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -374,17 +374,17 @@
     <ClCompile Include="Drivers\DI\WinDI.cpp">
       <Filter>Drivers\DI</Filter>
     </ClCompile>
-    <ClCompile Include="Drivers\Resources\OSResources.cpp">
-      <Filter>Drivers\Resources</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\App\MCU\Resources\InternalResources.cpp">
       <Filter>MCU\Resources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\App\MCU\DevicePollManager\Devices.cpp">
       <Filter>MCU\DevicePollManager</Filter>
     </ClCompile>
-    <ClCompile Include="IniString.cpp">
-      <Filter>Исходные файлы</Filter>
+    <ClCompile Include="..\..\App\MCU\Parameters\IniString.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="Drivers\Resources\os_resources.cpp">
+      <Filter>Drivers\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

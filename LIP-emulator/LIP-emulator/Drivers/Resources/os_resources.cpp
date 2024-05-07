@@ -1,4 +1,4 @@
-#include "OSResources.h"
+#include "os_resources.h"
 #include "framework.h"
 
 #include <string>

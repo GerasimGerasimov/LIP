@@ -5,7 +5,7 @@
 #include "modbus/modbus.h"
 #include "Router/Router.h"
 #include "DevicePollManager/Devices.h"
-#include "OutStream.h"
+//#include "OutStream.h"
 //#include "ramdata.h"
 
 #include <string>
@@ -36,7 +36,7 @@ void App::run() {
 	
 	while (true) {
 		processModbusSlave();
-		Router::getInstance().update();
-		DevicePollManager::getInstance().execute();
+		//Router::getInstance().update();
+		//DevicePollManager::getInstance().execute();
 	}
 }

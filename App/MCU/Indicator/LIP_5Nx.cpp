@@ -9,7 +9,8 @@
 #include "Parameter.h"
 #include "Slots/HandlerSlotRead.h"
 #include "Slots/SlotHandlerType.h"
-#include "OutStream.h"
+
+
 
 #define DEVICE 0
 #define SECTION 1
@@ -56,7 +57,6 @@ void LIP_5Nx::setParameter(std::string param) {
     parameter.Device = page[DEVICE];
     parameter.Section = IniResources::getSection(page[SECTION]);
     parameter.Name = page[NAME];
-    lip::cout << parameter.Device << "\r\n" << parameter.Section << "\r\n" << parameter.Name << "\r\n";
     if (page[TYPE] == "RW") {
         parameter.type = Type::RW;
     }
@@ -148,10 +148,8 @@ bool LIP_5Nx::setIsignal() {
 		pos = readResult.find(parameter.Name);
 	} while (pos == std::string::npos);
 
-	lip::cout << readResult << "\r\n";
 	pos = readResult.find('=');
 	std::string number = readResult.substr(0, pos);
-	lip::cout << number << "\r\n";
 	ISignal* s = IniString::getSignal(dev, parameter.Section, readChar.tag, readChar.result);
 	parameter.resources = dynamic_cast<Parameter*>(s);
     slot->StartAddrOffset = parameter.resources->getAddr();

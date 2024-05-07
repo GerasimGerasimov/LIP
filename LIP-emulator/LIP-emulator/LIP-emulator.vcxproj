@@ -143,6 +143,7 @@
     <ClInclude Include="..\..\App\MCU\Msg\msg.h" />
     <ClInclude Include="..\..\App\MCU\Page\Page.h" />
     <ClInclude Include="..\..\App\MCU\Parameters\GeneralCaseSignal.h" />
+    <ClInclude Include="..\..\App\MCU\Parameters\IniString.h" />
     <ClInclude Include="..\..\App\MCU\Parameters\InternalAdresation.h" />
     <ClInclude Include="..\..\App\MCU\Parameters\Parameter.h" />
     <ClInclude Include="..\..\App\MCU\Parameters\ParametersUtils.h" />
@@ -164,7 +165,7 @@
     <ClInclude Include="Drivers\BaseObject.h" />
     <ClInclude Include="Drivers\com_master_driver.h" />
     <ClInclude Include="Drivers\DI\WinDI.h" />
-    <ClInclude Include="Drivers\Resources\OSResources.h" />
+    <ClInclude Include="Drivers\Resources\os_resources.h" />
     <ClInclude Include="Drivers\WinIndicator\BaseWindow.h" />
     <ClInclude Include="Drivers\WinIndicator\IndicatorContainer.h" />
     <ClInclude Include="Drivers\WinIndicator\Segment.h" />
@@ -172,7 +173,6 @@
     <ClInclude Include="Drivers\WinIndicator\WinLIPModule.h" />
     <ClInclude Include="Drivers\WinIndicator\WinLIP_5Nx.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="IniString.h" />
     <ClInclude Include="LIP-emulator.h" />
     <ClInclude Include="OutStream.h" />
     <ClInclude Include="Resource.h" />
@@ -199,6 +199,7 @@
     <ClCompile Include="..\..\App\MCU\Msg\msg.cpp" />
     <ClCompile Include="..\..\App\MCU\Page\Page.cpp" />
     <ClCompile Include="..\..\App\MCU\Parameters\GeneralCaseSignal.cpp" />
+    <ClCompile Include="..\..\App\MCU\Parameters\IniString.cpp" />
     <ClCompile Include="..\..\App\MCU\Parameters\Parameter.cpp" />
     <ClCompile Include="..\..\App\MCU\Parameters\ParametersUtils.cpp" />
     <ClCompile Include="..\..\App\MCU\Parameters\Scale.cpp" />
@@ -218,14 +219,13 @@
     <ClCompile Include="Drivers\BaseObject.cpp" />
     <ClCompile Include="Drivers\com_master_driver.cpp" />
     <ClCompile Include="Drivers\DI\WinDI.cpp" />
-    <ClCompile Include="Drivers\Resources\OSResources.cpp" />
+    <ClCompile Include="Drivers\Resources\os_resources.cpp" />
     <ClCompile Include="Drivers\WinIndicator\BaseWindow.cpp" />
     <ClCompile Include="Drivers\WinIndicator\IndicatorContainer.cpp" />
     <ClCompile Include="Drivers\WinIndicator\Segment.cpp" />
     <ClCompile Include="Drivers\WinIndicator\Win7Segment.cpp" />
     <ClCompile Include="Drivers\WinIndicator\WinLIPModule.cpp" />
     <ClCompile Include="Drivers\WinIndicator\WinLIP_5Nx.cpp" />
-    <ClCompile Include="IniString.cpp" />
     <ClCompile Include="LIP-emulator.cpp" />
     <ClCompile Include="OutStream.cpp" />
     <ClCompile Include="STM32\DMAIndicator.cpp" />

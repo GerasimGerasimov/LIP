@@ -1,5 +1,5 @@
 #include "InternalResources.h"
-#include "Resources/OSResources.h"
+#include "Drivers/Resources/os_resources.h"
 #include "crc16.h"
 
 
@@ -8,7 +8,7 @@ InternalResources::InternalResources() {
 }
 
 bool InternalResources::init() {
-	Root = reinterpret_cast<Resources*>(OSResources::getInstance().getRes());
+	Root = (Resources*)OSResources::getInstance().getRes();
 	if (!isHeaderCrcValid()) return false;
 	if (!isTotalCrcValid()) return false;
 	u16 i = 0;

@@ -356,6 +356,7 @@
                     <state>$PROJ_DIR$\..\Drivers\Communications</state>
                     <state>$PROJ_DIR$\..\Drivers</state>
                     <state>$PROJ_DIR$\..\MCU</state>
+                    <state>$PROJ_DIR$\..\MCU\Parameters</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -1133,6 +1134,12 @@
                     <name>$PROJ_DIR$\..\Drivers\Communications\com_master_driver.cpp</name>
                 </file>
             </group>
+            <group>
+                <name>Resources</name>
+                <file>
+                    <name>$PROJ_DIR$\..\Drivers\Resources\os_resources.cpp</name>
+                </file>
+            </group>
             <file>
                 <name>$PROJ_DIR$\..\Drivers\STM32F10x_Intmash_USART.c</name>
             </file>
@@ -1155,6 +1162,9 @@
                 <name>DevicePollManager</name>
                 <file>
                     <name>$PROJ_DIR$\..\MCU\DevicePollManager\DevicePollManager.cpp</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\DevicePollManager\Devices.cpp</name>
                 </file>
                 <file>
                     <name>$PROJ_DIR$\..\MCU\DevicePollManager\Slot.cpp</name>
@@ -1202,6 +1212,9 @@
                     <name>$PROJ_DIR$\..\MCU\Parameters\GeneralCaseSignal.cpp</name>
                 </file>
                 <file>
+                    <name>$PROJ_DIR$\..\MCU\Parameters\IniString.cpp</name>
+                </file>
+                <file>
                     <name>$PROJ_DIR$\..\MCU\Parameters\Parameter.cpp</name>
                 </file>
                 <file>
@@ -1239,6 +1252,12 @@
                 </file>
                 <file>
                     <name>$PROJ_DIR$\..\MCU\Parameters\TU8BIT.cpp</name>
+                </file>
+            </group>
+            <group>
+                <name>Resources</name>
+                <file>
+                    <name>$PROJ_DIR$\..\MCU\Resources\InternalResources.cpp</name>
                 </file>
             </group>
             <group>
