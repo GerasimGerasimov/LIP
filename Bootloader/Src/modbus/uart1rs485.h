@@ -1,6 +1,6 @@
 #ifndef __UART1RS485_H
 #define __UART1RS485_H
-#include    "stm32f10x.h"
+#include "stm32f0xx.h"
 
 #ifdef __cplusplus
  extern "C" {

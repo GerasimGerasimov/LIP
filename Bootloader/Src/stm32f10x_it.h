@@ -23,7 +23,7 @@
 #define __STM32F10x_IT_H
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f10x.h"
+#include "stm32f0xx.h"
 
 
 

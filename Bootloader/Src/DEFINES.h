@@ -1,6 +1,6 @@
 #pragma once
 
-#include "stm32f10x.h"//библиотека STM
+#include "stm32f0xx.h"//библиотека STM
  
 //для работы со светиками
 #define LED_RUN_ON   GPIOB->BRR = GPIO_Pin_5

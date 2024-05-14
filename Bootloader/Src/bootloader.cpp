@@ -311,7 +311,7 @@ void FlashSectorWriteBootloader(u32 FlashSectorAddr, u32 Buffer, u32 Count)
 
   FLASH_Unlock();  // Unlock the Flash Program Erase controller
   /* Clear All pending flags */
-  FLASH_ClearFlag(FLASH_FLAG_BSY | FLASH_FLAG_EOP | FLASH_FLAG_PGERR | FLASH_FLAG_WRPRTERR);
+  FLASH_ClearFlag(FLASH_FLAG_BSY | FLASH_FLAG_EOP | FLASH_FLAG_PGERR | FLASH_FLAG_WRPERR);
   //FLASHStatus = FLASH_ErasePage(FlashSectorAddr);// Erase the FLASH pages
   while(Count !=0 )
   {
@@ -382,7 +382,7 @@ void jumpToApplication(void) {
    /* Выключаем прерывания */
    __disable_irq(); 
    /* Переносим адрес вектора прерываний */
-   SCB->VTOR = APPLICATION_ADDRESS;//
+   //SCB->VTOR = APPLICATION_ADDRESS;//
    /* Переносим адрес стэка */ 
     __set_MSP(*(__IO uint32_t*) APPLICATION_ADDRESS); 
     /* Переходим в основную программу */  

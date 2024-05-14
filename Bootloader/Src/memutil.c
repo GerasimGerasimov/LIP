@@ -20,7 +20,7 @@ void FlashSectorWrite(u32 FlashSectorAddr, u32 Buffer)
 
   FLASH_Unlock();  // Unlock the Flash Program Erase controller
   /* Clear All pending flags */
-  FLASH_ClearFlag(FLASH_FLAG_BSY | FLASH_FLAG_EOP | FLASH_FLAG_PGERR | FLASH_FLAG_WRPRTERR);
+  FLASH_ClearFlag(FLASH_FLAG_BSY | FLASH_FLAG_EOP | FLASH_FLAG_PGERR | FLASH_FLAG_WRPERR);
   FLASHStatus = FLASH_ErasePage(FlashSectorAddr);// Erase the FLASH pages
   while(Count !=0 )
   {
@@ -83,7 +83,7 @@ FLASH_Status EraseFlashPage(u32 Addr) {
 void StartFlashChange() {
    __disable_irq(); // handles nested interrupt
   FLASH_Unlock();  // Unlock the Flash Program Erase controller
-  FLASH_ClearFlag(FLASH_FLAG_BSY | FLASH_FLAG_EOP | FLASH_FLAG_PGERR | FLASH_FLAG_WRPRTERR | FLASH_FLAG_OPTERR);
+  FLASH_ClearFlag(FLASH_FLAG_BSY | FLASH_FLAG_EOP | FLASH_FLAG_PGERR | FLASH_FLAG_WRPERR);
 }
 
 void EndFlashChange() {

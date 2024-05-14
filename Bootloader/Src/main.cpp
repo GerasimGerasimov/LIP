@@ -9,7 +9,7 @@
   */  
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f10x.h"//библиотека STM
+#include "stm32f0xx.h"//библиотека STM
 #include "bastypes.h"//основные типы данных, объявление типов структур RAM_DATA и FLASH_DATA
 #include "ramdata.h"//глобальные переменные и структура RAM_DATA
 #include "flashdata.h"//глобальные константы и структура FLASH_DATA
@@ -20,7 +20,7 @@
 
 #include "DEFINES.h" //все основные, относящиеся только к плате дефайны
 #include "modbus/modbus.h"
-#include "stm32f10x_it.h"
+//#include "stm32f10x_it.h"
 #include "bootloader.h"
 
     
@@ -41,36 +41,36 @@
 int main(void)              //главная программа
 {
 
-  GPIO_INIT_Configuration();
-
-  if (INIT_IST == 0) {
-    LED_ALARM_OFF;
-    
-    if (isBootLoaderMustBeStart() != true) {
-      if (isApplicationReadyToStart()) {
-          jumpToApplication();
-      }
-    }
-  }
-
-  Init();                   //инициализация переферии  
-
-
-  LED_RUN_OFF;
-  LED_LINK1_OFF;
-  LED_LINK2_OFF;
-  LED_ALARM_ON;
+//  GPIO_INIT_Configuration();
+//
+//  if (INIT_IST == 0) {
+//    LED_ALARM_OFF;
+//    
+//    if (isBootLoaderMustBeStart() != true) {
+//      if (isApplicationReadyToStart()) {
+//          jumpToApplication();
+//      }
+//    }
+//  }
+//
+//  Init();                   //инициализация переферии  
+//
+//
+//  LED_RUN_OFF;
+//  LED_LINK1_OFF;
+//  LED_LINK2_OFF;
+//  LED_ALARM_ON;
 
   
   while (1)//основной цикл программы
   {    
-    if (U1_SwCNT())//смотрим пришел ли запрос по Модбасу и 1 сразу смотрим для проверки
-    {
-      if (LED_LINK1_ST) LED_LINK1_ON;
-      else LED_LINK1_OFF; 
-      
-    }
-     
+//    if (U1_SwCNT())//смотрим пришел ли запрос по Модбасу и 1 сразу смотрим для проверки
+//    {
+//      if (LED_LINK1_ST) LED_LINK1_ON;
+//      else LED_LINK1_OFF; 
+//      
+//    }
+//     
   }
 }
 
