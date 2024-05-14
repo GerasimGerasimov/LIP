@@ -53,24 +53,30 @@ int main(void)              //главная программа
 //    }
 //  }
 //
-//  Init();                   //инициализация переферии  
+  Init();                   //инициализация переферии  
 //
 //
-//  LED_RUN_OFF;
-//  LED_LINK1_OFF;
-//  LED_LINK2_OFF;
-//  LED_ALARM_ON;
+  LED_RUN_OFF;
+  LED_LINK1_OFF;
+  LED_LINK2_OFF;
+  LED_ALARM_ON;
 
   
   while (1)//основной цикл программы
   {    
-//    if (U1_SwCNT())//смотрим пришел ли запрос по Модбасу и 1 сразу смотрим для проверки
-//    {
-//      if (LED_LINK1_ST) LED_LINK1_ON;
-//      else LED_LINK1_OFF; 
-//      
-//    }
-//     
+    if (U1_SwCNT())//смотрим пришел ли запрос по Модбасу и 1 сразу смотрим для проверки
+    {
+      if (LED_LINK1_ST) LED_LINK1_ON;
+      else LED_LINK1_OFF; 
+      
+    }
+     LED_RUN_ON;
+     for(int i = 0; i < 1000000; ++i){
+     }
+     LED_RUN_OFF;
+     for(int i = 0; i < 1000000; ++i){
+     }
+    
   }
 }
 

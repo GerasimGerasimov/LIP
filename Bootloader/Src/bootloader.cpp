@@ -382,7 +382,7 @@ void jumpToApplication(void) {
    /* Выключаем прерывания */
    __disable_irq(); 
    /* Переносим адрес вектора прерываний */
-   //SCB->VTOR = APPLICATION_ADDRESS;//
+   //SCB->VTOR = APPLICATION_ADDRESS;// TODO
    /* Переносим адрес стэка */ 
     __set_MSP(*(__IO uint32_t*) APPLICATION_ADDRESS); 
     /* Переходим в основную программу */  

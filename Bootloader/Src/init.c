@@ -57,7 +57,7 @@ void GPIO_INIT_Configuration(){
 
 void GPIO_Configuration(void){
   GPIO_InitTypeDef GPIO_InitStructure;
-  RCC_APB2PeriphClockCmd( RCC_AHBPeriph_GPIOA |\
+  RCC_AHBPeriphClockCmd( RCC_AHBPeriph_GPIOA |\
                           RCC_AHBPeriph_GPIOB |\
                           RCC_AHBPeriph_GPIOC |\
                           RCC_APB2Periph_SYSCFG  ,  //RCC_APB2Periph_AFIO
@@ -67,6 +67,7 @@ void GPIO_Configuration(void){
   /* настраиваем ноги не привязанные к переферии, как open-drain*/
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
   GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
+  //GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_DOWN;
   //порт А:                          Dout1           Dout2        Dout3 
  // GPIO_InitStructure.GPIO_Pin  =  GPIO_Pin_13 | GPIO_Pin_13;// | GPIO_Pin_12;
   //GPIO_Init(GPIOA, &GPIO_InitStructure);
@@ -213,7 +214,7 @@ void NVIC_Configuration(void)
 
 #ifdef  VECT_TAB_RAM  
   /* Set the Vector Table base location at 0x20000000 */ 
-  //NVIC_SetVectorTable(NVIC_VectTab_RAM, 0x0); 
+  //NVIC_SetVectorTable(NVIC_VectTab_RAM, 0x0); //TODO
 #else  /* VECT_TAB_FLASH  */
   /* Set the Vector Table base location at 0x08000000 */ 
   //NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x0);   
