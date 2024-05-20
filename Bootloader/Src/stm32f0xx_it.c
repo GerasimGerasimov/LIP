@@ -29,7 +29,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f0xx_it.h"
-
+#include "DEFINES.h"
 /** @addtogroup STM32F0xx_StdPeriph_Examples
   * @{
   */
@@ -48,6 +48,13 @@
 /******************************************************************************/
 /*            Cortex-M0 Processor Exceptions Handlers                         */
 /******************************************************************************/
+
+void TIM1_CC_IRQHandler (void)
+{
+  LED_ALARM_ON;
+  if ((TIM1->SR & TIM_FLAG_CC1)&&(TIM1->DIER & TIM_IT_CC1)) TIM1_user_U1();
+  
+}
 
 /**
   * @brief  This function handles NMI exception.

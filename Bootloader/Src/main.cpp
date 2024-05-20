@@ -20,7 +20,6 @@
 
 #include "DEFINES.h" //все основные, относящиеся только к плате дефайны
 #include "modbus/modbus.h"
-//#include "stm32f10x_it.h"
 #include "bootloader.h"
 
     
@@ -70,12 +69,6 @@ int main(void)              //главная программа
       else LED_LINK1_OFF; 
       
     }
-     LED_RUN_ON;
-     for(int i = 0; i < 1000000; ++i){
-     }
-     LED_RUN_OFF;
-     for(int i = 0; i < 1000000; ++i){
-     }
     
   }
 }

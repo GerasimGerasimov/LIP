@@ -5,11 +5,11 @@
 define symbol __ICFEDIT_intvec_start__ = 0x08000000;
 /*-Memory Regions-*/
 define symbol __ICFEDIT_region_ROM_start__      = 0x08000000;
-define symbol __ICFEDIT_region_ROM_end__        = 0x0803FFFF;
-define symbol __ICFEDIT_region_FD_start__       = 0x08005000;
-define symbol __ICFEDIT_region_FD_end__         = 0x080051FF;
-define symbol __ICFEDIT_region_BKFD_start__     = 0x08005200;
-define symbol __ICFEDIT_region_BKFD_end__       = 0x080053FF;
+define symbol __ICFEDIT_region_ROM_end__        = 0x08007FFF;
+define symbol __ICFEDIT_region_FD_start__       = 0x08008000;
+define symbol __ICFEDIT_region_FD_end__         = 0x080081FF;
+define symbol __ICFEDIT_region_BKFD_start__     = 0x08008200;
+define symbol __ICFEDIT_region_BKFD_end__       = 0x080083FF;
 define symbol __ICFEDIT_region_BOOT_CMD_start__ = 0x20000000;
 define symbol __ICFEDIT_region_BOOT_CMD_end__   = 0x20000007;
 define symbol __ICFEDIT_region_RAM_start__      = 0x20000008;
