@@ -369,24 +369,25 @@ void jumpToApplication(void) {
    pFunction Jump_To_Application = (pFunction) jumpAddress;
    
    /*Сбрасываем всю периферию на APB1 */
-   RCC->APB1RSTR = 0xFFFFFFFF; RCC->APB1RSTR = 0x0; 
-  /*Сбрасываем всю периферию на APB2 */ 
-   RCC->APB2RSTR = 0xFFFFFFFF; RCC->APB2RSTR = 0x0; 
-   RCC->APB1ENR = 0x0; /* Выключаем всю периферию на APB1 */ 
-   RCC->APB2ENR = 0x0; /* Выключаем всю периферию на APB2 */
-   RCC->AHBENR = 0x0; /* Выключаем всю периферию на AHB */
+//   RCC->APB1RSTR = 0xFFFFFFFF; RCC->APB1RSTR = 0x0; 
+//  /*Сбрасываем всю периферию на APB2 */ 
+//   RCC->APB2RSTR = 0xFFFFFFFF; RCC->APB2RSTR = 0x0; 
+//   RCC->APB1ENR = 0x0; /* Выключаем всю периферию на APB1 */ 
+//   RCC->APB2ENR = 0x0; /* Выключаем всю периферию на APB2 */
+//   RCC->AHBENR = 0x0; /* Выключаем всю периферию на AHB */
 
    /* Сбрасываем все источники тактования по умолчанию, переходим на HSI*/
-   RCC_DeInit();  
+  // RCC_DeInit();  
    
    /* Выключаем прерывания */
-   __disable_irq(); 
+   //__disable_irq(); 
    /* Переносим адрес вектора прерываний */
    //SCB->VTOR = APPLICATION_ADDRESS;// TODO
    /* Переносим адрес стэка */ 
-    __set_MSP(*(__IO uint32_t*) APPLICATION_ADDRESS); 
+    //__set_MSP(*(__IO uint32_t*) APPLICATION_ADDRESS); 
     /* Переходим в основную программу */  
-    Jump_To_Application(); 
+    //Jump_To_Application(); 
+
 }
 
 __no_init char BootLoaderStart[6] @ "BOOT_CMD";

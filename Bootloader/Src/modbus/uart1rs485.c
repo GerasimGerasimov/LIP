@@ -178,9 +178,9 @@ void TxDMA1Ch4 (void) {//настройка DMA на передачу данных в UART
     
     --ini;
   }
-  USART1->ISR  &=  ~USART_ISR_TC;   //сбросить флаг окончания передачи
+  USART_ClearFlag(USART1, USART_ICR_TCCF);//сбросить флаг окончания передачи
   USART1->CR3 |=  USART_CR3_DMAT;
-  DMA1->IFCR |= DMA_IFCR_CTCIF2 | DMA_IFCR_CGIF2 | DMA_IFCR_CHTIF2 | DMA_IFCR_CTEIF2;//очищу все флаги прерываний 
+  DMA_ClearFlag(DMA_IFCR_CTCIF2 | DMA_IFCR_CGIF2 | DMA_IFCR_CHTIF2 | DMA_IFCR_CTEIF2);//очищу все флаги прерываний
   USART1->CR1 |=  USART_CR1_TE;   //разрешить передатчик
   DMA1_Channel2->CCR  |= DMA_CCR_EN;//DMA_Cmd(DMA1_Channel7, ENABLE);//включаю DMA... и он начинает из буфера выкидывать данные на ТХ
   USART1->CR1 |=  USART_CR1_TCIE; //разрешу прерывания по окончанию передачи
@@ -192,9 +192,9 @@ void RxDMA1Ch5 (void) {//настройка DMA на чтение данных из UART
   DMA1_Channel3->CCR  &= ~DMA_CCR_EN;//DMA_Cmd(DMA1_Channel6, DISABLE);//отключаю DMA для получения доступа к регистрам
   DMA1_Channel3->CNDTR = U1RXBUFFSIZE;//256 байт размер принимающего буфера
   USART1->CR3 |=  USART_CR3_DMAR;
-  DMA1->IFCR |= DMA_IFCR_CTCIF3 | DMA_IFCR_CGIF3 | DMA_IFCR_CHTIF3 | DMA_IFCR_CTEIF3;//очищу все флаги прерываний 
+  DMA_ClearFlag(DMA_IFCR_CTCIF3 | DMA_IFCR_CGIF3 | DMA_IFCR_CHTIF3 | DMA_IFCR_CTEIF3);//очищу все флаги прерываний
+  USART_ClearFlag(USART1, USART_ICR_IDLECF | USART_ICR_FECF | USART_ICR_NCF | USART_ICR_PECF | USART_ICR_ORECF);//сброс флага IDLE и флагов ошибок
   DMA1_Channel3->CCR  |= DMA_CCR_EN;//DMA_Cmd(DMA1_Channel6, ENABLE);//включаю DMA... и он начинает складывать поступающие данные в заданный буфер
-  USART1->ICR |= USART_ICR_IDLECF; //сброс флага IDLE
   USART1->CR1 |=  USART_CR1_IDLEIE;//разрешить прерывания по приёму данных
   USART1->CR1 |=  USART_CR1_RE;//разрешить приёмник
 }
@@ -208,8 +208,8 @@ void USART1_IRQHandler(void)
           
           
         }
-        USART1->ISR  &=  ~USART_ISR_TC;   //сбросить флаг окончания передачи
-        USART1->CR1 &=  ~USART_CR1_TCIE;//запретить прерывание по окончании передачи
+        USART_ClearFlag(USART1, USART_ICR_TCCF);//сбросить флаг окончания передачи
+        USART_ClearITPendingBit(USART1, USART_CR1_TCIE);//запретить прерывание по окончании передачи
         USART1->CR3 &=  ~USART_CR3_DMAT;//запретить UART-ту передавать по DMA
         DMA1_Channel2->CCR  &= ~DMA_CCR_EN;//DMA_Cmd(DMA1_Channel7, DISABLE);//выключить DMA передатчика
         //переключить на приём
@@ -217,14 +217,10 @@ void USART1_IRQHandler(void)
         U1_TX_WAIT = 0;
         return;
       }
-    if ((IIR & USART_ISR_IDLE) & (USART1->CR1 & USART_CR1_IDLEIE)) // Между байтами при приёме обнаружена пауза в 1 IDLE байт
+    if ((IIR & USART_ISR_IDLE) && (USART1->CR1 & USART_CR1_IDLEIE)) // Между байтами при приёме обнаружена пауза в 1 IDLE байт
       {       
-        
-        //IIR = USART1->ISR;
-        //IIR = USART1->RDR; //сброс флага IDLE
-        
-        USART1->CR1 &=  ~USART_CR1_RE;    //запретить приёмник
-        USART1->CR1 &=  ~USART_CR1_IDLEIE;//запретить прерывания по приёму данных
+        USART_ClearITPendingBit(USART1, USART_CR1_IDLEIE | USART_CR1_RE);//запретить прерывания по приёму данных, запретить приёмник
+        USART_ClearFlag(USART1, USART_ICR_IDLECF | USART_ICR_FECF | USART_ICR_NCF | USART_ICR_PECF | USART_ICR_ORECF);//сброс флага IDLE и флагов ошибок
         USART1->CR3 &=  ~USART_CR3_DMAR;  //запретить DMA RX
         DMA1_Channel3->CCR  &= ~DMA_CCR_EN;//DMA_Cmd(DMA1_Channel6, DISABLE);//выключить DMA на приём
         uart1data.Idx = (u16)(U1RXBUFFSIZE - DMA1_Channel3->CNDTR);//кол-во принятых байт

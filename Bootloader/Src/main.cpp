@@ -1,13 +1,3 @@
-/**
-  ******************************************************************************
-  * @file    intmash\projects\CHG.CTRL.CPU\firmware\CHG.CTRL.CPU
-  * @author  Sledin A.S. (Следин А.С.)
-  * @version V0.0.2
-  * @date    30/04/2013
-  * @brief   Main program body.
-  ******************************************************************************
-  */  
-
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f0xx.h"//библиотека STM
 #include "bastypes.h"//основные типы данных, объявление типов структур RAM_DATA и FLASH_DATA
@@ -40,25 +30,18 @@
 int main(void)              //главная программа
 {
 
-//  GPIO_INIT_Configuration();
-//
-//  if (INIT_IST == 0) {
-//    LED_ALARM_OFF;
-//    
-//    if (isBootLoaderMustBeStart() != true) {
-//      if (isApplicationReadyToStart()) {
-//          jumpToApplication();
-//      }
-//    }
-//  }
-//
   Init();                   //инициализация переферии  
-//
+//  GPIO_INIT_Configuration();
 //
   LED_RUN_OFF;
   LED_LINK1_OFF;
   LED_LINK2_OFF;
   LED_ALARM_ON;
+
+
+//
+//
+//
 
   
   while (1)//основной цикл программы
@@ -69,7 +52,15 @@ int main(void)              //главная программа
       else LED_LINK1_OFF; 
       
     }
+      if (INIT_IST != 0) {
+        LED_ALARM_OFF;
     
+    //if (isBootLoaderMustBeStart() != true) {
+      //if (isApplicationReadyToStart()) {
+          jumpToApplication();
+     // }
+    //}
+  }
   }
 }
 
