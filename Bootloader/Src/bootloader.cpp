@@ -29,6 +29,7 @@ u16 writeCodeToFlash(TClient* Slave);
 u16 startApplication(TClient* Slave);
 
 u16 BootLoader(TClient* Slave){
+  ++RAM_DATA.counter1;
   u8 cmd = Slave->Buffer[BOOT_CMD_CODE_OFFSET];
   switch (cmd) {
     case BOOT_CMD_GET_PAGES_LIST:
@@ -219,7 +220,7 @@ const char PagesList[] =
  "{\"start\": \"0x0803F800\", \"size\": 2047}]";
 
 u16 getPagesList(TClient* Slave){
-  
+  ++RAM_DATA.counter2;
   u16 DataLength = 0; //������ ������������ �������
   DataLength = strlen(PagesList);
   //Slave->Buffer[BOOT_PAGES_LIST_DATA_SECTION + 0] = (DataLength >> 8) & 0x00FF;
@@ -264,7 +265,7 @@ FLASH_Status erasePages(const std::vector<u32> Pages) {
 }
 
 u16 setErasedPages(TClient* Slave){
-
+  ++RAM_DATA.counter3;
   const std::vector<u32> Pages = getPagesAddrList((u8 *) &Slave->Buffer[3]);
   FLASH_Status status = erasePages(Pages);
   Slave->Buffer[4] = status;
@@ -321,12 +322,12 @@ void FlashSectorWriteBootloader(u32 FlashSectorAddr, u32 Buffer, u32 Count)
     source ++;
     Count --;
     if(FLASH_COMPLETE == FLASHStatus){
-      ++RAM_DATA.counter1;
+    //  ++RAM_DATA.counter1;
     }
     if(FLASH_ERROR_WRP == FLASHStatus){
-      ++RAM_DATA.counter2;
+    //  ++RAM_DATA.counter2;
     }
-    ++RAM_DATA.counter3;
+    //++RAM_DATA.counter3;
   }
 }
 
@@ -432,6 +433,7 @@ bool isApplicationReadyToStart(void) {
 
 //01.B0.02.CRC
 u16 startApplication(TClient* Slave) {
+  ++RAM_DATA.counter4;
   BootLoaderStart[0] = 0x00;
   BootLoaderStart[1] = 0x00;
   BootLoaderStart[2] = 0x00;
