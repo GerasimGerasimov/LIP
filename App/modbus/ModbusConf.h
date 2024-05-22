@@ -1,7 +1,7 @@
 #pragma once
 
-#include "stm32f10x.h"
-#include "STM32F10x_Intmash_USART.h"
+#include "stm32f0xx.h"
+#include "STM32F0xx_Intmash_USART.h"
 
 //общий класс работы Modbus
 class ModbusConf

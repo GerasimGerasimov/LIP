@@ -1,7 +1,7 @@
 #ifndef DEVICE_POLL_MANAGER_H
 #define DEVICE_POLL_MANAGER_H
 
-#include "stm32f10x.h"
+#include "stm32f0xx.h"
 //#include "com_master_driver.h"
 #include "Slot.h"
 #include <vector>

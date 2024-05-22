@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ModbusConf.h"
-#include "STM32F10xUSART2.h"
+#include "STM32F0xxUSART2.h"
 
 //класс работы Modbus в режиме Master
 struct MBmasterSlotType {

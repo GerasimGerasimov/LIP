@@ -1,6 +1,6 @@
 #ifndef __MBTYPES_H
 #define __MBTYPES_H
-#include "stm32f10x.h"
+#include "stm32f0xx.h"
 		/* FatFs configurations and declarations */
 
 // MODBUS commans structure (common block)

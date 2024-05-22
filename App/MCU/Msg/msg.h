@@ -2,7 +2,7 @@
 #ifndef MSG_H
 #define MSG_H
 
-#include "stm32f10x.h"
+#include "stm32f0xx.h"
 
 //defines
 #define MAXMESSAGE  0xFFFF

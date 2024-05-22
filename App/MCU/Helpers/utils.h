@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "stm32f10x.h"
+#include "stm32f0xx.h"
 //#include "bastypes.h"
 
 namespace Utils {

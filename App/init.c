@@ -1,6 +1,6 @@
 #include "init.h"
-#include "stm32f10x.h"
-#include "stm32f10x_gpio.h"
+#include "stm32f0xx.h"
+#include "stm32f0xx_gpio.h"
 #include "ramdata.h"
 #include "flashdata.h"//глобальные константы и структура FLASH_DATA
 #include "memutil.h"
@@ -16,7 +16,7 @@ void NVIC_Configuration(void);
 void TIM1_Configuration(void);
 //void TIM2_Configuration(void);
 //void TIM3_Configuration(void);
-void TIM4_Configuration(void);
+void TIM2_Configuration(void);
 void Systic_init(void);
 void EXTI_init(void);
 void DMA_Configuration (void);
@@ -47,11 +47,11 @@ void Init (void)
   TIM1_Configuration(); //модбас
   //TIM2_Configuration();//шим тиристора
   //TIM3_Configuration(); //тактирование modbusMaster
-  TIM4_Configuration();// общего назначения, используется для отсекания времени угла/шим
+  TIM2_Configuration();// общего назначения, используется для отсекания времени угла/шим
   
   //ADC_Configuration();
 
-  EXTI_init(); 
+  //EXTI_init(); 
   
   usart1DMA_init();
   uart1rs485_init();
@@ -146,15 +146,16 @@ void SPI2_Configuration(){
 
 void GPIO_Configuration(void){
   GPIO_InitTypeDef GPIO_InitStructure;
-  RCC_APB2PeriphClockCmd( RCC_APB2Periph_GPIOA |\
-                          RCC_APB2Periph_GPIOB |\
-                          RCC_APB2Periph_GPIOC |\
-                          RCC_APB2Periph_AFIO  ,
+  RCC_AHBPeriphClockCmd( RCC_AHBPeriph_GPIOA |\
+                          RCC_AHBPeriph_GPIOB |\
+                          RCC_AHBPeriph_GPIOC |\
+                          RCC_APB2Periph_SYSCFG  ,  //RCC_APB2Periph_AFIO
                           ENABLE);
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   
   /* настраиваем ноги не привязанные к переферии, как open-drain*/
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
   //порт А:                          Dout1           Dout2        Dout3 
   GPIO_InitStructure.GPIO_Pin  =  GPIO_Pin_14 | GPIO_Pin_13;// | GPIO_Pin_12;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
@@ -166,7 +167,8 @@ void GPIO_Configuration(void){
     //GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable, ENABLE);//remap! 
   
   /* настраиваем ноги не привязанные к переферии, как push-pull*/
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;  
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;// GPIO_Mode_Out_PP;  
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP; 
   //порт А:                        DIR1         DIR2       SPI1_LCLK
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11 | GPIO_Pin_0 | GPIO_Pin_6;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
@@ -175,13 +177,13 @@ void GPIO_Configuration(void){
   GPIO_Init(GPIOB, &GPIO_InitStructure);
 
   /* настраиваем входы переферии как input floating */
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;  
-  //порт А:                     UART1_Rx       UART2_Rx     DI5_TERM       
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_3;// | GPIO_Pin_15; 
-  GPIO_Init(GPIOA, &GPIO_InitStructure);  
-  //порт В:  дискретные входы     DI3_STOP     DI4_START       SYNC          TR1           TR2             
-  GPIO_InitStructure.GPIO_Pin =  /* GPIO_Pin_4 | */ GPIO_Pin_3;// | GPIO_Pin_11;// | GPIO_Pin_1 | GPIO_Pin_0;  
-  GPIO_Init(GPIOB, &GPIO_InitStructure); 
+//  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;  //TODO
+//  //порт А:                     UART1_Rx       UART2_Rx     DI5_TERM       
+//  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_3;// | GPIO_Pin_15; 
+//  GPIO_Init(GPIOA, &GPIO_InitStructure);  
+//  //порт В:  дискретные входы     DI3_STOP     DI4_START       SYNC          TR1           TR2             
+//  GPIO_InitStructure.GPIO_Pin =  /* GPIO_Pin_4 | */ GPIO_Pin_3;// | GPIO_Pin_11;// | GPIO_Pin_1 | GPIO_Pin_0;  
+//  GPIO_Init(GPIOB, &GPIO_InitStructure); 
     //порт C:  дискретные входы       DI1           DI2_BURNING         
 //  GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_14 | GPIO_Pin_15;  
 //  GPIO_Init(GPIOC, &GPIO_InitStructure);  
@@ -196,18 +198,25 @@ void GPIO_Configuration(void){
 //  GPIO_Init(GPIOA, &GPIO_InitStructure);
   
   /* настраиваем выходы переферии как push-pull */
-   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-  //порт А:                       UART1_Tx     UART2_Tx    SPI1_SCK     SPI1_MOSI  
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9 | GPIO_Pin_2 | GPIO_Pin_5 | GPIO_Pin_7; 
-  GPIO_Init(GPIOA, &GPIO_InitStructure);
-    
-    //порт B:                     SPI2_SCK     SPI2_MISO
-  GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_13 | GPIO_Pin_14;  
-  GPIO_Init(GPIOB, &GPIO_InitStructure); 
+//   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;//TODO
+//  //порт А:                       UART1_Tx     UART2_Tx    SPI1_SCK     SPI1_MOSI  
+//  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9 | GPIO_Pin_2 | GPIO_Pin_5 | GPIO_Pin_7; 
+//  GPIO_Init(GPIOA, &GPIO_InitStructure);
+//    
+//    //порт B:                     SPI2_SCK     SPI2_MISO
+//  GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_13 | GPIO_Pin_14;  
+//  GPIO_Init(GPIOB, &GPIO_InitStructure); 
   //GPIO_PinRemapConfig(GPIO_FullRemap_TIM2, ENABLE);//remap! T2_CH3->PB.10  
 
 
-
+  GPIO_PinAFConfig(GPIOA, GPIO_PinSource9,  GPIO_AF_1); //Tx 
+  GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_1); //Rx
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9 | GPIO_Pin_10;
+  GPIO_Init(GPIOA, &GPIO_InitStructure);
 
 }
 //******************************************************************************
@@ -219,7 +228,7 @@ void TIM1_Configuration(void){
   
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1  ,ENABLE);
   /* Time Base configuration */
-  TIM_TimeBaseStructure.TIM_Prescaler = 71;
+  TIM_TimeBaseStructure.TIM_Prescaler = 47;
   TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
   TIM_TimeBaseStructure.TIM_Period = 0xffff;
   TIM_TimeBaseStructure.TIM_ClockDivision = 0;
@@ -311,21 +320,21 @@ void TIM1_Configuration(void){
 //  TIM3->SR = 0;  
 //}
 //******************************************************************************
-//таймер для управлениями тиристорами - сифу, угол (1тик = 1мкс) два канала
-void TIM4_Configuration(void){
+//
+void TIM2_Configuration(void){
   TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
 //  TIM_OCInitTypeDef        TIM_OCInitStructure;
   
-  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE);
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
    /* Time Base configuration */
   TIM_TimeBaseStructure.TIM_Prescaler = 100 - 1;
   TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-  TIM_TimeBaseStructure.TIM_Period = 7200;
+  TIM_TimeBaseStructure.TIM_Period = 4800;
   TIM_TimeBaseStructure.TIM_ClockDivision = 0;
   TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
-  TIM_TimeBaseInit(TIM4, &TIM_TimeBaseStructure);
+  TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
 
-  TIM_TimeBaseInit(TIM4, &TIM_TimeBaseStructure);
+  TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
   
 //  TIM_OCInitStructure.TIM_Pulse = 0;
 //  TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_Timing;
@@ -336,9 +345,9 @@ void TIM4_Configuration(void){
 //  TIM4->CCR1 = 0; //длинна угла
 //  TIM4->CCR2 =  0; //длинна угла +длинна импульса управления
 
-  TIM4->SR = 0;
-    TIM_ITConfig(TIM4, TIM_IT_Update /* | TIM_IT_CC2 */, ENABLE);//
-  TIM_Cmd(TIM4, ENABLE);
+  TIM2->SR = 0;
+    TIM_ITConfig(TIM2, TIM_IT_Update /* | TIM_IT_CC2 */, ENABLE);//
+  TIM_Cmd(TIM2, ENABLE);
    
   
 
@@ -354,38 +363,38 @@ void TIM4_Configuration(void){
 //******************************************************************************
 
 //*******************************************************************************
-void RTC_init(void)
-{
-        RCC->APB1ENR |= RCC_APB1ENR_PWREN | RCC_APB1ENR_BKPEN;
-	PWR->CR |= PWR_CR_DBP;
-
-	if ((RCC->BDCR & RCC_BDCR_RTCEN) != RCC_BDCR_RTCEN)
-	{
-		RCC->BDCR |= RCC_BDCR_BDRST;
-		RCC->BDCR &= ~RCC_BDCR_BDRST;
-		RCC->BDCR |= RCC_BDCR_RTCEN | RCC_BDCR_RTCSEL_LSE;
-
-		RTC->CRL |= RTC_CRL_CNF;
-		RTC->PRLL = 0x7FFF;
-		RTC->CNTH = 0;
-		RTC->CNTL = 16;
-		RTC->CRL &= ~RTC_CRL_CNF;               
-
-		RCC->BDCR |= RCC_BDCR_LSEON;
-		while ((RCC->BDCR & RCC_BDCR_LSEON) != RCC_BDCR_LSEON)
-		{
-
-		}
-
-		RTC->CRL &= (uint16_t)~RTC_CRL_RSF;
-		while((RTC->CRL & RTC_CRL_RSF) != RTC_CRL_RSF)
-		{
-
-		}
-                
-	}
-        //PWR->CR &= ~PWR_CR_DBP;
-}
+//void RTC_init(void)
+//{
+//        RCC->APB1ENR |= RCC_APB1ENR_PWREN | RCC_APB1ENR_BKPEN;
+//	PWR->CR |= PWR_CR_DBP;
+//
+//	if ((RCC->BDCR & RCC_BDCR_RTCEN) != RCC_BDCR_RTCEN)
+//	{
+//		RCC->BDCR |= RCC_BDCR_BDRST;
+//		RCC->BDCR &= ~RCC_BDCR_BDRST;
+//		RCC->BDCR |= RCC_BDCR_RTCEN | RCC_BDCR_RTCSEL_LSE;
+//
+//		RTC->CRL |= RTC_CRL_CNF;
+//		RTC->PRLL = 0x7FFF;
+//		RTC->CNTH = 0;
+//		RTC->CNTL = 16;
+//		RTC->CRL &= ~RTC_CRL_CNF;               
+//
+//		RCC->BDCR |= RCC_BDCR_LSEON;
+//		while ((RCC->BDCR & RCC_BDCR_LSEON) != RCC_BDCR_LSEON)
+//		{
+//
+//		}
+//
+//		RTC->CRL &= (uint16_t)~RTC_CRL_RSF;
+//		while((RTC->CRL & RTC_CRL_RSF) != RTC_CRL_RSF)
+//		{
+//
+//		}
+//                
+//	}
+//        //PWR->CR &= ~PWR_CR_DBP;
+//}
 //******************************************************************************
 //дма для SPI1 (отправка данных на индикаторы)
 void DMA_Configuration (void){
@@ -438,14 +447,14 @@ void NVIC_Configuration(void)
 //  NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x0);   
 //#endif
   
-  SCB->VTOR = APP_START_ADDR;//переносим начало вектора прерываний по указанному адресу
+  //SCB->VTOR = APP_START_ADDR;//переносим начало вектора прерываний по указанному адресу
   
-  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+  //NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
   //группа два - значит 2 бита для приоритета и 2 для подприоритета
   /* Enable the TIM1 gloabal Interrupt */
    NVIC_InitStructure.NVIC_IRQChannel = TIM1_CC_IRQn;
-   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
-   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+   NVIC_InitStructure.NVIC_IRQChannelPriority = 2;
+   //NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
    NVIC_Init(&NVIC_InitStructure);
 
@@ -463,55 +472,55 @@ void NVIC_Configuration(void)
    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
    NVIC_Init(&NVIC_InitStructure); */
 //       /* Enable the TIM4 gloabal Interrupt */
-   NVIC_InitStructure.NVIC_IRQChannel = TIM4_IRQn;
-   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+   NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;
+   NVIC_InitStructure.NVIC_IRQChannelPriority = 0;
+   //NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
    NVIC_Init(&NVIC_InitStructure);
    
   /* Enable the USART1 Interrupt */
   NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
-  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+  NVIC_InitStructure.NVIC_IRQChannelPriority = 2;
+  //NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
   
     /* Enable the USART2 Interrupt */
   NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
-  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
+  NVIC_InitStructure.NVIC_IRQChannelPriority = 2;
+  //NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure); 
   
   /* Enable DMA1 interrupt */
-  NVIC_InitStructure.NVIC_IRQChannel = DMA1_Channel3_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
-  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+/*   NVIC_InitStructure.NVIC_IRQChannel = DMA1_Channel3_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannelPriority = 1;
+  //NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-  NVIC_Init(&NVIC_InitStructure);
+  NVIC_Init(&NVIC_InitStructure); */
   
     /* Enable the EXTI11 Interrupt */
-  NVIC_InitStructure.NVIC_IRQChannel = EXTI15_10_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+/*   NVIC_InitStructure.NVIC_IRQChannel = EXTI15_10_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannelPriority = 0;
+  //NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-  NVIC_Init(&NVIC_InitStructure);
+  NVIC_Init(&NVIC_InitStructure); */
 }
 
-void EXTI_init(void){
-  
-  GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource11);
-  
-  EXTI_InitTypeDef  EXTI_InitStructure;
-  
-  /* Configure EXTI_Line11 to generate an interrupt on falling edge */  
-  EXTI_InitStructure.EXTI_Line = EXTI_Line11;
-  EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising_Falling;//EXTI_Trigger_Falling; //по спаду и фронту
-  EXTI_InitStructure.EXTI_LineCmd = ENABLE;
-  EXTI_Init(&EXTI_InitStructure);
-  
-}
+//void EXTI_init(void){
+//  
+//  GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource11);
+//  
+//  EXTI_InitTypeDef  EXTI_InitStructure;
+//  
+//  /* Configure EXTI_Line11 to generate an interrupt on falling edge */  
+//  EXTI_InitStructure.EXTI_Line = EXTI_Line11;
+//  EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+//  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising_Falling;//EXTI_Trigger_Falling; //по спаду и фронту
+//  EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+//  EXTI_Init(&EXTI_InitStructure);
+//  
+//}
 
 
 //void check_flash (void)

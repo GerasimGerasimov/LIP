@@ -1,6 +1,6 @@
 #ifndef BASTYPES_H
 #define BASTYPES_H
-#include "stm32f10x.h"// basic types
+#include "stm32f0xx.h"// basic types
 
 typedef u8 *pu8;
 

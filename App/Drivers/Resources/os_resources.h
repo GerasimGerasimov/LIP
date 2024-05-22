@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Resources/InternalResources.h"
-#include "stm32f10x.h"
+#include "stm32f0xx.h"
 
 class OSResources {
   public:

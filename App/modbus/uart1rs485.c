@@ -11,8 +11,8 @@
 #include "flashdata.h"
 #include "ramdata.h"
 #include "modbus.h"
-#include "stm32f10x.h"
-#include "DEFINES.h" //все основные, относящиеся только к плате дефайны
+#include "stm32f0xx.h"
+#include "ramdata.h"//TODO
 
 TClient uart1data;
 void RxDMA1Ch5 (void);//настройка DMA на чтение данных из UART
@@ -22,7 +22,7 @@ void U1SetTimer(unsigned int Delay);  //зарядка таймера на подождать перед отпра
 #define SetDIR1ToRX    GPIO_WriteBit(GPIOA, GPIO_Pin_11,  (BitAction)(0));
 #define SetDIR1ToTX    GPIO_WriteBit(GPIOA, GPIO_Pin_11,  (BitAction)(1));
 
-#define U1RXBUFFSIZE  255 //размер буфера приёмника
+#define U1RXBUFFSIZE  5000 //размер буфера приёмника
 
 u8 U1_RX_DATA_READY = 0;//флаг приёма пакета не ждем
 u8 U1_TX_WAIT = 0;//флаг отправки пакета ждем!!!
@@ -148,11 +148,11 @@ void usart1DMA_init (void)
   DMA_InitTypeDef DMA_InitStructure;
   
   RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
-  DMA_DeInit(DMA1_Channel4);//на всякимй случай
-  DMA_DeInit(DMA1_Channel5);//на всякимй случай
-  DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) &(USART1->DR);//источник - регистр данных UART
+  DMA_DeInit(DMA1_Channel2);//на всякимй случай
+  DMA_DeInit(DMA1_Channel3);//на всякимй случай
+  DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) &(USART1->TDR);//источник - регистр данных UART TDR
   DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t) &uart1data.Buffer[0];//приёмник - мой буфер (размер 256 байт)
-  DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralDST;//направление из переферии в память (буфер)
+  DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralDST;// направление от памяти к периферии.
   DMA_InitStructure.DMA_BufferSize = 0;//сколько байт отправить
   DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;//адрес переферии не инкрементируется
   DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;//адрес (ссылка на буфер) инкрементируется
@@ -161,65 +161,73 @@ void usart1DMA_init (void)
   DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;//по заполнению буфера DMA останавливается
   DMA_InitStructure.DMA_Priority = DMA_Priority_High;
   DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
-  DMA_Init(DMA1_Channel4, &DMA_InitStructure); 
-  DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;//направление из переферии в память (буфер)
-  DMA_Init(DMA1_Channel5, &DMA_InitStructure); 
+  DMA_Init(DMA1_Channel2, &DMA_InitStructure);
+  DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;//направление от периферии к памяти.
+  DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) &(USART1->RDR); //источник - регистр данных UART RDR
+  DMA_Init(DMA1_Channel3, &DMA_InitStructure);
+  USART_DMACmd(USART1, USART_DMAReq_Rx, ENABLE);
+  USART_DMACmd(USART1, USART_DMAReq_Tx, ENABLE);
 }
 
+  static int ini = 2;
 
 void TxDMA1Ch4 (void) {//настройка DMA на передачу данных в UART
-  
-  DMA1_Channel4->CCR  &= ~DMA_CCR4_EN;//DMA_Cmd(DMA1_Channel7, DISABLE);//отключаю DMA для получения доступа к регистрам
-  DMA1_Channel4->CNDTR = uart1data.TXCount;//сколько байт отправить
-  USART1->SR  &=  ~USART_SR_TC;   //сбросить флаг окончания передачи
+  DMA1_Channel2->CCR  &= ~DMA_CCR_EN;//DMA_Cmd(DMA1_Channel7, DISABLE);//отключаю DMA для получения доступа к регистрам
+  DMA1_Channel2->CNDTR = uart1data.TXCount;//сколько байт отправить
+  if(ini != 0){
+    
+    --ini;
+  }
+  USART_ClearFlag(USART1, USART_ICR_TCCF);//сбросить флаг окончания передачи
   USART1->CR3 |=  USART_CR3_DMAT;
-  DMA1->IFCR |= DMA_IFCR_CTCIF4 | DMA_IFCR_CGIF4 | DMA_IFCR_CHTIF4 | DMA_IFCR_CTEIF4;//очищу все флаги прерываний 
+  DMA_ClearFlag(DMA_IFCR_CTCIF2 | DMA_IFCR_CGIF2 | DMA_IFCR_CHTIF2 | DMA_IFCR_CTEIF2);//очищу все флаги прерываний
   USART1->CR1 |=  USART_CR1_TE;   //разрешить передатчик
-  DMA1_Channel4->CCR  |= DMA_CCR4_EN;//DMA_Cmd(DMA1_Channel7, ENABLE);//включаю DMA... и он начинает из буфера выкидывать данные на ТХ
+  DMA1_Channel2->CCR  |= DMA_CCR_EN;//DMA_Cmd(DMA1_Channel7, ENABLE);//включаю DMA... и он начинает из буфера выкидывать данные на ТХ
   USART1->CR1 |=  USART_CR1_TCIE; //разрешу прерывания по окончанию передачи
 } 
 
 void RxDMA1Ch5 (void) {//настройка DMA на чтение данных из UART
 
   SetDIR1ToRX;//включить драйвер на приём
-  DMA1_Channel5->CCR  &= ~DMA_CCR5_EN;//DMA_Cmd(DMA1_Channel6, DISABLE);//отключаю DMA для получения доступа к регистрам
-  DMA1_Channel5->CNDTR = U1RXBUFFSIZE;//256 байт размер принимающего буфера
+  DMA1_Channel3->CCR  &= ~DMA_CCR_EN;//DMA_Cmd(DMA1_Channel6, DISABLE);//отключаю DMA для получения доступа к регистрам
+  DMA1_Channel3->CNDTR = U1RXBUFFSIZE;//256 байт размер принимающего буфера
   USART1->CR3 |=  USART_CR3_DMAR;
-  DMA1->IFCR |= DMA_IFCR_CTCIF5 | DMA_IFCR_CGIF5 | DMA_IFCR_CHTIF5 | DMA_IFCR_CTEIF5;//очищу все флаги прерываний 
-  DMA1_Channel5->CCR  |= DMA_CCR5_EN;//DMA_Cmd(DMA1_Channel6, ENABLE);//включаю DMA... и он начинает складывать поступающие данные в заданный буфер
+  DMA_ClearFlag(DMA_IFCR_CTCIF3 | DMA_IFCR_CGIF3 | DMA_IFCR_CHTIF3 | DMA_IFCR_CTEIF3);//очищу все флаги прерываний
+  USART_ClearFlag(USART1, USART_ICR_IDLECF | USART_ICR_FECF | USART_ICR_NCF | USART_ICR_PECF | USART_ICR_ORECF);//сброс флага IDLE и флагов ошибок
+  DMA1_Channel3->CCR  |= DMA_CCR_EN;//DMA_Cmd(DMA1_Channel6, ENABLE);//включаю DMA... и он начинает складывать поступающие данные в заданный буфер
   USART1->CR1 |=  USART_CR1_IDLEIE;//разрешить прерывания по приёму данных
   USART1->CR1 |=  USART_CR1_RE;//разрешить приёмник
 }
 
 void USART1_IRQHandler(void)
 {  
-  u32 IIR = USART1->SR;
-    if ((IIR & USART_SR_TC) && (USART1->CR1 & USART_CR1_TCIE)) // Передача окончена (последний байт полностью передан в порт)
+  u32 IIR = USART1->ISR;
+    if ((IIR & USART_ISR_TC) && (USART1->CR1 & USART_CR1_TCIE)) // Передача окончена (последний байт полностью передан в порт)
       { 
-        USART1->SR  &=  ~USART_SR_TC;   //сбросить флаг окончания передачи
-        USART1->CR1 &=  ~USART_CR1_TCIE;//запретить прерывание по окончании передачи
+        if(ini != 0){
+          
+          
+        }
+        USART_ClearFlag(USART1, USART_ICR_TCCF);//сбросить флаг окончания передачи
+        USART_ClearITPendingBit(USART1, USART_CR1_TCIE);//запретить прерывание по окончании передачи
         USART1->CR3 &=  ~USART_CR3_DMAT;//запретить UART-ту передавать по DMA
-        DMA1_Channel4->CCR  &= ~DMA_CCR4_EN;//DMA_Cmd(DMA1_Channel7, DISABLE);//выключить DMA передатчика
+        DMA1_Channel2->CCR  &= ~DMA_CCR_EN;//DMA_Cmd(DMA1_Channel7, DISABLE);//выключить DMA передатчика
         //переключить на приём
         RxDMA1Ch5();//настройка DMA на чтение данных из UART
         U1_TX_WAIT = 0;
         return;
       }
-    if ((IIR & USART_SR_IDLE) & (USART1->CR1 & USART_CR1_IDLEIE)) // Между байтами при приёме обнаружена пауза в 1 IDLE байт
-      {         
-        IIR = USART1->DR; //сброс флага IDLE
-        IIR = USART1->SR;
-        USART1->CR1 &=  ~USART_CR1_RE;    //запретить приёмник
-        USART1->CR1 &=  ~USART_CR1_IDLEIE;//запретить прерывания по приёму данных
+    if ((IIR & USART_ISR_IDLE) && (USART1->CR1 & USART_CR1_IDLEIE)) // Между байтами при приёме обнаружена пауза в 1 IDLE байт
+      {       
+        USART_ClearITPendingBit(USART1, USART_CR1_IDLEIE | USART_CR1_RE);//запретить прерывания по приёму данных, запретить приёмник
+        USART_ClearFlag(USART1, USART_ICR_IDLECF | USART_ICR_FECF | USART_ICR_NCF | USART_ICR_PECF | USART_ICR_ORECF);//сброс флага IDLE и флагов ошибок
         USART1->CR3 &=  ~USART_CR3_DMAR;  //запретить DMA RX
-        DMA1_Channel5->CCR  &= ~DMA_CCR5_EN;//DMA_Cmd(DMA1_Channel6, DISABLE);//выключить DMA на приём
-        uart1data.Idx = (u8)(U1RXBUFFSIZE - DMA1_Channel5->CNDTR);//кол-во принятых байт
+        DMA1_Channel3->CCR  &= ~DMA_CCR_EN;//DMA_Cmd(DMA1_Channel6, DISABLE);//выключить DMA на приём
+        uart1data.Idx = (u16)(U1RXBUFFSIZE - DMA1_Channel3->CNDTR);//кол-во принятых байт
         U1_RX_DATA_READY = 1;//выставляю флаг основному циклу что пакет данных принят
         U1_TX_WAIT = 0;//нет ожидания передачи
       }
 }
-
-
 
 
 

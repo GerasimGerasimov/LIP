@@ -1,6 +1,6 @@
 #pragma once
 
-#include "stm32f10x.h"
+#include "stm32f0xx.h"
 
 struct SpecialSignalAddr;
 

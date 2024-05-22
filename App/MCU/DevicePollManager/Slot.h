@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include <functional>
-#include "stm32f10x.h"
+#include "stm32f0xx.h"
 
 
 #define MB_MASTER_BUF_SIZE  256

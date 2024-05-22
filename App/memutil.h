@@ -2,7 +2,7 @@
 #define __MEMUTIL_H
 //#include "includes.h"
 #include "bastypes.h"
-#include    "stm32f10x.h"
+#include "stm32f0xx.h"
 #include "mbtypes.h"
 
 //буфер временного хранения данных сектора FALSH

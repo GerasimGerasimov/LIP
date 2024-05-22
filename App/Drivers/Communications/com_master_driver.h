@@ -3,7 +3,7 @@
 
 #include <string>
 #include <functional>
-#include "stm32f10x.h"
+#include "stm32f0xx.h"
 #include "modbus/ModbusMasterConf.h"
 
 class DevicePollManager;
