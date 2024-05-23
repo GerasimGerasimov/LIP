@@ -5,27 +5,27 @@
 define symbol __ICFEDIT_intvec_start__ = 0x08000000;
 /*-Memory Regions-*/
 define symbol __ICFEDIT_region_ROM_start__      = 0x08000000;
-define symbol __ICFEDIT_region_ROM_end__        = 0x0801FBFF;
-define symbol __ICFEDIT_region_RAM_start__      = 0x20000008;
-define symbol __ICFEDIT_region_RAM_end__        = 0x20004500;
-define symbol __ICFEDIT_region_FD_start__       = 0x0801FC00;
-define symbol __ICFEDIT_region_FD_end__         = 0x0801FDFF;
-define symbol __ICFEDIT_region_BKFD_start__     = 0x0801FE00;
-define symbol __ICFEDIT_region_BKFD_end__       = 0x0801FFFF;
+define symbol __ICFEDIT_region_ROM_end__        = 0x08004FFF;
+define symbol __ICFEDIT_region_FD_start__       = 0x08005000;
+define symbol __ICFEDIT_region_FD_end__         = 0x080051FF;
+define symbol __ICFEDIT_region_BKFD_start__     = 0x08005200;
+define symbol __ICFEDIT_region_BKFD_end__       = 0x080053FF;
 define symbol __ICFEDIT_region_BOOT_CMD_start__ = 0x20000000;
 define symbol __ICFEDIT_region_BOOT_CMD_end__   = 0x20000007;
+define symbol __ICFEDIT_region_RAM_start__      = 0x20000008;
+define symbol __ICFEDIT_region_RAM_end__        = 0x20005000;
 /*-Sizes-*/
-define symbol __ICFEDIT_size_cstack__ = 0x1000;
-define symbol __ICFEDIT_size_heap__   = 0x2500;
+define symbol __ICFEDIT_size_cstack__ = 0x400;
+define symbol __ICFEDIT_size_heap__   = 0x400;
 /**** End of ICF editor section. ###ICF###*/
 
 
 define memory mem with size = 4G;
 define region ROM_region   = mem:[from __ICFEDIT_region_ROM_start__   to __ICFEDIT_region_ROM_end__];
-define region RAM_region   = mem:[from __ICFEDIT_region_RAM_start__   to __ICFEDIT_region_RAM_end__];
 define region FD_region   = mem:[from __ICFEDIT_region_FD_start__   to __ICFEDIT_region_FD_end__];
 define region BKFD_region   = mem:[from __ICFEDIT_region_BKFD_start__   to __ICFEDIT_region_BKFD_end__];
 define region BOOT_CMD_region   = mem:[from __ICFEDIT_region_BOOT_CMD_start__   to __ICFEDIT_region_BOOT_CMD_end__];
+define region RAM_region   = mem:[from __ICFEDIT_region_RAM_start__   to __ICFEDIT_region_RAM_end__];
 define block CSTACK    with alignment = 8, size = __ICFEDIT_size_cstack__   { };
 define block HEAP      with alignment = 8, size = __ICFEDIT_size_heap__     { };
 

@@ -6,7 +6,7 @@ struct Intmash_Usart;
 class MBmasterSlotType;
 
 //связь по 485 интерфейсу, по протоколу MODBUS2
-class STM32F10xUSART2
+class STM32F0xxUSART2
 {
 private:
 	Intmash_Usart* Usart;
@@ -18,7 +18,7 @@ private:
 public:
 	void SetTimer(u16 delay);
 	void StopTimer();
-	STM32F10xUSART2(Intmash_Usart* Usart);
+	STM32F0xxUSART2(Intmash_Usart* Usart);
 
 
 };

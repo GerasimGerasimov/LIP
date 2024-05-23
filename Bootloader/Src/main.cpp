@@ -57,7 +57,7 @@ int main(void)              //главная программа
     
     //if (isBootLoaderMustBeStart() != true) {
       //if (isApplicationReadyToStart()) {
-          jumpToApplication();
+         // jumpToApplication();
      // }
     //}
   }

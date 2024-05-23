@@ -16,7 +16,7 @@ const u32 U2BPS[]={
 
 
 
-STM32F10xUSART2::STM32F10xUSART2(Intmash_Usart* usart) {
+STM32F0xxUSART2::STM32F0xxUSART2(Intmash_Usart* usart) {
     
     Usart = usart;
     
@@ -25,7 +25,7 @@ STM32F10xUSART2::STM32F10xUSART2(Intmash_Usart* usart) {
     startNVIC();
 }
 
-void STM32F10xUSART2::initUsart() {
+void STM32F0xxUSART2::initUsart() {
     bavu16 InterfaceSettings;
     InterfaceSettings = FLASH_DATA.MODBUS2;
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2,ENABLE);
@@ -44,7 +44,7 @@ void STM32F10xUSART2::initUsart() {
     UsartDriverInit(Usart);
 }
 
-void STM32F10xUSART2::initTIM() {
+void STM32F0xxUSART2::initTIM() {
     TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
     TIM_TimeBaseStructure.TIM_Prescaler = 7200 - 1;
@@ -59,7 +59,7 @@ void STM32F10xUSART2::initTIM() {
     TIM3->SR = 0;
 }
 
-void STM32F10xUSART2::startNVIC() {
+void STM32F0xxUSART2::startNVIC() {
     NVIC_InitTypeDef NVIC_InitStructure;
     NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;
     NVIC_InitStructure.NVIC_IRQChannelPriority = 0;
@@ -68,11 +68,11 @@ void STM32F10xUSART2::startNVIC() {
     NVIC_Init(&NVIC_InitStructure);
 }
 
-void STM32F10xUSART2::StopTimer(){
+void STM32F0xxUSART2::StopTimer(){
     TIM_Cmd(TIM3, DISABLE);
 }
 
-void STM32F10xUSART2::SetTimer(u16 delay){
+void STM32F0xxUSART2::SetTimer(u16 delay){
     TIM3->CNT = 0;
     TIM3->ARR = delay;//зарядить на нужную паузу.
     TIM3->SR = 0; //снять флаг прерывания

@@ -108,9 +108,6 @@
     <ClInclude Include="..\..\App\MCU\Helpers\utils.h">
       <Filter>MCU\Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="STM32\stm32f10x.h">
-      <Filter>STM32</Filter>
-    </ClInclude>
     <ClInclude Include="STM32\bastypes.h">
       <Filter>STM32</Filter>
     </ClInclude>
@@ -245,6 +242,9 @@
     </ClInclude>
     <ClInclude Include="Drivers\Resources\os_resources.h">
       <Filter>Drivers\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="STM32\stm32f0xx.h">
+      <Filter>STM32</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

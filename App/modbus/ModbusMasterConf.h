@@ -13,7 +13,7 @@ struct MBmasterSlotType {
 class ModbusMasterConf : public ModbusConf
 {
 private:
-	STM32F10xUSART2 UsartMaster;
+	STM32F0xxUSART2 UsartMaster;
 protected:
 	u16 TimeOut = 0;
 	u8* ReplyPtr = 0;

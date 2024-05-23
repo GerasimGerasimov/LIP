@@ -7,8 +7,9 @@
  extern "C" {
 #endif 
 
-extern void GPIO_INIT_Configuration();
 extern void Init (void);
+void fillArr();
+extern uint8_t arr[15];
 
 #ifdef __cplusplus
 }

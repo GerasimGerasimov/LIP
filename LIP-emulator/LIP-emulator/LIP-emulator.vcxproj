@@ -179,7 +179,7 @@
     <ClInclude Include="STM32\bastypes.h" />
     <ClInclude Include="STM32\DMAIndicator.h" />
     <ClInclude Include="STM32\modbus\modbus.h" />
-    <ClInclude Include="STM32\stm32f10x.h" />
+    <ClInclude Include="STM32\stm32f0xx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="threads\MainThread.h" />
     <ClInclude Include="WinAppWindow\MainWindow.h" />

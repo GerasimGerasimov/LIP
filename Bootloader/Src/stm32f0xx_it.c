@@ -51,7 +51,6 @@
 
 void TIM1_CC_IRQHandler (void)
 {
-  LED_ALARM_ON;
   if ((TIM1->SR & TIM_FLAG_CC1)&&(TIM1->DIER & TIM_IT_CC1)) TIM1_user_U1();
   
 }
