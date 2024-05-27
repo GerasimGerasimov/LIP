@@ -30,6 +30,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f0xx_it.h"
 #include "DEFINES.h"
+#include "ramdata.h"
 /** @addtogroup STM32F0xx_StdPeriph_Examples
   * @{
   */
@@ -53,6 +54,17 @@ void TIM1_CC_IRQHandler (void)
 {
   if ((TIM1->SR & TIM_FLAG_CC1)&&(TIM1->DIER & TIM_IT_CC1)) TIM1_user_U1();
   
+}
+
+void TIM2_IRQHandler(){
+  TIM2->SR = 0;
+  ++RAM_DATA.counter[1];
+  if(LED_LINK2_ST){
+    LED_LINK2_ON;
+  }
+  else{
+    LED_LINK2_OFF;
+  }
 }
 
 /**

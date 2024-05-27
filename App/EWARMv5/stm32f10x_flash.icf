@@ -2,18 +2,21 @@
 /*-Editor annotation file-*/
 /* IcfEditorFile="$TOOLKIT_DIR$\config\ide\IcfEditor\cortex_v1_0.xml" */
 /*-Specials-*/
-define symbol __ICFEDIT_intvec_start__ = 0x08000000;
+define symbol __ICFEDIT_intvec_start__ = 0x08008000;
 /*-Memory Regions-*/
-define symbol __ICFEDIT_region_ROM_start__      = 0x08000000;
-define symbol __ICFEDIT_region_ROM_end__        = 0x08004FFF;
-define symbol __ICFEDIT_region_FD_start__       = 0x08005000;
-define symbol __ICFEDIT_region_FD_end__         = 0x080051FF;
-define symbol __ICFEDIT_region_BKFD_start__     = 0x08005200;
-define symbol __ICFEDIT_region_BKFD_end__       = 0x080053FF;
-define symbol __ICFEDIT_region_BOOT_CMD_start__ = 0x20000000;
-define symbol __ICFEDIT_region_BOOT_CMD_end__   = 0x20000007;
-define symbol __ICFEDIT_region_RAM_start__      = 0x20000008;
+define symbol __ICFEDIT_region_ROM_start__      = 0x08008000;
+define symbol __ICFEDIT_region_ROM_end__        = 0x08014FFF;
+define symbol __ICFEDIT_region_FD_start__       = 0x08006000;
+define symbol __ICFEDIT_region_FD_end__         = 0x080061FF;
+define symbol __ICFEDIT_region_BKFD_start__     = 0x08006200;
+define symbol __ICFEDIT_region_BKFD_end__       = 0x080063FF;
+define symbol __ICFEDIT_region_RAM_VEC_start__  = 0x20000000;
+define symbol __ICFEDIT_region_RAM_VEC_end__    = 0x200000FF;
+define symbol __ICFEDIT_region_BOOT_CMD_start__ = 0x20000100;
+define symbol __ICFEDIT_region_BOOT_CMD_end__   = 0x20000107;
+define symbol __ICFEDIT_region_RAM_start__      = 0x20000108;
 define symbol __ICFEDIT_region_RAM_end__        = 0x20005000;
+
 /*-Sizes-*/
 define symbol __ICFEDIT_size_cstack__ = 0x400;
 define symbol __ICFEDIT_size_heap__   = 0x400;
@@ -25,6 +28,7 @@ define region ROM_region   = mem:[from __ICFEDIT_region_ROM_start__   to __ICFED
 define region FD_region   = mem:[from __ICFEDIT_region_FD_start__   to __ICFEDIT_region_FD_end__];
 define region BKFD_region   = mem:[from __ICFEDIT_region_BKFD_start__   to __ICFEDIT_region_BKFD_end__];
 define region BOOT_CMD_region   = mem:[from __ICFEDIT_region_BOOT_CMD_start__   to __ICFEDIT_region_BOOT_CMD_end__];
+define region RAM_VEC_region    = mem:[from __ICFEDIT_region_RAM_VEC_start__   to __ICFEDIT_region_RAM_VEC_end__];
 define region RAM_region   = mem:[from __ICFEDIT_region_RAM_start__   to __ICFEDIT_region_RAM_end__];
 define block CSTACK    with alignment = 8, size = __ICFEDIT_size_cstack__   { };
 define block HEAP      with alignment = 8, size = __ICFEDIT_size_heap__     { };
@@ -43,3 +47,4 @@ place in RAM_region   { readwrite,
 
 place in FD_region    {section .fdsection};
 place in BKFD_region    {section .bkfdsection};
+place in RAM_VEC_region    {section ram_vector};

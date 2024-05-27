@@ -5,30 +5,47 @@
 #include "flashdata.h"//глобальные константы и структура FLASH_DATA
 #include "memutil.h"
 #include "crc16.h"
+#include "stm32f0xx_syscfg.h"
 
 #include "modbus/uart1rs485.h"
 
+#define VECTOR_TABLE_SIZE (31 + 1 + 7 + 9)
+extern volatile uint32_t __vector_table[VECTOR_TABLE_SIZE];
+
+#pragma location = 0x20000000
+volatile uint32_t ram_vector[VECTOR_TABLE_SIZE];
 
 void GPIO_Configuration(void);
 void NVIC_Configuration(void);
 void TIM1_Configuration(void);
 void Systic_init(void);
-
+void remapMemory();
+void TIM2_Configuration();
 
 ErrorStatus HSEStartUpStatus;
 
 void Init (void)    
 {  
-  
-  GPIO_Configuration();
-  TIM1_Configuration(); //модбас
-  
-  usart1DMA_init();
-  uart1rs485_init();
+    __disable_irq();
+    remapMemory();
+     GPIO_Configuration();
+    TIM1_Configuration(); //модбас
+    TIM2_Configuration();
+    usart1DMA_init();
+    uart1rs485_init();
 
-  NVIC_Configuration();
+    NVIC_Configuration();
+    __enable_irq();
 }
 
+void remapMemory(){
+    RCC_APB2PeriphClockCmd(RCC_APB2ENR_SYSCFGEN, ENABLE);
+    //копирование вектора прерываний в начало RAM
+	for (uint32_t i = 0; i < VECTOR_TABLE_SIZE; i++) {//copy vector table
+	  ram_vector[i] = __vector_table[i];
+	}
+    SYSCFG_MemoryRemapConfig(SYSCFG_MemoryRemap_SRAM);//переназначение адресации прерываний на RAM
+}
 
 void GPIO_INIT_Configuration(){
   GPIO_InitTypeDef GPIO_InitStructure;
@@ -55,8 +72,7 @@ void GPIO_Configuration(void){
   GPIO_InitTypeDef GPIO_InitStructure;
   RCC_AHBPeriphClockCmd( RCC_AHBPeriph_GPIOA |\
                           RCC_AHBPeriph_GPIOB |\
-                          RCC_AHBPeriph_GPIOC |\
-                          RCC_APB2Periph_SYSCFG  ,  //RCC_APB2Periph_AFIO
+                          RCC_AHBPeriph_GPIOC,
                           ENABLE);
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   
@@ -122,7 +138,22 @@ void TIM1_Configuration(void){
 
 }
 
+void TIM2_Configuration(){
+    TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+    
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2  ,ENABLE);
+  /* Time Base configuration */
+  TIM_TimeBaseStructure.TIM_Prescaler = 10000 - 1;
+  TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+  TIM_TimeBaseStructure.TIM_Period = 4800;
+  TIM_TimeBaseStructure.TIM_ClockDivision = 0;
+  TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
+  TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
 
+  TIM2->SR = 0;
+    TIM_ITConfig(TIM2, TIM_IT_Update /* | TIM_IT_CC2 */, ENABLE);//
+  TIM_Cmd(TIM2, ENABLE);
+}
 
 //******************************************************************************
 
@@ -167,4 +198,10 @@ void NVIC_Configuration(void)
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
   
+
+  NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;
+   NVIC_InitStructure.NVIC_IRQChannelPriority = 2;
+
+   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+   NVIC_Init(&NVIC_InitStructure);
 }

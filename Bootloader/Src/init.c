@@ -55,8 +55,7 @@ void GPIO_Configuration(void){
   GPIO_InitTypeDef GPIO_InitStructure;
   RCC_AHBPeriphClockCmd( RCC_AHBPeriph_GPIOA |\
                           RCC_AHBPeriph_GPIOB |\
-                          RCC_AHBPeriph_GPIOC |\
-                          RCC_APB2Periph_SYSCFG  ,  //RCC_APB2Periph_AFIO
+                          RCC_AHBPeriph_GPIOC,
                           ENABLE);
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   
