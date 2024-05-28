@@ -29,7 +29,7 @@ u16 writeCodeToFlash(TClient* Slave);
 u16 startApplication(TClient* Slave);
 
 u16 BootLoader(TClient* Slave){
-  ++RAM_DATA.counter1;
+  
   u8 cmd = Slave->Buffer[BOOT_CMD_CODE_OFFSET];
   switch (cmd) {
     case BOOT_CMD_GET_PAGES_LIST:
@@ -220,7 +220,6 @@ const char PagesList[] =
  "{\"start\": \"0x0803F800\", \"size\": 2047}]";
 
 u16 getPagesList(TClient* Slave){
-  ++RAM_DATA.counter2;
   u16 DataLength = 0; //������ ������������ �������
   DataLength = strlen(PagesList);
   //Slave->Buffer[BOOT_PAGES_LIST_DATA_SECTION + 0] = (DataLength >> 8) & 0x00FF;
@@ -265,7 +264,6 @@ FLASH_Status erasePages(const std::vector<u32> Pages) {
 }
 
 u16 setErasedPages(TClient* Slave){
-  ++RAM_DATA.counter3;
   const std::vector<u32> Pages = getPagesAddrList((u8 *) &Slave->Buffer[3]);
   FLASH_Status status = erasePages(Pages);
   Slave->Buffer[4] = status;
@@ -303,32 +301,46 @@ void writeCodeSpase(u32 startAddr, u16 count, u8 * buff) {
 }
 
 
-void FlashSectorWriteBootloader(u32 FlashSectorAddr, u32 Buffer, u32 Count)
+void FlashSectorWriteBootloader(u32 FlashSectorAddr, u8* Buffer, u32 Count)
 {
-  volatile FLASH_Status FLASHStatus;
-  u32 *source = (u32 *) Buffer;
-  u32 Data;
-  Count /= 4;
+  
+  if((Count % 4) != 0){
+    ++Count;
+    ++RAM_DATA.counter4;
+  }
+  volatile FLASH_Status FLASHStatus = FLASH_COMPLETE;
+  
+  u8 *source =  Buffer;
+  baulong newData;
 
+    RAM_DATA.data32[2] = newData.L;
+  
+  Count /= 4;
+  
   FLASH_Unlock();  // Unlock the Flash Program Erase controller
   /* Clear All pending flags */
   FLASH_ClearFlag(FLASH_FLAG_BSY | FLASH_FLAG_EOP | FLASH_FLAG_PGERR | FLASH_FLAG_WRPERR);
   //FLASHStatus = FLASH_ErasePage(FlashSectorAddr);// Erase the FLASH pages
   while(Count !=0 )
   {
-    Data = *source;
-    FLASHStatus = FLASH_ProgramWord(FlashSectorAddr, Data);
+  //  Data = *source;
+
+    for(int i = 0; i < 4; ++i){
+      newData.b[i] = *source++;
+    }
+    FLASHStatus = FLASH_ProgramWord(FlashSectorAddr, newData.L);
     FlashSectorAddr += 4;
-    source ++;
+    //source ++;
     Count --;
     if(FLASH_COMPLETE == FLASHStatus){
-    //  ++RAM_DATA.counter1;
+      ++RAM_DATA.counter1;
     }
     if(FLASH_ERROR_WRP == FLASHStatus){
-    //  ++RAM_DATA.counter2;
+      ++RAM_DATA.counter2;
     }
-    //++RAM_DATA.counter3;
+    ++RAM_DATA.counter3;
   }
+  
 }
 
 /*TODO Need to rid up an error with length of data more than 240 bytes, because RX/TX buffer have 16KB length.*/
@@ -347,10 +359,21 @@ u16 writeCodeToFlash(TClient* Slave) {
   };    
   //u8 * pData = (u8 * ) &Slave->Buffer[9];
   //writeCodeSpase(StartAddr.L, count.i, pData);
-  u32* Data = (u32*) &(Slave->Buffer[9]);
+  u8* Data = &(Slave->Buffer[9]);
+  static int start = 0;
+  if(start == 2){
+    RAM_DATA.data32[0] = (u32)&(Slave->Buffer[9]);
+    //RAM_DATA.data32[1] = *Data;
+    for(int i = 0; i < 8; ++i){
+      RAM_DATA.data[i] = Slave->Buffer[i + 9];
+    }
+  }
+    //RAM_DATA.data32[start] = StartAddr.L;
+    //RAM_DATA.data[start] = count.i;
 
+  ++start;
   __disable_irq();
-  FlashSectorWriteBootloader(StartAddr.L, (u32)Data, count.i);
+  FlashSectorWriteBootloader(StartAddr.L, Data, count.i);
   __enable_irq();
 
   u16 DataLength  = 3;
@@ -420,10 +443,10 @@ typedef TAppCheckInfo* pAppCheckInfo;
 
 bool isApplicationReadyToStart(void) {
   const pAppCheckInfo AppCheckInfo = (pAppCheckInfo) APP_INFO_LOCATION;
-  RAM_DATA.data[0] = AppCheckInfo->AppCrc;
-  RAM_DATA.data[1] = AppCheckInfo->AppInfoCrc;
-  RAM_DATA.data32[0] = AppCheckInfo->AppSize;
-  RAM_DATA.data[2] = crc16((unsigned char *) APP_LOCATION, AppCheckInfo->AppSize);
+//  RAM_DATA.data[0] = AppCheckInfo->AppCrc;
+//  RAM_DATA.data[1] = AppCheckInfo->AppInfoCrc;
+//  RAM_DATA.data32[0] = AppCheckInfo->AppSize;
+//  RAM_DATA.data[2] = crc16((unsigned char *) APP_LOCATION, AppCheckInfo->AppSize);
   return (bool)(crc16((unsigned char *) AppCheckInfo, APP_INFO_SIZE) == 0)
          ? (bool)(crc16((unsigned char *) APP_LOCATION, AppCheckInfo->AppSize) 
                    == AppCheckInfo->AppCrc)
@@ -432,7 +455,6 @@ bool isApplicationReadyToStart(void) {
 
 //01.B0.02.CRC
 u16 startApplication(TClient* Slave) {
-  ++RAM_DATA.counter4;
   BootLoaderStart[0] = 0x00;
   BootLoaderStart[1] = 0x00;
   BootLoaderStart[2] = 0x00;

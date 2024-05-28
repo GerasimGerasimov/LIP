@@ -4,7 +4,7 @@
 
 typedef u8 *pu8;
 
-typedef unsigned int uint;
+typedef unsigned short uint;
 typedef unsigned char uchar;
 typedef unsigned long ulong;
 
