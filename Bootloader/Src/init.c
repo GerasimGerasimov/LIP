@@ -77,12 +77,6 @@ void GPIO_Configuration(void){
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11;// | GPIO_Pin_0 | GPIO_Pin_6;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
 
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN; //GPIO_Mode_IPU;
-  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
-  //порт A                       USB_P
-  GPIO_InitStructure.GPIO_Pin  = GPIO_Pin_14;
-  GPIO_Init(GPIOA, &GPIO_InitStructure);
-
   /* настраиваем выходы переферии*/
   GPIO_PinAFConfig(GPIOA, GPIO_PinSource9,  GPIO_AF_1); //Tx 
   GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_1); //Rx

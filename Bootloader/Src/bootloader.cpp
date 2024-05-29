@@ -301,21 +301,16 @@ void writeCodeSpase(u32 startAddr, u16 count, u8 * buff) {
 }
 
 
-void FlashSectorWriteBootloader(u32 FlashSectorAddr, u8* Buffer, u32 Count)
+void FlashSectorWriteBootloader(u32 FlashSectorAddr, u8* Buffer, u16 Count)
 {
-  
-  if((Count % 4) != 0){
-    ++Count;
-    ++RAM_DATA.counter4;
+  //если колличество не кратно 2 байт, необходимо увеличить на 2, иначе контрольная сумма не совпадёт
+  if((Count % 2) != 0){
+    Count += 2;
   }
   volatile FLASH_Status FLASHStatus = FLASH_COMPLETE;
   
   u8 *source =  Buffer;
-  baulong newData;
-
-    RAM_DATA.data32[2] = newData.L;
-  
-  Count /= 4;
+  bauint newData;
   
   FLASH_Unlock();  // Unlock the Flash Program Erase controller
   /* Clear All pending flags */
@@ -323,22 +318,31 @@ void FlashSectorWriteBootloader(u32 FlashSectorAddr, u8* Buffer, u32 Count)
   //FLASHStatus = FLASH_ErasePage(FlashSectorAddr);// Erase the FLASH pages
   while(Count !=0 )
   {
-  //  Data = *source;
-
-    for(int i = 0; i < 4; ++i){
-      newData.b[i] = *source++;
+    //если остался 1 байт, записываем его, остальное заполняем 0xff
+    if(Count == 1){
+      newData.b[0] = *source++;
+      newData.b[0] = 0xff;
+      --Count; 
     }
-    FLASHStatus = FLASH_ProgramWord(FlashSectorAddr, newData.L);
-    FlashSectorAddr += 4;
-    //source ++;
-    Count --;
+    else{
+      //запись 2 байт
+      for(int i = 0; i < 2; ++i){
+        newData.b[i] = *source++;
+        --Count;
+      }
+
+    }
+    //запись 2 байт
+    FLASHStatus = FLASH_ProgramHalfWord(FlashSectorAddr, newData.i);
+    FlashSectorAddr += 2;
+    
     if(FLASH_COMPLETE == FLASHStatus){
-      ++RAM_DATA.counter1;
+      //++RAM_DATA.counter1;
     }
     if(FLASH_ERROR_WRP == FLASHStatus){
-      ++RAM_DATA.counter2;
+      //++RAM_DATA.counter2;
     }
-    ++RAM_DATA.counter3;
+    //++RAM_DATA.counter3;
   }
   
 }
@@ -360,18 +364,6 @@ u16 writeCodeToFlash(TClient* Slave) {
   //u8 * pData = (u8 * ) &Slave->Buffer[9];
   //writeCodeSpase(StartAddr.L, count.i, pData);
   u8* Data = &(Slave->Buffer[9]);
-  static int start = 0;
-  if(start == 2){
-    RAM_DATA.data32[0] = (u32)&(Slave->Buffer[9]);
-    //RAM_DATA.data32[1] = *Data;
-    for(int i = 0; i < 8; ++i){
-      RAM_DATA.data[i] = Slave->Buffer[i + 9];
-    }
-  }
-    //RAM_DATA.data32[start] = StartAddr.L;
-    //RAM_DATA.data[start] = count.i;
-
-  ++start;
   __disable_irq();
   FlashSectorWriteBootloader(StartAddr.L, Data, count.i);
   __enable_irq();
@@ -443,10 +435,10 @@ typedef TAppCheckInfo* pAppCheckInfo;
 
 bool isApplicationReadyToStart(void) {
   const pAppCheckInfo AppCheckInfo = (pAppCheckInfo) APP_INFO_LOCATION;
-//  RAM_DATA.data[0] = AppCheckInfo->AppCrc;
-//  RAM_DATA.data[1] = AppCheckInfo->AppInfoCrc;
-//  RAM_DATA.data32[0] = AppCheckInfo->AppSize;
-//  RAM_DATA.data[2] = crc16((unsigned char *) APP_LOCATION, AppCheckInfo->AppSize);
+  RAM_DATA.data[0] = AppCheckInfo->AppCrc;
+  RAM_DATA.data[1] = AppCheckInfo->AppInfoCrc;
+  RAM_DATA.data32[0] = AppCheckInfo->AppSize;
+  RAM_DATA.data[2] = crc16((unsigned char *) APP_LOCATION, AppCheckInfo->AppSize);
   return (bool)(crc16((unsigned char *) AppCheckInfo, APP_INFO_SIZE) == 0)
          ? (bool)(crc16((unsigned char *) APP_LOCATION, AppCheckInfo->AppSize) 
                    == AppCheckInfo->AppCrc)

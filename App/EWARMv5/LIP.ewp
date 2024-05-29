@@ -864,7 +864,7 @@
                 </option>
                 <option>
                     <name>CrcAlign</name>
-                    <state>1</state>
+                    <state>2</state>
                 </option>
                 <option>
                     <name>CrcPoly</name>
@@ -1131,6 +1131,9 @@
                 <name>$PROJ_DIR$\..\modbus\uart1rs485.c</name>
             </file>
         </group>
+        <file>
+            <name>$PROJ_DIR$\..\app_check_info.c</name>
+        </file>
         <file>
             <name>$PROJ_DIR$\..\crc16.c</name>
         </file>

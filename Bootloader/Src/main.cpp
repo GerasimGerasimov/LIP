@@ -30,20 +30,25 @@
 int main(void)              //главная программа
 {
 
+  GPIO_INIT_Configuration();
+
+
+  if (INIT_IST == 0) {
+    LED_ALARM_OFF;
+    
+    if (isBootLoaderMustBeStart() != true) {
+      if (isApplicationReadyToStart()) {
+          jumpToApplication();
+      }
+    }
+  }
+
   Init();                   //инициализация переферии  
-//  GPIO_INIT_Configuration();
-//
   LED_RUN_OFF;
   LED_LINK1_OFF;
   LED_LINK2_OFF;
   LED_ALARM_ON;
 
-
-//
-//
-//
-
-  
   while (1)//основной цикл программы
   {    
     if (U1_SwCNT())//смотрим пришел ли запрос по Модбасу и 1 сразу смотрим для проверки
@@ -52,15 +57,6 @@ int main(void)              //главная программа
       else LED_LINK1_OFF; 
       
     }
-      if (INIT_IST != 0) {
-        LED_ALARM_OFF;
-    
-    //if (isBootLoaderMustBeStart() != true) {
-      //if (isApplicationReadyToStart()) {
-          jumpToApplication();
-     // }
-    //}
-  }
   }
 }
 
