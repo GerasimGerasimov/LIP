@@ -30,8 +30,7 @@ int main(void)              //главная программа
 {
 
   Init();                   //инициализация переферии  
-//  GPIO_INIT_Configuration();
-//
+
   LED_RUN_ON;
   LED_LINK1_OFF;
   LED_LINK2_OFF;

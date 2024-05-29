@@ -58,13 +58,7 @@ void TIM1_CC_IRQHandler (void)
 
 void TIM2_IRQHandler(){
   TIM2->SR = 0;
-  ++RAM_DATA.counter[1];
-  if(LED_LINK2_ST){
-    LED_LINK2_ON;
-  }
-  else{
-    LED_LINK2_OFF;
-  }
+  ++RAM_DATA.counter[0];
 }
 
 /**

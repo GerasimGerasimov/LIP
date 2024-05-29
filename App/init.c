@@ -12,15 +12,17 @@
 #define VECTOR_TABLE_SIZE (31 + 1 + 7 + 9)
 extern volatile uint32_t __vector_table[VECTOR_TABLE_SIZE];
 
+//размещение таблицы векторов прерываний в начало RAM
 #pragma location = 0x20000000
 volatile uint32_t ram_vector[VECTOR_TABLE_SIZE];
 
-void GPIO_Configuration(void);
-void NVIC_Configuration(void);
-void TIM1_Configuration(void);
-void Systic_init(void);
+void GPIO_Configuration();
+void NVIC_Configuration();
+void TIM1_Configuration();
+void Systic_init();
 void remapMemory();
 void TIM2_Configuration();
+void SPI1_Configuration();
 
 ErrorStatus HSEStartUpStatus;
 
@@ -33,6 +35,7 @@ void Init (void)
     TIM2_Configuration();
     usart1DMA_init();
     uart1rs485_init();
+    SPI1_Configuration();
 
     NVIC_Configuration();
     __enable_irq();
@@ -45,6 +48,26 @@ void remapMemory(){
 	  ram_vector[i] = __vector_table[i];
 	}
     SYSCFG_MemoryRemapConfig(SYSCFG_MemoryRemap_SRAM);//переназначение адресации прерываний на RAM
+}
+
+void SPI1_Configuration(){
+  SPI_InitTypeDef  SPI_InitStructure;
+  RCC_APB2PeriphClockCmd( RCC_APB2Periph_SPI1, ENABLE);
+  /* SPI1 configuration */
+  SPI_InitStructure.SPI_Direction = SPI_Direction_1Line_Tx;
+  SPI_InitStructure.SPI_Mode = SPI_Mode_Master;
+  SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b;
+  SPI_InitStructure.SPI_CPOL = SPI_CPOL_High;
+  SPI_InitStructure.SPI_CPHA = SPI_CPHA_2Edge;
+  //SPI_InitStructure.SPI_NSS = SPI_NSS_Hard;
+  SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
+  SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_256;
+  SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
+  SPI_InitStructure.SPI_CRCPolynomial = 7;
+  SPI_Init(SPI1, &SPI_InitStructure);
+
+  /* Enable SPI1  */
+  SPI_Cmd(SPI1, ENABLE);
 }
 
 void GPIO_INIT_Configuration(){
@@ -91,7 +114,7 @@ void GPIO_Configuration(void){
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;// GPIO_Mode_Out_PP;  
   GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
   //порт А:                        DIR1         DIR2       SPI1_LCLK
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11;// | GPIO_Pin_0 | GPIO_Pin_6;
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11 | GPIO_Pin_0 | GPIO_Pin_6;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
 
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN; //GPIO_Mode_IPU;
@@ -109,7 +132,9 @@ void GPIO_Configuration(void){
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9 | GPIO_Pin_10;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
-
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_7;
+  GPIO_Init(GPIOA, &GPIO_InitStructure);
 }
 //******************************************************************************
 //Таймер для работы с MODBUS два канала
@@ -157,12 +182,12 @@ void TIM2_Configuration(){
 
 //******************************************************************************
 
-void Systic_init(void)
-{
-  SysTick->LOAD  = 0xffff;      /* set reload register */  
-  SysTick->VAL   = 0;           /* Load the SysTick Counter Value */
-  SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk;
-}
+//void Systic_init(void)
+//{
+//  SysTick->LOAD  = 0xffff;      /* set reload register */  
+//  SysTick->VAL   = 0;           /* Load the SysTick Counter Value */
+//  SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk;
+//}
 //******************************************************************************
 
 /*******************************************************************************
