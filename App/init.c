@@ -23,6 +23,7 @@ void Systic_init();
 void remapMemory();
 void TIM2_Configuration();
 void SPI1_Configuration();
+void SPI2_Configuration();
 void DMA_Configuration();
 
 uint8_t arr[15] = {0}; //TODO проверка DMA
@@ -52,6 +53,7 @@ void Init (void)
     uart1rs485_init();
     SPI1_Configuration();
     DMA_Configuration();
+    SPI2_Configuration();
 
     NVIC_Configuration();
     __enable_irq();
@@ -84,6 +86,22 @@ void SPI1_Configuration(){
 
   /* Enable SPI1  */
   SPI_Cmd(SPI1, ENABLE);
+}
+
+void SPI2_Configuration(){
+  SPI_InitTypeDef  SPI_InitStructure;
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI2, ENABLE);
+  SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
+  SPI_InitStructure.SPI_Mode = SPI_Mode_Master;
+  SPI_InitStructure.SPI_DataSize = SPI_DataSize_16b;
+  SPI_InitStructure.SPI_CPOL = SPI_CPOL_High;
+  SPI_InitStructure.SPI_CPHA = SPI_CPHA_2Edge;
+  SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
+  SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_256;
+  SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
+  SPI_InitStructure.SPI_CRCPolynomial = 7;
+  SPI_Init(SPI2, &SPI_InitStructure);
+  SPI_Cmd(SPI2, ENABLE);
 }
 
 void GPIO_INIT_Configuration(){
@@ -132,6 +150,9 @@ void GPIO_Configuration(void){
   //порт А:                        DIR1         DIR2       SPI1_LCLK
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11 | GPIO_Pin_0 | GPIO_Pin_6;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
+  //                              SPI2_S/L    SPI2_CLK_INH
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12 | GPIO_Pin_15;
+  GPIO_Init(GPIOB, &GPIO_InitStructure);
 
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN; //GPIO_Mode_IPU;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
@@ -140,6 +161,7 @@ void GPIO_Configuration(void){
   GPIO_Init(GPIOA, &GPIO_InitStructure);
 
   /* настраиваем выходы переферии*/
+  //USART1
   GPIO_PinAFConfig(GPIOA, GPIO_PinSource9,  GPIO_AF_1); //Tx 
   GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_1); //Rx
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
@@ -148,9 +170,13 @@ void GPIO_Configuration(void){
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9 | GPIO_Pin_10;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
+  //SPI1
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_7;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
+  //SPI2
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13 | GPIO_Pin_14;
+  GPIO_Init(GPIOB, &GPIO_InitStructure); 
 }
 //******************************************************************************
 //Таймер для работы с MODBUS два канала
@@ -179,13 +205,13 @@ void TIM1_Configuration(void){
 
 }
 
-//1 Гц
+//100 Гц
 void TIM2_Configuration(){
     TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
     
   RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2  ,ENABLE);
   /* Time Base configuration */
-  TIM_TimeBaseStructure.TIM_Prescaler = 10000 - 1;
+  TIM_TimeBaseStructure.TIM_Prescaler = 100 - 1;
   TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
   TIM_TimeBaseStructure.TIM_Period = 4800;
   TIM_TimeBaseStructure.TIM_ClockDivision = 0;
