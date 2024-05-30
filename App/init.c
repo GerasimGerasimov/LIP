@@ -23,6 +23,20 @@ void Systic_init();
 void remapMemory();
 void TIM2_Configuration();
 void SPI1_Configuration();
+void DMA_Configuration();
+
+uint8_t arr[15] = {0}; //TODO проверка DMA
+
+void fillArr(){
+  //uint16_t volatile* arrPtr = &RAM_DATA.Iz;
+  for(int i = 0; i < 15; ++i){
+    //arr[i] = ~((uint8_t)(RAM_DATA.Iz % 256)) ;
+    //++arrPtr;
+    arr[i] = ~((uint8_t)(1 << (i % 8)));
+  }
+
+}
+
 
 ErrorStatus HSEStartUpStatus;
 
@@ -30,12 +44,14 @@ void Init (void)
 {  
     __disable_irq();
     remapMemory();
-     GPIO_Configuration();
+
+    GPIO_Configuration();
     TIM1_Configuration(); //модбас
     TIM2_Configuration();
     usart1DMA_init();
     uart1rs485_init();
     SPI1_Configuration();
+    DMA_Configuration();
 
     NVIC_Configuration();
     __enable_irq();
@@ -163,6 +179,7 @@ void TIM1_Configuration(void){
 
 }
 
+//1 Гц
 void TIM2_Configuration(){
     TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
     
@@ -181,6 +198,33 @@ void TIM2_Configuration(){
 }
 
 //******************************************************************************
+//DMA на отправку в SPI1 на индикаторы
+void DMA_Configuration (){
+  DMA_InitTypeDef DMA_InitStructure;
+  RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA2, ENABLE);
+  
+  /* DMA1 channel1 configuration ----------------------------------------------*/
+  //DMA_DeInit(DMA1_Channel3);
+  DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) &(SPI1->DR);
+  DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t) arr;
+  DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
+  DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;
+  DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
+  DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+  DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;
+  DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralDST;
+  DMA_InitStructure.DMA_BufferSize = 0;
+  DMA_InitStructure.DMA_Priority = DMA_Priority_High;
+  DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
+  DMA_Init(DMA2_Channel4, &DMA_InitStructure);
+
+  DMA_RemapConfig(DMA2, DMA2_CH4_SPI1_TX); //изменение конфигурации DMA для работы SPI1 с DMA2_Channel4
+  /* Enable DMA2 Channel4 complete transfer interrupt */
+  DMA_ITConfig(DMA2_Channel4, DMA_IT_TC, ENABLE);
+
+  SPI_I2S_DMACmd(SPI1, SPI_I2S_DMAReq_Tx, ENABLE); //разрешение DMA работать с SPI
+  //включение в другом месте
+}
 
 //void Systic_init(void)
 //{
@@ -211,10 +255,10 @@ void NVIC_Configuration(void)
   
   //NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
   /* Enable the TIM1 gloabal Interrupt */
-   NVIC_InitStructure.NVIC_IRQChannel = TIM1_CC_IRQn;
-   NVIC_InitStructure.NVIC_IRQChannelPriority = 0;
-   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-   NVIC_Init(&NVIC_InitStructure);
+  NVIC_InitStructure.NVIC_IRQChannel = TIM1_CC_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannelPriority = 0;
+  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_Init(&NVIC_InitStructure);
 
    
   /* Enable the USART1 Interrupt */
@@ -225,8 +269,13 @@ void NVIC_Configuration(void)
   
 
   NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;
-   NVIC_InitStructure.NVIC_IRQChannelPriority = 2;
+  NVIC_InitStructure.NVIC_IRQChannelPriority = 2;
 
-   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-   NVIC_Init(&NVIC_InitStructure);
+  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_Init(&NVIC_InitStructure);
+
+  NVIC_InitStructure.NVIC_IRQChannel = DMA1_Ch4_7_DMA2_Ch3_5_IRQn; //DMA2_Channel4
+  NVIC_InitStructure.NVIC_IRQChannelPriority = 3;
+  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_Init(&NVIC_InitStructure);
 }

@@ -61,6 +61,22 @@ void TIM2_IRQHandler(){
   ++RAM_DATA.counter[0];
 }
 
+//TODO на будущее
+void DMA1_Ch4_7_DMA2_Ch3_5_IRQHandler(){
+  DMA_Cmd(DMA2_Channel4, DISABLE);
+  while(SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_BSY) == SET){
+
+    };
+  GPIO_SetBits(GPIOA, GPIO_Pin_6); //ON
+  GPIO_ResetBits(GPIOA, GPIO_Pin_6); //OFF
+
+  DMA_ClearITPendingBit(DMA2_FLAG_TC4); //сброс флага прерывания
+  DMA_SetCurrDataCounter(DMA2_Channel4, 15); //установить колличество байт
+
+  DMA_Cmd(DMA2_Channel4, ENABLE);
+}
+
+
 /**
   * @brief  This function handles NMI exception.
   * @param  None
