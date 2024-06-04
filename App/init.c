@@ -162,13 +162,15 @@ void GPIO_Configuration(void){
 
   /* настраиваем выходы переферии*/
   //USART1
-  GPIO_PinAFConfig(GPIOA, GPIO_PinSource9,  GPIO_AF_1); //Tx 
+  GPIO_PinAFConfig(GPIOA, GPIO_PinSource9, GPIO_AF_1); //Tx 
   GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_1); //Rx
+  GPIO_PinAFConfig(GPIOA, GPIO_PinSource2, GPIO_AF_1);
+  GPIO_PinAFConfig(GPIOA, GPIO_PinSource3, GPIO_AF_1);
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
   GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9 | GPIO_Pin_10;
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9 | GPIO_Pin_10 | GPIO_Pin_2 | GPIO_Pin_3;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
   //SPI1
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
@@ -293,6 +295,10 @@ void NVIC_Configuration(void)
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
   
+  NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannelPriority = 4;
+  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_Init(&NVIC_InitStructure);
 
   NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;
   NVIC_InitStructure.NVIC_IRQChannelPriority = 2;

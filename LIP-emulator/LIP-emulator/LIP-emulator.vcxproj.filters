@@ -183,9 +183,6 @@
     <ClInclude Include="..\..\App\MCU\DevicePollManager\Slot.h">
       <Filter>MCU\DevicePollManager</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\App\MCU\crc16.h">
-      <Filter>MCU</Filter>
-    </ClInclude>
     <ClInclude Include="STM32\DMAIndicator.h">
       <Filter>STM32</Filter>
     </ClInclude>
@@ -245,6 +242,9 @@
     </ClInclude>
     <ClInclude Include="STM32\stm32f0xx.h">
       <Filter>STM32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\MCU\crc16.h">
+      <Filter>MCU</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -335,9 +335,6 @@
     <ClCompile Include="..\..\App\MCU\DevicePollManager\Slot.cpp">
       <Filter>MCU\DevicePollManager</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\App\MCU\crc16.c">
-      <Filter>MCU</Filter>
-    </ClCompile>
     <ClCompile Include="STM32\DMAIndicator.cpp">
       <Filter>STM32</Filter>
     </ClCompile>
@@ -385,6 +382,9 @@
     </ClCompile>
     <ClCompile Include="Drivers\Resources\os_resources.cpp">
       <Filter>Drivers\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\crc16.c">
+      <Filter>MCU</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

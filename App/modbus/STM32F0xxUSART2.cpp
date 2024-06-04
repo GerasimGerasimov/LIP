@@ -34,10 +34,10 @@ void STM32F0xxUSART2::initUsart() {
     Usart->USART_BaudRate = U2BPS[FLASH_DATA.MODBUS2.b[1]];
     Usart->USART_StopBits = USART_StopBits_1;
     Usart->USART_Parity = USART_Parity_No;
-    Usart->DMAy_StreamRX = DMA1_Channel6;
-    Usart->DMAy_StreamTX = DMA1_Channel7;
-    Usart->DMA_FLAGS_RX = DMA_IFCR_CTCIF6 | DMA_IFCR_CGIF6 | DMA_IFCR_CHTIF6 | DMA_IFCR_CTEIF6;
-    Usart->DMA_FLAGS_TX = DMA_IFCR_CTCIF7 | DMA_IFCR_CGIF7 | DMA_IFCR_CHTIF7 | DMA_IFCR_CTEIF7;
+    Usart->DMAy_StreamRX = DMA1_Channel5;
+    Usart->DMAy_StreamTX = DMA1_Channel4;
+    Usart->DMA_FLAGS_RX = DMA_IFCR_CTCIF5 | DMA_IFCR_CGIF5 | DMA_IFCR_CHTIF5 | DMA_IFCR_CTEIF5;
+    Usart->DMA_FLAGS_TX = DMA_IFCR_CTCIF4 | DMA_IFCR_CGIF4 | DMA_IFCR_CHTIF4 | DMA_IFCR_CTEIF4;
     Usart->PolarityDIR = POLARITY_HI;
     Usart->GPIOxDIR = GPIOA;
     Usart->GPIO_PinDIR = GPIO_Pin_0;
@@ -47,7 +47,7 @@ void STM32F0xxUSART2::initUsart() {
 void STM32F0xxUSART2::initTIM() {
     TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
-    TIM_TimeBaseStructure.TIM_Prescaler = 7200 - 1;
+    TIM_TimeBaseStructure.TIM_Prescaler = 4800 - 1;
     TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
     TIM_TimeBaseStructure.TIM_Period = 0xffff;
     TIM_TimeBaseStructure.TIM_ClockDivision = 0;
@@ -62,7 +62,7 @@ void STM32F0xxUSART2::initTIM() {
 void STM32F0xxUSART2::startNVIC() {
     NVIC_InitTypeDef NVIC_InitStructure;
     NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;
-    NVIC_InitStructure.NVIC_IRQChannelPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelPriority = 5;
     //NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);

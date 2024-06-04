@@ -27,7 +27,7 @@ void UsartDriverInit (Intmash_Usart *UserUsartStr)
   USART_InitTypeDef USART_InitStructure;  
   //если инициализация происходит посреди работы, надо сначала сбросить настройки 
   DMA_DeInit(UserUsartStr->DMAy_StreamRX);
-  DMA_DeInit(UserUsartStr->DMAy_StreamRX); 
+  DMA_DeInit(UserUsartStr->DMAy_StreamTX);
   USART_DeInit(UserUsartStr->USARTx);
   //сначала настраиваю ДМА на работу с УАРТом
 
@@ -44,7 +44,7 @@ void UsartDriverInit (Intmash_Usart *UserUsartStr)
 
   DMA_Init(UserUsartStr->DMAy_StreamRX, &DMA_InitStructure);//USART2_Rx
   DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralDST;
-  DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) &(USART1->TDR);//источник - регистр данных UART TDR
+  DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) &(UserUsartStr->USARTx->TDR);//источник - регистр данных UART TDR
   DMA_Init(UserUsartStr->DMAy_StreamTX, &DMA_InitStructure);//USART2_Tx  
   //потом настраиваю сам УАРТ и запускаю его  
 
@@ -63,7 +63,9 @@ void UsartDriverInit (Intmash_Usart *UserUsartStr)
   USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
   USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
   USART_Init(UserUsartStr->USARTx, &USART_InitStructure);
-  
+  USART_DMACmd(UserUsartStr->USARTx, USART_DMAReq_Rx, ENABLE);
+  USART_DMACmd(UserUsartStr->USARTx, USART_DMAReq_Tx, ENABLE);
+
   UserUsartStr->USARTx->CR1 |=  USART_CR1_RE;//разрешить приёмник
   UserUsartStr->USARTx->CR1 |=  USART_CR1_TE;//разрешить передатчик 
   UserUsartStr->USARTx->CR1 |=  USART_CR1_UE;//разрешить UART2   
@@ -87,16 +89,15 @@ void UsartTransmit(Intmash_Usart *UserUsartStr, u8* Buffer, u8 Cnt)
   if (UserUsartStr->PolarityDIR == POLARITY_HI) GPIO_SetBits(UserUsartStr->GPIOxDIR, UserUsartStr->GPIO_PinDIR);
   else if (UserUsartStr->PolarityDIR == POLARITY_LOW) GPIO_ResetBits(UserUsartStr->GPIOxDIR, UserUsartStr->GPIO_PinDIR);
   
-  DMA_Cmd(UserUsartStr->DMAy_StreamTX, DISABLE);
-  //UserUsartStr->DMAy_StreamTX->CR &= ~(uint32_t)DMA_SxCR_EN;//отключаю DMA для получения доступа к регистрам
-  UserUsartStr->USARTx->ISR  &=  ~USART_ISR_TC;   //сбросить флаг окончания передачи 
+  DMA_Cmd(UserUsartStr->DMAy_StreamTX, DISABLE);//отключаю DMA для получения доступа к регистрам
+  USART_ClearFlag(UserUsartStr->USARTx, USART_ICR_TCCF);//сбросить флаг окончания передачи
   DMA_ClearFlag(UserUsartStr->DMA_FLAGS_TX);//почистим флаги стрима ДМА, без этого не работает  
   UserUsartStr->DMAy_StreamTX->CNDTR = Cnt;//сколько байт отправить
   UserUsartStr->DMAy_StreamTX->CMAR = (uint32_t)Buffer;
   UserUsartStr->USARTx->CR3 |=  USART_CR3_DMAT;
   UserUsartStr->USARTx->CR1 |=  USART_CR1_TE;   //разрешить передатчик
-  //UserUsartStr->DMAy_StreamTX->CR |= (uint32_t)DMA_SxCR_EN;//включаю DMA
-  DMA_Cmd(UserUsartStr->DMAy_StreamTX, ENABLE);
+
+  DMA_Cmd(UserUsartStr->DMAy_StreamTX, ENABLE);//включаю DMA
   UserUsartStr->USARTx->CR1 |=  USART_CR1_TCIE; //разрешу прерывания по окончанию передачи
   
 } 
@@ -116,14 +117,13 @@ void UsartRecieve (Intmash_Usart *UserUsartStr, u8* Buffer)
   if (UserUsartStr->PolarityDIR == POLARITY_HI) GPIO_ResetBits(UserUsartStr->GPIOxDIR, UserUsartStr->GPIO_PinDIR);
   else if (UserUsartStr->PolarityDIR == POLARITY_LOW) GPIO_SetBits(UserUsartStr->GPIOxDIR, UserUsartStr->GPIO_PinDIR);
   
-  //UserUsartStr->DMAy_StreamRX->CR &= ~(uint32_t)DMA_SxCR_EN;//отключаю DMA для получения доступа к регистрам
-  DMA_Cmd(UserUsartStr->DMAy_StreamRX, DISABLE);
+  DMA_Cmd(UserUsartStr->DMAy_StreamRX, DISABLE);//отключаю DMA для получения доступа к регистрам
   DMA_ClearFlag(UserUsartStr->DMA_FLAGS_RX);//почистим флаги стрима ДМА, без этого не работает 
   UserUsartStr->USARTx->CR3 |=  USART_CR3_DMAR;
   UserUsartStr->DMAy_StreamRX->CNDTR = URXBUFFSIZE;
   UserUsartStr->DMAy_StreamRX->CMAR = (uint32_t)Buffer;
-  //UserUsartStr->DMAy_StreamRX->CR |= (uint32_t)DMA_SxCR_EN;//включаю DMA
-  DMA_Cmd(UserUsartStr->DMAy_StreamRX, ENABLE);
+
+  DMA_Cmd(UserUsartStr->DMAy_StreamRX, ENABLE);//включаю DMA
   UserUsartStr->USARTx->CR1 |=  USART_CR1_IDLEIE;//разрешить прерывания по приёму данных
   UserUsartStr->USARTx->CR1 |=  USART_CR1_RE;//разрешить приёмник
 }
@@ -150,21 +150,18 @@ u8 UsartTxRxFinish(Intmash_Usart *UserUsartStr)
   IIR = UserUsartStr->USARTx->ISR;
     if ((IIR & USART_ISR_TC) && (UserUsartStr->USARTx->CR1 & USART_CR1_TCIE)) // Передача окончена (последний байт полностью передан в порт)
       {   
-        UserUsartStr->USARTx->ISR  &=  ~USART_ISR_TC;   //сбросить флаг окончания передачи
-        UserUsartStr->USARTx->CR1 &=  ~USART_CR1_TCIE;//запретить прерывание по окончании передачи
-        UserUsartStr->USARTx->CR3 &=  ~USART_CR3_DMAT;//запретить UART-ту передавать по DMA
-        //UserUsartStr->DMAy_StreamTX->CR &= ~(uint32_t)DMA_SxCR_EN;//выключить DMA передатчика         
-        DMA_Cmd(UserUsartStr->DMAy_StreamTX, DISABLE);
+        USART_ClearFlag(UserUsartStr->USARTx, USART_ICR_TCCF);//сбросить флаг окончания передачи 
+        USART_ClearITPendingBit(UserUsartStr->USARTx, USART_CR1_TCIE);//запретить прерывание по окончании передачи
+        UserUsartStr->USARTx->CR3 &=  ~USART_CR3_DMAT;//запретить UART-ту передавать по DMA     
+        DMA_Cmd(UserUsartStr->DMAy_StreamTX, DISABLE);//выключить DMA передатчика  
         return 0; //сообщение отправилось
       }
     if ((IIR & USART_ISR_IDLE) & (UserUsartStr->USARTx->CR1 & USART_CR1_IDLEIE)) // Между байтами при приёме обнаружена пауза в 1 IDLE байт
       {
-        UserUsartStr->USARTx->RDR; //сброс флага IDLE
-        UserUsartStr->USARTx->CR1 &=  ~USART_CR1_RE;    //запретить приёмник
-        UserUsartStr->USARTx->CR1 &=  ~USART_CR1_IDLEIE;//запретить прерывания по приёму данных
+        USART_ClearITPendingBit(UserUsartStr->USARTx, USART_CR1_IDLEIE | USART_CR1_RE);//запретить прерывания по приёму данных, запретить приёмник
+        USART_ClearFlag(UserUsartStr->USARTx, USART_ICR_IDLECF | USART_ICR_FECF | USART_ICR_NCF | USART_ICR_PECF | USART_ICR_ORECF);//сброс флага IDLE и флагов ошибок
         UserUsartStr->USARTx->CR3 &=  ~USART_CR3_DMAR;  //запретить DMA RX
-        //UserUsartStr->DMAy_StreamRX->CR &= ~(uint32_t)DMA_SxCR_EN;//выключить DMA на приём   
-        DMA_Cmd(UserUsartStr->DMAy_StreamRX, DISABLE);
+        DMA_Cmd(UserUsartStr->DMAy_StreamRX, DISABLE);//выключить DMA на приём  
 
         return (URXBUFFSIZE - (u8)UserUsartStr->DMAy_StreamRX->CNDTR);//кол-во принятых байт
       }

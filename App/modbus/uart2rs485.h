@@ -1,17 +1,17 @@
 #ifndef __UART2RS485_H
 #define __UART2RS485_H
-#include    "stm32f10x.h"
+#include "stm32f0xx.h"
 
 #ifdef __cplusplus
  extern "C" {
 #endif 
 
     extern void uart2rs485_init (void);
-    //extern void uart2rs485_ReInit (void);
-    extern void TxDMA1Ch7 (u8 b_size, u8 *buf_out);
-    //extern u8 U2_SwCNT (void);
-    //void TIM1_user_U2(void); 
-    extern void usart2DMA_init (u8 *buf_in);
+    extern void uart2rs485_ReInit (void);
+    extern void TxDMA1Ch7 ();
+    extern u8 U2_SwCNT (void);
+    void TIM1_user_U2(void); 
+    extern void usart2DMA_init ();
     
 #ifdef __cplusplus
 }
