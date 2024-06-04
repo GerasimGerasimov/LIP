@@ -5,8 +5,8 @@
 #include "Resources/InternalResources.h"
 #include "DevicePollManager/Devices.h"
 #include "ini/IniResources.h"
-#include "IniString.h"
-#include "Parameter.h"
+#include "Parameters/IniString.h"
+#include "Parameters/Parameter.h"
 #include "Slots/HandlerSlotRead.h"
 #include "Slots/SlotHandlerType.h"
 

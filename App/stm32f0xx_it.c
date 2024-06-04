@@ -31,6 +31,7 @@
 #include "stm32f0xx_it.h"
 #include "DEFINES.h"
 #include "ramdata.h"
+#include "livecontrol.h"
 /** @addtogroup STM32F0xx_StdPeriph_Examples
   * @{
   */
@@ -125,6 +126,7 @@ void TIM2_IRQHandler(){
   
   SPI_DIO_Processing(); 
   RAM_DATA.DI = SPI_DIO_Inputs;
+  ctrlSysLive();
 }
 
 //TODO на будущее
