@@ -1080,6 +1080,12 @@
                 <name>$PROJ_DIR$\..\Drivers\Communications\com_master_driver.cpp</name>
             </file>
         </group>
+        <group>
+            <name>Resources</name>
+            <file>
+                <name>$PROJ_DIR$\..\Drivers\Resources\os_resources.cpp</name>
+            </file>
+        </group>
         <file>
             <name>$PROJ_DIR$\..\Drivers\STM32F0xx_Intmash_USART.c</name>
         </file>
@@ -1108,6 +1114,9 @@
             <name>DevicePollManager</name>
             <file>
                 <name>$PROJ_DIR$\..\MCU\DevicePollManager\DevicePollManager.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\MCU\DevicePollManager\Devices.cpp</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\..\MCU\DevicePollManager\Slot.cpp</name>
@@ -1283,6 +1292,9 @@
         </group>
         <file>
             <name>$PROJ_DIR$\..\app_check_info.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\DMAIndicator.cpp</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\flashdata.c</name>

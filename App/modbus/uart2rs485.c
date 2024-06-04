@@ -200,7 +200,7 @@ void RxDMA1Ch6 (void) {//настройка DMA на чтение данных из UART
 
 void USART2_IRQHandler(void)
 {  
-  ++RAM_DATA.counter[0];
+  
   u32 IIR = USART2->ISR;
     if ((IIR & USART_ISR_TC) && (USART2->CR1 & USART_CR1_TCIE)) // Передача окончена (последний байт полностью передан в порт)
       { 

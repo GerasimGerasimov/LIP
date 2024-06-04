@@ -86,10 +86,10 @@ u8 SPI_DIO_Processing()
       //если чип 74HC165 ещё не выбран, то сначала проверяю, в каком состоянии защёлка
       //если защёлка не в нуле, то опускаю защёлку чтобы входы перешли в сдвиговый регистра
       if (DI_LOCK_ST) {//если защёлка в "1" 
-    //    ++RAM_DATA.counter[0];
+
         DI_LOCK_DWN;//то ставлю в "0" на этом этапе денные из параллельного регистра переходят в последовательный
       } else { //если защёлка в "0"
-    //    ++RAM_DATA.counter[1];
+
         DI_LOCK_UP;//то ставлю её в "1" (т.е. возвращаю в исходное состояние)
         DI_CE_DWN;//и выбираю 74HC165
         isWaitReceive = false;
@@ -97,7 +97,7 @@ u8 SPI_DIO_Processing()
   }
   else {//чип 74HC165 уже выбран
     if (!isWaitReceive) {//если ещё не жду отправки (с параллельным приёмом!)
-    //  ++RAM_DATA.counter[2];
+
       SPI2->DR = 0xFFFF;// //то оптправить по SPI единицы, чтобы в ответ получить состояние дискретных входов
       isWaitReceive = true;
     } else {
@@ -115,7 +115,7 @@ u8 SPI_DIO_Processing()
       /* (InputsPolarity == DIO_MODE_NORMAL)
                           ? SPI_DIO->DR
                           : ~(SPI_DIO->DR); */
-      //                    ++RAM_DATA.counter[3];
+
     }
   }  
   return RetVal;
@@ -128,22 +128,6 @@ void TIM2_IRQHandler(){
   RAM_DATA.DI = SPI_DIO_Inputs;
   ctrlSysLive();
 }
-
-//TODO на будущее
-void DMA1_Ch4_7_DMA2_Ch3_5_IRQHandler(){
-  DMA_Cmd(DMA2_Channel4, DISABLE);
-  while(SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_BSY) == SET){
-
-    };
-  GPIO_SetBits(GPIOA, GPIO_Pin_6); //ON
-  GPIO_ResetBits(GPIOA, GPIO_Pin_6); //OFF
-
-  DMA_ClearITPendingBit(DMA2_FLAG_TC4); //сброс флага прерывания
-  DMA_SetCurrDataCounter(DMA2_Channel4, 15); //установить колличество байт
-
-  DMA_Cmd(DMA2_Channel4, ENABLE);
-}
-
 
 /**
   * @brief  This function handles NMI exception.

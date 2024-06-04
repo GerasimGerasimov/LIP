@@ -26,7 +26,7 @@ protected:
         std::string Section = "";
         std::string Name = "";
         Type type = Type::R;
-        Parameter* resources;
+        Parameter* resources = nullptr;
     };
     
     uint8_t DataSize = 0;

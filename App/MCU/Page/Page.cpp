@@ -76,7 +76,7 @@ void Page::setBuffer(Buffer* newBuffer) {
     pageBuffer = newBuffer;
 }
 
-//TDOD для DMA
+//для DMA
 void updateDMA(){
     pageFunction->update();
 }

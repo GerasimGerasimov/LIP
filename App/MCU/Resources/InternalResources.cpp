@@ -27,7 +27,7 @@ bool InternalResources::init() {
 
 bool InternalResources::isHeaderCrcValid() {
 	u8* p = reinterpret_cast<u8*>(&Root->TotalResourceSize);
-	u16 crc = crc16(p, 8);//проверяю первые 8 байт заголовка
+	u16 crc = crc16(p, 8);//РїСЂРѕРІРµСЂСЏСЋ РїРµСЂРІС‹Рµ 8 Р±Р°Р№С‚ Р·Р°РіРѕР»РѕРІРєР°
 	return (crc == 0);
 }
 

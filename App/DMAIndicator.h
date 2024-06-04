@@ -18,5 +18,7 @@ public:
 	static DMAIndicator& getInstance();
 	void setMemoryBaseAddr(Buffer& buf);
 	static void bringOutValue();
+	void DMAstop();
+	
 };
 

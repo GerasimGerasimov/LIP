@@ -12,12 +12,10 @@ DMAIndicator& DMAIndicator::getInstance() {
 
 void DMAIndicator::setMemoryBaseAddr(Buffer& buf) {
   
-    DMA1_Channel3->CMAR = buf.getAddrBuffer();
+    DMA2_Channel4->CMAR = buf.getAddrBuffer();
 }
 
-DMAIndicator::DMAIndicator() {
-
-}
+DMAIndicator::DMAIndicator() {}
 
 void DMAIndicator::bringOutValue(){
   GPIO_SetBits(GPIOA, GPIO_Pin_6); //ON
@@ -25,18 +23,20 @@ void DMAIndicator::bringOutValue(){
 }
 
 void DMAIndicator::DMAstart(uint32_t BufferSize){
-  DMA1_Channel3->CNDTR = BufferSize;
-  DMA_Cmd(DMA1_Channel3, ENABLE);
+  DMA2_Channel4->CNDTR = BufferSize;
+  DMA_Cmd(DMA2_Channel4, ENABLE);
+}
+
+void DMAIndicator::DMAstop(){
+  DMA_Cmd(DMA2_Channel4, DISABLE);
 }
 
 //дма
-extern "C" void DMA1_Channel3_IRQHandler(void)//прерывание вызывается, когда переданы все данные в SPI
+extern "C" void DMA1_Ch4_7_DMA2_Ch3_5_IRQHandler()//прерывание вызывается, когда переданы все данные в SPI
 { 
 
-  if (DMA_GetITStatus(DMA1_IT_TC3)){
-    DMA_Cmd(DMA1_Channel3, DISABLE);
-
-        updateDMA();
+  if (DMA_GetITStatus(DMA2_IT_TC4)){
+    DMA_Cmd(DMA2_Channel4, DISABLE);
 
     //ожидание, пока SPI закончит отправку
     while(SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_BSY) == SET){
@@ -44,12 +44,8 @@ extern "C" void DMA1_Channel3_IRQHandler(void)//прерывание вызыв�
     };
 
     DMAIndicator::bringOutValue();
+    DMA_ClearITPendingBit(DMA2_FLAG_TC4);//сбрасываем флаг окончания обмена  
 
-    DMA_ClearITPendingBit(DMA1_IT_TC3);
-    //DMA1->IFCR |= DMA_ISR_TCIF3; //сбрасываем флаг окончания обмена  
-    DMA1_Channel3->CNDTR = 15;
-
-    DMA_Cmd(DMA1_Channel3, ENABLE);
     
   }
 }
