@@ -79,7 +79,7 @@ void SPI1_Configuration(){
   SPI_InitStructure.SPI_CPHA = SPI_CPHA_2Edge;
   //SPI_InitStructure.SPI_NSS = SPI_NSS_Hard;
   SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
-  SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_256;
+  SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_4;
   SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
   SPI_InitStructure.SPI_CRCPolynomial = 7;
   SPI_Init(SPI1, &SPI_InitStructure);
@@ -199,7 +199,7 @@ void TIM1_Configuration(void){
   TIM_OCInitStructure.TIM_Pulse = 0xFFFF;
   TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_Timing;
   TIM_OC1Init(TIM1, &TIM_OCInitStructure);
-  TIM_OC2Init(TIM1, &TIM_OCInitStructure);
+  //TIM_OC2Init(TIM1, &TIM_OCInitStructure);
   
    /* TIM1 counter enable */
   TIM_Cmd(TIM1, ENABLE);
@@ -207,7 +207,7 @@ void TIM1_Configuration(void){
 
 }
 
-//100 Гц
+//100 Гц для DI кнопок на SPI2
 void TIM2_Configuration(){
     TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
     
@@ -296,12 +296,12 @@ void NVIC_Configuration(void)
   NVIC_Init(&NVIC_InitStructure);
   
   NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelPriority = 4;
+  NVIC_InitStructure.NVIC_IRQChannelPriority = 2;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
 
   NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelPriority = 2;
+  NVIC_InitStructure.NVIC_IRQChannelPriority = 4;
 
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);

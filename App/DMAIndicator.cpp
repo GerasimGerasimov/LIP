@@ -40,7 +40,7 @@ extern "C" void DMA1_Ch4_7_DMA2_Ch3_5_IRQHandler()//прерывание выз�
 
     //ожидание, пока SPI закончит отправку
     while(SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_BSY) == SET){
-
+        ++RAM_DATA.counter[0];
     };
 
     DMAIndicator::bringOutValue();
