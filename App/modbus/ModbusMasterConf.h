@@ -3,11 +3,11 @@
 #include "ModbusConf.h"
 #include "STM32F0xxUSART2.h"
 
-//класс работы Modbus в режиме Master
+//РєР»Р°СЃСЃ СЂР°Р±РѕС‚С‹ Modbus РІ СЂРµР¶РёРјРµ Master
 struct MBmasterSlotType {
-	void (*OnTimeOut)(void);//процедура которая вызывается если данные не получены
-	void (*OnRecieve)(void);//что делаем после получения каких-то данных
-	u8 InBufLen;//сколько данных принято
+	void (*OnTimeOut)(void);//РїСЂРѕС†РµРґСѓСЂР° РєРѕС‚РѕСЂР°СЏ РІС‹Р·С‹РІР°РµС‚СЃСЏ РµСЃР»Рё РґР°РЅРЅС‹Рµ РЅРµ РїРѕР»СѓС‡РµРЅС‹
+	void (*OnRecieve)(void);//С‡С‚Рѕ РґРµР»Р°РµРј РїРѕСЃР»Рµ РїРѕР»СѓС‡РµРЅРёСЏ РєР°РєРёС…-С‚Рѕ РґР°РЅРЅС‹С…
+	u8 InBufLen;//СЃРєРѕР»СЊРєРѕ РґР°РЅРЅС‹С… РїСЂРёРЅСЏС‚Рѕ
 };
 
 class ModbusMasterConf : public ModbusConf

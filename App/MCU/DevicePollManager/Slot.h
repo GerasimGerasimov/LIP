@@ -39,10 +39,10 @@ enum class StateFlags {
 	Slot(std::string device, std::string section, u16 StartAddr, u16 LastAddr);
 	~Slot();
 	u8 cmdLen;
-	std::vector<u8> OutBuf;//буфер сообщения для отправки
-	std::vector<u8> InputBuf;//буфер сообщения для приёма сообщений
+	std::vector<u8> OutBuf;//Р±СѓС„РµСЂ СЃРѕРѕР±С‰РµРЅРёСЏ РґР»СЏ РѕС‚РїСЂР°РІРєРё
+	std::vector<u8> InputBuf;//Р±СѓС„РµСЂ СЃРѕРѕР±С‰РµРЅРёСЏ РґР»СЏ РїСЂРёС‘РјР° СЃРѕРѕР±С‰РµРЅРёР№
 	u8 InputBufValidBytes;
-	TSlotDataHandler onData;//процедура которая вызывается после получения ответа от устройства, если контрольная сумма сошлась
+	TSlotDataHandler onData;//РїСЂРѕС†РµРґСѓСЂР° РєРѕС‚РѕСЂР°СЏ РІС‹Р·С‹РІР°РµС‚СЃСЏ РїРѕСЃР»Рµ РїРѕР»СѓС‡РµРЅРёСЏ РѕС‚РІРµС‚Р° РѕС‚ СѓСЃС‚СЂРѕР№СЃС‚РІР°, РµСЃР»Рё РєРѕРЅС‚СЂРѕР»СЊРЅР°СЏ СЃСѓРјРјР° СЃРѕС€Р»Р°СЃСЊ
 	u16 StartAddrOffset;
 	u16 LastAddrOffset;
 	u16 Interval;

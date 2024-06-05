@@ -27,7 +27,7 @@ LIP_5Nx::LIP_5Nx(){
     DevicePollManager::getInstance().addSlot(slot);
 }
 
-//получить список байт на отправку в SPI
+//РїРѕР»СѓС‡РёС‚СЊ СЃРїРёСЃРѕРє Р±Р°Р№С‚ РЅР° РѕС‚РїСЂР°РІРєСѓ РІ SPI
 std::vector<uint8_t> LIP_5Nx::getValue() {
     std::string data = getValueStr();
     transformSizeSring(data);
@@ -46,7 +46,7 @@ std::vector<uint8_t> LIP_5Nx::getValue() {
     return result;
 }
 
-//установить новый параметр
+//СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РЅРѕРІС‹Р№ РїР°СЂР°РјРµС‚СЂ
 void LIP_5Nx::setParameter(std::string param) {
     
     clear();
@@ -91,7 +91,7 @@ const char LIP_5Nx::ASCIITable[96] = {
     0x76, 0x6E, 0x5B, 0x46, 0x30, 0x70, 0x41, 0x00
 };
 
-//получить ASCII символ для индикации
+//РїРѕР»СѓС‡РёС‚СЊ ASCII СЃРёРјРІРѕР» РґР»СЏ РёРЅРґРёРєР°С†РёРё
 uint8_t LIP_5Nx::getChar(char symbol){
     if(symbol <= 0x20){
         symbol = 0;
@@ -118,7 +118,7 @@ uint8_t LIP_5Nx::getChar(char symbol){
     return result;
 }
 
-//очистить индикатор
+//РѕС‡РёСЃС‚РёС‚СЊ РёРЅРґРёРєР°С‚РѕСЂ
 void LIP_5Nx::clear() {
     parameter.Device = "";
     parameter.Section = "";
@@ -134,7 +134,7 @@ bool LIP_5Nx::setIsignal() {
     std::string dev = Devices::getInstance().getSourceOfDev(parameter.Device.c_str());
     ItemLimits item = InternalResources::getInstance().getItemLimitsByName(dev.c_str());
     IniParser::getInstance().setRoot(item.RootOffset, item.Size);
-    if (!IniParser::getInstance().setSectionToRead(parameter.Section.c_str())) {  //если нет секции в .ini
+    if (!IniParser::getInstance().setSectionToRead(parameter.Section.c_str())) {  //РµСЃР»Рё РЅРµС‚ СЃРµРєС†РёРё РІ .ini
         return false;
     }
 	TSectionReadResult readChar{ NULL, 0 };
@@ -144,7 +144,7 @@ bool LIP_5Nx::setIsignal() {
 		readResult = "";
 		readChar = IniParser::getInstance().getNextTagChar();
 		readResult.append(readChar.tag, readChar.result);
-		if (readResult == "")return false; //если .ini закончился и ничего не нашлось
+		if (readResult == "")return false; //РµСЃР»Рё .ini Р·Р°РєРѕРЅС‡РёР»СЃСЏ Рё РЅРёС‡РµРіРѕ РЅРµ РЅР°С€Р»РѕСЃСЊ
 		pos = readResult.find(parameter.Name);
 	} while (pos == std::string::npos);
 
@@ -182,7 +182,7 @@ std::string LIP_5Nx::getValueStr() {
     return value;
 }
 
-//изменение строки под необходимый размер байт
+//РёР·РјРµРЅРµРЅРёРµ СЃС‚СЂРѕРєРё РїРѕРґ РЅРµРѕР±С…РѕРґРёРјС‹Р№ СЂР°Р·РјРµСЂ Р±Р°Р№С‚
 void LIP_5Nx::transformSizeSring(std::string& data) {
     size_t pos = data.find('.');
     uint8_t size = DataSize;

@@ -51,7 +51,7 @@ bool Page::update(){
     return false;
 }
 
-//получить общее колличество байт индикаторов
+//РїРѕР»СѓС‡РёС‚СЊ РѕР±С‰РµРµ РєРѕР»Р»РёС‡РµСЃС‚РІРѕ Р±Р°Р№С‚ РёРЅРґРёРєР°С‚РѕСЂРѕРІ
 uint16_t Page::getByteIndicators() {
     uint16_t sizeSegment = 0;
     for (const auto& ind : ListIndicators) {
@@ -60,7 +60,7 @@ uint16_t Page::getByteIndicators() {
     return sizeSegment;
 }
 
-//установить новую страницу
+//СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РЅРѕРІСѓСЋ СЃС‚СЂР°РЅРёС†Сѓ
 void Page::setIndication(std::string page) {
     std::vector<std::string> newIndication = Parser::splitString("\r\n", page);
     for (int ind = 0; ind < ListIndicators.size(); ++ind) {
@@ -76,7 +76,7 @@ void Page::setBuffer(Buffer* newBuffer) {
     pageBuffer = newBuffer;
 }
 
-//для DMA
+//РґР»СЏ DMA
 void updateDMA(){
     pageFunction->update();
 }

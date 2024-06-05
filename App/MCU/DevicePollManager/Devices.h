@@ -5,7 +5,7 @@
 #include <string>
 #include <map>
 
-//содержит все устройства, аналог IniSlotsProps
+//СЃРѕРґРµСЂР¶РёС‚ РІСЃРµ СѓСЃС‚СЂРѕР№СЃС‚РІР°, Р°РЅР°Р»РѕРі IniSlotsProps
 class Devices
 {
 	struct NetworkProps {

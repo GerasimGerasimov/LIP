@@ -5,8 +5,8 @@
 
 GeneralCaseSignal::RawReturn TU32BIT::getRawValue(const TSlotHandlerArsg& args) {
 	s16 offset = Addr - args.StartAddrOffset;
-	u8* p = args.InputBuf + offset;//получил указатель на данные
-	baulong  raw;//получил 4 байта данных
+	u8* p = args.InputBuf + offset;//РїРѕР»СѓС‡РёР» СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РґР°РЅРЅС‹Рµ
+	baulong  raw;//РїРѕР»СѓС‡РёР» 4 Р±Р°Р№С‚Р° РґР°РЅРЅС‹С…
 	raw.b[0] = (*p++);
 	raw.b[1] = (*p++);
 	raw.b[2] = (*p++);
@@ -28,7 +28,7 @@ TU32BIT::TU32BIT(ISignal::PropsPointers props) : GeneralCaseSignal(props) {}
 const std::string TU32BIT::getValueHex(std::string& src) {
 	u32 value = string2raw(src);
 	char s[10];
-	//GIST "%.4X" преобразование числа в hex с заданным кол-вом значащих нулей
+	//GIST "%.4X" РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ С‡РёСЃР»Р° РІ hex СЃ Р·Р°РґР°РЅРЅС‹Рј РєРѕР»-РІРѕРј Р·РЅР°С‡Р°С‰РёС… РЅСѓР»РµР№
 	sprintf(s, "%.8X", value);
 	std::string res(s);
 	return res;

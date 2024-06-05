@@ -1,8 +1,8 @@
-//modbus rtu ËÌÚÂÙÂÈÒ Ó„‡ÌËÁÛ˛˘ËÈ ‰ÓÒÚÛÔ Í Ô‡‡ÏÂÚ‡Ï ÔÓˆÂÒÒÓ‡ ˜ÂÂÁ
-//RS485 ËÌÚÂÙÂÈÒ
-//»ÒÔÓÎ¸ÁÛÂÚÒˇ:
-//UART1 (RX, TX, DIR, ÒÍÓÓÒÚ¸ Á‡‰‡ÂÚÒˇ ÛÒÚ‡‚ÍÓÈ)
-//Timer1 (ÓÚÒ˜∏Ú ‚ÂÏÂÌÌ˚ı ËÌÚÂ‚‡ÎÓ‚ Modbus RTU)
+//modbus rtu –∏–Ω—Ç–µ—Ä—Ñ–µ–π—Å –æ—Ä–≥–∞–Ω–∏–∑—É—é—â–∏–π –¥–æ—Å—Ç—É–ø –∫ –ø–∞—Ä–∞–º–µ—Ç—Ä–∞–º –ø—Ä–æ—Ü–µ—Å—Å–æ—Ä–∞ —á–µ—Ä–µ–∑
+//RS485 –∏–Ω—Ç–µ—Ä—Ñ–µ–π—Å
+//–ò—Å–ø–æ–ª—å–∑—É–µ—Ç—Å—è:
+//UART1 (RX, TX, DIR, —Å–∫–æ—Ä–æ—Å—Ç—å –∑–∞–¥–∞–µ—Ç—Å—è —É—Å—Ç–∞–≤–∫–æ–π)
+//Timer1 (–æ—Ç—Å—á—ë—Ç –≤—Ä–µ–º–µ–Ω–Ω—ã—Ö –∏–Ω—Ç–µ—Ä–≤–∞–ª–æ–≤ Modbus RTU)
 
 
 #include "uart1rs485.h"
@@ -15,17 +15,17 @@
 #include "ramdata.h"//TODO
 
 TClient uart1data;
-void RxDMA1Ch5 (void);//Ì‡ÒÚÓÈÍ‡ DMA Ì‡ ˜ÚÂÌËÂ ‰‡ÌÌ˚ı ËÁ UART
-void TxDMA1Ch4 (void);//Ì‡ÒÚÓÈÍ‡ DMA Ì‡ ÔÂÂ‰‡˜Û ‰‡ÌÌ˚ı ‚ UART
-void U1SetTimer(unsigned int Delay);  //Á‡ˇ‰Í‡ Ú‡ÈÏÂ‡ Ì‡ ÔÓ‰ÓÊ‰‡Ú¸ ÔÂÂ‰ ÓÚÔ‡‚ÍÓÈ ‰‡ÌÌ˚ı
+void RxDMA1Ch5 (void);//–Ω–∞—Å—Ç—Ä–æ–π–∫–∞ DMA –Ω–∞ —á—Ç–µ–Ω–∏–µ –¥–∞–Ω–Ω—ã—Ö –∏–∑ UART
+void TxDMA1Ch4 (void);//–Ω–∞—Å—Ç—Ä–æ–π–∫–∞ DMA –Ω–∞ –ø–µ—Ä–µ–¥–∞—á—É –¥–∞–Ω–Ω—ã—Ö –≤ UART
+void U1SetTimer(unsigned int Delay);  //–∑–∞—Ä—è–¥–∫–∞ —Ç–∞–π–º–µ—Ä–∞ –Ω–∞ –ø–æ–¥–æ–∂–¥–∞—Ç—å –ø–µ—Ä–µ–¥ –æ—Ç–ø—Ä–∞–≤–∫–æ–π –¥–∞–Ω–Ω—ã—Ö
 
 #define SetDIR1ToRX    GPIO_WriteBit(GPIOA, GPIO_Pin_11,  (BitAction)(0));
 #define SetDIR1ToTX    GPIO_WriteBit(GPIOA, GPIO_Pin_11,  (BitAction)(1));
 
-#define U1RXBUFFSIZE  5000 //‡ÁÏÂ ·ÛÙÂ‡ ÔË∏ÏÌËÍ‡
+#define U1RXBUFFSIZE  5000 //—Ä–∞–∑–º–µ—Ä –±—É—Ñ–µ—Ä–∞ –ø—Ä–∏—ë–º–Ω–∏–∫–∞
 
-u8 U1_RX_DATA_READY = 0;//ÙÎ‡„ ÔË∏Ï‡ Ô‡ÍÂÚ‡ ÌÂ Ê‰ÂÏ
-u8 U1_TX_WAIT = 0;//ÙÎ‡„ ÓÚÔ‡‚ÍË Ô‡ÍÂÚ‡ Ê‰ÂÏ!!!
+u8 U1_RX_DATA_READY = 0;//—Ñ–ª–∞–≥ –ø—Ä–∏—ë–º–∞ –ø–∞–∫–µ—Ç–∞ –Ω–µ –∂–¥–µ–º
+u8 U1_TX_WAIT = 0;//—Ñ–ª–∞–≥ –æ—Ç–ø—Ä–∞–≤–∫–∏ –ø–∞–∫–µ—Ç–∞ –∂–¥–µ–º!!!
 
  
 const u32 U1BPS[]={  
@@ -39,13 +39,13 @@ const u32 U1BPS[]={
 };
 
 void uart1rs485_init (void){
-  SetDIR1ToRX;//‰‡È‚Â RS485 Ì‡ ÔË∏Ï
-  uart1data.DevAddr = FLASH_DATA.MODBUS1.b[0];//‡‰ÂÒ ÛÒÚÓÈÒÚ‚‡ ‚ ÒÂÚË ÏÓ‰·‡Ò
+  SetDIR1ToRX;//–¥—Ä–∞–π–≤–µ—Ä RS485 –Ω–∞ –ø—Ä–∏—ë–º
+  uart1data.DevAddr = FLASH_DATA.MODBUS1.b[0];//–∞–¥—Ä–µ—Å —É—Å—Ç—Ä–æ–π—Å—Ç–≤–∞ –≤ —Å–µ—Ç–∏ –º–æ–¥–±–∞—Å
   uart1data.BPS = FLASH_DATA.MODBUS1.b[1];
-  uart1data.Idx = 0;//·ÛÙÂ Ì‡˜‡Ú¸ Ò Ì‡˜‡Î‡
+  uart1data.Idx = 0;//–±—É—Ñ–µ—Ä –Ω–∞—á–∞—Ç—å —Å –Ω–∞—á–∞–ª–∞
   uart1data.TXCount = 0;
-  uart1data.ClntTimeOut = 200;//200ÏÍÒ
-  uart1data.ID = 1;//ÌÓÏÂ ËÌÚÂÙÂÈÒ‡
+  uart1data.ClntTimeOut = 200;//200–º–∫—Å
+  uart1data.ID = 1;//–Ω–æ–º–µ—Ä –∏–Ω—Ç–µ—Ä—Ñ–µ–π—Å–∞
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1,ENABLE);
   USART_InitTypeDef USART_InitStructure;
   USART_InitStructure.USART_BaudRate = U1BPS[uart1data.BPS];
@@ -56,15 +56,15 @@ void uart1rs485_init (void){
   USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
   USART_Init(USART1, &USART_InitStructure);
   
-  USART1->CR1 |=  USART_CR1_RE;//‡ÁÂ¯ËÚ¸ ÔË∏ÏÌËÍ
-  USART1->CR1 |=  USART_CR1_TE;//‡ÁÂ¯ËÚ¸ ÔÂÂ‰‡Ú˜ËÍ
-  USART1->CR1 |=  USART_CR1_UE;//‡ÁÂ¯ËÚ¸ UART2
+  USART1->CR1 |=  USART_CR1_RE;//—Ä–∞–∑—Ä–µ—à–∏—Ç—å –ø—Ä–∏—ë–º–Ω–∏–∫
+  USART1->CR1 |=  USART_CR1_TE;//—Ä–∞–∑—Ä–µ—à–∏—Ç—å –ø–µ—Ä–µ–¥–∞—Ç—á–∏–∫
+  USART1->CR1 |=  USART_CR1_UE;//—Ä–∞–∑—Ä–µ—à–∏—Ç—å UART2
   U1_TX_WAIT = 0;
   U1_RX_DATA_READY = 0;
-  RxDMA1Ch5();//Ì‡ÒÚÓÈÍ‡ DMA Ì‡ ˜ÚÂÌËÂ ‰‡ÌÌ˚ı ËÁ UART
+  RxDMA1Ch5();//–Ω–∞—Å—Ç—Ä–æ–π–∫–∞ DMA –Ω–∞ —á—Ç–µ–Ω–∏–µ –¥–∞–Ω–Ω—ã—Ö –∏–∑ UART
 }
 
-//Ò‡‚ÌËÚ¸ BPS Ë DEVADDR ‰Îˇ UART2 ÂÒÎË ÓÚÎË˜‡˛ÚÒˇ, ÚÓ Ò‰ÂÎ‡Ú¸ ÔÓ‚ÚÓÌÛ˛˛ ËÌËˆË‡ÎËÁ‡ˆË˛
+//—Å—Ä–∞–≤–Ω–∏—Ç—å BPS –∏ DEVADDR –¥–ª—è UART2 –µ—Å–ª–∏ –æ—Ç–ª–∏—á–∞—é—Ç—Å—è, —Ç–æ —Å–¥–µ–ª–∞—Ç—å –ø–æ–≤—Ç–æ—Ä–Ω—É—é—é –∏–Ω–∏—Ü–∏–∞–ª–∏–∑–∞—Ü–∏—é
 
 void uart1rs485_ReInit (void){ 
   
@@ -90,30 +90,30 @@ void uart1rs485_ReInit (void){
 
 void U1SetTimer(unsigned int Delay)
 {
-  SetDIR1ToTX;//ÔÂÂÍÎ˛˜‡˛ ‰‡È‚Â Ì‡ ÔÂÂ‰‡˜Û, ‰ÂÌÛÎË ÌÓ„ÓÈ
+  SetDIR1ToTX;//–ø–µ—Ä–µ–∫–ª—é—á–∞—é –¥—Ä–∞–π–≤–µ—Ä –Ω–∞ –ø–µ—Ä–µ–¥–∞—á—É, –¥–µ—Ä–Ω—É–ª–∏ –Ω–æ–≥–æ–π
 
-  //Á‡ˇ‰Í‡ Ú‡ÈÏÂ‡
-  TIM1->CR1 &= ~TIM_CR1_CEN;//ÓÒÚ‡ÌÓ‚ËÚ¸ Ú‡ÈÏÂ 
-  TIM1->SR &= ~TIM_FLAG_CC1;//Ò·ÓÒËÚ¸ ÙÎ‡„ ÔÂ˚‚‡ÌËˇ
+  //–∑–∞—Ä—è–¥–∫–∞ —Ç–∞–π–º–µ—Ä–∞
+  TIM1->CR1 &= ~TIM_CR1_CEN;//–æ—Å—Ç–∞–Ω–æ–≤–∏—Ç—å —Ç–∞–π–º–µ—Ä 
+  TIM1->SR &= ~TIM_FLAG_CC1;//—Å–±—Ä–æ—Å–∏—Ç—å —Ñ–ª–∞–≥ –ø—Ä–µ—Ä—ã–≤–∞–Ω–∏—è
   TIM1->CCR1 = Delay + TIM1->CNT;
   TIM1->CR1 |= TIM_CR1_CEN;//TIMER1_START;
-  TIM_ITConfig(TIM1, TIM_IT_CC1, ENABLE);//Ê‰ÂÏ ÍÓ„‰‡ Ô‡ÛÁ‡ Ò‡·ÓÚ‡ÂÚ.
+  TIM_ITConfig(TIM1, TIM_IT_CC1, ENABLE);//–∂–¥–µ–º –∫–æ–≥–¥–∞ –ø–∞—É–∑–∞ —Å—Ä–∞–±–æ—Ç–∞–µ—Ç.
 }
 
 void TIM1_user_U1(void)
 {  
-  TIM1->CR1 &= ~TIM_CR1_CEN;//ÓÒÚ‡ÌÓ‚ËÚ¸ Ú‡ÈÏÂ
-  TIM1->SR &= ~TIM_FLAG_CC1;//Ò·ÓÒËÚ¸ ÙÎ‡„ ÔÂ˚‚‡ÌËˇ
+  TIM1->CR1 &= ~TIM_CR1_CEN;//–æ—Å—Ç–∞–Ω–æ–≤–∏—Ç—å —Ç–∞–π–º–µ—Ä
+  TIM1->SR &= ~TIM_FLAG_CC1;//—Å–±—Ä–æ—Å–∏—Ç—å —Ñ–ª–∞–≥ –ø—Ä–µ—Ä—ã–≤–∞–Ω–∏—è
   TIM_ITConfig(TIM1, TIM_IT_CC1, DISABLE);//
   TIM1->CR1 |= TIM_CR1_CEN;//TIMER1_START;
-  TxDMA1Ch4();  //Ì‡ÒÚÓÈÍ‡ Ë Á‡ÔÛÒÍ ‰Ï‡
+  TxDMA1Ch4();  //–Ω–∞—Å—Ç—Ä–æ–π–∫–∞ –∏ –∑–∞–ø—É—Å–∫ –¥–º–∞
 }
 
 void U1_ResetModbusTimerForWaitTransmit(void)
 {
-  //ÚÛÚ ÔÓ‰ÓÊ‰‡Ú¸ 
-  SetDIR1ToTX;//ÔÂÂÍÎ˛˜‡˛ ‰‡È‚Â Ì‡ ÔÂÂ‰‡˜Û, ‰ÂÌÛÎË ÌÓ„ÓÈ
-  TxDMA1Ch4();  //Ì‡ÒÚÓÈÍ‡ Ë Á‡ÔÛÒÍ ‰Ï‡
+  //—Ç—É—Ç –ø–æ–¥–æ–∂–¥–∞—Ç—å 
+  SetDIR1ToTX;//–ø–µ—Ä–µ–∫–ª—é—á–∞—é –¥—Ä–∞–π–≤–µ—Ä –Ω–∞ –ø–µ—Ä–µ–¥–∞—á—É, –¥–µ—Ä–Ω—É–ª–∏ –Ω–æ–≥–æ–π
+  TxDMA1Ch4();  //–Ω–∞—Å—Ç—Ä–æ–π–∫–∞ –∏ –∑–∞–ø—É—Å–∫ –¥–º–∞
   U1_TX_WAIT = 1;
 }
 
@@ -127,7 +127,7 @@ u8 U1_SwCNT (void)
     
     U1_RX_DATA_READY = 0;
     //uart1data.OnCallBackReceive = &U1_ResetModbusTimerForWaitTransmit;
-    //‰ÂÍÓ‰ËÓ‚‡ÌËÂ ÍÓÏ‡Ì‰˚
+    //–¥–µ–∫–æ–¥–∏—Ä–æ–≤–∞–Ω–∏–µ –∫–æ–º–∞–Ω–¥—ã
     if (command_decode(&uart1data)) 
     {      
       if (uart1data.TXCount != 0)
@@ -138,7 +138,7 @@ u8 U1_SwCNT (void)
       return 1;
     }
       //U1_TX_WAIT = 0;
-      RxDMA1Ch5();//‚ÓÒÒÚ‡ÌÓ‚ÎÂÌËÂÏ ‡·ÓÚ˚ ÔË∏ÏÌËÍ‡
+      RxDMA1Ch5();//–≤–æ—Å—Å—Ç–∞–Ω–æ–≤–ª–µ–Ω–∏–µ–º —Ä–∞–±–æ—Ç—ã –ø—Ä–∏—ë–º–Ω–∏–∫–∞
   }
   return 0;
 }
@@ -148,22 +148,22 @@ void usart1DMA_init (void)
   DMA_InitTypeDef DMA_InitStructure;
   
   RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
-  DMA_DeInit(DMA1_Channel2);//Ì‡ ‚ÒˇÍËÏÈ ÒÎÛ˜‡È
-  DMA_DeInit(DMA1_Channel3);//Ì‡ ‚ÒˇÍËÏÈ ÒÎÛ˜‡È
-  DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) &(USART1->TDR);//ËÒÚÓ˜ÌËÍ - Â„ËÒÚ ‰‡ÌÌ˚ı UART TDR
-  DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t) &uart1data.Buffer[0];//ÔË∏ÏÌËÍ - ÏÓÈ ·ÛÙÂ (‡ÁÏÂ 256 ·‡ÈÚ)
-  DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralDST;// Ì‡Ô‡‚ÎÂÌËÂ ÓÚ Ô‡ÏˇÚË Í ÔÂËÙÂËË.
-  DMA_InitStructure.DMA_BufferSize = 0;//ÒÍÓÎ¸ÍÓ ·‡ÈÚ ÓÚÔ‡‚ËÚ¸
-  DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;//‡‰ÂÒ ÔÂÂÙÂËË ÌÂ ËÌÍÂÏÂÌÚËÛÂÚÒˇ
-  DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;//‡‰ÂÒ (ÒÒ˚ÎÍ‡ Ì‡ ·ÛÙÂ) ËÌÍÂÏÂÌÚËÛÂÚÒˇ
-  DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;//‡ÁÏÂ ‰‡ÌÌ˚ı ÔÂÂÙÂËË ¡¿…“
-  DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;//‡ÁÏÂ ‰‡ÌÌ˚ı ·ÛÙÂ‡ ¡¿…“
-  DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;//ÔÓ Á‡ÔÓÎÌÂÌË˛ ·ÛÙÂ‡ DMA ÓÒÚ‡Ì‡‚ÎË‚‡ÂÚÒˇ
+  DMA_DeInit(DMA1_Channel2);//–Ω–∞ –≤—Å—è–∫–∏–º–π —Å–ª—É—á–∞–π
+  DMA_DeInit(DMA1_Channel3);//–Ω–∞ –≤—Å—è–∫–∏–º–π —Å–ª—É—á–∞–π
+  DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) &(USART1->TDR);//–∏—Å—Ç–æ—á–Ω–∏–∫ - —Ä–µ–≥–∏—Å—Ç—Ä –¥–∞–Ω–Ω—ã—Ö UART TDR
+  DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t) &uart1data.Buffer[0];//–ø—Ä–∏—ë–º–Ω–∏–∫ - –º–æ–π –±—É—Ñ–µ—Ä (—Ä–∞–∑–º–µ—Ä 256 –±–∞–π—Ç)
+  DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralDST;// –Ω–∞–ø—Ä–∞–≤–ª–µ–Ω–∏–µ –æ—Ç –ø–∞–º—è—Ç–∏ –∫ –ø–µ—Ä–∏—Ñ–µ—Ä–∏–∏.
+  DMA_InitStructure.DMA_BufferSize = 0;//—Å–∫–æ–ª—å–∫–æ –±–∞–π—Ç –æ—Ç–ø—Ä–∞–≤–∏—Ç—å
+  DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;//–∞–¥—Ä–µ—Å –ø–µ—Ä–µ—Ñ–µ—Ä–∏–∏ –Ω–µ –∏–Ω–∫—Ä–µ–º–µ–Ω—Ç–∏—Ä—É–µ—Ç—Å—è
+  DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;//–∞–¥—Ä–µ—Å (—Å—Å—ã–ª–∫–∞ –Ω–∞ –±—É—Ñ–µ—Ä) –∏–Ω–∫—Ä–µ–º–µ–Ω—Ç–∏—Ä—É–µ—Ç—Å—è
+  DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;//—Ä–∞–∑–º–µ—Ä –¥–∞–Ω–Ω—ã—Ö –ø–µ—Ä–µ—Ñ–µ—Ä–∏–∏ –ë–ê–ô–¢
+  DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;//—Ä–∞–∑–º–µ—Ä –¥–∞–Ω–Ω—ã—Ö –±—É—Ñ–µ—Ä–∞ –ë–ê–ô–¢
+  DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;//–ø–æ –∑–∞–ø–æ–ª–Ω–µ–Ω–∏—é –±—É—Ñ–µ—Ä–∞ DMA –æ—Å—Ç–∞–Ω–∞–≤–ª–∏–≤–∞–µ—Ç—Å—è
   DMA_InitStructure.DMA_Priority = DMA_Priority_High;
   DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
   DMA_Init(DMA1_Channel2, &DMA_InitStructure);
-  DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;//Ì‡Ô‡‚ÎÂÌËÂ ÓÚ ÔÂËÙÂËË Í Ô‡ÏˇÚË.
-  DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) &(USART1->RDR); //ËÒÚÓ˜ÌËÍ - Â„ËÒÚ ‰‡ÌÌ˚ı UART RDR
+  DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;//–Ω–∞–ø—Ä–∞–≤–ª–µ–Ω–∏–µ –æ—Ç –ø–µ—Ä–∏—Ñ–µ—Ä–∏–∏ –∫ –ø–∞–º—è—Ç–∏.
+  DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) &(USART1->RDR); //–∏—Å—Ç–æ—á–Ω–∏–∫ - —Ä–µ–≥–∏—Å—Ç—Ä –¥–∞–Ω–Ω—ã—Ö UART RDR
   DMA_Init(DMA1_Channel3, &DMA_InitStructure);
   USART_DMACmd(USART1, USART_DMAReq_Rx, ENABLE);
   USART_DMACmd(USART1, USART_DMAReq_Tx, ENABLE);
@@ -171,61 +171,61 @@ void usart1DMA_init (void)
 
   static int ini = 2;
 
-void TxDMA1Ch4 (void) {//Ì‡ÒÚÓÈÍ‡ DMA Ì‡ ÔÂÂ‰‡˜Û ‰‡ÌÌ˚ı ‚ UART
-  DMA1_Channel2->CCR  &= ~DMA_CCR_EN;//DMA_Cmd(DMA1_Channel7, DISABLE);//ÓÚÍÎ˛˜‡˛ DMA ‰Îˇ ÔÓÎÛ˜ÂÌËˇ ‰ÓÒÚÛÔ‡ Í Â„ËÒÚ‡Ï
-  DMA1_Channel2->CNDTR = uart1data.TXCount;//ÒÍÓÎ¸ÍÓ ·‡ÈÚ ÓÚÔ‡‚ËÚ¸
+void TxDMA1Ch4 (void) {//–Ω–∞—Å—Ç—Ä–æ–π–∫–∞ DMA –Ω–∞ –ø–µ—Ä–µ–¥–∞—á—É –¥–∞–Ω–Ω—ã—Ö –≤ UART
+  DMA1_Channel2->CCR  &= ~DMA_CCR_EN;//DMA_Cmd(DMA1_Channel7, DISABLE);//–æ—Ç–∫–ª—é—á–∞—é DMA –¥–ª—è –ø–æ–ª—É—á–µ–Ω–∏—è –¥–æ—Å—Ç—É–ø–∞ –∫ —Ä–µ–≥–∏—Å—Ç—Ä–∞–º
+  DMA1_Channel2->CNDTR = uart1data.TXCount;//—Å–∫–æ–ª—å–∫–æ –±–∞–π—Ç –æ—Ç–ø—Ä–∞–≤–∏—Ç—å
   if(ini != 0){
     
     --ini;
   }
-  USART_ClearFlag(USART1, USART_ICR_TCCF);//Ò·ÓÒËÚ¸ ÙÎ‡„ ÓÍÓÌ˜‡ÌËˇ ÔÂÂ‰‡˜Ë
+  USART_ClearFlag(USART1, USART_ICR_TCCF);//—Å–±—Ä–æ—Å–∏—Ç—å —Ñ–ª–∞–≥ –æ–∫–æ–Ω—á–∞–Ω–∏—è –ø–µ—Ä–µ–¥–∞—á–∏
   USART1->CR3 |=  USART_CR3_DMAT;
-  DMA_ClearFlag(DMA_IFCR_CTCIF2 | DMA_IFCR_CGIF2 | DMA_IFCR_CHTIF2 | DMA_IFCR_CTEIF2);//Ó˜Ë˘Û ‚ÒÂ ÙÎ‡„Ë ÔÂ˚‚‡ÌËÈ
-  USART1->CR1 |=  USART_CR1_TE;   //‡ÁÂ¯ËÚ¸ ÔÂÂ‰‡Ú˜ËÍ
-  DMA1_Channel2->CCR  |= DMA_CCR_EN;//DMA_Cmd(DMA1_Channel7, ENABLE);//‚ÍÎ˛˜‡˛ DMA... Ë ÓÌ Ì‡˜ËÌ‡ÂÚ ËÁ ·ÛÙÂ‡ ‚˚ÍË‰˚‚‡Ú¸ ‰‡ÌÌ˚Â Ì‡ “’
-  USART1->CR1 |=  USART_CR1_TCIE; //‡ÁÂ¯Û ÔÂ˚‚‡ÌËˇ ÔÓ ÓÍÓÌ˜‡ÌË˛ ÔÂÂ‰‡˜Ë
+  DMA_ClearFlag(DMA_IFCR_CTCIF2 | DMA_IFCR_CGIF2 | DMA_IFCR_CHTIF2 | DMA_IFCR_CTEIF2);//–æ—á–∏—â—É –≤—Å–µ —Ñ–ª–∞–≥–∏ –ø—Ä–µ—Ä—ã–≤–∞–Ω–∏–π
+  USART1->CR1 |=  USART_CR1_TE;   //—Ä–∞–∑—Ä–µ—à–∏—Ç—å –ø–µ—Ä–µ–¥–∞—Ç—á–∏–∫
+  DMA1_Channel2->CCR  |= DMA_CCR_EN;//DMA_Cmd(DMA1_Channel7, ENABLE);//–≤–∫–ª—é—á–∞—é DMA... –∏ –æ–Ω –Ω–∞—á–∏–Ω–∞–µ—Ç –∏–∑ –±—É—Ñ–µ—Ä–∞ –≤—ã–∫–∏–¥—ã–≤–∞—Ç—å –¥–∞–Ω–Ω—ã–µ –Ω–∞ –¢–•
+  USART1->CR1 |=  USART_CR1_TCIE; //—Ä–∞–∑—Ä–µ—à—É –ø—Ä–µ—Ä—ã–≤–∞–Ω–∏—è –ø–æ –æ–∫–æ–Ω—á–∞–Ω–∏—é –ø–µ—Ä–µ–¥–∞—á–∏
 } 
 
-void RxDMA1Ch5 (void) {//Ì‡ÒÚÓÈÍ‡ DMA Ì‡ ˜ÚÂÌËÂ ‰‡ÌÌ˚ı ËÁ UART
+void RxDMA1Ch5 (void) {//–Ω–∞—Å—Ç—Ä–æ–π–∫–∞ DMA –Ω–∞ —á—Ç–µ–Ω–∏–µ –¥–∞–Ω–Ω—ã—Ö –∏–∑ UART
 
-  SetDIR1ToRX;//‚ÍÎ˛˜ËÚ¸ ‰‡È‚Â Ì‡ ÔË∏Ï
-  DMA1_Channel3->CCR  &= ~DMA_CCR_EN;//DMA_Cmd(DMA1_Channel6, DISABLE);//ÓÚÍÎ˛˜‡˛ DMA ‰Îˇ ÔÓÎÛ˜ÂÌËˇ ‰ÓÒÚÛÔ‡ Í Â„ËÒÚ‡Ï
-  DMA1_Channel3->CNDTR = U1RXBUFFSIZE;//256 ·‡ÈÚ ‡ÁÏÂ ÔËÌËÏ‡˛˘Â„Ó ·ÛÙÂ‡
+  SetDIR1ToRX;//–≤–∫–ª—é—á–∏—Ç—å –¥—Ä–∞–π–≤–µ—Ä –Ω–∞ –ø—Ä–∏—ë–º
+  DMA1_Channel3->CCR  &= ~DMA_CCR_EN;//DMA_Cmd(DMA1_Channel6, DISABLE);//–æ—Ç–∫–ª—é—á–∞—é DMA –¥–ª—è –ø–æ–ª—É—á–µ–Ω–∏—è –¥–æ—Å—Ç—É–ø–∞ –∫ —Ä–µ–≥–∏—Å—Ç—Ä–∞–º
+  DMA1_Channel3->CNDTR = U1RXBUFFSIZE;//256 –±–∞–π—Ç —Ä–∞–∑–º–µ—Ä –ø—Ä–∏–Ω–∏–º–∞—é—â–µ–≥–æ –±—É—Ñ–µ—Ä–∞
   USART1->CR3 |=  USART_CR3_DMAR;
-  DMA_ClearFlag(DMA_IFCR_CTCIF3 | DMA_IFCR_CGIF3 | DMA_IFCR_CHTIF3 | DMA_IFCR_CTEIF3);//Ó˜Ë˘Û ‚ÒÂ ÙÎ‡„Ë ÔÂ˚‚‡ÌËÈ
-  USART_ClearFlag(USART1, USART_ICR_IDLECF | USART_ICR_FECF | USART_ICR_NCF | USART_ICR_PECF | USART_ICR_ORECF);//Ò·ÓÒ ÙÎ‡„‡ IDLE Ë ÙÎ‡„Ó‚ Ó¯Ë·ÓÍ
-  DMA1_Channel3->CCR  |= DMA_CCR_EN;//DMA_Cmd(DMA1_Channel6, ENABLE);//‚ÍÎ˛˜‡˛ DMA... Ë ÓÌ Ì‡˜ËÌ‡ÂÚ ÒÍÎ‡‰˚‚‡Ú¸ ÔÓÒÚÛÔ‡˛˘ËÂ ‰‡ÌÌ˚Â ‚ Á‡‰‡ÌÌ˚È ·ÛÙÂ
-  USART1->CR1 |=  USART_CR1_IDLEIE;//‡ÁÂ¯ËÚ¸ ÔÂ˚‚‡ÌËˇ ÔÓ ÔË∏ÏÛ ‰‡ÌÌ˚ı
-  USART1->CR1 |=  USART_CR1_RE;//‡ÁÂ¯ËÚ¸ ÔË∏ÏÌËÍ
+  DMA_ClearFlag(DMA_IFCR_CTCIF3 | DMA_IFCR_CGIF3 | DMA_IFCR_CHTIF3 | DMA_IFCR_CTEIF3);//–æ—á–∏—â—É –≤—Å–µ —Ñ–ª–∞–≥–∏ –ø—Ä–µ—Ä—ã–≤–∞–Ω–∏–π
+  USART_ClearFlag(USART1, USART_ICR_IDLECF | USART_ICR_FECF | USART_ICR_NCF | USART_ICR_PECF | USART_ICR_ORECF);//—Å–±—Ä–æ—Å —Ñ–ª–∞–≥–∞ IDLE –∏ —Ñ–ª–∞–≥–æ–≤ –æ—à–∏–±–æ–∫
+  DMA1_Channel3->CCR  |= DMA_CCR_EN;//DMA_Cmd(DMA1_Channel6, ENABLE);//–≤–∫–ª—é—á–∞—é DMA... –∏ –æ–Ω –Ω–∞—á–∏–Ω–∞–µ—Ç —Å–∫–ª–∞–¥—ã–≤–∞—Ç—å –ø–æ—Å—Ç—É–ø–∞—é—â–∏–µ –¥–∞–Ω–Ω—ã–µ –≤ –∑–∞–¥–∞–Ω–Ω—ã–π –±—É—Ñ–µ—Ä
+  USART1->CR1 |=  USART_CR1_IDLEIE;//—Ä–∞–∑—Ä–µ—à–∏—Ç—å –ø—Ä–µ—Ä—ã–≤–∞–Ω–∏—è –ø–æ –ø—Ä–∏—ë–º—É –¥–∞–Ω–Ω—ã—Ö
+  USART1->CR1 |=  USART_CR1_RE;//—Ä–∞–∑—Ä–µ—à–∏—Ç—å –ø—Ä–∏—ë–º–Ω–∏–∫
 }
 
 void USART1_IRQHandler(void)
 {  
   u32 IIR = USART1->ISR;
-    if ((IIR & USART_ISR_TC) && (USART1->CR1 & USART_CR1_TCIE)) // œÂÂ‰‡˜‡ ÓÍÓÌ˜ÂÌ‡ (ÔÓÒÎÂ‰ÌËÈ ·‡ÈÚ ÔÓÎÌÓÒÚ¸˛ ÔÂÂ‰‡Ì ‚ ÔÓÚ)
+    if ((IIR & USART_ISR_TC) && (USART1->CR1 & USART_CR1_TCIE)) // –ü–µ—Ä–µ–¥–∞—á–∞ –æ–∫–æ–Ω—á–µ–Ω–∞ (–ø–æ—Å–ª–µ–¥–Ω–∏–π –±–∞–π—Ç –ø–æ–ª–Ω–æ—Å—Ç—å—é –ø–µ—Ä–µ–¥–∞–Ω –≤ –ø–æ—Ä—Ç)
       { 
         if(ini != 0){
           
           
         }
-        USART_ClearFlag(USART1, USART_ICR_TCCF);//Ò·ÓÒËÚ¸ ÙÎ‡„ ÓÍÓÌ˜‡ÌËˇ ÔÂÂ‰‡˜Ë
-        USART_ClearITPendingBit(USART1, USART_CR1_TCIE);//Á‡ÔÂÚËÚ¸ ÔÂ˚‚‡ÌËÂ ÔÓ ÓÍÓÌ˜‡ÌËË ÔÂÂ‰‡˜Ë
-        USART1->CR3 &=  ~USART_CR3_DMAT;//Á‡ÔÂÚËÚ¸ UART-ÚÛ ÔÂÂ‰‡‚‡Ú¸ ÔÓ DMA
-        DMA1_Channel2->CCR  &= ~DMA_CCR_EN;//DMA_Cmd(DMA1_Channel7, DISABLE);//‚˚ÍÎ˛˜ËÚ¸ DMA ÔÂÂ‰‡Ú˜ËÍ‡
-        //ÔÂÂÍÎ˛˜ËÚ¸ Ì‡ ÔË∏Ï
-        RxDMA1Ch5();//Ì‡ÒÚÓÈÍ‡ DMA Ì‡ ˜ÚÂÌËÂ ‰‡ÌÌ˚ı ËÁ UART
+        USART_ClearFlag(USART1, USART_ICR_TCCF);//—Å–±—Ä–æ—Å–∏—Ç—å —Ñ–ª–∞–≥ –æ–∫–æ–Ω—á–∞–Ω–∏—è –ø–µ—Ä–µ–¥–∞—á–∏
+        USART_ClearITPendingBit(USART1, USART_CR1_TCIE);//–∑–∞–ø—Ä–µ—Ç–∏—Ç—å –ø—Ä–µ—Ä—ã–≤–∞–Ω–∏–µ –ø–æ –æ–∫–æ–Ω—á–∞–Ω–∏–∏ –ø–µ—Ä–µ–¥–∞—á–∏
+        USART1->CR3 &=  ~USART_CR3_DMAT;//–∑–∞–ø—Ä–µ—Ç–∏—Ç—å UART-—Ç—É –ø–µ—Ä–µ–¥–∞–≤–∞—Ç—å –ø–æ DMA
+        DMA1_Channel2->CCR  &= ~DMA_CCR_EN;//DMA_Cmd(DMA1_Channel7, DISABLE);//–≤—ã–∫–ª—é—á–∏—Ç—å DMA –ø–µ—Ä–µ–¥–∞—Ç—á–∏–∫–∞
+        //–ø–µ—Ä–µ–∫–ª—é—á–∏—Ç—å –Ω–∞ –ø—Ä–∏—ë–º
+        RxDMA1Ch5();//–Ω–∞—Å—Ç—Ä–æ–π–∫–∞ DMA –Ω–∞ —á—Ç–µ–Ω–∏–µ –¥–∞–Ω–Ω—ã—Ö –∏–∑ UART
         U1_TX_WAIT = 0;
         return;
       }
-    if ((IIR & USART_ISR_IDLE) && (USART1->CR1 & USART_CR1_IDLEIE)) // ÃÂÊ‰Û ·‡ÈÚ‡ÏË ÔË ÔË∏ÏÂ Ó·Ì‡ÛÊÂÌ‡ Ô‡ÛÁ‡ ‚ 1 IDLE ·‡ÈÚ
+    if ((IIR & USART_ISR_IDLE) && (USART1->CR1 & USART_CR1_IDLEIE)) // –ú–µ–∂–¥—É –±–∞–π—Ç–∞–º–∏ –ø—Ä–∏ –ø—Ä–∏—ë–º–µ –æ–±–Ω–∞—Ä—É–∂–µ–Ω–∞ –ø–∞—É–∑–∞ –≤ 1 IDLE –±–∞–π—Ç
       {       
-        USART_ClearITPendingBit(USART1, USART_CR1_IDLEIE | USART_CR1_RE);//Á‡ÔÂÚËÚ¸ ÔÂ˚‚‡ÌËˇ ÔÓ ÔË∏ÏÛ ‰‡ÌÌ˚ı, Á‡ÔÂÚËÚ¸ ÔË∏ÏÌËÍ
-        USART_ClearFlag(USART1, USART_ICR_IDLECF | USART_ICR_FECF | USART_ICR_NCF | USART_ICR_PECF | USART_ICR_ORECF);//Ò·ÓÒ ÙÎ‡„‡ IDLE Ë ÙÎ‡„Ó‚ Ó¯Ë·ÓÍ
-        USART1->CR3 &=  ~USART_CR3_DMAR;  //Á‡ÔÂÚËÚ¸ DMA RX
-        DMA1_Channel3->CCR  &= ~DMA_CCR_EN;//DMA_Cmd(DMA1_Channel6, DISABLE);//‚˚ÍÎ˛˜ËÚ¸ DMA Ì‡ ÔË∏Ï
-        uart1data.Idx = (u16)(U1RXBUFFSIZE - DMA1_Channel3->CNDTR);//ÍÓÎ-‚Ó ÔËÌˇÚ˚ı ·‡ÈÚ
-        U1_RX_DATA_READY = 1;//‚˚ÒÚ‡‚Îˇ˛ ÙÎ‡„ ÓÒÌÓ‚ÌÓÏÛ ˆËÍÎÛ ˜ÚÓ Ô‡ÍÂÚ ‰‡ÌÌ˚ı ÔËÌˇÚ
-        U1_TX_WAIT = 0;//ÌÂÚ ÓÊË‰‡ÌËˇ ÔÂÂ‰‡˜Ë
+        USART_ClearITPendingBit(USART1, USART_CR1_IDLEIE | USART_CR1_RE);//–∑–∞–ø—Ä–µ—Ç–∏—Ç—å –ø—Ä–µ—Ä—ã–≤–∞–Ω–∏—è –ø–æ –ø—Ä–∏—ë–º—É –¥–∞–Ω–Ω—ã—Ö, –∑–∞–ø—Ä–µ—Ç–∏—Ç—å –ø—Ä–∏—ë–º–Ω–∏–∫
+        USART_ClearFlag(USART1, USART_ICR_IDLECF | USART_ICR_FECF | USART_ICR_NCF | USART_ICR_PECF | USART_ICR_ORECF);//—Å–±—Ä–æ—Å —Ñ–ª–∞–≥–∞ IDLE –∏ —Ñ–ª–∞–≥–æ–≤ –æ—à–∏–±–æ–∫
+        USART1->CR3 &=  ~USART_CR3_DMAR;  //–∑–∞–ø—Ä–µ—Ç–∏—Ç—å DMA RX
+        DMA1_Channel3->CCR  &= ~DMA_CCR_EN;//DMA_Cmd(DMA1_Channel6, DISABLE);//–≤—ã–∫–ª—é—á–∏—Ç—å DMA –Ω–∞ –ø—Ä–∏—ë–º
+        uart1data.Idx = (u16)(U1RXBUFFSIZE - DMA1_Channel3->CNDTR);//–∫–æ–ª-–≤–æ –ø—Ä–∏–Ω—è—Ç—ã—Ö –±–∞–π—Ç
+        U1_RX_DATA_READY = 1;//–≤—ã—Å—Ç–∞–≤–ª—è—é —Ñ–ª–∞–≥ –æ—Å–Ω–æ–≤–Ω–æ–º—É —Ü–∏–∫–ª—É —á—Ç–æ –ø–∞–∫–µ—Ç –¥–∞–Ω–Ω—ã—Ö –ø—Ä–∏–Ω—è—Ç
+        U1_TX_WAIT = 0;//–Ω–µ—Ç –æ–∂–∏–¥–∞–Ω–∏—è –ø–µ—Ä–µ–¥–∞—á–∏
       }
 }
 

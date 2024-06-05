@@ -17,8 +17,8 @@ const std::string TBit::value(const TSlotHandlerArsg& args) {
 
 bool TBit::getRawValue(const TSlotHandlerArsg& args) {
     s16 offset = Addr.Addr - args.StartAddrOffset;
-    u8* p = args.InputBuf + offset;//получил указатель на данные
-    bauint raw;//получил два байта данных
+    u8* p = args.InputBuf + offset;//РїРѕР»СѓС‡РёР» СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РґР°РЅРЅС‹Рµ
+    bauint raw;//РїРѕР»СѓС‡РёР» РґРІР° Р±Р°Р№С‚Р° РґР°РЅРЅС‹С…
     raw.b[0] = (*p++);
     raw.b[1] = (*p);
     bool res = static_cast<bool>(raw.i & Addr.Option);

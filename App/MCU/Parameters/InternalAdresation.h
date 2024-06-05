@@ -3,7 +3,7 @@
 #include "stm32f0xx.h"
 
 struct InternalMemAddress {
-	s16 Offset;//-1 какая-то ошибка!
+	s16 Offset;//-1 РєР°РєР°СЏ-С‚Рѕ РѕС€РёР±РєР°!
 	u8 Lenght;
-	s16 BitNumber;//-1 нет номера
+	s16 BitNumber;//-1 РЅРµС‚ РЅРѕРјРµСЂР°
 };

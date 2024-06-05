@@ -29,11 +29,11 @@ SignalFactoty& SignalFactoty::getInstance() {
 ISignal::PropsPointers SignalFactoty::getSignalProps(const char* dev, const char* source, const int srcLen) {
 	ISignal::PropsPointers res = { nullptr, nullptr, nullptr, nullptr, nullptr };
 	res.dev = const_cast<char*>(dev);
-	/*отделить номер параметра со знаком "=" от значащей части параметра (те что разделены слэшем)*/
+	/*РѕС‚РґРµР»РёС‚СЊ РЅРѕРјРµСЂ РїР°СЂР°РјРµС‚СЂР° СЃРѕ Р·РЅР°РєРѕРј "=" РѕС‚ Р·РЅР°С‡Р°С‰РµР№ С‡Р°СЃС‚Рё РїР°СЂР°РјРµС‚СЂР° (С‚Рµ С‡С‚Рѕ СЂР°Р·РґРµР»РµРЅС‹ СЃР»СЌС€РµРј)*/
 	char* src = const_cast<char*>(source);
 	int size = srcLen;
-	//строки будут с символом "слэш" в конце!
-	if (IniParser::getInstance().isDelimiterSizeLimited('=', src, size) != -1) {//нашёл знак "="
+	//СЃС‚СЂРѕРєРё Р±СѓРґСѓС‚ СЃ СЃРёРјРІРѕР»РѕРј "СЃР»СЌС€" РІ РєРѕРЅС†Рµ!
+	if (IniParser::getInstance().isDelimiterSizeLimited('=', src, size) != -1) {//РЅР°С€С‘Р» Р·РЅР°Рє "="
 		res.pName = src;
 		if (IniParser::getInstance().isDelimiterSizeLimited('/', src, size) != -1) {
 			res.pComment = src;
@@ -50,13 +50,13 @@ ISignal::PropsPointers SignalFactoty::getSignalProps(const char* dev, const char
 
 Scale::Props SignalFactoty::getScaleProps(const char* source, const int srcLen) {
 	Scale::Props res = { nullptr, nullptr, 0 };
-	/*отделить номер параметра со знаком "=" от значащей части параметра (те что разделены слэшем)*/
+	/*РѕС‚РґРµР»РёС‚СЊ РЅРѕРјРµСЂ РїР°СЂР°РјРµС‚СЂР° СЃРѕ Р·РЅР°РєРѕРј "=" РѕС‚ Р·РЅР°С‡Р°С‰РµР№ С‡Р°СЃС‚Рё РїР°СЂР°РјРµС‚СЂР° (С‚Рµ С‡С‚Рѕ СЂР°Р·РґРµР»РµРЅС‹ СЃР»СЌС€РµРј)*/
 	char* src = const_cast<char*>(source);
 	int size = srcLen;
-	res.pKey = src;//Name заканчивается знаком "="
-	if (IniParser::getInstance().isDelimiterSizeLimited('=', src, size) != -1) {//нашёл знак "="
-		res.pValue = src;//строка опций для vars считывается до /r/n/
-		res.ValueSize = size;//остаток длины строки
+	res.pKey = src;//Name Р·Р°РєР°РЅС‡РёРІР°РµС‚СЃСЏ Р·РЅР°РєРѕРј "="
+	if (IniParser::getInstance().isDelimiterSizeLimited('=', src, size) != -1) {//РЅР°С€С‘Р» Р·РЅР°Рє "="
+		res.pValue = src;//СЃС‚СЂРѕРєР° РѕРїС†РёР№ РґР»СЏ vars СЃС‡РёС‚С‹РІР°РµС‚СЃСЏ РґРѕ /r/n/
+		res.ValueSize = size;//РѕСЃС‚Р°С‚РѕРє РґР»РёРЅС‹ СЃС‚СЂРѕРєРё
 	}
 	return res;
 }
@@ -72,7 +72,7 @@ ISignal* SignalFactoty::getSignal(const ISignal::PropsPointers& props) {
 }
 
 ISignal* SignalFactoty::getScale(const Scale::Props& props) {
-	/*TODO тут надо парсить переданную строку и генерить объекты vars а они бывают от простых
-	  ключ = значение, до сложных типа списков*/
+	/*TODO С‚СѓС‚ РЅР°РґРѕ РїР°СЂСЃРёС‚СЊ РїРµСЂРµРґР°РЅРЅСѓСЋ СЃС‚СЂРѕРєСѓ Рё РіРµРЅРµСЂРёС‚СЊ РѕР±СЉРµРєС‚С‹ vars Р° РѕРЅРё Р±С‹РІР°СЋС‚ РѕС‚ РїСЂРѕСЃС‚С‹С…
+	  РєР»СЋС‡ = Р·РЅР°С‡РµРЅРёРµ, РґРѕ СЃР»РѕР¶РЅС‹С… С‚РёРїР° СЃРїРёСЃРєРѕРІ*/
 	return new Scale(props);
 }

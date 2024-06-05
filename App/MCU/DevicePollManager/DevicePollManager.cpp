@@ -87,7 +87,7 @@ DevicePollManager::Status DevicePollManager::setActionBySlot(void) {
 }
 
 Slot* DevicePollManager::getNextSlot(void) {
-	u16 size = Slots.size();//1 è áîëüøå åñëè â ñïèñêå ÷òî-òî åñòü
+	u16 size = Slots.size();//1 Ð¸ Ð±Ð¾Ð»ÑŒÑˆÐµ ÐµÑÐ»Ð¸ Ð² ÑÐ¿Ð¸ÑÐºÐµ Ñ‡Ñ‚Ð¾-Ñ‚Ð¾ ÐµÑÑ‚ÑŒ
 	u16 tmp_idx = idx;
 	if (size > 0) {
 		idx = (++tmp_idx >= size)

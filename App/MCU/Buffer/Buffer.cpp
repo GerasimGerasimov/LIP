@@ -48,7 +48,7 @@ void Buffer::addData(std::vector<uint8_t>& data, uint16_t start, uint16_t end) {
 	}
 }
 
-//для добавления элементов контейнер должен иметь необходимый размер
+//РґР»СЏ РґРѕР±Р°РІР»РµРЅРёСЏ СЌР»РµРјРµРЅС‚РѕРІ РєРѕРЅС‚РµР№РЅРµСЂ РґРѕР»Р¶РµРЅ РёРјРµС‚СЊ РЅРµРѕР±С…РѕРґРёРјС‹Р№ СЂР°Р·РјРµСЂ
 void Buffer::setSizeBuffer(uint8_t size) {
 	buffer.resize(size);
 }

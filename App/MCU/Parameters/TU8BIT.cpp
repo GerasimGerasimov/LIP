@@ -17,8 +17,8 @@ const std::string TU8BIT::value(const TSlotHandlerArsg& args, const char* format
 
 u8 TU8BIT::getRawValue(const TSlotHandlerArsg& args) {
     s16 offset = Addr.Addr - args.StartAddrOffset;
-    u8* p = args.InputBuf + offset;//получил указатель на данные
-    bauint raw;//получил два байта данных
+    u8* p = args.InputBuf + offset;//РїРѕР»СѓС‡РёР» СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РґР°РЅРЅС‹Рµ
+    bauint raw;//РїРѕР»СѓС‡РёР» РґРІР° Р±Р°Р№С‚Р° РґР°РЅРЅС‹С…
     raw.b[0] = (*p++);
     raw.b[1] = (*p);
     u8 res = (Addr.Option == 1) ? raw.b[1] : raw.b[0];

@@ -9,8 +9,8 @@
 class DevicePollManager;
 
 //#include "icommastert.h"
-//result >= 0 äëèíà îòâåòà
-//result = -1 îøèáêà
+//result >= 0 Ð´Ð»Ð¸Ð½Ð° Ð¾Ñ‚Ð²ÐµÑ‚Ð°
+//result = -1 Ð¾ÑˆÐ¸Ð±ÐºÐ°
 using TDriverComReadEndHandler = std::function<void(s16 result, u8* reply)>;
 
 struct TComMasterTask {

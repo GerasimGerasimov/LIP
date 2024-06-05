@@ -40,8 +40,8 @@ void ModbusMasterConf::interruptHandler(){
 //вызывается при срабатывании таймера USART
 void ModbusMasterConf::TIMHandler(){
     
-  if(Slot->OnTimeOut){
-    Slot->OnTimeOut();
-  }
+    if(Slot->OnTimeOut){
+        Slot->OnTimeOut();
+    }
     UsartMaster.StopTimer();
 }

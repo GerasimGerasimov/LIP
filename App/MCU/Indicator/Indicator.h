@@ -15,11 +15,11 @@ public:
     virtual bool update() = 0;
     uint8_t getDataSize();
     virtual ~Indicator(){};
-    virtual void setParameter(std::string param); //установить новую индикацию
+    virtual void setParameter(std::string param); //СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РЅРѕРІСѓСЋ РёРЅРґРёРєР°С†РёСЋ
 protected:
     enum class Type {
-        R,  //чтение
-        RW  //чтение и запись
+        R,  //С‡С‚РµРЅРёРµ
+        RW  //С‡С‚РµРЅРёРµ Рё Р·Р°РїРёСЃСЊ
     };
     struct Props {
         std::string Device = "";

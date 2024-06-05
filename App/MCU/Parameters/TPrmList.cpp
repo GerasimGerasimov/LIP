@@ -11,23 +11,23 @@ const std::string TPrmList::SignalType = "TPrmList";
 
 const std::string TPrmList::value(const TSlotHandlerArsg& args, const char* format) {
     u8 input = getRawValue(args);
-    //найти 7-й слэш
+    //РЅР°Р№С‚Рё 7-Р№ СЃР»СЌС€
     // [7+0]            [7+1]                [7+N]
     // /index0#data0#ai0/index1#data1#ai1/.../indexN#dataN#aiN/Base/
-    // Вase отличается тем, что в нём нет символа '#'
-    char* options = optional;//приходится сохранять указатели так как метод ниже меняет его
+    // Р’ase РѕС‚Р»РёС‡Р°РµС‚СЃСЏ С‚РµРј, С‡С‚Рѕ РІ РЅС‘Рј РЅРµС‚ СЃРёРјРІРѕР»Р° '#'
+    char* options = optional;//РїСЂРёС…РѕРґРёС‚СЃСЏ СЃРѕС…СЂР°РЅСЏС‚СЊ СѓРєР°Р·Р°С‚РµР»Рё С‚Р°Рє РєР°Рє РјРµС‚РѕРґ РЅРёР¶Рµ РјРµРЅСЏРµС‚ РµРіРѕ
     char* plist = IniParser::getInstance().getElementPtrByNumber(4, '/', options);
-    char* listAddr = plist;//приходится сохранять указатели так как метод ниже меняет его
+    char* listAddr = plist;//РїСЂРёС…РѕРґРёС‚СЃСЏ СЃРѕС…СЂР°РЅСЏС‚СЊ СѓРєР°Р·Р°С‚РµР»Рё С‚Р°Рє РєР°Рє РјРµС‚РѕРґ РЅРёР¶Рµ РјРµРЅСЏРµС‚ РµРіРѕ
     int size = IniParser::getInstance().getStringLenght(&listAddr);
     std::vector<std::string> list = IniParser::getInstance().getListOfDelimitedString('/', plist, size);
-    //Список получил
-    //обрататываю строки вида x01#9600, надо выделить число до # (вдс x01 сравнить его с input)
-    //и если совпало, то выделяю строку после #, это и будет результат
+    //РЎРїРёСЃРѕРє РїРѕР»СѓС‡РёР»
+    //РѕР±СЂР°С‚Р°С‚С‹РІР°СЋ СЃС‚СЂРѕРєРё РІРёРґР° x01#9600, РЅР°РґРѕ РІС‹РґРµР»РёС‚СЊ С‡РёСЃР»Рѕ РґРѕ # (РІРґСЃ x01 СЃСЂР°РІРЅРёС‚СЊ РµРіРѕ СЃ input)
+    //Рё РµСЃР»Рё СЃРѕРІРїР°Р»Рѕ, С‚Рѕ РІС‹РґРµР»СЏСЋ СЃС‚СЂРѕРєСѓ РїРѕСЃР»Рµ #, СЌС‚Рѕ Рё Р±СѓРґРµС‚ СЂРµР·СѓР»СЊС‚Р°С‚
     for (auto& e : list) {
         int index = e.find('#');
         if (index == std::string::npos) continue;
         u8 firstentry = (e[0] == 'x') ? 1 : 0;
-        e[index] = 0;//конец строки
+        e[index] = 0;//РєРѕРЅРµС† СЃС‚СЂРѕРєРё
         int value = std::stoi(&e.c_str()[firstentry], 0, 16);
         if (value == input) {
             std::string res = std::string(e, index + 1);
@@ -39,8 +39,8 @@ const std::string TPrmList::value(const TSlotHandlerArsg& args, const char* form
 
 u8 TPrmList::getRawValue(const TSlotHandlerArsg& args) {
     s16 offset = Addr.Addr - args.StartAddrOffset;
-    u8* p = args.InputBuf + offset;//получил указатель на данные
-    bauint raw;//получил два байта данных
+    u8* p = args.InputBuf + offset;//РїРѕР»СѓС‡РёР» СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РґР°РЅРЅС‹Рµ
+    bauint raw;//РїРѕР»СѓС‡РёР» РґРІР° Р±Р°Р№С‚Р° РґР°РЅРЅС‹С…
     raw.b[0] = (*p++);
     raw.b[1] = (*p);
     u8 res = (Addr.Option == 1) ? raw.b[1] : raw.b[0];
@@ -75,9 +75,9 @@ std::string TPrmList::getValue(const TSlotHandlerArsg& args, const char* format)
 }
 
 std::vector<std::string> TPrmList::getList() {
-    char* options = optional;//приходится сохранять указатели так как метод ниже меняет его
+    char* options = optional;//РїСЂРёС…РѕРґРёС‚СЃСЏ СЃРѕС…СЂР°РЅСЏС‚СЊ СѓРєР°Р·Р°С‚РµР»Рё С‚Р°Рє РєР°Рє РјРµС‚РѕРґ РЅРёР¶Рµ РјРµРЅСЏРµС‚ РµРіРѕ
     char* plist = IniParser::getInstance().getElementPtrByNumber(4, '/', options);
-    char* listAddr = plist;//приходится сохранять указатели так как метод ниже меняет его
+    char* listAddr = plist;//РїСЂРёС…РѕРґРёС‚СЃСЏ СЃРѕС…СЂР°РЅСЏС‚СЊ СѓРєР°Р·Р°С‚РµР»Рё С‚Р°Рє РєР°Рє РјРµС‚РѕРґ РЅРёР¶Рµ РјРµРЅСЏРµС‚ РµРіРѕ
     int size = IniParser::getInstance().getStringLenght(&listAddr);
     std::vector<std::string> list = IniParser::getInstance().getListOfDelimitedString('/', plist, size);
     std::vector<std::string> res = {};
@@ -103,9 +103,9 @@ std::vector<std::string> TPrmList::getList(const std::string& val, s16& ValueInd
 }
 
 std::string TPrmList::getKeyByValue(const std::string& val) {
-    char* options = optional;//приходится сохранять указатели так как метод ниже меняет его
+    char* options = optional;//РїСЂРёС…РѕРґРёС‚СЃСЏ СЃРѕС…СЂР°РЅСЏС‚СЊ СѓРєР°Р·Р°С‚РµР»Рё С‚Р°Рє РєР°Рє РјРµС‚РѕРґ РЅРёР¶Рµ РјРµРЅСЏРµС‚ РµРіРѕ
     char* plist = IniParser::getInstance().getElementPtrByNumber(4, '/', options);
-    char* listAddr = plist;//приходится сохранять указатели так как метод ниже меняет его
+    char* listAddr = plist;//РїСЂРёС…РѕРґРёС‚СЃСЏ СЃРѕС…СЂР°РЅСЏС‚СЊ СѓРєР°Р·Р°С‚РµР»Рё С‚Р°Рє РєР°Рє РјРµС‚РѕРґ РЅРёР¶Рµ РјРµРЅСЏРµС‚ РµРіРѕ
     int size = IniParser::getInstance().getStringLenght(&listAddr);
     std::vector<std::string> list = IniParser::getInstance().getListOfDelimitedString('/', plist, size);
     for (auto& e : list) {
@@ -123,7 +123,7 @@ std::string TPrmList::getKeyByValue(const std::string& val) {
 const std::string TPrmList::getValueHex(std::string& src) {
     //u16 value = string2raw(src);
     //char s[8];
-    //GIST "%.4X" преобразование числа в hex с заданным кол-вом значащих нулей
+    //GIST "%.4X" РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ С‡РёСЃР»Р° РІ hex СЃ Р·Р°РґР°РЅРЅС‹Рј РєРѕР»-РІРѕРј Р·РЅР°С‡Р°С‰РёС… РЅСѓР»РµР№
     //sprintf(s, "%.4X", value);
     //std::string res(s);
     int xpos = (src[0] == 'x') ? 1 : 0;
