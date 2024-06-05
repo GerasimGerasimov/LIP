@@ -10,26 +10,26 @@ void ModbusMasterConf::SetCondition(u16 timeOut, u8* replyPtr){
     ReplyPtr = replyPtr;
 }
 
-void ModbusMasterConf::Send(u8* data, u8 len) {
+void ModbusMasterConf::Send(u8* data, u8 len){
     Slot->InBufLen = 0;
     UsartTransmit(&UART, data, len);
 }
 
-void ModbusMasterConf::Reboot() {
+void ModbusMasterConf::Reboot(){
     UsartTxRxFinish(&UART);
 }
 
 //вызывается из обработчика прерывания USART
 void ModbusMasterConf::interruptHandler(){
-        
-    u16 TransferStatus =  UsartTxRxFinish(&UART);
-    if (TransferStatus == 0){
+
+    u16 TransferStatus = UsartTxRxFinish(&UART);
+    if(TransferStatus == 0){
         UsartMaster.SetTimer(TimeOut);//установили таймер на ожидание таймаута
         UsartRecieve(&UART, ReplyPtr);
     }
     else{
         UsartMaster.StopTimer();
-        
+
         if(Slot->OnRecieve){
             Slot->InBufLen = TransferStatus;
             Slot->OnRecieve();
@@ -39,7 +39,7 @@ void ModbusMasterConf::interruptHandler(){
 
 //вызывается при срабатывании таймера USART
 void ModbusMasterConf::TIMHandler(){
-    
+
     if(Slot->OnTimeOut){
         Slot->OnTimeOut();
     }

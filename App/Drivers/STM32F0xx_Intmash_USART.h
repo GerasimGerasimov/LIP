@@ -34,8 +34,8 @@ void InitUserUsartData(void) //фукция инициализации стру�
 
 #ifdef __cplusplus
 struct Intmash_Usart
-  #else
-typedef struct 
+#else
+typedef struct
 #endif
 {
 
@@ -51,25 +51,25 @@ typedef struct
   u16 PolarityDIR; //2 - неинверсный, 1 - инверсный, 0 - не используется
   u8 USART_StopBits; //количество стоповых бит 0-1/1-0,5/2-2/3-1,5 
   u8 USART_Parity; // 0 - 0/ 2 - Even / 1- Odd
-  
-  #ifdef __cplusplus
+
+#ifdef __cplusplus
 };
-  #else
-} Intmash_Usart;  
+#else
+} Intmash_Usart;
 #endif
 
-  #ifdef __cplusplus
-    extern "C" void UsartDriverInit (Intmash_Usart *UserUsartStr);
-    extern "C" void UsartTransmit(Intmash_Usart *UserUsartStr, u8* Buffer, u8 Cnt);
-    extern "C" void UsartRecieve (Intmash_Usart *UserUsartStr, u8* Buffer);
-    extern "C" u8 UsartTxRxFinish(Intmash_Usart *UserUsartStr);
-  #else
-    extern void UsartDriverInit (Intmash_Usart *UserUsartStr);
-    extern void UsartTransmit(Intmash_Usart *UserUsartStr, u8* Buffer, u8 Cnt);
-    extern void UsartRecieve (Intmash_Usart *UserUsartStr, u8* Buffer);
-    extern u8 UsartTxRxFinish(Intmash_Usart *UserUsartStr);
-  #endif
-    
+#ifdef __cplusplus
+extern "C" void UsartDriverInit(Intmash_Usart * UserUsartStr);
+extern "C" void UsartTransmit(Intmash_Usart * UserUsartStr, u8 * Buffer, u8 Cnt);
+extern "C" void UsartRecieve(Intmash_Usart * UserUsartStr, u8 * Buffer);
+extern "C" u8 UsartTxRxFinish(Intmash_Usart * UserUsartStr);
+#else
+extern void UsartDriverInit(Intmash_Usart* UserUsartStr);
+extern void UsartTransmit(Intmash_Usart* UserUsartStr, u8* Buffer, u8 Cnt);
+extern void UsartRecieve(Intmash_Usart* UserUsartStr, u8* Buffer);
+extern u8 UsartTxRxFinish(Intmash_Usart* UserUsartStr);
+#endif
+
 
 
 extern const u32 USARTbaudRate[8];

@@ -12,9 +12,9 @@
 #include "modbus/modbus.h"
 #include "bootloader.h"
 
-    
+
 /* defines ------------------------------------------------------------------*/
-#define max_drebezg 0x0005//0x2000 // сколько раз нужно проверить нажатие кнопки для подавления дребезга контактов 
+
 /*---------------------------------------------------------------------------*/
 /* global user data definitions                                              */
 /*---------------------------------------------------------------------------*/
@@ -22,42 +22,42 @@
 
 /* Private function prototypes -----------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-    
-    
+
+
 /**
   * @brief  Main program.
   */
 int main(void)              //главная программа
 {
 
-  GPIO_INIT_Configuration();
+    GPIO_INIT_Configuration();
 
 
-  if (INIT_IST == 0) {
-    LED_ALARM_OFF;
-    
-    if (isBootLoaderMustBeStart() != true) {
-      if (isApplicationReadyToStart()) {
-          jumpToApplication();
-      }
+    if(INIT_IST == 0){
+        LED_ALARM_OFF;
+
+        if(isBootLoaderMustBeStart() != true){
+            if(isApplicationReadyToStart()){
+                jumpToApplication();
+            }
+        }
     }
-  }
 
-  Init();                   //инициализация переферии  
-  LED_RUN_OFF;
-  LED_LINK1_OFF;
-  LED_LINK2_OFF;
-  LED_ALARM_ON;
+    Init();                   //инициализация переферии  
+    LED_RUN_OFF;
+    LED_LINK1_OFF;
+    LED_LINK2_OFF;
+    LED_ALARM_ON;
 
-  while (1)//основной цикл программы
-  {    
-    if (U1_SwCNT())//смотрим пришел ли запрос по Модбасу и 1 сразу смотрим для проверки
+    while(1)//основной цикл программы
     {
-      if (LED_LINK1_ST) LED_LINK1_ON;
-      else LED_LINK1_OFF; 
-      
+        if(U1_SwCNT())//смотрим пришел ли запрос по Модбасу и 1 сразу смотрим для проверки
+        {
+            if(LED_LINK1_ST) LED_LINK1_ON;
+            else LED_LINK1_OFF;
+
+        }
     }
-  }
 }
 
 
@@ -70,15 +70,13 @@ int main(void)              //главная программа
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(uint8_t* file, uint32_t line)
-{ 
+void assert_failed(uint8_t* file, uint32_t line){
   /* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
 
   /* Infinite loop */
-  while (1)
-  {
-  }
+    while(1){
+    }
 }
 #endif
 

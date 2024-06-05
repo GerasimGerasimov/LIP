@@ -5,8 +5,8 @@
 class BaseWindow : public BaseObject
 {
 protected:
-	void createIndicatorWindow();
+    void createIndicatorWindow();
 public:
-	BaseWindow(Parameter param);
+    BaseWindow(Parameter param);
 };
 

@@ -4,12 +4,13 @@
 
 struct SpecialSignalAddr;
 
-namespace ParametersUtils {
+namespace ParametersUtils
+{
 
-	s16 getByteOffsetFromSlahedAddrStr(char* addr);
-	SpecialSignalAddr getSpecialAddrForBit(char* addr);
-	SpecialSignalAddr getSpecialAddrForByte(char* addr);
-	bool isAddrInvalid(s16 Addr);
-	bool isAddrValid(s16 Addr);
+    s16 getByteOffsetFromSlahedAddrStr(char* addr);
+    SpecialSignalAddr getSpecialAddrForBit(char* addr);
+    SpecialSignalAddr getSpecialAddrForByte(char* addr);
+    bool isAddrInvalid(s16 Addr);
+    bool isAddrValid(s16 Addr);
 };
 

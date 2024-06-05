@@ -5,17 +5,17 @@
 class OSResources
 {
 private:
-	OSResources();
-	OSResources(const OSResources&) = delete;
-	OSResources& operator=(const OSResources&) = delete;
-	OSResources(const OSResources&&) = delete;
-	OSResources& operator=(const OSResources&&) = delete;
-	~OSResources();
+    OSResources();
+    OSResources(const OSResources&) = delete;
+    OSResources& operator=(const OSResources&) = delete;
+    OSResources(const OSResources&&) = delete;
+    OSResources& operator=(const OSResources&&) = delete;
+    ~OSResources();
 
-	u8* res;
-	void init();
+    u8* res;
+    void init();
 public:
-	static OSResources& getInstance();
-	u8* getRes();
+    static OSResources& getInstance();
+    u8* getRes();
 };
 

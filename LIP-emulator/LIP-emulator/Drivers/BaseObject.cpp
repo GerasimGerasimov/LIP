@@ -1,19 +1,19 @@
 #include "BaseObject.h"
 
-BaseObject::BaseObject(Parameter param) {
-	Parrent = param.parrent;
-	rect.left = param.rect.left;
-	rect.top = param.rect.top;
-	rect.right = param.rect.right;
-	rect.bottom = param.rect.bottom;
-	width = rect.right - rect.left;
-	height = rect.bottom - rect.top;
+BaseObject::BaseObject(Parameter param){
+    Parrent = param.parrent;
+    rect.left = param.rect.left;
+    rect.top = param.rect.top;
+    rect.right = param.rect.right;
+    rect.bottom = param.rect.bottom;
+    width = rect.right - rect.left;
+    height = rect.bottom - rect.top;
 }
 
-BaseObject::~BaseObject() {}
+BaseObject::~BaseObject(){}
 
-void BaseObject::setData(std::vector<uint8_t>& vecData) {}
+void BaseObject::setData(std::vector<uint8_t>& vecData){}
 
-int BaseObject::getByteIndication() {
-	return 0;
+int BaseObject::getByteIndication(){
+    return 0;
 }

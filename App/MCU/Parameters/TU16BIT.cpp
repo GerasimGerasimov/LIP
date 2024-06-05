@@ -3,7 +3,7 @@
 #include "Slots/SlotHandlerType.h"
 #include "bastypes.h"
 
-GeneralCaseSignal::RawReturn TU16BIT::getRawValue(const TSlotHandlerArsg& args) {
+GeneralCaseSignal::RawReturn TU16BIT::getRawValue(const TSlotHandlerArsg& args){
     s16 offset = Addr - args.StartAddrOffset;
     u8* p = args.InputBuf + offset;//получил указатель на данные
     bauint raw;//получил два байта данных
@@ -15,15 +15,15 @@ GeneralCaseSignal::RawReturn TU16BIT::getRawValue(const TSlotHandlerArsg& args) 
     return res;
 }
 
-u16 TU16BIT::string2raw(std::string& src) {
+u16 TU16BIT::string2raw(std::string& src){
     float f = std::stof(src);
     f /= Scale;
     return static_cast<u16>(f);
 }
 
-TU16BIT::TU16BIT(ISignal::PropsPointers props) : GeneralCaseSignal(props) {}
+TU16BIT::TU16BIT(ISignal::PropsPointers props) : GeneralCaseSignal(props){}
 
-const std::string TU16BIT::getValueHex(std::string& src) {
+const std::string TU16BIT::getValueHex(std::string& src){
     u16 value = string2raw(src);
     char s[8];
     //GIST "%.4X" преобразование числа в hex с заданным кол-вом значащих нулей
@@ -32,11 +32,11 @@ const std::string TU16BIT::getValueHex(std::string& src) {
     return res;
 }
 
-InternalMemAddress TU16BIT::getInternalMemAddr() {
+InternalMemAddress TU16BIT::getInternalMemAddr(){
     s16 offset = Addr;
-    return { offset,2,-1 };
+    return {offset,2,-1};
 }
 
-u8 TU16BIT::getSizeByte() {
+u8 TU16BIT::getSizeByte(){
     return 2;
 }

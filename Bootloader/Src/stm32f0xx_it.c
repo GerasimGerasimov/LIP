@@ -49,10 +49,9 @@
 /*            Cortex-M0 Processor Exceptions Handlers                         */
 /******************************************************************************/
 
-void TIM1_CC_IRQHandler (void)
-{
-  if ((TIM1->SR & TIM_FLAG_CC1)&&(TIM1->DIER & TIM_IT_CC1)) TIM1_user_U1();
-  
+void TIM1_CC_IRQHandler(void){
+  if((TIM1->SR & TIM_FLAG_CC1) && (TIM1->DIER & TIM_IT_CC1)) TIM1_user_U1();
+
 }
 
 /**
@@ -60,20 +59,16 @@ void TIM1_CC_IRQHandler (void)
   * @param  None
   * @retval None
   */
-void NMI_Handler(void)
-{
-}
+void NMI_Handler(void){}
 
 /**
   * @brief  This function handles Hard Fault exception.
   * @param  None
   * @retval None
   */
-void HardFault_Handler(void)
-{
+void HardFault_Handler(void){
   /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
+  while(1){
   }
 }
 
@@ -82,27 +77,21 @@ void HardFault_Handler(void)
   * @param  None
   * @retval None
   */
-void SVC_Handler(void)
-{
-}
+void SVC_Handler(void){}
 
 /**
   * @brief  This function handles PendSVC exception.
   * @param  None
   * @retval None
   */
-void PendSV_Handler(void)
-{
-}
+void PendSV_Handler(void){}
 
 /**
   * @brief  This function handles SysTick Handler.
   * @param  None
   * @retval None
   */
-void SysTick_Handler(void)
-{
-}
+void SysTick_Handler(void){}
 
 /******************************************************************************/
 /*                 STM32F0xx Peripherals Interrupt Handlers                   */

@@ -1,8 +1,8 @@
 #pragma once
 
-  #ifdef __cplusplus
-    extern "C" void ctrlSysLive();
-  #else
-    extern void ctrlSysLive();
-  #endif
-    
+#ifdef __cplusplus
+extern "C" void ctrlSysLive();
+#else
+extern void ctrlSysLive();
+#endif
+

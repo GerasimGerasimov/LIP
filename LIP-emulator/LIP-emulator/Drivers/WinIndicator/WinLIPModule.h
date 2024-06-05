@@ -8,10 +8,10 @@
 class WinLIPModule : public IndicatorContainer
 {
 private:
-	std::vector<std::string> Configuration;
+    std::vector<std::string> Configuration;
 public:
-	WinLIPModule(Parameter param, std::vector<std::string> Config, RECT newBorder);
-	void createSegment();
+    WinLIPModule(Parameter param, std::vector<std::string> Config, RECT newBorder);
+    void createSegment();
 };
 
 //width 430

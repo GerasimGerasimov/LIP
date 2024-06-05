@@ -1,18 +1,18 @@
 #include "Win7Segment.h"
 
 
-void Win7Segment::createSegment() {
+void Win7Segment::createSegment(){
 
     BaseWindow::Parameter param;
     param.parrent = hwnd;
-    for (const auto& n : LocationSegments) {
+    for(const auto& n : LocationSegments){
         param.rect = n;
         Indicators.push_back(std::make_unique<Segment>(param));
     }
 
 }
 
-int Win7Segment::getByteIndication() {
+int Win7Segment::getByteIndication(){
     return 1;
 }
 
@@ -30,7 +30,7 @@ int Win7Segment::getByteIndication() {
 //    }
 //}
 
-void Win7Segment::fillLocationSegment() {
+void Win7Segment::fillLocationSegment(){
     RECT rectSegment = {0};
     rectSegment.left = border.left;
     rectSegment.top = border.top;
@@ -74,7 +74,7 @@ void Win7Segment::fillLocationSegment() {
     LocationSegments.push_back(rectSegment);
 }
 
-std::vector<uint8_t> Win7Segment::splitData(std::vector<uint8_t>::iterator& iterator, int byte) {
+std::vector<uint8_t> Win7Segment::splitData(std::vector<uint8_t>::iterator& iterator, int byte){
     return std::vector<uint8_t>();
 }
 
@@ -88,24 +88,16 @@ Win7Segment::Win7Segment(Parameter param) : IndicatorContainer(param){
     createSegment();
 }
 
-void Win7Segment::setData(std::vector<uint8_t>& vecData) {
-    if (vecData.size() != 1) {
+void Win7Segment::setData(std::vector<uint8_t>& vecData){
+    if(vecData.size() != 1){
         return;
     }
-    if (type == Type::ANODE) {
+    if(type == Type::ANODE){
         vecData[0] = ~(vecData[0]);
     }
-    for (int i = 0; i < Indicators.size(); ++i) {
+    for(int i = 0; i < Indicators.size(); ++i){
         std::vector<uint8_t> state(1);
-        state[0] = ((vecData[0]) & (1 << i)); 
+        state[0] = ((vecData[0]) & (1 << i));
         Indicators[i]->setData(state);
     }
 }
-
-//void Win7Segment::on1(HDC hdc) {
-//    Segments[0]->turnOn(hdc);
-//    
-//}
-
-
-

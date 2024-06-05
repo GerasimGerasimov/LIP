@@ -9,15 +9,15 @@
 class WinDI : public BaseObject
 {
 private:
-	std::vector<HWND> ButtonDI;
-	
-	void createButtonDI();
-	const int countDI = 16;
-	RECT rectButton;
-	int widthButton;
-	int heightButton;
-	void create();
+    std::vector<HWND> ButtonDI;
+
+    void createButtonDI();
+    const int countDI = 16;
+    RECT rectButton;
+    int widthButton;
+    int heightButton;
+    void create();
 public:
-	WinDI(Parameter param);
+    WinDI(Parameter param);
 };
 

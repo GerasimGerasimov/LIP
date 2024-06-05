@@ -4,16 +4,16 @@
 //int IniParser::RootSize = 0;
 //char* IniParser::SearchPointer = nullptr;
 
-void IniParser::init() {
+void IniParser::init(){
 
 }
 
-void IniParser::setRoot(char* root, int size) {
+void IniParser::setRoot(char* root, int size){
     Root = root;
     RootSize = size;
 }
 
-IniParser &IniParser::getInstance(){
+IniParser& IniParser::getInstance(){
     static IniParser parser;
     return parser;
 }
@@ -27,97 +27,97 @@ IniParser::IniParser(){
 //возвращает адрес символа следующего за закрывающей квадратной скобкой заданной секции из devece_ini
 //в качестве параметра, передаётся имя секции с квадратными скобками (например [RAM])
 //!!! название секции передаётся в квадратных скобках! "[RAM]"
-char* IniParser::getSectionEntryPoint(const char* SectionName) {
+char* IniParser::getSectionEntryPoint(const char* SectionName){
     char* ptr = (char*)strstr(Root, SectionName);
-    if (ptr != 0) {
+    if(ptr != 0){
         ptr += strlen(SectionName);//если фраза есть в тексте, тогда добавляю длину секции
         //проверяю, есть ли #13#10 после фразы, и если есть, то добавляю смещение на их длину
-        if (*(ptr) == '\r') { ptr++; }//если CR (возврат каретки)
-        if (*(ptr) == '\n') { ptr++; }//если LN (конец строки)
+        if(*(ptr) == '\r'){ ptr++; }//если CR (возврат каретки)
+        if(*(ptr) == '\n'){ ptr++; }//если LN (конец строки)
     }
     return ptr;
 }
 
-bool IniParser::setSectionToRead(const char* SectionName) {
+bool IniParser::setSectionToRead(const char* SectionName){
     char* section = getSectionEntryPoint(SectionName);
     SearchPointer = section;
     return (bool)(section != NULL);
 }
 
-TSectionReadResult IniParser::getNextTagChar() {
-    do {
+TSectionReadResult IniParser::getNextTagChar(){
+    do{
         char* tag = NULL;
         int tagSuccess = IniParser::getTagString(&tag);
         //условия завершения парсинга и выхода из цикла
-        if ((tagSuccess == (int)ParcerResult::END) ||
+        if((tagSuccess == (int)ParcerResult::END) ||
             (tagSuccess == (int)ParcerResult::SECTION))
-            return { NULL, 0 };
-        switch (tagSuccess) {
-            case (int)ParcerResult::COMMENT:
-            case (int)ParcerResult::NOTKEYVALUE:
-                break;
-            default:
-                return { tag, tagSuccess };
+            return {NULL, 0};
+        switch(tagSuccess){
+        case (int)ParcerResult::COMMENT:
+        case (int)ParcerResult::NOTKEYVALUE:
+            break;
+        default:
+            return {tag, tagSuccess};
         };
-    } while (true);
+    } while(true);
 }
 
-std::string IniParser::getNextTagString() {
+std::string IniParser::getNextTagString(){
     TSectionReadResult readResult = getNextTagChar();
-    std::string result{ "" };
-    if (readResult.result != 0) {
+    std::string result{""};
+    if(readResult.result != 0){
         result.append(readResult.tag, readResult.result);
     }
     return result;
 }
 
-int IniParser::isDelimiter(char** ptr, char Delimiter) {
+int IniParser::isDelimiter(char** ptr, char Delimiter){
     int res = 0;
     char c;
-    do {
+    do{
         c = *((*ptr)++);
-        switch (c) {
-            case 0   : return(-1);//конец файла
-            case '\r': return(-2);//CR (возврат каретки)
-            case '\n': return(-3);//LN (конец строки)
-            default: {
-                res++;//inc смещение
-                if (c == Delimiter) return res;//возвр. номер заданного символа в строке
-            }
+        switch(c){
+        case 0: return(-1);//конец файла
+        case '\r': return(-2);//CR (возврат каретки)
+        case '\n': return(-3);//LN (конец строки)
+        default: {
+            res++;//inc смещение
+            if(c == Delimiter) return res;//возвр. номер заданного символа в строке
         }
-    } while (true);
+        }
+    } while(true);
 }
 
-void IniParser::resetFind(char* start) {
-    SearchPointer =  start;
+void IniParser::resetFind(char* start){
+    SearchPointer = start;
 }
 
-static bool isComment(char* begin) {
+static bool isComment(char* begin){
     return (bool)(*begin == ';');
 }
 
-static bool isSection(char* begin) {
-    return (bool) (*begin == '[');
+static bool isSection(char* begin){
+    return (bool)(*begin == '[');
 }
 
-static bool isNotKeyValueString(char* c, int len) {
-    while (--len) {
-        if (*c++ == '=')
+static bool isNotKeyValueString(char* c, int len){
+    while(--len){
+        if(*c++ == '=')
             return false;
     }
     return true;
 }
 
-int IniParser::getTagString(char** position) {
+int IniParser::getTagString(char** position){
     char* begin = SearchPointer;
-    char* end   = SearchPointer;
+    char* end = SearchPointer;
     int len = 0;
-    while ((len = getStringLenght(&end)) >=0) {
+    while((len = getStringLenght(&end)) >= 0){
         SearchPointer = end;
-        if (len > 0) {
-            if (isComment(begin)) { (*position) = NULL;  return (int)ParcerResult::COMMENT; };
-            if (isSection(begin)) { (*position) = NULL;  return (int)ParcerResult::SECTION; };
-            if (isNotKeyValueString(begin, len)) { (*position) = NULL;  return (int)ParcerResult::NOTKEYVALUE; };
+        if(len > 0){
+            if(isComment(begin)){ (*position) = NULL;  return (int)ParcerResult::COMMENT; };
+            if(isSection(begin)){ (*position) = NULL;  return (int)ParcerResult::SECTION; };
+            if(isNotKeyValueString(begin, len)){ (*position) = NULL;  return (int)ParcerResult::NOTKEYVALUE; };
             (*position) = begin;  return len;
         }
         begin = end;
@@ -125,7 +125,7 @@ int IniParser::getTagString(char** position) {
     (*position) = NULL;  return (int)ParcerResult::END;
 }
 
-static bool isNexSymbolValid(char** ptr) {
+static bool isNexSymbolValid(char** ptr){
     char* c = *ptr;
     return (bool)(*c == '\n');
 }
@@ -134,14 +134,14 @@ static bool isNexSymbolValid(char** ptr) {
 //возвращает сколько символов насканил
 //если это символы типа CR, LN возвращает ноль
 //если EOF то (int)ParcerResult::END
-int IniParser::getStringLenght(char** ptr) {
+int IniParser::getStringLenght(char** ptr){
     int res = 0;
     char c;
-    while (RootSize - (int)(*&ptr[0] - &Root[0])) {
+    while(RootSize - (int)(*&ptr[0] - &Root[0])){
         c = *((*ptr)++);
-        switch (c) {
+        switch(c){
         case '\r': //CR (возврат каретки)
-            if (isNexSymbolValid(ptr)) (*ptr)++;
+            if(isNexSymbolValid(ptr)) (*ptr)++;
             return res;
         case '\n': //LN (конец строки)
             return(res);
@@ -153,7 +153,7 @@ int IniParser::getStringLenght(char** ptr) {
     return (int)ParcerResult::END;
 }
 
-int IniParser::getSectionLinesCount(char* SectionName) {//возвращает кол-во строк в секции
+int IniParser::getSectionLinesCount(char* SectionName){//возвращает кол-во строк в секции
     char* begin;
     char* ptr;
     int res = 0;//счётчик строк и результат работы функции
@@ -162,116 +162,116 @@ int IniParser::getSectionLinesCount(char* SectionName) {//возвращает �
     //2) считает строки заканчивающиеся на "#13#10" но имеющие длину отличную от "0"
     //3) заканчивает счёт, когда находит EOF #0
     ptr = getSectionEntryPoint(SectionName);//получил адрес начала данных секции
-    if (ptr != 0) {//секция найдена
-        do {
+    if(ptr != 0){//секция найдена
+        do{
             begin = ptr;
             IniStrLenght = getStringLenght(&ptr);
-            if (IniStrLenght > 0) {//если символы в строке есть
-            //то проверю не является ли она заголовком новой секции
-            //т.е. первый символ "["
-                if (*begin == '[') break;//если наткнулся на новую секцию то прекращаю поиск
+            if(IniStrLenght > 0){//если символы в строке есть
+                //то проверю не является ли она заголовком новой секции
+                //т.е. первый символ "["
+                if(*begin == '[') break;//если наткнулся на новую секцию то прекращаю поиск
                 res++;//а так считаю что это полноценная строка
-                           //(к стати не забываю что ";" это начала камента в ini)
+                //(к стати не забываю что ";" это начала камента в ini)
             }
-        } while (IniStrLenght != -1);
+        } while(IniStrLenght != -1);
     };
     return res;
 }
 
-int IniParser::isDelimiterSizeLimited(char delimiter, char*& src, int& size) {
+int IniParser::isDelimiterSizeLimited(char delimiter, char*& src, int& size){
     char c;
     int count = 0;
-    while (size-- != 0) {
+    while(size-- != 0){
         count++;
         c = *src++;
-        if (c == delimiter)
+        if(c == delimiter)
             return count;
     };
     return -1;
 }
 
-std::string IniParser::getElement(char delimiter, char** ptr, int& size) {
+std::string IniParser::getElement(char delimiter, char** ptr, int& size){
     char* start = *ptr;
     int pos = isDelimiterSizeLimited(delimiter, *ptr, size);
-    if (pos > 0) {
+    if(pos > 0){
         std::string s(start, pos - 1);
         return s;
     }
     return "";
 }
 
-std::string IniParser::getElement(char delimiter, char* ptr) {
+std::string IniParser::getElement(char delimiter, char* ptr){
     char* idx = ptr;
     const char* start = ptr;
     int pos = isDelimiter(&idx, delimiter);
-    if (pos > 0) {
+    if(pos > 0){
         std::string s(start, pos - 1);
         return s;
     }
     return "";
 }
 
-char* IniParser::getElementPtrByNumber(int number, char delimiter, char* src) {
+char* IniParser::getElementPtrByNumber(int number, char delimiter, char* src){
     char c;
     int idx = 0;
-    do {
+    do{
         c = *src++;
-        if (c == delimiter) {
-            if (++idx == number)
+        if(c == delimiter){
+            if(++idx == number)
                 return src;
         }
-    } while (c != '\n');
+    } while(c != '\n');
     return NULL;
 }
 
-std::vector<std::string> IniParser::getListOfDelimitedString(char delimiter, char* src, int size) {
+std::vector<std::string> IniParser::getListOfDelimitedString(char delimiter, char* src, int size){
     std::vector<std::string> res = {};
     std::string s = "";
     char** ptr = &src;
-    while (s = getElement(delimiter, ptr, size), size != -1) {
+    while(s = getElement(delimiter, ptr, size), size != -1){
         res.push_back(s);
     }
     return res;
 }
 
 
-std::string IniParser::getElementInclude(char delimiter, char** ptr, int& size) {
-    if ((size == -1) || (size == 0)) {//0 это когда найден разделитель в конце строки
+std::string IniParser::getElementInclude(char delimiter, char** ptr, int& size){
+    if((size == -1) || (size == 0)){//0 это когда найден разделитель в конце строки
         size = -2;
         return "";
     }
     char* start = *ptr;
     int startSize = size;
     int pos = isDelimiterSizeLimited(delimiter, *ptr, size);
-    if (pos > 0) {
+    if(pos > 0){
         std::string s(start, pos - 1);
         return s;
     }
-    else {
+    else{
         std::string s(start, startSize);
         return s;
     }
 }
 
-std::vector<std::string> IniParser::getListOfDelimitedStrInclude(char delimiter, char* src, int size) {
+std::vector<std::string> IniParser::getListOfDelimitedStrInclude(char delimiter, char* src, int size){
     std::vector<std::string> res = {};
     std::string s = "";
     char** ptr = &src;
-    while (s = getElementInclude(delimiter, ptr, size), size != -2) {
+    while(s = getElementInclude(delimiter, ptr, size), size != -2){
         res.push_back(s);
     }
     return res;
 }
 
-std::vector<std::string> Parser::splitString(std::string delimiter, std::string &text) {
+std::vector<std::string> Parser::splitString(std::string delimiter, std::string& text){
     std::vector<std::string> vecRes;
     int pos, newPos;
     pos = 0;
-    do {
+    do{
         newPos = text.find(delimiter, pos);
         vecRes.push_back(text.substr(pos, newPos - pos));
         pos = newPos;
         pos += delimiter.size();
-    } while (newPos != -1);
+    } while(newPos != -1);
     return vecRes;
 }

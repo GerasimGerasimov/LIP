@@ -7,78 +7,78 @@
 
 typedef float (*TFuncRawToFloat) (GeneralCaseSignal::RawReturn& input);
 
-static inline float getFloatFromU(GeneralCaseSignal::RawReturn& input) {
-	float res = (float)input.raw.i;
-	return res;
+static inline float getFloatFromU(GeneralCaseSignal::RawReturn& input){
+    float res = (float)input.raw.i;
+    return res;
 }
 
-static inline float getFloatFromS(GeneralCaseSignal::RawReturn& input) {
-	float res = (float)input.raw.s;
-	return res;
+static inline float getFloatFromS(GeneralCaseSignal::RawReturn& input){
+    float res = (float)input.raw.s;
+    return res;
 }
 
-static inline float getFloatFromF(GeneralCaseSignal::RawReturn& input) {
-	float res = input.raw.f;
-	return res;
+static inline float getFloatFromF(GeneralCaseSignal::RawReturn& input){
+    float res = input.raw.f;
+    return res;
 }
 
 static const TFuncRawToFloat FuncRawToFloat[] = {
-	getFloatFromU,
-	getFloatFromS,
-	getFloatFromF
+    getFloatFromU,
+    getFloatFromS,
+    getFloatFromF
 };
 
-static inline float RawToFloat(GeneralCaseSignal::RawReturn& input) {
-	float res = FuncRawToFloat[(u8)input.type](input);
-	return res;
+static inline float RawToFloat(GeneralCaseSignal::RawReturn& input){
+    float res = FuncRawToFloat[(u8)input.type](input);
+    return res;
 }
 
 
 
-std::string GeneralCaseSignal::value(const TSlotHandlerArsg& args, const char* format) {
-	RawReturn input = getRawValue(args);
-	float res = RawToFloat(input) * Scale;
-	return Utils::getValueAsFormatStr(res, Utils::getFormat(res));
+std::string GeneralCaseSignal::value(const TSlotHandlerArsg& args, const char* format){
+    RawReturn input = getRawValue(args);
+    float res = RawToFloat(input) * Scale;
+    return Utils::getValueAsFormatStr(res, Utils::getFormat(res));
 }
 
-GeneralCaseSignal::RawReturn GeneralCaseSignal::getRawValue(const TSlotHandlerArsg& args) {
-    return { GeneralCaseSignal::ReturnType::U, 0 };
+GeneralCaseSignal::RawReturn GeneralCaseSignal::getRawValue(const TSlotHandlerArsg& args){
+    return {GeneralCaseSignal::ReturnType::U, 0};
 }
 
-std::string GeneralCaseSignal::validation(const TSlotHandlerArsg& args) {
-	if (args.InputBufValidBytes == 0) return "***.**";
-	if (ParametersUtils::isAddrInvalid(Addr)) return "err.addr";
-	//if ((Addr < args.StartAddrOffset) || (Addr > args.LastAddrOffset)) return "out.addr";
-	return "";
+std::string GeneralCaseSignal::validation(const TSlotHandlerArsg& args){
+    if(args.InputBufValidBytes == 0) return "***.**";
+    if(ParametersUtils::isAddrInvalid(Addr)) return "err.addr";
+    //if ((Addr < args.StartAddrOffset) || (Addr > args.LastAddrOffset)) return "out.addr";
+    return "";
 }
 
 GeneralCaseSignal::GeneralCaseSignal(ISignal::PropsPointers props) : Parameter(props)
-	, MSU(IniParser::getInstance().getElementPtrByNumber(2, '/', props.pOptional)) {
-	strAddr = IniParser::getInstance().getElementPtrByNumber(1, '/', props.pOptional);
-	Addr = ParametersUtils::getByteOffsetFromSlahedAddrStr(strAddr);
-	Scale = ScaleUtils::getScaleFromProps(props.dev, props.pOptional);
+, MSU(IniParser::getInstance().getElementPtrByNumber(2, '/', props.pOptional)){
+    strAddr = IniParser::getInstance().getElementPtrByNumber(1, '/', props.pOptional);
+    Addr = ParametersUtils::getByteOffsetFromSlahedAddrStr(strAddr);
+    Scale = ScaleUtils::getScaleFromProps(props.dev, props.pOptional);
 }
 
-std::string GeneralCaseSignal::getMSU() {
+std::string GeneralCaseSignal::getMSU(){
     return (MSU)
         ? IniParser::getInstance().getElement('/', MSU)
         : "";
 }
 
-std::string GeneralCaseSignal::getValue(const TSlotHandlerArsg& args, const char* format) {
+std::string GeneralCaseSignal::getValue(const TSlotHandlerArsg& args, const char* format){
     std::string res = validation(args);
     return (res != "") ? res : value(args, format);
 }
 
-const std::string GeneralCaseSignal::getRegHexAddr() {
+const std::string GeneralCaseSignal::getRegHexAddr(){
     std::string res(strAddr + 1, 4);
     return res;
 }
 
-const std::string GeneralCaseSignal::getWriteCmdType() {
+const std::string GeneralCaseSignal::getWriteCmdType(){
     return "10";
 }
 
-u16 GeneralCaseSignal::getAddr() {
-	return Addr;
+u16 GeneralCaseSignal::getAddr(){
+    return Addr;
 }

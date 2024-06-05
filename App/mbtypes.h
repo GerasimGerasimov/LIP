@@ -1,7 +1,7 @@
 #ifndef __MBTYPES_H
 #define __MBTYPES_H
 #include "stm32f0xx.h"
-		/* FatFs configurations and declarations */
+    /* FatFs configurations and declarations */
 
 // MODBUS commans structure (common block)
 #define _u_dev_addr      0
@@ -25,15 +25,17 @@
 #define error_message_lenght       0x03
 
 typedef
-  union TClntStat { // Byte-addressable UINT
-     u8 Stat;
-	 struct {
-           unsigned bReceiveValidPacket : 1; //когда примет валидный пакет, то взведёт этот флаг как сигнал северу
-           unsigned bPacketTransmited   : 1; //когда передаст пакет, подаст серверу сигнал, что можно переключаться на других клиентов
-           unsigned bWaitForReceive     : 1;
-           unsigned bWaitForTransmit    : 1;
-	 }bits;
-  } TClntStat;
+union TClntStat
+{ // Byte-addressable UINT
+  u8 Stat;
+  struct
+  {
+    unsigned bReceiveValidPacket : 1; //когда примет валидный пакет, то взведёт этот флаг как сигнал северу
+    unsigned bPacketTransmited : 1; //когда передаст пакет, подаст серверу сигнал, что можно переключаться на других клиентов
+    unsigned bWaitForReceive : 1;
+    unsigned bWaitForTransmit : 1;
+  }bits;
+} TClntStat;
 
 typedef struct _TClient_
 {

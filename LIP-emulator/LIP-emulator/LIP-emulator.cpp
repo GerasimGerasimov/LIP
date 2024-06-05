@@ -9,10 +9,9 @@
 #include <vector> //TODO проверка работы индикаторов
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
-                     _In_opt_ HINSTANCE hPrevInstance,
-                     _In_ LPWSTR    lpCmdLine,
-                     _In_ int       nCmdShow)
-{
+    _In_opt_ HINSTANCE hPrevInstance,
+    _In_ LPWSTR    lpCmdLine,
+    _In_ int       nCmdShow){
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
@@ -24,28 +23,25 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     MainWindow::MyRegisterClass(hInstance);
 
     // Выполнить инициализацию приложения:
-    if (!MainWindow::InitInstance (hInstance, nCmdShow))
-    {
+    if(!MainWindow::InitInstance(hInstance, nCmdShow)){
         return FALSE;
     }
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_LIPEMULATOR));
 
     MSG msg;
-    
+
     //TODO проверка работы индикаторов
 
     MainThread::createMCU();
     // Цикл основного сообщения:
-    while (GetMessage(&msg, nullptr, 0, 0))
-    {
-        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
-        {
+    while(GetMessage(&msg, nullptr, 0, 0)){
+        if(!TranslateAccelerator(msg.hwnd, hAccelTable, &msg)){
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
     }
 
     MainThread::closeMCU();
-    return (int) msg.wParam;
+    return (int)msg.wParam;
 }

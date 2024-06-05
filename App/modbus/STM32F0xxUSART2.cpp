@@ -5,7 +5,7 @@
 #include "flashdata.h"
 
 
-const u32 U2BPS[]={  
+const u32 U2BPS[] = {
   4800,// 0 
   9600,// 1 
  19200,// 2 
@@ -16,19 +16,19 @@ const u32 U2BPS[]={
 
 
 
-STM32F0xxUSART2::STM32F0xxUSART2(Intmash_Usart* usart) {
-    
+STM32F0xxUSART2::STM32F0xxUSART2(Intmash_Usart* usart){
+
     Usart = usart;
-    
+
     initUsart();
     initTIM();
     startNVIC();
 }
 
-void STM32F0xxUSART2::initUsart() {
+void STM32F0xxUSART2::initUsart(){
     bavu16 InterfaceSettings;
     InterfaceSettings = FLASH_DATA.MODBUS2;
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2,ENABLE);
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
     Usart->USARTx = USART2;
     Usart->USART_BaudRate = U2BPS[FLASH_DATA.MODBUS2.b[1]];
@@ -44,7 +44,7 @@ void STM32F0xxUSART2::initUsart() {
     UsartDriverInit(Usart);
 }
 
-void STM32F0xxUSART2::initTIM() {
+void STM32F0xxUSART2::initTIM(){
     TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
     TIM_TimeBaseStructure.TIM_Prescaler = 4800 - 1;
@@ -59,7 +59,7 @@ void STM32F0xxUSART2::initTIM() {
     TIM3->SR = 0;
 }
 
-void STM32F0xxUSART2::startNVIC() {
+void STM32F0xxUSART2::startNVIC(){
     NVIC_InitTypeDef NVIC_InitStructure;
     NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;
     NVIC_InitStructure.NVIC_IRQChannelPriority = 5;
@@ -80,11 +80,11 @@ void STM32F0xxUSART2::SetTimer(u16 delay){
 }
 
 extern "C" void TIM3_IRQHandler(){
-  TIM3->SR = 0;
-  ComMasterDriver::TIMHandler();
+    TIM3->SR = 0;
+    ComMasterDriver::TIMHandler();
 }
 
 extern "C" void USART2_IRQHandler(void){
     ComMasterDriver::interruptHandler();
-  
+
 }

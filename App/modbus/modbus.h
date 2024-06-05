@@ -12,24 +12,24 @@
 #define r_max_DEVICE_FLASH_DATA 0x207F
 
 #ifdef __cplusplus
-    extern "C" {
+extern "C" {
 #endif
 
-extern void ModbusInit(void);
-extern bool ModbusMemRead(TClient *pC);
-extern bool ModbusMemWrite(TClient *pC);
-extern bool command_decode(TClient *pC);
-extern void frame_end(TClient *pC);
+  extern void ModbusInit(void);
+  extern bool ModbusMemRead(TClient* pC);
+  extern bool ModbusMemWrite(TClient* pC);
+  extern bool command_decode(TClient* pC);
+  extern void frame_end(TClient* pC);
 
-void CopyFlashToTmpBuffer_(u32 Addr, u32 Buff);
-extern void FlashWrite(u32 DATA_BASE);
-void ModbusFlashWrite_DATA(u16 DATA_1, u16 DATA_2);
+  void CopyFlashToTmpBuffer_(u32 Addr, u32 Buff);
+  extern void FlashWrite(u32 DATA_BASE);
+  void ModbusFlashWrite_DATA(u16 DATA_1, u16 DATA_2);
 
-void BootLoadCmdFillZero();
+  void BootLoadCmdFillZero();
 
-void processModbusSlave();
+  void processModbusSlave();
 
 #ifdef __cplusplus
-    }
+}
 #endif
 #endif

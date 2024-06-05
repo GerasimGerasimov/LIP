@@ -17,18 +17,20 @@ public:
     virtual ~Indicator(){};
     virtual void setParameter(std::string param); //установить новую индикацию
 protected:
-    enum class Type {
+    enum class Type
+    {
         R,  //чтение
         RW  //чтение и запись
     };
-    struct Props {
+    struct Props
+    {
         std::string Device = "";
         std::string Section = "";
         std::string Name = "";
         Type type = Type::R;
         Parameter* resources = nullptr;
     };
-    
+
     uint8_t DataSize = 0;
 };
 

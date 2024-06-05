@@ -4,14 +4,14 @@
 #include <stdint.h>
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif 
 
-extern void GPIO_INIT_Configuration();
-extern void Init (void);
+  extern void GPIO_INIT_Configuration();
+  extern void Init(void);
 
 #ifdef __cplusplus
 }
 #endif
-    
+
 #endif

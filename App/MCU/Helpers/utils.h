@@ -4,13 +4,14 @@
 #include "stm32f0xx.h"
 //#include "bastypes.h"
 
-namespace Utils {
+namespace Utils
+{
 
-	void swp_copy_u16(u8* s, u16* d, u8 c);
-	void comma_to_dot(char* input);
-	std::string getValueAsFormatStr(float& value, const char* format);
-	const std::string UnSignedintToStr(u32 value);
-	const char*& getFormat(float& value);
-	const char*& getFloatFormat(float& value);
+    void swp_copy_u16(u8* s, u16* d, u8 c);
+    void comma_to_dot(char* input);
+    std::string getValueAsFormatStr(float& value, const char* format);
+    const std::string UnSignedintToStr(u32 value);
+    const char*& getFormat(float& value);
+    const char*& getFloatFormat(float& value);
 };
 

@@ -4,7 +4,7 @@
 
 namespace IniResources
 {
-	std::string getScaleValueByKey(const std::string& key, const std::string& dev);
-	std::string getSection(std::string section);
+    std::string getScaleValueByKey(const std::string& key, const std::string& dev);
+    std::string getSection(std::string section);
 };
 

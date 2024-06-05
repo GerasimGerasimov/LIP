@@ -7,6 +7,6 @@
 class ModbusConf
 {
 protected:
-	Intmash_Usart UART;
+    Intmash_Usart UART;
 };
 

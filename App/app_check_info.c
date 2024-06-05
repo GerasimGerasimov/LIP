@@ -1,6 +1,7 @@
 #include "stm32f0xx.h"
 
-typedef struct appCheckInfo {
+typedef struct appCheckInfo
+{
   u32 AppSize;
   u16 Crc;
   u16 AppInfoCrc;

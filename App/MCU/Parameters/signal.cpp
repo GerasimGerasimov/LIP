@@ -1,39 +1,35 @@
 #include "signal.h"
 #include "ini/parser.h"
 
-ISignal::ISignal(char* source, int scrLen) 
-	: Name (NULL)
-	, optional (NULL) {
-}
+ISignal::ISignal(char* source, int scrLen)
+    : Name(NULL)
+    , optional(NULL){}
 
 ISignal::ISignal(ISignal::PropsPointers props)
-	: Name (props.pName)
-    , optional (props.pOptional) {
+    : Name(props.pName)
+    , optional(props.pOptional){}
+
+ISignal::~ISignal(){}
+
+std::string ISignal::getName(){
+    return (Name)
+        ? IniParser::getInstance().getElement('/', Name)
+        : "";
 }
 
-ISignal::~ISignal(){
+std::string ISignal::getValue(const TSlotHandlerArsg& args, const char* format){
+    return "unknown";
 }
 
-std::string ISignal::getName() {
-	return (Name)
-		? IniParser::getInstance().getElement('/', Name)
-		: "";
+std::string ISignal::getDefaultValue(){
+    return "**.**";
 }
 
-std::string ISignal::getValue(const TSlotHandlerArsg& args, const char* format) {
-	return "unknown";
-}
-
-std::string ISignal::getDefaultValue() {
-	return "**.**";
-}
-
-std::string ISignal::getMSU()
-{
-	return "";
+std::string ISignal::getMSU(){
+    return "";
 }
 
 static const std::string SignalType = "ISignal";
-const std::string& ISignal::getSignalType() {
-	return SignalType;
+const std::string& ISignal::getSignalType(){
+    return SignalType;
 }

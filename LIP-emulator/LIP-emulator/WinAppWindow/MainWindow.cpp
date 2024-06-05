@@ -7,7 +7,8 @@
 #include "Resources/InternalResources.h"
 #include "ini/parser.h"
 
-namespace MainWindow {
+namespace MainWindow
+{
     HWND hWnd;
     WinLIPModule* indicator;
     HINSTANCE hInst;                                // текущий экземпляр
@@ -21,14 +22,14 @@ namespace MainWindow {
     void createOutText();
 }
 
-void MainWindow::createObject() {
+void MainWindow::createObject(){
     createIndicator();
     createDI();
     createOutText();
     ComMasterDriver::open();
 }
 
-ATOM MainWindow::MyRegisterClass(HINSTANCE hInstance) {
+ATOM MainWindow::MyRegisterClass(HINSTANCE hInstance){
     WNDCLASSEXW wcex;
 
     wcex.cbSize = sizeof(WNDCLASSEX);
@@ -48,14 +49,14 @@ ATOM MainWindow::MyRegisterClass(HINSTANCE hInstance) {
     return RegisterClassExW(&wcex);
 }
 
-void MainWindow::createIndicator() {
+void MainWindow::createIndicator(){
     std::string Config = InternalResources::getInstance().getItemStringByName((char*)"Config");
     std::vector<std::string> Configuration = Parser::splitString(" ", Config);
     BaseObject::Parameter param;
     param.parrent = hWnd;
     int countIndicator = 0; //TODO пока только 5N индикатороы countIndicator = Configuration.size();
-    for (const auto& n : Configuration) {
-        if (n == "5N") {
+    for(const auto& n : Configuration){
+        if(n == "5N"){
             ++countIndicator;
         }
     }
@@ -63,7 +64,7 @@ void MainWindow::createIndicator() {
     int indent = 10;
     int diserWidthIndicator = 310;
     int diserHeightIndicator = 90;
-    RECT borderIndicator{ 10, 10, 10, 10 };
+    RECT borderIndicator{10, 10, 10, 10};
     RECT rectModule;
     rectModule.left = indent;
     rectModule.right = indent + diserWidthIndicator + borderIndicator.right + borderIndicator.left;
@@ -73,18 +74,18 @@ void MainWindow::createIndicator() {
     indicator = new WinLIPModule(param, Configuration, borderIndicator);
 }
 
-BOOL MainWindow::InitInstance(HINSTANCE hInstance, int nCmdShow) {
+BOOL MainWindow::InitInstance(HINSTANCE hInstance, int nCmdShow){
     hInst = hInstance; // Сохранить маркер экземпляра
 
     hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, 0, 1024, 768, nullptr, nullptr, hInstance, nullptr);
 
-    if (!hWnd) {
+    if(!hWnd){
         return FALSE;
     }
-    
-    
-    
+
+
+
     ShowWindow(hWnd, nCmdShow);
     UpdateWindow(hWnd);
 
@@ -94,14 +95,14 @@ BOOL MainWindow::InitInstance(HINSTANCE hInstance, int nCmdShow) {
     return TRUE;
 }
 
-void MainWindow::createDI() {
+void MainWindow::createDI(){
     BaseObject::Parameter param;
     param.parrent = hWnd;
     param.rect = {500, 10, 0, 0}; //длина и ширина вычисляются самим объектом 
     winDI = new WinDI(param);
 }
 
-void MainWindow::createOutText() {
+void MainWindow::createOutText(){
     HWND hwnd = CreateWindow(L"EDIT", L"", WS_VISIBLE | WS_CHILD | WS_BORDER | ES_MULTILINE | WS_VSCROLL, 620, 10, 285, 180, hWnd,
         NULL, NULL, NULL);
     lip::cout.setHwnd(hwnd);
@@ -109,22 +110,22 @@ void MainWindow::createOutText() {
 
 //const int ID_BUTTON9(3900);
 
-LRESULT MainWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
+LRESULT MainWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
     //TCHAR greeting[] = _T("Hello, LIP desctop.");
-    
-    switch (message) {
+
+    switch(message){
     case WM_CREATE:
         /*CreateWindow(L"button", L"--< КНОПКА >--", BS_PUSHBUTTON |
             WS_VISIBLE | WS_CHILD | WS_TABSTOP, 60, 60, 120, 25, hWnd,
             (HMENU)ID_BUTTON9, NULL, NULL);*/
-        
-        
+
+
         break;
     case WM_COMMAND:
     {
         int wmId = LOWORD(wParam);
         // Разобрать выбор в меню:
-        switch (wmId) {
+        switch(wmId){
         case IDM_ABOUT:
             DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
             break;
@@ -156,14 +157,14 @@ LRESULT MainWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
     return 0;
 }
 
-INT_PTR MainWindow::About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
+INT_PTR MainWindow::About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam){
     UNREFERENCED_PARAMETER(lParam);
-    switch (message) {
+    switch(message){
     case WM_INITDIALOG:
         return (INT_PTR)TRUE;
 
     case WM_COMMAND:
-        if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL) {
+        if(LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL){
             EndDialog(hDlg, LOWORD(wParam));
             return (INT_PTR)TRUE;
         }
@@ -172,21 +173,21 @@ INT_PTR MainWindow::About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
     return (INT_PTR)FALSE;
 }
 
-void MainWindow::setData(std::vector<uint8_t> &vecData) {
+void MainWindow::setData(std::vector<uint8_t>& vecData){
     indicator->setData(vecData);
 }
 
-void MainWindow::close() {
-    if (winDI) {
+void MainWindow::close(){
+    if(winDI){
         delete winDI;
         winDI = nullptr;
     }
-    if (indicator) {
+    if(indicator){
         delete indicator;
         indicator = nullptr;
     }
 }
 
-void MainWindow::TimeStart(TIMERPROC proc) {
+void MainWindow::TimeStart(TIMERPROC proc){
     SetTimer(hWnd, IDT_TIMER1, 100, proc);
 }

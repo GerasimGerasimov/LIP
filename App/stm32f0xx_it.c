@@ -68,63 +68,63 @@ u16 SPI_DIO_Inputs;
 /*            Cortex-M0 Processor Exceptions Handlers                         */
 /******************************************************************************/
 
-void TIM1_CC_IRQHandler (void)
-{
-  if ((TIM1->SR & TIM_FLAG_CC1)&&(TIM1->DIER & TIM_IT_CC1)) TIM1_user_U1();
-  
+void TIM1_CC_IRQHandler(void){
+  if((TIM1->SR & TIM_FLAG_CC1) && (TIM1->DIER & TIM_IT_CC1)) TIM1_user_U1();
+
 }
 
 //считывание DI с кнопок
-u8 SPI_DIO_Processing()
-{
+u8 SPI_DIO_Processing(){
   u8 RetVal = 0;
   static bool isWaitReceive = false;
   //если кристалл ещё не выбран CE в "1"
   //сдвиговые регистры входов находятся в ресете
   //инициализируем работу сдвиговых регистров
-  if (DI_CE_ST) {
+  if(DI_CE_ST){
       //если чип 74HC165 ещё не выбран, то сначала проверяю, в каком состоянии защёлка
       //если защёлка не в нуле, то опускаю защёлку чтобы входы перешли в сдвиговый регистра
-      if (DI_LOCK_ST) {//если защёлка в "1" 
+    if(DI_LOCK_ST){//если защёлка в "1" 
 
-        DI_LOCK_DWN;//то ставлю в "0" на этом этапе денные из параллельного регистра переходят в последовательный
-      } else { //если защёлка в "0"
+      DI_LOCK_DWN;//то ставлю в "0" на этом этапе денные из параллельного регистра переходят в последовательный
+    }
+    else{ //если защёлка в "0"
 
-        DI_LOCK_UP;//то ставлю её в "1" (т.е. возвращаю в исходное состояние)
-        DI_CE_DWN;//и выбираю 74HC165
-        isWaitReceive = false;
-      }
+      DI_LOCK_UP;//то ставлю её в "1" (т.е. возвращаю в исходное состояние)
+      DI_CE_DWN;//и выбираю 74HC165
+      isWaitReceive = false;
+    }
   }
-  else {//чип 74HC165 уже выбран
-    if (!isWaitReceive) {//если ещё не жду отправки (с параллельным приёмом!)
+  else{//чип 74HC165 уже выбран
+    if(!isWaitReceive){//если ещё не жду отправки (с параллельным приёмом!)
 
       SPI2->DR = 0xFFFF;// //то оптправить по SPI единицы, чтобы в ответ получить состояние дискретных входов
       isWaitReceive = true;
-    } else {
-      //на всякий случай
+    }
+    else{
+   //на всякий случай
       while(SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_BSY) == SET){
-        
-    };
-      //RAM_DATA.UoutAve++;
-      //прошло 0.001 сек, за это время данные должны быть получены
+
+      };
+        //RAM_DATA.UoutAve++;
+        //прошло 0.001 сек, за это время данные должны быть получены
       DI_CE_UP;//"освобождаю" кристалл
       DI_LOCK_UP;
       isWaitReceive = false;
-      
+
       SPI_DIO_Inputs = ~(SPI_I2S_ReceiveData16(SPI2));
       /* (InputsPolarity == DIO_MODE_NORMAL)
                           ? SPI_DIO->DR
                           : ~(SPI_DIO->DR); */
 
     }
-  }  
+  }
   return RetVal;
 }
 
 void TIM2_IRQHandler(){
   TIM2->SR = 0;
-  
-  SPI_DIO_Processing(); 
+
+  SPI_DIO_Processing();
   RAM_DATA.DI = SPI_DIO_Inputs;
   ctrlSysLive();
 }
@@ -134,20 +134,16 @@ void TIM2_IRQHandler(){
   * @param  None
   * @retval None
   */
-void NMI_Handler(void)
-{
-}
+void NMI_Handler(void){}
 
 /**
   * @brief  This function handles Hard Fault exception.
   * @param  None
   * @retval None
   */
-void HardFault_Handler(void)
-{
+void HardFault_Handler(void){
   /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
+  while(1){
   }
 }
 
@@ -156,27 +152,21 @@ void HardFault_Handler(void)
   * @param  None
   * @retval None
   */
-void SVC_Handler(void)
-{
-}
+void SVC_Handler(void){}
 
 /**
   * @brief  This function handles PendSVC exception.
   * @param  None
   * @retval None
   */
-void PendSV_Handler(void)
-{
-}
+void PendSV_Handler(void){}
 
 /**
   * @brief  This function handles SysTick Handler.
   * @param  None
   * @retval None
   */
-void SysTick_Handler(void)
-{
-}
+void SysTick_Handler(void){}
 
 /******************************************************************************/
 /*                 STM32F0xx Peripherals Interrupt Handlers                   */

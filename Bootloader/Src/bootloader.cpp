@@ -29,9 +29,9 @@ u16 writeCodeToFlash(TClient* Slave);
 u16 startApplication(TClient* Slave);
 
 u16 BootLoader(TClient* Slave){
-  
-  u8 cmd = Slave->Buffer[BOOT_CMD_CODE_OFFSET];
-  switch (cmd) {
+
+    u8 cmd = Slave->Buffer[BOOT_CMD_CODE_OFFSET];
+    switch(cmd){
     case BOOT_CMD_GET_PAGES_LIST:
         return getPagesList(Slave);
     case BOOT_CMD_SET_ERASED_PAGES:
@@ -43,8 +43,8 @@ u16 BootLoader(TClient* Slave){
     case BOOT_CMD_PUT_AREA_CODE:
         return writeCodeToFlash(Slave);
     default:
-      return 0;
-  }
+        return 0;
+    }
 }
 
 //������:
@@ -59,29 +59,29 @@ u16 BootLoader(TClient* Slave){
 //� ������ ������:
 //01.B0.03.0000.CRC
 
-u16 readMemoryBlockFromAddr(TClient* Slave) {
-  /* TODO change address-endian at backend  */
-  const baulong StartAddr = {
-    .b[0] = Slave->Buffer[6],
-    .b[1] = Slave->Buffer[5],
-    .b[2] = Slave->Buffer[4],
-    .b[3] = Slave->Buffer[3]
-  };
-  const bauint count = {
-    .b[0] = Slave->Buffer[8],
-    .b[1] = Slave->Buffer[7],
-  };
-  /*TODO  if count is more than the Slave->Buffer length,
-          the count should be as the Slave->Buffer lenght*/
-//  u8_mem_cpy( (unsigned char *)StartAddr.L, &Slave->Buffer[BOOT_GET_MEM_HEAD_SIZE], count.i);
-  Slave->Buffer[3] =  count.b[1];
-  Slave->Buffer[4] =  count.b[0];
-  
-  u16 DataLength = count.i;
-  DataLength += BOOT_GET_MEM_HEAD_SIZE;//��������� ����� ���������   
-  DataLength += CRC_SIZE;//��������� ����� crc 
-//  FrameEndCrc16((u8*)Slave->Buffer, DataLength);
-  return DataLength;
+u16 readMemoryBlockFromAddr(TClient* Slave){
+    /* TODO change address-endian at backend  */
+    const baulong StartAddr = {
+      .b[0] = Slave->Buffer[6],
+      .b[1] = Slave->Buffer[5],
+      .b[2] = Slave->Buffer[4],
+      .b[3] = Slave->Buffer[3]
+    };
+    const bauint count = {
+      .b[0] = Slave->Buffer[8],
+      .b[1] = Slave->Buffer[7],
+    };
+    /*TODO  if count is more than the Slave->Buffer length,
+            the count should be as the Slave->Buffer lenght*/
+            //  u8_mem_cpy( (unsigned char *)StartAddr.L, &Slave->Buffer[BOOT_GET_MEM_HEAD_SIZE], count.i);
+    Slave->Buffer[3] = count.b[1];
+    Slave->Buffer[4] = count.b[0];
+
+    u16 DataLength = count.i;
+    DataLength += BOOT_GET_MEM_HEAD_SIZE;//��������� ����� ���������   
+    DataLength += CRC_SIZE;//��������� ����� crc 
+    //  FrameEndCrc16((u8*)Slave->Buffer, DataLength);
+    return DataLength;
 }
 
 //�������� ������� ������ �������������� JSON
@@ -89,148 +89,148 @@ u16 readMemoryBlockFromAddr(TClient* Slave) {
 //������� hex �������� ���� ���������� � ������ � ������� ""
 //� ������� � ������ ������������ �������� ������ 
 
-const char PagesList[] = 
+const char PagesList[] =
 "[{\"start\": \"0x08000000\", \"size\": 2047}," \
- "{\"start\": \"0x08000800\", \"size\": 2047}," \
- "{\"start\": \"0x08001000\", \"size\": 2047}," \
- "{\"start\": \"0x08001800\", \"size\": 2047}," \
- "{\"start\": \"0x08002000\", \"size\": 2047}," \
- "{\"start\": \"0x08002800\", \"size\": 2047}," \
- "{\"start\": \"0x08003000\", \"size\": 2047}," \
- "{\"start\": \"0x08003800\", \"size\": 2047}," \
- "{\"start\": \"0x08004000\", \"size\": 2047}," \
- "{\"start\": \"0x08004800\", \"size\": 2047}," \
- "{\"start\": \"0x08005000\", \"size\": 2047}," \
- "{\"start\": \"0x08005800\", \"size\": 2047}," \
- "{\"start\": \"0x08006000\", \"size\": 2047}," \
- "{\"start\": \"0x08006800\", \"size\": 2047}," \
- "{\"start\": \"0x08007000\", \"size\": 2047}," \
- "{\"start\": \"0x08007800\", \"size\": 2047}," \
- "{\"start\": \"0x08008000\", \"size\": 2047}," \
- "{\"start\": \"0x08008800\", \"size\": 2047}," \
- "{\"start\": \"0x08009000\", \"size\": 2047}," \
- "{\"start\": \"0x08009800\", \"size\": 2047}," \
- "{\"start\": \"0x0800A000\", \"size\": 2047}," \
- "{\"start\": \"0x0800A800\", \"size\": 2047}," \
- "{\"start\": \"0x0800B000\", \"size\": 2047}," \
- "{\"start\": \"0x0800B800\", \"size\": 2047}," \
- "{\"start\": \"0x0800C000\", \"size\": 2047}," \
- "{\"start\": \"0x0800C800\", \"size\": 2047}," \
- "{\"start\": \"0x0800D000\", \"size\": 2047}," \
- "{\"start\": \"0x0800D800\", \"size\": 2047}," \
- "{\"start\": \"0x0800E000\", \"size\": 2047}," \
- "{\"start\": \"0x0800E800\", \"size\": 2047}," \
- "{\"start\": \"0x0800F000\", \"size\": 2047}," \
- "{\"start\": \"0x0800F800\", \"size\": 2047}," \
- "{\"start\": \"0x08010000\", \"size\": 2047}," \
- "{\"start\": \"0x08010800\", \"size\": 2047}," \
- "{\"start\": \"0x08011000\", \"size\": 2047}," \
- "{\"start\": \"0x08011800\", \"size\": 2047}," \
- "{\"start\": \"0x08012000\", \"size\": 2047}," \
- "{\"start\": \"0x08012800\", \"size\": 2047}," \
- "{\"start\": \"0x08013000\", \"size\": 2047}," \
- "{\"start\": \"0x08013800\", \"size\": 2047}," \
- "{\"start\": \"0x08014000\", \"size\": 2047}," \
- "{\"start\": \"0x08014800\", \"size\": 2047}," \
- "{\"start\": \"0x08015000\", \"size\": 2047}," \
- "{\"start\": \"0x08015800\", \"size\": 2047}," \
- "{\"start\": \"0x08016000\", \"size\": 2047}," \
- "{\"start\": \"0x08016800\", \"size\": 2047}," \
- "{\"start\": \"0x08017000\", \"size\": 2047}," \
- "{\"start\": \"0x08017800\", \"size\": 2047}," \
- "{\"start\": \"0x08018000\", \"size\": 2047}," \
- "{\"start\": \"0x08018800\", \"size\": 2047}," \
- "{\"start\": \"0x08019000\", \"size\": 2047}," \
- "{\"start\": \"0x08019800\", \"size\": 2047}," \
- "{\"start\": \"0x0801A000\", \"size\": 2047}," \
- "{\"start\": \"0x0801A800\", \"size\": 2047}," \
- "{\"start\": \"0x0801B000\", \"size\": 2047}," \
- "{\"start\": \"0x0801B800\", \"size\": 2047}," \
- "{\"start\": \"0x0801C000\", \"size\": 2047}," \
- "{\"start\": \"0x0801C800\", \"size\": 2047}," \
- "{\"start\": \"0x0801D000\", \"size\": 2047}," \
- "{\"start\": \"0x0801D800\", \"size\": 2047}," \
- "{\"start\": \"0x0801E000\", \"size\": 2047}," \
- "{\"start\": \"0x0801E800\", \"size\": 2047}," \
- "{\"start\": \"0x0801F000\", \"size\": 2047}," \
- "{\"start\": \"0x0801F800\", \"size\": 2047}," \
- "{\"start\": \"0x08020000\", \"size\": 2047}," \
- "{\"start\": \"0x08020800\", \"size\": 2047}," \
- "{\"start\": \"0x08021000\", \"size\": 2047}," \
- "{\"start\": \"0x08021800\", \"size\": 2047}," \
- "{\"start\": \"0x08022000\", \"size\": 2047}," \
- "{\"start\": \"0x08022800\", \"size\": 2047}," \
- "{\"start\": \"0x08023000\", \"size\": 2047}," \
- "{\"start\": \"0x08023800\", \"size\": 2047}," \
- "{\"start\": \"0x08024000\", \"size\": 2047}," \
- "{\"start\": \"0x08024800\", \"size\": 2047}," \
- "{\"start\": \"0x08025000\", \"size\": 2047}," \
- "{\"start\": \"0x08025800\", \"size\": 2047}," \
- "{\"start\": \"0x08026000\", \"size\": 2047}," \
- "{\"start\": \"0x08026800\", \"size\": 2047}," \
- "{\"start\": \"0x08027000\", \"size\": 2047}," \
- "{\"start\": \"0x08027800\", \"size\": 2047}," \
- "{\"start\": \"0x08028000\", \"size\": 2047}," \
- "{\"start\": \"0x08028800\", \"size\": 2047}," \
- "{\"start\": \"0x08029000\", \"size\": 2047}," \
- "{\"start\": \"0x08029800\", \"size\": 2047}," \
- "{\"start\": \"0x0802A000\", \"size\": 2047}," \
- "{\"start\": \"0x0802A800\", \"size\": 2047}," \
- "{\"start\": \"0x0802B000\", \"size\": 2047}," \
- "{\"start\": \"0x0802B800\", \"size\": 2047}," \
- "{\"start\": \"0x0802C000\", \"size\": 2047}," \
- "{\"start\": \"0x0802C800\", \"size\": 2047}," \
- "{\"start\": \"0x0802D000\", \"size\": 2047}," \
- "{\"start\": \"0x0802D800\", \"size\": 2047}," \
- "{\"start\": \"0x0802E000\", \"size\": 2047}," \
- "{\"start\": \"0x0802E800\", \"size\": 2047}," \
- "{\"start\": \"0x0802F000\", \"size\": 2047}," \
- "{\"start\": \"0x0802F800\", \"size\": 2047}," \
- "{\"start\": \"0x08030000\", \"size\": 2047}," \
- "{\"start\": \"0x08030800\", \"size\": 2047}," \
- "{\"start\": \"0x08031000\", \"size\": 2047}," \
- "{\"start\": \"0x08031800\", \"size\": 2047}," \
- "{\"start\": \"0x08032000\", \"size\": 2047}," \
- "{\"start\": \"0x08032800\", \"size\": 2047}," \
- "{\"start\": \"0x08033000\", \"size\": 2047}," \
- "{\"start\": \"0x08033800\", \"size\": 2047}," \
- "{\"start\": \"0x08034000\", \"size\": 2047}," \
- "{\"start\": \"0x08034800\", \"size\": 2047}," \
- "{\"start\": \"0x08035000\", \"size\": 2047}," \
- "{\"start\": \"0x08035800\", \"size\": 2047}," \
- "{\"start\": \"0x08036000\", \"size\": 2047}," \
- "{\"start\": \"0x08036800\", \"size\": 2047}," \
- "{\"start\": \"0x08037000\", \"size\": 2047}," \
- "{\"start\": \"0x08037800\", \"size\": 2047}," \
- "{\"start\": \"0x08038000\", \"size\": 2047}," \
- "{\"start\": \"0x08038800\", \"size\": 2047}," \
- "{\"start\": \"0x08039000\", \"size\": 2047}," \
- "{\"start\": \"0x08039800\", \"size\": 2047}," \
- "{\"start\": \"0x0803A000\", \"size\": 2047}," \
- "{\"start\": \"0x0803A800\", \"size\": 2047}," \
- "{\"start\": \"0x0803B000\", \"size\": 2047}," \
- "{\"start\": \"0x0803B800\", \"size\": 2047}," \
- "{\"start\": \"0x0803C000\", \"size\": 2047}," \
- "{\"start\": \"0x0803C800\", \"size\": 2047}," \
- "{\"start\": \"0x0803D000\", \"size\": 2047}," \
- "{\"start\": \"0x0803D800\", \"size\": 2047}," \
- "{\"start\": \"0x0803E000\", \"size\": 2047}," \
- "{\"start\": \"0x0803E800\", \"size\": 2047}," \
- "{\"start\": \"0x0803F000\", \"size\": 2047}," \
- "{\"start\": \"0x0803F800\", \"size\": 2047}]";
+"{\"start\": \"0x08000800\", \"size\": 2047}," \
+"{\"start\": \"0x08001000\", \"size\": 2047}," \
+"{\"start\": \"0x08001800\", \"size\": 2047}," \
+"{\"start\": \"0x08002000\", \"size\": 2047}," \
+"{\"start\": \"0x08002800\", \"size\": 2047}," \
+"{\"start\": \"0x08003000\", \"size\": 2047}," \
+"{\"start\": \"0x08003800\", \"size\": 2047}," \
+"{\"start\": \"0x08004000\", \"size\": 2047}," \
+"{\"start\": \"0x08004800\", \"size\": 2047}," \
+"{\"start\": \"0x08005000\", \"size\": 2047}," \
+"{\"start\": \"0x08005800\", \"size\": 2047}," \
+"{\"start\": \"0x08006000\", \"size\": 2047}," \
+"{\"start\": \"0x08006800\", \"size\": 2047}," \
+"{\"start\": \"0x08007000\", \"size\": 2047}," \
+"{\"start\": \"0x08007800\", \"size\": 2047}," \
+"{\"start\": \"0x08008000\", \"size\": 2047}," \
+"{\"start\": \"0x08008800\", \"size\": 2047}," \
+"{\"start\": \"0x08009000\", \"size\": 2047}," \
+"{\"start\": \"0x08009800\", \"size\": 2047}," \
+"{\"start\": \"0x0800A000\", \"size\": 2047}," \
+"{\"start\": \"0x0800A800\", \"size\": 2047}," \
+"{\"start\": \"0x0800B000\", \"size\": 2047}," \
+"{\"start\": \"0x0800B800\", \"size\": 2047}," \
+"{\"start\": \"0x0800C000\", \"size\": 2047}," \
+"{\"start\": \"0x0800C800\", \"size\": 2047}," \
+"{\"start\": \"0x0800D000\", \"size\": 2047}," \
+"{\"start\": \"0x0800D800\", \"size\": 2047}," \
+"{\"start\": \"0x0800E000\", \"size\": 2047}," \
+"{\"start\": \"0x0800E800\", \"size\": 2047}," \
+"{\"start\": \"0x0800F000\", \"size\": 2047}," \
+"{\"start\": \"0x0800F800\", \"size\": 2047}," \
+"{\"start\": \"0x08010000\", \"size\": 2047}," \
+"{\"start\": \"0x08010800\", \"size\": 2047}," \
+"{\"start\": \"0x08011000\", \"size\": 2047}," \
+"{\"start\": \"0x08011800\", \"size\": 2047}," \
+"{\"start\": \"0x08012000\", \"size\": 2047}," \
+"{\"start\": \"0x08012800\", \"size\": 2047}," \
+"{\"start\": \"0x08013000\", \"size\": 2047}," \
+"{\"start\": \"0x08013800\", \"size\": 2047}," \
+"{\"start\": \"0x08014000\", \"size\": 2047}," \
+"{\"start\": \"0x08014800\", \"size\": 2047}," \
+"{\"start\": \"0x08015000\", \"size\": 2047}," \
+"{\"start\": \"0x08015800\", \"size\": 2047}," \
+"{\"start\": \"0x08016000\", \"size\": 2047}," \
+"{\"start\": \"0x08016800\", \"size\": 2047}," \
+"{\"start\": \"0x08017000\", \"size\": 2047}," \
+"{\"start\": \"0x08017800\", \"size\": 2047}," \
+"{\"start\": \"0x08018000\", \"size\": 2047}," \
+"{\"start\": \"0x08018800\", \"size\": 2047}," \
+"{\"start\": \"0x08019000\", \"size\": 2047}," \
+"{\"start\": \"0x08019800\", \"size\": 2047}," \
+"{\"start\": \"0x0801A000\", \"size\": 2047}," \
+"{\"start\": \"0x0801A800\", \"size\": 2047}," \
+"{\"start\": \"0x0801B000\", \"size\": 2047}," \
+"{\"start\": \"0x0801B800\", \"size\": 2047}," \
+"{\"start\": \"0x0801C000\", \"size\": 2047}," \
+"{\"start\": \"0x0801C800\", \"size\": 2047}," \
+"{\"start\": \"0x0801D000\", \"size\": 2047}," \
+"{\"start\": \"0x0801D800\", \"size\": 2047}," \
+"{\"start\": \"0x0801E000\", \"size\": 2047}," \
+"{\"start\": \"0x0801E800\", \"size\": 2047}," \
+"{\"start\": \"0x0801F000\", \"size\": 2047}," \
+"{\"start\": \"0x0801F800\", \"size\": 2047}," \
+"{\"start\": \"0x08020000\", \"size\": 2047}," \
+"{\"start\": \"0x08020800\", \"size\": 2047}," \
+"{\"start\": \"0x08021000\", \"size\": 2047}," \
+"{\"start\": \"0x08021800\", \"size\": 2047}," \
+"{\"start\": \"0x08022000\", \"size\": 2047}," \
+"{\"start\": \"0x08022800\", \"size\": 2047}," \
+"{\"start\": \"0x08023000\", \"size\": 2047}," \
+"{\"start\": \"0x08023800\", \"size\": 2047}," \
+"{\"start\": \"0x08024000\", \"size\": 2047}," \
+"{\"start\": \"0x08024800\", \"size\": 2047}," \
+"{\"start\": \"0x08025000\", \"size\": 2047}," \
+"{\"start\": \"0x08025800\", \"size\": 2047}," \
+"{\"start\": \"0x08026000\", \"size\": 2047}," \
+"{\"start\": \"0x08026800\", \"size\": 2047}," \
+"{\"start\": \"0x08027000\", \"size\": 2047}," \
+"{\"start\": \"0x08027800\", \"size\": 2047}," \
+"{\"start\": \"0x08028000\", \"size\": 2047}," \
+"{\"start\": \"0x08028800\", \"size\": 2047}," \
+"{\"start\": \"0x08029000\", \"size\": 2047}," \
+"{\"start\": \"0x08029800\", \"size\": 2047}," \
+"{\"start\": \"0x0802A000\", \"size\": 2047}," \
+"{\"start\": \"0x0802A800\", \"size\": 2047}," \
+"{\"start\": \"0x0802B000\", \"size\": 2047}," \
+"{\"start\": \"0x0802B800\", \"size\": 2047}," \
+"{\"start\": \"0x0802C000\", \"size\": 2047}," \
+"{\"start\": \"0x0802C800\", \"size\": 2047}," \
+"{\"start\": \"0x0802D000\", \"size\": 2047}," \
+"{\"start\": \"0x0802D800\", \"size\": 2047}," \
+"{\"start\": \"0x0802E000\", \"size\": 2047}," \
+"{\"start\": \"0x0802E800\", \"size\": 2047}," \
+"{\"start\": \"0x0802F000\", \"size\": 2047}," \
+"{\"start\": \"0x0802F800\", \"size\": 2047}," \
+"{\"start\": \"0x08030000\", \"size\": 2047}," \
+"{\"start\": \"0x08030800\", \"size\": 2047}," \
+"{\"start\": \"0x08031000\", \"size\": 2047}," \
+"{\"start\": \"0x08031800\", \"size\": 2047}," \
+"{\"start\": \"0x08032000\", \"size\": 2047}," \
+"{\"start\": \"0x08032800\", \"size\": 2047}," \
+"{\"start\": \"0x08033000\", \"size\": 2047}," \
+"{\"start\": \"0x08033800\", \"size\": 2047}," \
+"{\"start\": \"0x08034000\", \"size\": 2047}," \
+"{\"start\": \"0x08034800\", \"size\": 2047}," \
+"{\"start\": \"0x08035000\", \"size\": 2047}," \
+"{\"start\": \"0x08035800\", \"size\": 2047}," \
+"{\"start\": \"0x08036000\", \"size\": 2047}," \
+"{\"start\": \"0x08036800\", \"size\": 2047}," \
+"{\"start\": \"0x08037000\", \"size\": 2047}," \
+"{\"start\": \"0x08037800\", \"size\": 2047}," \
+"{\"start\": \"0x08038000\", \"size\": 2047}," \
+"{\"start\": \"0x08038800\", \"size\": 2047}," \
+"{\"start\": \"0x08039000\", \"size\": 2047}," \
+"{\"start\": \"0x08039800\", \"size\": 2047}," \
+"{\"start\": \"0x0803A000\", \"size\": 2047}," \
+"{\"start\": \"0x0803A800\", \"size\": 2047}," \
+"{\"start\": \"0x0803B000\", \"size\": 2047}," \
+"{\"start\": \"0x0803B800\", \"size\": 2047}," \
+"{\"start\": \"0x0803C000\", \"size\": 2047}," \
+"{\"start\": \"0x0803C800\", \"size\": 2047}," \
+"{\"start\": \"0x0803D000\", \"size\": 2047}," \
+"{\"start\": \"0x0803D800\", \"size\": 2047}," \
+"{\"start\": \"0x0803E000\", \"size\": 2047}," \
+"{\"start\": \"0x0803E800\", \"size\": 2047}," \
+"{\"start\": \"0x0803F000\", \"size\": 2047}," \
+"{\"start\": \"0x0803F800\", \"size\": 2047}]";
 
 u16 getPagesList(TClient* Slave){
-  u16 DataLength = 0; //������ ������������ �������
-  DataLength = strlen(PagesList);
-  //Slave->Buffer[BOOT_PAGES_LIST_DATA_SECTION + 0] = (DataLength >> 8) & 0x00FF;
-  //Slave->Buffer[BOOT_PAGES_LIST_DATA_SECTION + 1] = (DataLength) & 0x00FF;
-  //DataLength  = 5;
-  strcpy((char *) &Slave->Buffer[BOOT_PAGES_LIST_HEAD_SIZE], PagesList);
-  DataLength += BOOT_PAGES_LIST_HEAD_SIZE;//��������� ����� ���������   
-  DataLength += CRC_SIZE;//��������� ����� crc 
-  FrameEndCrc16((u8*)Slave->Buffer, DataLength);
-  
-  return DataLength;
+    u16 DataLength = 0; //������ ������������ �������
+    DataLength = strlen(PagesList);
+    //Slave->Buffer[BOOT_PAGES_LIST_DATA_SECTION + 0] = (DataLength >> 8) & 0x00FF;
+    //Slave->Buffer[BOOT_PAGES_LIST_DATA_SECTION + 1] = (DataLength) & 0x00FF;
+    //DataLength  = 5;
+    strcpy((char*)&Slave->Buffer[BOOT_PAGES_LIST_HEAD_SIZE], PagesList);
+    DataLength += BOOT_PAGES_LIST_HEAD_SIZE;//��������� ����� ���������   
+    DataLength += CRC_SIZE;//��������� ����� crc 
+    FrameEndCrc16((u8*)Slave->Buffer, DataLength);
+
+    return DataLength;
 }
 
 //�������� �������� �������
@@ -241,36 +241,36 @@ u16 getPagesList(TClient* Slave){
 //
 //�����:
 //01.B0.01.CRC
-std::vector<u32> getPagesAddrList( u8 * buff) {
+std::vector<u32> getPagesAddrList(u8* buff){
     u8 NumOfPages = buff[0];
-    u32 * pPages = (u32 * ) &buff[1];
-    std::vector<u32> Pages (NumOfPages);
-    for (auto & page: Pages) {
-        page = *pPages ++;
+    u32* pPages = (u32*)&buff[1];
+    std::vector<u32> Pages(NumOfPages);
+    for(auto& page : Pages){
+        page = *pPages++;
     };
-    
+
     return Pages;
 }
 
-FLASH_Status erasePages(const std::vector<u32> Pages) {
-  FLASH_Status status;
-  StartFlashChange();
-    for (const u32 & page: Pages) {
-       status = EraseFlashPage(page);
-       if (status != FLASH_COMPLETE) break;
+FLASH_Status erasePages(const std::vector<u32> Pages){
+    FLASH_Status status;
+    StartFlashChange();
+    for(const u32& page : Pages){
+        status = EraseFlashPage(page);
+        if(status != FLASH_COMPLETE) break;
     }
-  EndFlashChange();
-  return status;
+    EndFlashChange();
+    return status;
 }
 
 u16 setErasedPages(TClient* Slave){
-  const std::vector<u32> Pages = getPagesAddrList((u8 *) &Slave->Buffer[3]);
-  FLASH_Status status = erasePages(Pages);
-  Slave->Buffer[4] = status;
-  u16 DataLength  = 4;
-  DataLength += CRC_SIZE;//��������� ����� crc 
-  FrameEndCrc16((u8*)Slave->Buffer, DataLength);
-  return DataLength;
+    const std::vector<u32> Pages = getPagesAddrList((u8*)&Slave->Buffer[3]);
+    FLASH_Status status = erasePages(Pages);
+    Slave->Buffer[4] = status;
+    u16 DataLength = 4;
+    DataLength += CRC_SIZE;//��������� ����� crc 
+    FrameEndCrc16((u8*)Slave->Buffer, DataLength);
+    return DataLength;
 }
 
 /*
@@ -283,148 +283,147 @@ DD... - data bytes
 Answer:
 01.B0.04
 */
-void writeCodeSpase(u32 startAddr, u16 count, u8 * buff) {
-  StartFlashChange();
+void writeCodeSpase(u32 startAddr, u16 count, u8* buff){
+    StartFlashChange();
 
-  
-  u8 data;
-  
-  //FLASH_Unlock();  // Unlock the Flash Program Erase controller
-  //FLASH_ClearFlag(FLASH_FLAG_BSY | FLASH_FLAG_EOP | FLASH_FLAG_PGERR | FLASH_FLAG_WRPRTERR);
-  while (count-- != 0) { 
 
-    data = *buff;
-    FLASH_ProgramOptionByteData(startAddr++, data);
-    ++buff;
-  }
-  EndFlashChange();
+    u8 data;
+
+    //FLASH_Unlock();  // Unlock the Flash Program Erase controller
+    //FLASH_ClearFlag(FLASH_FLAG_BSY | FLASH_FLAG_EOP | FLASH_FLAG_PGERR | FLASH_FLAG_WRPRTERR);
+    while(count-- != 0){
+
+        data = *buff;
+        FLASH_ProgramOptionByteData(startAddr++, data);
+        ++buff;
+    }
+    EndFlashChange();
 }
 
 
-void FlashSectorWriteBootloader(u32 FlashSectorAddr, u8* Buffer, u16 Count)
-{
-  //если колличество не кратно 2 байт, необходимо увеличить на 2, иначе контрольная сумма не совпадёт
-  if((Count % 2) != 0){
-    Count += 2;
-  }
-  volatile FLASH_Status FLASHStatus = FLASH_COMPLETE;
-  
-  u8 *source =  Buffer;
-  bauint newData;
-  
-  FLASH_Unlock();  // Unlock the Flash Program Erase controller
-  /* Clear All pending flags */
-  FLASH_ClearFlag(FLASH_FLAG_BSY | FLASH_FLAG_EOP | FLASH_FLAG_PGERR | FLASH_FLAG_WRPERR);
-  //FLASHStatus = FLASH_ErasePage(FlashSectorAddr);// Erase the FLASH pages
-  while(Count !=0 )
-  {
-    //если остался 1 байт, записываем его, остальное заполняем 0xff
-    if(Count == 1){
-      newData.b[0] = *source++;
-      newData.b[0] = 0xff;
-      --Count; 
+void FlashSectorWriteBootloader(u32 FlashSectorAddr, u8* Buffer, u16 Count){
+    //если колличество не кратно 2 байт, необходимо увеличить на 2, иначе контрольная сумма не совпадёт
+    if((Count % 2) != 0){
+        Count += 2;
     }
-    else{
-      //запись 2 байт
-      for(int i = 0; i < 2; ++i){
-        newData.b[i] = *source++;
-        --Count;
-      }
+    volatile FLASH_Status FLASHStatus = FLASH_COMPLETE;
 
+    u8* source = Buffer;
+    bauint newData;
+
+    FLASH_Unlock();  // Unlock the Flash Program Erase controller
+    /* Clear All pending flags */
+    FLASH_ClearFlag(FLASH_FLAG_BSY | FLASH_FLAG_EOP | FLASH_FLAG_PGERR | FLASH_FLAG_WRPERR);
+    //FLASHStatus = FLASH_ErasePage(FlashSectorAddr);// Erase the FLASH pages
+    while(Count != 0){
+        //если остался 1 байт, записываем его, остальное заполняем 0xff
+        if(Count == 1){
+            newData.b[0] = *source++;
+            newData.b[0] = 0xff;
+            --Count;
+        }
+        else{
+            //запись 2 байт
+            for(int i = 0; i < 2; ++i){
+                newData.b[i] = *source++;
+                --Count;
+            }
+
+        }
+        //запись 2 байт
+        FLASHStatus = FLASH_ProgramHalfWord(FlashSectorAddr, newData.i);
+        FlashSectorAddr += 2;
+
+        if(FLASH_COMPLETE == FLASHStatus){
+            //++RAM_DATA.counter1;
+        }
+        if(FLASH_ERROR_WRP == FLASHStatus){
+            //++RAM_DATA.counter2;
+        }
+        //++RAM_DATA.counter3;
     }
-    //запись 2 байт
-    FLASHStatus = FLASH_ProgramHalfWord(FlashSectorAddr, newData.i);
-    FlashSectorAddr += 2;
-    
-    if(FLASH_COMPLETE == FLASHStatus){
-      //++RAM_DATA.counter1;
-    }
-    if(FLASH_ERROR_WRP == FLASHStatus){
-      //++RAM_DATA.counter2;
-    }
-    //++RAM_DATA.counter3;
-  }
-  
+
 }
 
 /*TODO Need to rid up an error with length of data more than 240 bytes, because RX/TX buffer have 16KB length.*/
 
-u16 writeCodeToFlash(TClient* Slave) { 
-  
-  const bauint count = {
-    .b[0] = Slave->Buffer[4],
-    .b[1] = Slave->Buffer[3],
-  };
-  const baulong StartAddr = {
-    .b[0] = Slave->Buffer[8],
-    .b[1] = Slave->Buffer[7],
-    .b[2] = Slave->Buffer[6],
-    .b[3] = Slave->Buffer[5]
-  };    
-  //u8 * pData = (u8 * ) &Slave->Buffer[9];
-  //writeCodeSpase(StartAddr.L, count.i, pData);
-  u8* Data = &(Slave->Buffer[9]);
-  __disable_irq();
-  FlashSectorWriteBootloader(StartAddr.L, Data, count.i);
-  __enable_irq();
+u16 writeCodeToFlash(TClient* Slave){
 
-  u16 DataLength  = 3;
-  DataLength += CRC_SIZE;//crc 
-  FrameEndCrc16((u8*)Slave->Buffer, DataLength);
-  return DataLength;
+    const bauint count = {
+      .b[0] = Slave->Buffer[4],
+      .b[1] = Slave->Buffer[3],
+    };
+    const baulong StartAddr = {
+      .b[0] = Slave->Buffer[8],
+      .b[1] = Slave->Buffer[7],
+      .b[2] = Slave->Buffer[6],
+      .b[3] = Slave->Buffer[5]
+    };
+    //u8 * pData = (u8 * ) &Slave->Buffer[9];
+    //writeCodeSpase(StartAddr.L, count.i, pData);
+    u8* Data = &(Slave->Buffer[9]);
+    __disable_irq();
+    FlashSectorWriteBootloader(StartAddr.L, Data, count.i);
+    __enable_irq();
+
+    u16 DataLength = 3;
+    DataLength += CRC_SIZE;//crc 
+    FrameEndCrc16((u8*)Slave->Buffer, DataLength);
+    return DataLength;
 }
 
 #define APPLICATION_ADDRESS 0x08008000
 
-void jumpToApplication(void) {
-   /* Устанавливаем адрес перехода на основную программу */
-   /* Переход производится выполнением функции, адрес которой указывается вручную */
-   /* +4 байта потому, что в самом начале расположен указатель на вектор прерывания */ 
-   uint32_t jumpAddress = *(__IO uint32_t*) (APPLICATION_ADDRESS + 4); 
-   typedef void(*pFunction)(void);//объявляем пользовательский тип
-   pFunction Jump_To_Application = (pFunction) jumpAddress;
-   
-   /*Сбрасываем всю периферию на APB1 */
-   RCC->APB1RSTR = 0xFFFFFFFF; RCC->APB1RSTR = 0x0; 
-  /*Сбрасываем всю периферию на APB2 */ 
-   RCC->APB2RSTR = 0xFFFFFFFF; RCC->APB2RSTR = 0x0; 
-   RCC->APB1ENR = 0x0; /* Выключаем всю периферию на APB1 */ 
-   RCC->APB2ENR = 0x0; /* Выключаем всю периферию на APB2 */
-   RCC->AHBENR = 0x0; /* Выключаем всю периферию на AHB */
+void jumpToApplication(void){
+    /* Устанавливаем адрес перехода на основную программу */
+    /* Переход производится выполнением функции, адрес которой указывается вручную */
+    /* +4 байта потому, что в самом начале расположен указатель на вектор прерывания */
+    uint32_t jumpAddress = *(__IO uint32_t*) (APPLICATION_ADDRESS + 4);
+    typedef void(*pFunction)(void);//объявляем пользовательский тип
+    pFunction Jump_To_Application = (pFunction)jumpAddress;
 
-   /* Сбрасываем все источники тактования по умолчанию, переходим на HSI*/
-   RCC_DeInit();  
-   
-   /* Выключаем прерывания */
-   __disable_irq(); 
-   /* Переносим адрес вектора прерываний */
-   /* Переносим адрес стэка */ 
-    __set_MSP(*(__IO uint32_t*) APPLICATION_ADDRESS); 
-    /* Переходим в основную программу */  
-    Jump_To_Application(); 
+    /*Сбрасываем всю периферию на APB1 */
+    RCC->APB1RSTR = 0xFFFFFFFF; RCC->APB1RSTR = 0x0;
+    /*Сбрасываем всю периферию на APB2 */
+    RCC->APB2RSTR = 0xFFFFFFFF; RCC->APB2RSTR = 0x0;
+    RCC->APB1ENR = 0x0; /* Выключаем всю периферию на APB1 */
+    RCC->APB2ENR = 0x0; /* Выключаем всю периферию на APB2 */
+    RCC->AHBENR = 0x0; /* Выключаем всю периферию на AHB */
+
+    /* Сбрасываем все источники тактования по умолчанию, переходим на HSI*/
+    RCC_DeInit();
+
+    /* Выключаем прерывания */
+    __disable_irq();
+    /* Переносим адрес вектора прерываний */
+    /* Переносим адрес стэка */
+    __set_MSP(*(__IO uint32_t*) APPLICATION_ADDRESS);
+    /* Переходим в основную программу */
+    Jump_To_Application();
 
 }
 
 __no_init char BootLoaderStart[6] @ "BOOT_CMD";
 
-bool isBootLoaderMustBeStart(void) {
-  if ( ((BootLoaderStart[0] == 0xA5)  &&
-       (BootLoaderStart[1]  == 0x5A)  &&
-       (BootLoaderStart[2]  == 0xA5)  &&
-       (BootLoaderStart[3]  == 0x5A)) &&
-       (crc16((unsigned char *) &BootLoaderStart, 6) == 0)
-      )
-   {
-     return true;
-   } else {
-    return false;
-   }
+bool isBootLoaderMustBeStart(void){
+    if(((BootLoaderStart[0] == 0xA5) &&
+        (BootLoaderStart[1] == 0x5A) &&
+        (BootLoaderStart[2] == 0xA5) &&
+        (BootLoaderStart[3] == 0x5A)) &&
+        (crc16((unsigned char*)&BootLoaderStart, 6) == 0)
+        ){
+        return true;
+    }
+    else{
+        return false;
+    }
 }
 
-typedef struct appCheckInfo {
-  u32 AppSize;
-  u16 AppCrc;
-  u16 AppInfoCrc;
+typedef struct appCheckInfo
+{
+    u32 AppSize;
+    u16 AppCrc;
+    u16 AppInfoCrc;
 } TAppCheckInfo;
 
 typedef TAppCheckInfo* pAppCheckInfo;
@@ -433,25 +432,25 @@ typedef TAppCheckInfo* pAppCheckInfo;
 #define APP_INFO_SIZE 8
 #define APP_LOCATION APP_INFO_LOCATION + APP_INFO_SIZE
 
-bool isApplicationReadyToStart(void) {
-  const pAppCheckInfo AppCheckInfo = (pAppCheckInfo) APP_INFO_LOCATION;
-  RAM_DATA.data[0] = AppCheckInfo->AppCrc;
-  RAM_DATA.data[1] = AppCheckInfo->AppInfoCrc;
-  RAM_DATA.data32[0] = AppCheckInfo->AppSize;
-  RAM_DATA.data[2] = crc16((unsigned char *) APP_LOCATION, AppCheckInfo->AppSize);
-  return (bool)(crc16((unsigned char *) AppCheckInfo, APP_INFO_SIZE) == 0)
-         ? (bool)(crc16((unsigned char *) APP_LOCATION, AppCheckInfo->AppSize) 
-                   == AppCheckInfo->AppCrc)
-         : false; //header is not valid
+bool isApplicationReadyToStart(void){
+    const pAppCheckInfo AppCheckInfo = (pAppCheckInfo)APP_INFO_LOCATION;
+    RAM_DATA.data[0] = AppCheckInfo->AppCrc;
+    RAM_DATA.data[1] = AppCheckInfo->AppInfoCrc;
+    RAM_DATA.data32[0] = AppCheckInfo->AppSize;
+    RAM_DATA.data[2] = crc16((unsigned char*)APP_LOCATION, AppCheckInfo->AppSize);
+    return (bool)(crc16((unsigned char*)AppCheckInfo, APP_INFO_SIZE) == 0)
+        ? (bool)(crc16((unsigned char*)APP_LOCATION, AppCheckInfo->AppSize)
+            == AppCheckInfo->AppCrc)
+        : false; //header is not valid
 }
 
 //01.B0.02.CRC
-u16 startApplication(TClient* Slave) {
-  BootLoaderStart[0] = 0x00;
-  BootLoaderStart[1] = 0x00;
-  BootLoaderStart[2] = 0x00;
-  BootLoaderStart[3] = 0x00; 
-  BootLoaderStart[4] = 0x00;
-  BootLoaderStart[5] = 0x00;   
-  NVIC_SystemReset();
+u16 startApplication(TClient* Slave){
+    BootLoaderStart[0] = 0x00;
+    BootLoaderStart[1] = 0x00;
+    BootLoaderStart[2] = 0x00;
+    BootLoaderStart[3] = 0x00;
+    BootLoaderStart[4] = 0x00;
+    BootLoaderStart[5] = 0x00;
+    NVIC_SystemReset();
 }

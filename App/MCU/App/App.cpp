@@ -10,33 +10,32 @@
 
 #include <string>
 
-App::App() {
+App::App(){}
+
+App& App::getInstance(){
+    static App app;
+    return app;
 }
 
-App& App::getInstance() {
-	static App app;
-	return app;
-}
+void App::run(){
 
-void App::run() {
+    //Page page;
 
-	//Page page;
+    //Slot* slot = new Slot;
+    //std::vector<u8> command = {0x01, 0x10, 0x00, 0x06, 0x00, 0x01, 0x02, 0x00, 0x55 };
+    //std::vector<u8> command = { 0x01, 0x03, 0x00, 0x05, 0x00, 0x01 };
 
-	//Slot* slot = new Slot;
-	//std::vector<u8> command = {0x01, 0x10, 0x00, 0x06, 0x00, 0x01, 0x02, 0x00, 0x55 };
-	//std::vector<u8> command = { 0x01, 0x03, 0x00, 0x05, 0x00, 0x01 };
+    //slot->addcmd(command);
 
-	//slot->addcmd(command);
+    //slot->TimeOut = 100;
+    //slot->onData = HandlerSlotRead::parseSlotRead;
 
-	//slot->TimeOut = 100;
-	//slot->onData = HandlerSlotRead::parseSlotRead;
+    //DevicePollManager::getInstance().addSlot(slot);
+    //InternalResources::getInstance();
 
-	//DevicePollManager::getInstance().addSlot(slot);
-	//InternalResources::getInstance();
-	
-	while (true) {
-		processModbusSlave();
-		Router::getInstance().update();
-		DevicePollManager::getInstance().execute();
-	}
+    while(true){
+        processModbusSlave();
+        Router::getInstance().update();
+        DevicePollManager::getInstance().execute();
+    }
 }

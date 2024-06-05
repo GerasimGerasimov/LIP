@@ -41,36 +41,35 @@ void fillArr(){
 
 ErrorStatus HSEStartUpStatus;
 
-void Init (void)    
-{  
-    __disable_irq();
-    remapMemory();
+void Init(void){
+  __disable_irq();
+  remapMemory();
 
-    GPIO_Configuration();
-    TIM1_Configuration(); //модбас
-    TIM2_Configuration();
-    usart1DMA_init();
-    uart1rs485_init();
-    SPI1_Configuration();
-    DMA_Configuration();
-    SPI2_Configuration();
+  GPIO_Configuration();
+  TIM1_Configuration(); //модбас
+  TIM2_Configuration();
+  usart1DMA_init();
+  uart1rs485_init();
+  SPI1_Configuration();
+  DMA_Configuration();
+  SPI2_Configuration();
 
-    NVIC_Configuration();
-    __enable_irq();
+  NVIC_Configuration();
+  __enable_irq();
 }
 
 void remapMemory(){
-    RCC_APB2PeriphClockCmd(RCC_APB2ENR_SYSCFGEN, ENABLE);
-    //копирование вектора прерываний в начало RAM
-	for (uint32_t i = 0; i < VECTOR_TABLE_SIZE; i++) {//copy vector table
-	  ram_vector[i] = __vector_table[i];
-	}
-    SYSCFG_MemoryRemapConfig(SYSCFG_MemoryRemap_SRAM);//переназначение адресации прерываний на RAM
+  RCC_APB2PeriphClockCmd(RCC_APB2ENR_SYSCFGEN, ENABLE);
+  //копирование вектора прерываний в начало RAM
+  for(uint32_t i = 0; i < VECTOR_TABLE_SIZE; i++){//copy vector table
+    ram_vector[i] = __vector_table[i];
+  }
+  SYSCFG_MemoryRemapConfig(SYSCFG_MemoryRemap_SRAM);//переназначение адресации прерываний на RAM
 }
 
 void SPI1_Configuration(){
   SPI_InitTypeDef  SPI_InitStructure;
-  RCC_APB2PeriphClockCmd( RCC_APB2Periph_SPI1, ENABLE);
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1, ENABLE);
   /* SPI1 configuration */
   SPI_InitStructure.SPI_Direction = SPI_Direction_1Line_Tx;
   SPI_InitStructure.SPI_Mode = SPI_Mode_Master;
@@ -111,7 +110,7 @@ void GPIO_INIT_Configuration(){
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN; //GPIO_Mode_IPU;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
   //порт A                       USB_P
-  GPIO_InitStructure.GPIO_Pin  = GPIO_Pin_14;
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_14;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
 
   //GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable, ENABLE);//remap!  A13 и A14
@@ -127,23 +126,23 @@ void GPIO_INIT_Configuration(){
 
 void GPIO_Configuration(void){
   GPIO_InitTypeDef GPIO_InitStructure;
-  RCC_AHBPeriphClockCmd( RCC_AHBPeriph_GPIOA |\
-                          RCC_AHBPeriph_GPIOB |\
-                          RCC_AHBPeriph_GPIOC,
-                          ENABLE);
+  RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA | \
+    RCC_AHBPeriph_GPIOB | \
+    RCC_AHBPeriph_GPIOC,
+    ENABLE);
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  
+
   /* настраиваем ноги не привязанные к переферии, как open-drain*/
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
   GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
   //GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_DOWN;
-  
+
     //порт B:                     LED_RUN    LED_LINK1      LED_ALARM    LED_LINK2 
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_6  | GPIO_Pin_7 | GPIO_Pin_8;
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7 | GPIO_Pin_8;
   GPIO_Init(GPIOB, &GPIO_InitStructure);
 
  //   GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable, ENABLE);//remap! 
-  
+
   /* настраиваем ноги не привязанные к переферии, как push-pull*/
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;// GPIO_Mode_Out_PP;  
   GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
@@ -157,7 +156,7 @@ void GPIO_Configuration(void){
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN; //GPIO_Mode_IPU;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
   //порт A                       USB_P
-  GPIO_InitStructure.GPIO_Pin  = GPIO_Pin_14;
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_14;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
 
   /* настраиваем выходы переферии*/
@@ -178,16 +177,16 @@ void GPIO_Configuration(void){
   GPIO_Init(GPIOA, &GPIO_InitStructure);
   //SPI2
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13 | GPIO_Pin_14;
-  GPIO_Init(GPIOB, &GPIO_InitStructure); 
+  GPIO_Init(GPIOB, &GPIO_InitStructure);
 }
 //******************************************************************************
 //Таймер для работы с MODBUS два канала
 void TIM1_Configuration(void){
-  
+
   TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
   TIM_OCInitTypeDef        TIM_OCInitStructure;
-  
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1  ,ENABLE);
+
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE);
   /* Time Base configuration */
   TIM_TimeBaseStructure.TIM_Prescaler = 47;
   TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
@@ -195,12 +194,12 @@ void TIM1_Configuration(void){
   TIM_TimeBaseStructure.TIM_ClockDivision = 0;
   TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
   TIM_TimeBaseInit(TIM1, &TIM_TimeBaseStructure);
-  
+
   TIM_OCInitStructure.TIM_Pulse = 0xFFFF;
   TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_Timing;
   TIM_OC1Init(TIM1, &TIM_OCInitStructure);
   //TIM_OC2Init(TIM1, &TIM_OCInitStructure);
-  
+
    /* TIM1 counter enable */
   TIM_Cmd(TIM1, ENABLE);
   TIM1->SR = 0;
@@ -209,9 +208,9 @@ void TIM1_Configuration(void){
 
 //100 Гц для DI кнопок на SPI2
 void TIM2_Configuration(){
-    TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
-    
-  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2  ,ENABLE);
+  TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
   /* Time Base configuration */
   TIM_TimeBaseStructure.TIM_Prescaler = 100 - 1;
   TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
@@ -221,20 +220,20 @@ void TIM2_Configuration(){
   TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
 
   TIM2->SR = 0;
-    TIM_ITConfig(TIM2, TIM_IT_Update /* | TIM_IT_CC2 */, ENABLE);//
+  TIM_ITConfig(TIM2, TIM_IT_Update /* | TIM_IT_CC2 */, ENABLE);//
   TIM_Cmd(TIM2, ENABLE);
 }
 
 //******************************************************************************
 //DMA на отправку в SPI1 на индикаторы
-void DMA_Configuration (){
+void DMA_Configuration(){
   DMA_InitTypeDef DMA_InitStructure;
   RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA2, ENABLE);
-  
+
   /* DMA1 channel1 configuration ----------------------------------------------*/
   //DMA_DeInit(DMA1_Channel3);
-  DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) &(SPI1->DR);
-  DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t) arr;
+  DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) & (SPI1->DR);
+  DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)arr;
   DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
   DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;
   DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
@@ -269,18 +268,17 @@ void DMA_Configuration (){
 * Output         : None
 * Return         : None
 *******************************************************************************/
-void NVIC_Configuration(void)
-{
+void NVIC_Configuration(void){
   NVIC_InitTypeDef NVIC_InitStructure;
 
 #ifdef  VECT_TAB_RAM  
-  /* Set the Vector Table base location at 0x20000000 */ 
+  /* Set the Vector Table base location at 0x20000000 */
   //NVIC_SetVectorTable(NVIC_VectTab_RAM, 0x0);
 #else  /* VECT_TAB_FLASH  */
-  /* Set the Vector Table base location at 0x08000000 */ 
+  /* Set the Vector Table base location at 0x08000000 */
   //NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x0);   
 #endif
-  
+
   //NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
   /* Enable the TIM1 gloabal Interrupt */
   NVIC_InitStructure.NVIC_IRQChannel = TIM1_CC_IRQn;
@@ -288,13 +286,13 @@ void NVIC_Configuration(void)
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
 
-   
+
   /* Enable the USART1 Interrupt */
   NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
   NVIC_InitStructure.NVIC_IRQChannelPriority = 1;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
-  
+
   NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
   NVIC_InitStructure.NVIC_IRQChannelPriority = 2;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;

@@ -5,7 +5,7 @@
 #include "App/App.h"
 #include "modbus/modbus.h"
 #include "DEFINES.h" //все основные, относящиеся только к плате дефайны
-    
+
 /* defines ------------------------------------------------------------------*/
 //#define max_drebezg 0x0005//0x2000 // сколько раз нужно проверить нажатие кнопки для подавления дребезга контактов 
 /*---------------------------------------------------------------------------*/
@@ -21,16 +21,16 @@
   */
 int main(void)              //главная программа
 {
-  BootLoadCmdFillZero();
-  Init();                   //инициализация переферии  
+    BootLoadCmdFillZero();
+    Init();                   //инициализация переферии  
 
-  LED_RUN_ON;
-  LED_LINK1_OFF;
-  LED_LINK2_OFF;
-  LED_ALARM_OFF;
+    LED_RUN_ON;
+    LED_LINK1_OFF;
+    LED_LINK2_OFF;
+    LED_ALARM_OFF;
 
-  App::getInstance().run();
-  
+    App::getInstance().run();
+
 }
 
 
@@ -43,15 +43,13 @@ int main(void)              //главная программа
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(uint8_t* file, uint32_t line)
-{ 
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+void assert_failed(uint8_t* file, uint32_t line){
+    /* User can add his own implementation to report the file name and line number,
+       ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
 
-  /* Infinite loop */
-  while (1)
-  {
-  }
+       /* Infinite loop */
+    while(1){
+    }
 }
 #endif
 

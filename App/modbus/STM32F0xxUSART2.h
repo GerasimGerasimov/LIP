@@ -9,16 +9,16 @@ class MBmasterSlotType;
 class STM32F0xxUSART2
 {
 private:
-	Intmash_Usart* Usart;
+    Intmash_Usart* Usart;
 
 
-	void initUsart();
-	void initTIM();
-	void startNVIC();
+    void initUsart();
+    void initTIM();
+    void startNVIC();
 public:
-	void SetTimer(u16 delay);
-	void StopTimer();
-	STM32F0xxUSART2(Intmash_Usart* Usart);
+    void SetTimer(u16 delay);
+    void StopTimer();
+    STM32F0xxUSART2(Intmash_Usart* Usart);
 
 
 };

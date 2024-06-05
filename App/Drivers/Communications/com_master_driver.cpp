@@ -12,20 +12,20 @@ ModbusMasterConf ComMasterDriver::ModbusMaster = ModbusMasterConf(&SlotMaster);
 static const s16 ERR_TIME_OUT = -1;
 
 void ComMasterDriver::onReadData(void){
-  
-  if (ComMasterDriver::onReadEnd) {
-    ComMasterDriver::onReadEnd(SlotMaster.InBufLen, reply);
-  }
+
+    if(ComMasterDriver::onReadEnd){
+        ComMasterDriver::onReadEnd(SlotMaster.InBufLen, reply);
+    }
 }
 
 void ComMasterDriver::onTimeOut(void){
-  
-  if (ComMasterDriver::onReadEnd) {
-    ComMasterDriver::onReadEnd(ERR_TIME_OUT, reply);
-  }
+
+    if(ComMasterDriver::onReadEnd){
+        ComMasterDriver::onReadEnd(ERR_TIME_OUT, reply);
+    }
 }
 
-void ComMasterDriver::send(TComMasterTask& task) {
+void ComMasterDriver::send(TComMasterTask& task){
     onReadEnd = task.callback;
     outbuf = task.pbuff;
     OutBufLen = task.len;
@@ -33,13 +33,13 @@ void ComMasterDriver::send(TComMasterTask& task) {
     SlotMaster.OnRecieve = &ComMasterDriver::onReadData;
     SlotMaster.OnTimeOut = &ComMasterDriver::onTimeOut;
     ModbusMaster.SetCondition(TimeOut, (u8*)&ComMasterDriver::reply);
-    ModbusMaster.Send(outbuf, OutBufLen); 
+    ModbusMaster.Send(outbuf, OutBufLen);
 }
 
 void ComMasterDriver::interruptHandler(){
-  ModbusMaster.interruptHandler();
+    ModbusMaster.interruptHandler();
 }
 
 void ComMasterDriver::TIMHandler(){
-  ModbusMaster.TIMHandler();
+    ModbusMaster.TIMHandler();
 }

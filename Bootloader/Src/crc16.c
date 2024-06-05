@@ -33,7 +33,7 @@
 #include "crc16.h"
 /* CRC16 Table High byte */
 
-const unsigned char CRC16Hi[]  = {
+const unsigned char CRC16Hi[] = {
 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,
 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40,
 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40,
@@ -66,7 +66,7 @@ const unsigned char CRC16Hi[]  = {
 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,
 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,
 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40
-} ;
+};
 
 /* CRC16 Table Low byte */
 const char CRC16Lo[] = {
@@ -102,30 +102,28 @@ const char CRC16Lo[] = {
 0x4E, 0x8E, 0x8F, 0x4F, 0x8D, 0x4D, 0x4C, 0x8C,
 0x44, 0x84, 0x85, 0x45, 0x87, 0x47, 0x46, 0x86,
 0x82, 0x42, 0x43, 0x83, 0x41, 0x81, 0x80, 0x40
-} ;
+};
 
-unsigned short crc16(unsigned char *puchMsg, int DataLen)
-{
-  unsigned char CRCHi ; /* high byte of CRC initialized */
-  unsigned char CRCLo ; /* low byte of CRC initialized */
-  unsigned Index ; /* will index into CRC16 lookup table */
+unsigned short crc16(unsigned char* puchMsg, int DataLen){
+  unsigned char CRCHi; /* high byte of CRC initialized */
+  unsigned char CRCLo; /* low byte of CRC initialized */
+  unsigned Index; /* will index into CRC16 lookup table */
 
-  CRCHi = 0xFF ; /* high byte of CRC16 initialized */
-  CRCLo = 0xFF ; /* low byte of CRC16 initialized */
-  while (DataLen--){
-    Index = CRCHi ^ *puchMsg++ ; /* calculate the CRC16 */
-    CRCHi = CRCLo ^ CRC16Hi[Index] ;
-    CRCLo = CRC16Lo[Index] ;
+  CRCHi = 0xFF; /* high byte of CRC16 initialized */
+  CRCLo = 0xFF; /* low byte of CRC16 initialized */
+  while(DataLen--){
+    Index = CRCHi ^ *puchMsg++; /* calculate the CRC16 */
+    CRCHi = CRCLo ^ CRC16Hi[Index];
+    CRCLo = CRC16Lo[Index];
   }
-  return ((unsigned short)CRCHi << 8 | CRCLo) ;
+  return ((unsigned short)CRCHi << 8 | CRCLo);
 }
 
-void FrameEndCrc16(unsigned char *Frame, unsigned int FrameSize)
-{
+void FrameEndCrc16(unsigned char* Frame, unsigned int FrameSize){
   unsigned int  crc;
-  crc = crc16(Frame, FrameSize-2);//подсчет CRC буфера
+  crc = crc16(Frame, FrameSize - 2);//подсчет CRC буфера
 
      //запись CRC в конец буфера
-   Frame[FrameSize-2] = (unsigned char)(crc >> 8);
-   Frame[FrameSize-1] = (unsigned char)(crc & 0xff); 
+  Frame[FrameSize - 2] = (unsigned char)(crc >> 8);
+  Frame[FrameSize - 1] = (unsigned char)(crc & 0xff);
 }

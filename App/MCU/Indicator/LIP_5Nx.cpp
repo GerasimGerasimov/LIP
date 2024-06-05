@@ -28,13 +28,13 @@ LIP_5Nx::LIP_5Nx(){
 }
 
 //получить список байт на отправку в SPI
-std::vector<uint8_t> LIP_5Nx::getValue() {
+std::vector<uint8_t> LIP_5Nx::getValue(){
     std::string data = getValueStr();
     transformSizeSring(data);
     std::vector<uint8_t> result;
     result.reserve(DataSize);
-    for (auto i = data.rbegin(); i != data.rend(); ++i) {
-        if (*i == '.') {
+    for(auto i = data.rbegin(); i != data.rend(); ++i){
+        if(*i == '.'){
             dot = true;
             continue;
         }
@@ -47,30 +47,30 @@ std::vector<uint8_t> LIP_5Nx::getValue() {
 }
 
 //установить новый параметр
-void LIP_5Nx::setParameter(std::string param) {
-    
+void LIP_5Nx::setParameter(std::string param){
+
     clear();
-    if (param == "") {
+    if(param == ""){
         return;
     }
     std::vector<std::string> page = Parser::splitString("/", param);
     parameter.Device = page[DEVICE];
     parameter.Section = IniResources::getSection(page[SECTION]);
     parameter.Name = page[NAME];
-    if (page[TYPE] == "RW") {
+    if(page[TYPE] == "RW"){
         parameter.type = Type::RW;
     }
-    else {
+    else{
         parameter.type = Type::R;
     }
-    if (setIsignal()) {
+    if(setIsignal()){
         createReadCmd();
         slot->Flags &= ~(static_cast<u16>(Slot::StateFlags::SKIP_SLOT));
     }
 }
 
-bool LIP_5Nx::update() {
-    if (slot->Flags & (static_cast<u16>(Slot::StateFlags::COMPLETE_READ))) {
+bool LIP_5Nx::update(){
+    if(slot->Flags & (static_cast<u16>(Slot::StateFlags::COMPLETE_READ))){
         return true;
     }
     return false;
@@ -111,7 +111,7 @@ uint8_t LIP_5Nx::getChar(char symbol){
         result = ~ASCIITable[symbol];
     }
 
-    if (dot) {
+    if(dot){
         dot = false;
         result += 128;
     }
@@ -119,44 +119,44 @@ uint8_t LIP_5Nx::getChar(char symbol){
 }
 
 //очистить индикатор
-void LIP_5Nx::clear() {
+void LIP_5Nx::clear(){
     parameter.Device = "";
     parameter.Section = "";
     parameter.Name = "";
-    if (parameter.resources) {
+    if(parameter.resources){
         delete parameter.resources;
         parameter.resources = nullptr;
     }
     slot->Flags |= static_cast<u16>(Slot::StateFlags::SKIP_SLOT);
 }
 
-bool LIP_5Nx::setIsignal() {
+bool LIP_5Nx::setIsignal(){
     std::string dev = Devices::getInstance().getSourceOfDev(parameter.Device.c_str());
     ItemLimits item = InternalResources::getInstance().getItemLimitsByName(dev.c_str());
     IniParser::getInstance().setRoot(item.RootOffset, item.Size);
-    if (!IniParser::getInstance().setSectionToRead(parameter.Section.c_str())) {  //если нет секции в .ini
+    if(!IniParser::getInstance().setSectionToRead(parameter.Section.c_str())){  //если нет секции в .ini
         return false;
     }
-	TSectionReadResult readChar{ NULL, 0 };
-	std::string readResult;
-	size_t pos;
-	do {
-		readResult = "";
-		readChar = IniParser::getInstance().getNextTagChar();
-		readResult.append(readChar.tag, readChar.result);
-		if (readResult == "")return false; //если .ini закончился и ничего не нашлось
-		pos = readResult.find(parameter.Name);
-	} while (pos == std::string::npos);
+    TSectionReadResult readChar{NULL, 0};
+    std::string readResult;
+    size_t pos;
+    do{
+        readResult = "";
+        readChar = IniParser::getInstance().getNextTagChar();
+        readResult.append(readChar.tag, readChar.result);
+        if(readResult == "")return false; //если .ini закончился и ничего не нашлось
+        pos = readResult.find(parameter.Name);
+    } while(pos == std::string::npos);
 
-	pos = readResult.find('=');
-	std::string number = readResult.substr(0, pos);
-	ISignal* s = IniString::getSignal(dev, parameter.Section, readChar.tag, readChar.result);
-	parameter.resources = dynamic_cast<Parameter*>(s);
+    pos = readResult.find('=');
+    std::string number = readResult.substr(0, pos);
+    ISignal* s = IniString::getSignal(dev, parameter.Section, readChar.tag, readChar.result);
+    parameter.resources = dynamic_cast<Parameter*>(s);
     slot->StartAddrOffset = parameter.resources->getAddr();
-	return true;
+    return true;
 }
 
-void LIP_5Nx::createReadCmd() {
+void LIP_5Nx::createReadCmd(){
     std::string RegHexAddr = parameter.resources->getRegHexAddr();
     const u8 DevAddr = Devices::getInstance().getDevNetWorkAddr(parameter.Device);
     slot->TimeOut = 50;
@@ -175,26 +175,26 @@ void LIP_5Nx::createReadCmd() {
     slot->addcmd(comand);
 }
 
-std::string LIP_5Nx::getValueStr() {
+std::string LIP_5Nx::getValueStr(){
     slot->Flags &= ~(static_cast<u16>(Slot::StateFlags::COMPLETE_READ));
-    TSlotHandlerArsg args = { &slot->InputBuf[0], slot->InputBufValidBytes, slot->StartAddrOffset, slot->LastAddrOffset };
+    TSlotHandlerArsg args = {&slot->InputBuf[0], slot->InputBufValidBytes, slot->StartAddrOffset, slot->LastAddrOffset};
     std::string value = parameter.resources->getValue(args, "");
     return value;
 }
 
 //изменение строки под необходимый размер байт
-void LIP_5Nx::transformSizeSring(std::string& data) {
+void LIP_5Nx::transformSizeSring(std::string& data){
     size_t pos = data.find('.');
     uint8_t size = DataSize;
-    if (pos != std::string::npos) {
+    if(pos != std::string::npos){
         ++size;
     }
-    if (data.size() < size) {
+    if(data.size() < size){
         u8 insertSize = size - data.size();
         std::string insertStr(insertSize, '0');
         data.insert(0, insertStr);
     }
-    else if (data.size() > size) {
+    else if(data.size() > size){
         u8 deleteSize = data.size() - size;
         data.erase(data.length() - deleteSize);
     }
