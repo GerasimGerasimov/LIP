@@ -160,7 +160,7 @@ void LIP_5Nx::createReadCmd(){
     std::string RegHexAddr = parameter.resources->getRegHexAddr();
     const u8 DevAddr = Devices::getInstance().getDevNetWorkAddr(parameter.Device);
     slot->TimeOut = 50;
-    std::vector<u8> comand(6);
+    std::vector<u8> comand(6);//TODO сделать динамический размер
     u8 count = 0;
     comand[count++] = DevAddr;
     comand[count++] = COMAND_READ;

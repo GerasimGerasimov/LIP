@@ -3,7 +3,7 @@
 #include "MainWindow.h"
 
 VOID CALLBACK MyTimerProc(HWND hwnd, UINT message, UINT idTimer, DWORD dwTime){
-    updateDMA();
+    //updateDMA();
     //for (int i = 0; i < DMAIndicator::getInstance().sendMessage.size(); ++i) {
         //DMAIndicator::getInstance().sendMessage[i] = DMAIndicator::getInstance().BaseAddr[i];
     //}

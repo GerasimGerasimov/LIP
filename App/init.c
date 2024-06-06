@@ -22,6 +22,7 @@ void TIM1_Configuration();
 void Systic_init();
 void remapMemory();
 void TIM2_Configuration();
+void TIM7_Configuration();
 void SPI1_Configuration();
 void SPI2_Configuration();
 void DMA_Configuration();
@@ -48,6 +49,7 @@ void Init(void){
   GPIO_Configuration();
   TIM1_Configuration(); //модбас
   TIM2_Configuration();
+  TIM7_Configuration();
   usart1DMA_init();
   uart1rs485_init();
   SPI1_Configuration();
@@ -220,8 +222,24 @@ void TIM2_Configuration(){
   TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
 
   TIM2->SR = 0;
-  TIM_ITConfig(TIM2, TIM_IT_Update /* | TIM_IT_CC2 */, ENABLE);//
+  TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE);//
   TIM_Cmd(TIM2, ENABLE);
+}
+
+void TIM7_Configuration(){
+  TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM7, ENABLE);
+
+  TIM_TimeBaseStructure.TIM_Prescaler = 1000 - 1;
+  TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+  TIM_TimeBaseStructure.TIM_Period = 4800;
+  TIM_TimeBaseStructure.TIM_ClockDivision = 0;
+  TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
+  TIM_TimeBaseInit(TIM7, &TIM_TimeBaseStructure);
+  TIM7->SR = 0;
+  TIM_ITConfig(TIM7, TIM_IT_Update, ENABLE);//
+  TIM_Cmd(TIM7, ENABLE);
 }
 
 //******************************************************************************
@@ -301,6 +319,11 @@ void NVIC_Configuration(void){
   NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;
   NVIC_InitStructure.NVIC_IRQChannelPriority = 4;
 
+  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_Init(&NVIC_InitStructure);
+
+  NVIC_InitStructure.NVIC_IRQChannel = TIM7_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannelPriority = 5;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
 
