@@ -1,13 +1,12 @@
 #include "DMAIndicator.h"
 #include "Page/Page.h"
+#include "Router/Router.h"
 #include "MainWindow.h"
 
 VOID CALLBACK MyTimerProc(HWND hwnd, UINT message, UINT idTimer, DWORD dwTime){
-    //updateDMA();
-    //for (int i = 0; i < DMAIndicator::getInstance().sendMessage.size(); ++i) {
-        //DMAIndicator::getInstance().sendMessage[i] = DMAIndicator::getInstance().BaseAddr[i];
-    //}
-    MainWindow::setData(DMAIndicator::getInstance().buffer->buffer);
+    if(Router::getInstance().isFillBuffer()){
+        DMAIndicator::getInstance().DMAstart(Router::getInstance().getBufferSize());
+    }
 }
 
 DMAIndicator::DMAIndicator(){
@@ -15,9 +14,8 @@ DMAIndicator::DMAIndicator(){
 }
 
 void DMAIndicator::DMAstart(uint32_t BufferSize){
-    //sendMessage.resize(BufferSize);
-    MainWindow::setData(DMAIndicator::getInstance().buffer->buffer);
-    //MainWindow::TimeStart(reinterpret_cast<TIMERPROC>(MyTimerProc));
+    MainWindow::setData(buffer->buffer);
+    Router::getInstance().setEmptyBufferStatus();
 }
 
 void DMAIndicator::DMAstop(){}
@@ -29,7 +27,7 @@ DMAIndicator& DMAIndicator::getInstance(){
 
 void DMAIndicator::setMemoryBaseAddr(Buffer& buf){
     buffer = &buf;
-    //BaseAddr = reinterpret_cast<uint32_t*>(addr);
+    MainWindow::TimeStart(reinterpret_cast<TIMERPROC>(MyTimerProc));
 }
 
 void DMAIndicator::bringOutValue(){}

@@ -20,7 +20,7 @@ DWORD __stdcall ComMasterDriver::com_thread(LPVOID lpParam){
     DWORD fSuccess;
     while(true){
         fSuccess = WriteFile(handleCom, outBuf, outBufLen, &Count, NULL);
-        Sleep(TimeOut);
+        //Sleep(TimeOut);
         ButesToRead = 256;
         fSuccess = ReadFile(handleCom, &reply, ButesToRead, &Count, NULL);
         s16 result = (fSuccess > 0) ? Count : -1;
