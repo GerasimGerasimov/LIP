@@ -16,6 +16,8 @@ public:
     uint8_t getDataSize();
     virtual ~Indicator(){};
     virtual void setParameter(std::string param); //установить новую индикацию
+    virtual void stopSlot(){};
+    virtual void startSlot(){};
 protected:
     enum class Type
     {

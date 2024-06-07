@@ -3,6 +3,7 @@
 #include "Page/Page.h"
 #include "Indicator/Indicator.h"
 #include "Buffer/Buffer.h"
+#include "Router/Router.h"
 
 
 DMAIndicator& DMAIndicator::getInstance(){
@@ -45,7 +46,13 @@ extern "C" void DMA1_Ch4_7_DMA2_Ch3_5_IRQHandler()//прерывание выз�
 
         DMAIndicator::bringOutValue();
         DMA_ClearITPendingBit(DMA2_FLAG_TC4);//сбрасываем флаг окончания обмена  
+        Router::getInstance().setEmptyBufferStatus();
+    }
+}
 
-
+extern "C" void TIM7_IRQHandler(){
+    TIM7->SR = 0;
+    if (Router::getInstance().isFillBuffer()){
+        DMAIndicator::getInstance().DMAstart(Router::getInstance().getBufferSize());
     }
 }

@@ -26,8 +26,23 @@ void Router::setTask(Router::Task task){
 }
 
 void Router::update(){
-    if(page.update()){
-        DMAIndicator::getInstance().DMAstart(bufferData.getSize());
+    if(bufferData.getStatus() == Buffer::Status::EMPTY){
+        if(page.update()){
+            bufferData.setFillStatus();
+            page.stopSlot();
+        }
     }
+}
 
+void Router::setEmptyBufferStatus(){
+    bufferData.setEmptyStatus();
+    page.startSlot();
+}
+
+bool Router::isFillBuffer(){
+    return (bufferData.getStatus() == Buffer::Status::FILL);
+}
+
+uint16_t Router::getBufferSize(){
+    return bufferData.getSize();
 }

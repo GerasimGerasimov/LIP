@@ -76,6 +76,18 @@ void Page::setBuffer(Buffer* newBuffer){
     pageBuffer = newBuffer;
 }
 
+void Page::stopSlot(){
+    for(const auto& ind : ListIndicators){
+        ind->stopSlot();
+    }
+}
+
+void Page::startSlot(){
+    for(const auto& ind : ListIndicators){
+        ind->startSlot();
+    }
+}
+
 //для DMA
 void updateDMA(){
     pageFunction->update();

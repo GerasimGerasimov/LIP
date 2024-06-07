@@ -22,7 +22,7 @@
 LIP_5Nx::LIP_5Nx(){
     DataSize = 5;
     slot = new Slot;
-    slot->Flags |= static_cast<u16>(Slot::StateFlags::SKIP_SLOT);
+    stopSlot();
     slot->onData = HandlerSlotRead::parseSlotRead;
     DevicePollManager::getInstance().addSlot(slot);
 }
@@ -65,7 +65,7 @@ void LIP_5Nx::setParameter(std::string param){
     }
     if(setIsignal()){
         createReadCmd();
-        slot->Flags &= ~(static_cast<u16>(Slot::StateFlags::SKIP_SLOT));
+        startSlot();
     }
 }
 
@@ -74,6 +74,14 @@ bool LIP_5Nx::update(){
         return true;
     }
     return false;
+}
+
+void LIP_5Nx::stopSlot(){
+    slot->Flags |= static_cast<u16>(Slot::StateFlags::SKIP_SLOT);
+}
+
+void LIP_5Nx::startSlot(){
+    slot->Flags &= ~(static_cast<u16>(Slot::StateFlags::SKIP_SLOT));
 }
 
 const char LIP_5Nx::ASCIITable[96] = {
@@ -191,7 +199,7 @@ void LIP_5Nx::transformSizeSring(std::string& data){
     }
     if(data.size() < size){
         u8 insertSize = size - data.size();
-        std::string insertStr(insertSize, '0');
+        std::string insertStr(insertSize, ' ');
         data.insert(0, insertStr);
     }
     else if(data.size() > size){

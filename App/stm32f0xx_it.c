@@ -129,11 +129,6 @@ void TIM2_IRQHandler(){
   ctrlSysLive();
 }
 
-void TIM7_IRQHandler(){
-  TIM7->SR = 0;
-  ++RAM_DATA.counter[1];
-}
-
 /**
   * @brief  This function handles NMI exception.
   * @param  None

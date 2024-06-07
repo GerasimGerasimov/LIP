@@ -25,6 +25,8 @@ public:
     void setIndication(std::string page);
     uint16_t getSizeSegment();
     void setBuffer(Buffer* newBuffer);
+    void stopSlot();
+    void startSlot();
 };
 
 void updateDMA();

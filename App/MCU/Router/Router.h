@@ -31,5 +31,8 @@ public:
     void ProcessMessage(TMessage* m);
     void setTask(Task task);
     void update();
+    void setEmptyBufferStatus();
+    bool isFillBuffer();
+    uint16_t getBufferSize();
 };
 

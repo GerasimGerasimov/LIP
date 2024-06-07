@@ -29,5 +29,7 @@ public:
     std::vector<uint8_t> getValue() override;
     void setParameter(std::string param) override;
     bool update() override;
+    void stopSlot() override;
+    void startSlot() override;
 };
 
