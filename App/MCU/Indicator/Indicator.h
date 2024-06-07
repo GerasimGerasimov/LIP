@@ -32,7 +32,7 @@ protected:
         Type type = Type::R;
         Parameter* resources = nullptr;
     };
-
+    bool errorParsing = false;
     uint8_t DataSize = 0;
 };
 

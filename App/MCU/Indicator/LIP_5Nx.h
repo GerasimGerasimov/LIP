@@ -11,8 +11,8 @@ class Slot;
 class LIP_5Nx : public Indicator
 {
 private:
-
-
+    const std::string parseErrorStr = "-----";
+    const std::string connectErrorStr = " . . . . .";
     bool typeKathode = false;
     bool dot = false;
     static const char ASCIITable[96];

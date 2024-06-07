@@ -33,7 +33,7 @@ public:
     };
 
     u16 Flags;
-    u16 RespondLenghtOrErrorCode;
+    s16 RespondLenghtOrErrorCode;
     void init(void);
     void addcmd(u8 cmd[], u8 size);
     void addcmd(const std::vector<u8>& v);

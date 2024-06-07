@@ -29,7 +29,8 @@ LIP_5Nx::LIP_5Nx(){
 
 //получить список байт на отправку в SPI
 std::vector<uint8_t> LIP_5Nx::getValue(){
-    std::string data = getValueStr();
+    
+    std::string data = errorParsing ? parseErrorStr : getValueStr();
     transformSizeSring(data);
     std::vector<uint8_t> result;
     result.reserve(DataSize);
@@ -64,12 +65,19 @@ void LIP_5Nx::setParameter(std::string param){
         parameter.type = Type::R;
     }
     if(setIsignal()){
+        errorParsing = false;
         createReadCmd();
         startSlot();
+    }
+    else{
+        errorParsing = true;
     }
 }
 
 bool LIP_5Nx::update(){
+    if(errorParsing){
+        return true;
+    }
     if(slot->Flags & (static_cast<u16>(Slot::StateFlags::COMPLETE_READ))){
         return true;
     }
@@ -81,6 +89,9 @@ void LIP_5Nx::stopSlot(){
 }
 
 void LIP_5Nx::startSlot(){
+    if(errorParsing){
+        return;
+    }
     slot->Flags &= ~(static_cast<u16>(Slot::StateFlags::SKIP_SLOT));
 }
 
@@ -152,7 +163,9 @@ bool LIP_5Nx::setIsignal(){
         readResult = "";
         readChar = IniParser::getInstance().getNextTagChar();
         readResult.append(readChar.tag, readChar.result);
-        if(readResult == "")return false; //если .ini закончился и ничего не нашлось
+        if(readResult == ""){
+            return false; //если .ini закончился и ничего не нашлось
+            }
         pos = readResult.find(parameter.Name);
     } while(pos == std::string::npos);
 
