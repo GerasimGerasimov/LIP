@@ -79,21 +79,10 @@ bool LIP_5Nx::update(){
         return true;
     }
     if(slot->isStateFlag(Slot::StateFlags::COMPLETE_READ)){
-        
         return true;
     }
-    if((slot->isStateFlag(Slot::StateFlags::NO_VALID)) && (!updating)){
-        if(parameter.Name == "counter0"){
-        //    ++RAM_DATA.counter[0];
-        }
-        if(parameter.Name == "counter1"){
-        //    ++RAM_DATA.counter[1];
-        }
-        if(parameter.Name == "counter2"){
-        //    ++RAM_DATA.counter[2];
-        }
-        //stopSlot();
-        updating = true;
+    if(slot->isStateFlag(Slot::StateFlags::NO_VALID)){
+        
         return true;
     }
     return false;
@@ -101,7 +90,7 @@ bool LIP_5Nx::update(){
 
 void LIP_5Nx::stopSlot(){
     slot->setFlag(Slot::StateFlags::SKIP_SLOT);
-    updating = false;
+    slot->resetFlag(Slot::StateFlags::COMPLETE_READ);
 }
 
 void LIP_5Nx::startSlot(){
@@ -203,7 +192,6 @@ void LIP_5Nx::createReadCmd(){
 }
 
 std::string LIP_5Nx::getValueStr(){
-    slot->resetFlag(Slot::StateFlags::COMPLETE_READ);
     TSlotHandlerArsg args = {&slot->InputBuf[0], slot->InputBufValidBytes, slot->StartAddrOffset, slot->LastAddrOffset};
     std::string value = parameter.resources->getValue(args, "");
     return value;

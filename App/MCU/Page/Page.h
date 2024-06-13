@@ -15,7 +15,6 @@ private:
     std::vector<std::string> Configuration;
     uint16_t sizeSegment = 0;
     void init();
-    uint16_t countFillBuffer;
     Buffer* pageBuffer;
 public:
     Page();

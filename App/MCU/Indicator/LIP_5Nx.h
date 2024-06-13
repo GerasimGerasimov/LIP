@@ -15,7 +15,6 @@ private:
     static const std::string connectErrorStr;
     bool typeKathode = false;
     bool dot = false;
-    bool updating = false;
     static const char ASCIITable[96];
     uint8_t getChar(char symbol);
     Slot* slot;
