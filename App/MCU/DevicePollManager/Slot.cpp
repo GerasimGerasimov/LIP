@@ -61,8 +61,8 @@ bool Slot::isReplyCRCValid(s16 result, u8* reply){
 //проверка CRC вызов обработчика прочитанных данных
 void Slot::validation(s16 result, u8* reply){
     (isReplyCRCValid(result, reply))
-        ? (Flags &= ~(u16)StateFlags::CRC_ERR)
-        : (Flags |= (u16)StateFlags::CRC_ERR);
+        ? (resetFlag(StateFlags::CRC_ERR))
+        : (setFlag(StateFlags::CRC_ERR));
     RespondLenghtOrErrorCode = result;
     if(onData)
         onData(this, reply);
@@ -74,6 +74,18 @@ bool Slot::isIntervalDone(){
         return true;
     }
     return false;
+}
+
+void Slot::setFlag(StateFlags newFlag){
+    Flags |= static_cast<u16>(newFlag);
+}
+
+void Slot::resetFlag(StateFlags delFlag){
+    Flags &= ~(static_cast<u16>(delFlag));
+}
+
+bool Slot::isStateFlag(StateFlags isFlag){
+    return (Flags & (static_cast<u16>(isFlag)));
 }
 
 Slot::~Slot(){}

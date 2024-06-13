@@ -75,7 +75,7 @@ void DevicePollManager::execute(void){
 DevicePollManager::Status DevicePollManager::setActionBySlot(void){
     if(slot == NULL) return Status::TOGGLE_SLOT;
 
-    if(slot->Flags & (u16)Slot::StateFlags::SKIP_SLOT){
+    if(slot->isStateFlag(Slot::StateFlags::SKIP_SLOT)){
         return Status::TOGGLE_SLOT;
     }
     else{
@@ -112,7 +112,7 @@ Slot* DevicePollManager::getSlotByDevPosAndSection(const std::string& device, co
 Slot* DevicePollManager::CreateCustomSlot(std::string devname, std::string section){
 
     Slot* res = new Slot(devname, section, 0, 0);
-    res->Flags |= (u16)Slot::StateFlags::SKIP_SLOT;
+    res->setFlag(Slot::StateFlags::SKIP_SLOT);
     res->TimeOut = 2000;
     return res;
 }

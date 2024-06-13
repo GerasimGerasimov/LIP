@@ -33,7 +33,7 @@ public:
         NO_VALID = 64
     };
 
-    u16 Flags;
+    
     s16 RespondLenghtOrErrorCode;
     void init(void);
     void addcmd(u8 cmd[], u8 size);
@@ -54,9 +54,13 @@ public:
     std::string Device;
     std::string Section;
     bool isIntervalDone();
+    void setFlag(StateFlags newFlag);
+    void resetFlag(StateFlags delFlag);
+    bool isStateFlag(StateFlags isFlag);
 private:
     bool isReplyCRCValid(s16 result, u8* reply);
     u16 TmpInterval;
+    u16 Flags;
 };
 
 #endif

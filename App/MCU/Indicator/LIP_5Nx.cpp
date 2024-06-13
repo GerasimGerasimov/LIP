@@ -10,8 +10,6 @@
 #include "Slots/HandlerSlotRead.h"
 #include "Slots/SlotHandlerType.h"
 
-
-
 #define DEVICE 0
 #define SECTION 1
 #define NAME 2
@@ -31,12 +29,10 @@ LIP_5Nx::LIP_5Nx(){
 std::vector<uint8_t> LIP_5Nx::getValue(){
     
     std::string data;
-    if(slot->Flags & (static_cast<u16>(Slot::StateFlags::NO_VALID))){
+    if(slot->isStateFlag(Slot::StateFlags::NO_VALID)){
         data = connectErrorStr;
-        
     }
     else{
-        
         data = errorParsing ? parseErrorStr : getValueStr();
         transformSizeSring(data);
     }
@@ -66,12 +62,8 @@ void LIP_5Nx::setParameter(std::string param){
     parameter.Device = page[DEVICE];
     parameter.Section = IniResources::getSection(page[SECTION]);
     parameter.Name = page[NAME];
-    if(page[TYPE] == "RW"){
-        parameter.type = Type::RW;
-    }
-    else{
-        parameter.type = Type::R;
-    }
+    parameter.type = (page[TYPE] == "RW") ? Type::RW : Type::R;
+
     if(setIsignal()){
         errorParsing = false;
         createReadCmd();
@@ -86,11 +78,11 @@ bool LIP_5Nx::update(){
     if(errorParsing){
         return true;
     }
-    if(slot->Flags & (static_cast<u16>(Slot::StateFlags::COMPLETE_READ))){
+    if(slot->isStateFlag(Slot::StateFlags::COMPLETE_READ)){
         
         return true;
     }
-    if((slot->Flags & (static_cast<u16>(Slot::StateFlags::NO_VALID))) && (!updating)){
+    if((slot->isStateFlag(Slot::StateFlags::NO_VALID)) && (!updating)){
         if(parameter.Name == "counter0"){
         //    ++RAM_DATA.counter[0];
         }
@@ -108,7 +100,7 @@ bool LIP_5Nx::update(){
 }
 
 void LIP_5Nx::stopSlot(){
-    slot->Flags |= static_cast<u16>(Slot::StateFlags::SKIP_SLOT);
+    slot->setFlag(Slot::StateFlags::SKIP_SLOT);
     updating = false;
 }
 
@@ -116,7 +108,7 @@ void LIP_5Nx::startSlot(){
     if(errorParsing){
         return;
     }
-    slot->Flags &= ~(static_cast<u16>(Slot::StateFlags::SKIP_SLOT));
+    slot->resetFlag(Slot::StateFlags::SKIP_SLOT);
 }
 
 const std::string LIP_5Nx::parseErrorStr = "-----";
@@ -139,23 +131,10 @@ const char LIP_5Nx::ASCIITable[96] = {
 
 //получить ASCII символ для индикации
 uint8_t LIP_5Nx::getChar(char symbol){
-    if(symbol <= 0x20){
-        symbol = 0;
-    }
-    else{
-        symbol -= 0x20;
-    }
 
+    symbol = (symbol <= 0x20) ? 0 : symbol - 0x20;
 
-
-    uint8_t result;
-
-    if(typeKathode){
-        result = ASCIITable[symbol];
-    }
-    else{
-        result = ~ASCIITable[symbol];
-    }
+    uint8_t result = typeKathode ? ASCIITable[symbol] : ~ASCIITable[symbol];
 
     if(dot){
         dot = false;
@@ -173,7 +152,7 @@ void LIP_5Nx::clear(){
         delete parameter.resources;
         parameter.resources = nullptr;
     }
-    slot->Flags |= static_cast<u16>(Slot::StateFlags::SKIP_SLOT);
+    slot->setFlag(Slot::StateFlags::SKIP_SLOT);
 }
 
 bool LIP_5Nx::setIsignal(){
@@ -224,7 +203,7 @@ void LIP_5Nx::createReadCmd(){
 }
 
 std::string LIP_5Nx::getValueStr(){
-    slot->Flags &= ~(static_cast<u16>(Slot::StateFlags::COMPLETE_READ));
+    slot->resetFlag(Slot::StateFlags::COMPLETE_READ);
     TSlotHandlerArsg args = {&slot->InputBuf[0], slot->InputBufValidBytes, slot->StartAddrOffset, slot->LastAddrOffset};
     std::string value = parameter.resources->getValue(args, "");
     return value;
