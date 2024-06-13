@@ -29,7 +29,8 @@ public:
         TIMEOUT_ERR = 4,
         CRC_ERR = 8,
         DATA_VALID = 16,
-        COMPLETE_READ = 32
+        COMPLETE_READ = 32,
+        NO_VALID = 64
     };
 
     u16 Flags;

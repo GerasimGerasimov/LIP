@@ -24,9 +24,13 @@ void HandlerSlotRead::parseSlotRead(Slot* slot, u8* reply){
         slot->InputBufValidBytes = regs_count;
         slot->Flags |= (u16)Slot::StateFlags::DATA_VALID;
         slot->Flags |= static_cast<u16>(Slot::StateFlags::COMPLETE_READ);
+        slot->Flags &= ~((u16)Slot::StateFlags::NO_VALID);
+        
     }
     catch(int e){
+        
         slot->InputBufValidBytes = 0;
         slot->Flags &= ~(u16)Slot::StateFlags::DATA_VALID;
+        slot->Flags |= static_cast<u16>(Slot::StateFlags::NO_VALID);
     }
 }

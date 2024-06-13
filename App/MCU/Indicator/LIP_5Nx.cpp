@@ -30,8 +30,16 @@ LIP_5Nx::LIP_5Nx(){
 //получить список байт на отправку в SPI
 std::vector<uint8_t> LIP_5Nx::getValue(){
     
-    std::string data = errorParsing ? parseErrorStr : getValueStr();
-    transformSizeSring(data);
+    std::string data;
+    if(slot->Flags & (static_cast<u16>(Slot::StateFlags::NO_VALID))){
+        data = connectErrorStr;
+        
+    }
+    else{
+        
+        data = errorParsing ? parseErrorStr : getValueStr();
+        transformSizeSring(data);
+    }
     std::vector<uint8_t> result;
     result.reserve(DataSize);
     for(auto i = data.rbegin(); i != data.rend(); ++i){
@@ -79,6 +87,21 @@ bool LIP_5Nx::update(){
         return true;
     }
     if(slot->Flags & (static_cast<u16>(Slot::StateFlags::COMPLETE_READ))){
+        
+        return true;
+    }
+    if((slot->Flags & (static_cast<u16>(Slot::StateFlags::NO_VALID))) && (!updating)){
+        if(parameter.Name == "counter0"){
+        //    ++RAM_DATA.counter[0];
+        }
+        if(parameter.Name == "counter1"){
+        //    ++RAM_DATA.counter[1];
+        }
+        if(parameter.Name == "counter2"){
+        //    ++RAM_DATA.counter[2];
+        }
+        //stopSlot();
+        updating = true;
         return true;
     }
     return false;
@@ -86,6 +109,7 @@ bool LIP_5Nx::update(){
 
 void LIP_5Nx::stopSlot(){
     slot->Flags |= static_cast<u16>(Slot::StateFlags::SKIP_SLOT);
+    updating = false;
 }
 
 void LIP_5Nx::startSlot(){
@@ -94,6 +118,9 @@ void LIP_5Nx::startSlot(){
     }
     slot->Flags &= ~(static_cast<u16>(Slot::StateFlags::SKIP_SLOT));
 }
+
+const std::string LIP_5Nx::parseErrorStr = "-----";
+const std::string LIP_5Nx::connectErrorStr = " . . . . .";
 
 const char LIP_5Nx::ASCIITable[96] = {
     0x00, 0x86, 0x22, 0x49, 0x2D, 0x6B, 0x53, 0x46,
