@@ -8,14 +8,14 @@ Page* pageFunction;
 void Page::init(){
     std::string Config = InternalResources::getInstance().getItemStringByName("Config");
     Configuration = Parser::splitString(" ", Config);
-    for(auto& ind : Configuration){
-        std::vector<std::string> TypeIndication = Parser::splitString("/", ind);
-        if(TypeIndication[0] == "5N"){
-            ListIndicators.push_back(new LIP_5Nx);
-            bool typeA = (TypeIndication[1] == "A");
-            ListIndicators.back()->setTypeAnode(typeA);
-        }
-    }
+
+    auto lambda = [this](std::string& Type){
+        ListIndicators.push_back(new LIP_5Nx);
+        bool typeA = (Type == "A");
+        ListIndicators.back()->setTypeAnode(typeA);
+    };
+
+    Parser::parseConfigurarion(Configuration, lambda);
 }
 
 Page::Page(){

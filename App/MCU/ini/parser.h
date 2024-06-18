@@ -56,5 +56,5 @@ private:
 namespace Parser
 {
     std::vector<std::string> splitString(std::string delimiter, std::string& text);
-    void parseConfigurarion();
+    void parseConfigurarion(std::vector<std::string>& Configuration, std::function<void(std::string& Type)> func);
 }

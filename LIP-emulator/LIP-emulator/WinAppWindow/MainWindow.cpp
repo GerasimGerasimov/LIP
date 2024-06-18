@@ -55,12 +55,12 @@ void MainWindow::createIndicator(){
     BaseObject::Parameter param;
     param.parrent = hWnd;
     int countIndicator = 0; //TODO пока только 5N индикатороы countIndicator = Configuration.size();
-    for(auto& n : Configuration){
-        std::vector<std::string> TypeIndication = Parser::splitString("/", n);//TODO переписать в std::function
-        if(TypeIndication[0] == "5N"){
+
+    Parser::parseConfigurarion(Configuration,
+        [&countIndicator](std::string&){
             ++countIndicator;
-        }
-    }
+        });
+
     // вычисление размеров модуля с индикаторами
     int indent = 10;
     int diserWidthIndicator = 310;

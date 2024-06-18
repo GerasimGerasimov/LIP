@@ -276,4 +276,12 @@ std::vector<std::string> Parser::splitString(std::string delimiter, std::string&
     return vecRes;
 }
 
-void Parser::parseConfigurarion(){}
+void Parser::parseConfigurarion(std::vector<std::string>& Configuration, std::function<void(std::string& Type)> func){
+    for(auto& ind : Configuration){
+        std::vector<std::string> TypeIndication = splitString("/", ind);
+        if(TypeIndication[0] == "5N"){
+            func(TypeIndication[1]);
+        }
+
+    }
+}
