@@ -122,3 +122,15 @@ void DevicePollManager::addSlot(Slot* newSlot){
 }
 
 void DevicePollManager::CreateSlotsByStart(){}
+
+void DevicePollManager::deleteSlot(){
+    if(slot == nullptr){
+        status = Status::TOGGLE_SLOT;
+    }
+    for(auto i = Slots.begin(); i != Slots.end(); ++i){
+        if(*i == nullptr){
+            Slots.erase(i);
+        }
+        
+    }
+}

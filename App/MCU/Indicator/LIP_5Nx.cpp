@@ -214,3 +214,9 @@ void LIP_5Nx::transformSizeSring(std::string& data){
         data.erase(data.length() - deleteSize);
     }
 }
+
+LIP_5Nx::~LIP_5Nx(){
+    delete slot;
+    slot = nullptr;
+    DevicePollManager::getInstance().deleteSlot();
+}

@@ -25,6 +25,7 @@ private:
     void transformSizeSring(std::string& data);
 public:
     LIP_5Nx();
+    ~LIP_5Nx();
     std::vector<uint8_t> getValue() override;
     void setParameter(std::string param) override;
     bool update() override;
