@@ -5,3 +5,7 @@ uint8_t Indicator::getDataSize(){
 }
 
 void Indicator::setParameter(std::string param){}
+
+void Indicator::setTypeAnode(bool anode){
+    typeAnode = anode;
+}

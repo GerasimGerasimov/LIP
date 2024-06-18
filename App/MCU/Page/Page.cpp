@@ -8,9 +8,12 @@ Page* pageFunction;
 void Page::init(){
     std::string Config = InternalResources::getInstance().getItemStringByName("Config");
     Configuration = Parser::splitString(" ", Config);
-    for(const auto& ind : Configuration){
-        if(ind == "5N"){
+    for(auto& ind : Configuration){
+        std::vector<std::string> TypeIndication = Parser::splitString("/", ind);
+        if(TypeIndication[0] == "5N"){
             ListIndicators.push_back(new LIP_5Nx);
+            bool typeA = (TypeIndication[1] == "A");
+            ListIndicators.back()->setTypeAnode(typeA);
         }
     }
 }

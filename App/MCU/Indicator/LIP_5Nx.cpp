@@ -123,7 +123,7 @@ uint8_t LIP_5Nx::getChar(char symbol){
 
     symbol = (symbol <= 0x20) ? 0 : symbol - 0x20;
 
-    uint8_t result = typeKathode ? ASCIITable[symbol] : ~ASCIITable[symbol];
+    uint8_t result = typeAnode ? ~ASCIITable[symbol] : ASCIITable[symbol];
 
     if(dot){
         dot = false;

@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <functional>
 
 enum class ParcerResult
 {
@@ -55,4 +56,5 @@ private:
 namespace Parser
 {
     std::vector<std::string> splitString(std::string delimiter, std::string& text);
+    void parseConfigurarion();
 }

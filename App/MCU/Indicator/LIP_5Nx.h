@@ -13,7 +13,6 @@ class LIP_5Nx : public Indicator
 private:
     static const std::string parseErrorStr;
     static const std::string connectErrorStr;
-    bool typeKathode = false;
     bool dot = false;
     static const char ASCIITable[96];
     uint8_t getChar(char symbol);

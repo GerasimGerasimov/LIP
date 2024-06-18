@@ -18,6 +18,7 @@ public:
     virtual void setParameter(std::string param); //установить новую индикацию
     virtual void stopSlot(){};
     virtual void startSlot(){};
+    void setTypeAnode(bool anode);
 protected:
     enum class Type
     {
@@ -34,5 +35,6 @@ protected:
     };
     bool errorParsing = false;
     uint8_t DataSize = 0;
+    bool typeAnode = false;
 };
 

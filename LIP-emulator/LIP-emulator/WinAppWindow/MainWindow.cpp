@@ -55,8 +55,9 @@ void MainWindow::createIndicator(){
     BaseObject::Parameter param;
     param.parrent = hWnd;
     int countIndicator = 0; //TODO пока только 5N индикатороы countIndicator = Configuration.size();
-    for(const auto& n : Configuration){
-        if(n == "5N"){
+    for(auto& n : Configuration){
+        std::vector<std::string> TypeIndication = Parser::splitString("/", n);//TODO переписать в std::function
+        if(TypeIndication[0] == "5N"){
             ++countIndicator;
         }
     }

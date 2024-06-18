@@ -275,3 +275,5 @@ std::vector<std::string> Parser::splitString(std::string delimiter, std::string&
     } while(newPos != -1);
     return vecRes;
 }
+
+void Parser::parseConfigurarion(){}
