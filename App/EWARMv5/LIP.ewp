@@ -1147,9 +1147,9 @@
             </file>
         </group>
         <group>
-            <name>Msg</name>
+            <name>Message</name>
             <file>
-                <name>$PROJ_DIR$\..\MCU\Msg\msg.cpp</name>
+                <name>$PROJ_DIR$\..\MCU\Message\Message.cpp</name>
             </file>
         </group>
         <group>

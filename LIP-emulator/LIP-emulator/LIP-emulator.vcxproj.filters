@@ -52,9 +52,6 @@
     <Filter Include="MCU\Slots">
       <UniqueIdentifier>{82a8abc0-02e6-4893-b4c0-ee5c89de6b66}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MCU\Msg">
-      <UniqueIdentifier>{c160f1dc-d93c-42c1-a93a-286f96153340}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MCU\Buffer">
       <UniqueIdentifier>{2c554d83-0f7b-4a38-9354-edbd6f7468e4}</UniqueIdentifier>
     </Filter>
@@ -78,6 +75,9 @@
     </Filter>
     <Filter Include="MCU\IDrivers">
       <UniqueIdentifier>{5c576d9d-b318-4a69-9d73-7875876d248c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MCU\Message">
+      <UniqueIdentifier>{c160f1dc-d93c-42c1-a93a-286f96153340}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -122,9 +122,6 @@
     </ClInclude>
     <ClInclude Include="..\..\App\MCU\Slots\SlotHandlerType.h">
       <Filter>MCU\Slots</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Msg\msg.h">
-      <Filter>MCU\Msg</Filter>
     </ClInclude>
     <ClInclude Include="..\..\App\MCU\Buffer\Buffer.h">
       <Filter>MCU\Buffer</Filter>
@@ -246,6 +243,9 @@
     <ClInclude Include="..\..\App\MCU\crc16.h">
       <Filter>MCU</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\App\MCU\Message\Message.h">
+      <Filter>MCU\Message</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LIP-emulator.cpp">
@@ -277,9 +277,6 @@
     </ClCompile>
     <ClCompile Include="..\..\App\MCU\Router\Router.cpp">
       <Filter>MCU\Router</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\Msg\msg.cpp">
-      <Filter>MCU\Msg</Filter>
     </ClCompile>
     <ClCompile Include="..\..\App\MCU\Buffer\Buffer.cpp">
       <Filter>MCU\Buffer</Filter>
@@ -385,6 +382,9 @@
     </ClCompile>
     <ClCompile Include="..\..\App\MCU\crc16.c">
       <Filter>MCU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\Message\Message.cpp">
+      <Filter>MCU\Message</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

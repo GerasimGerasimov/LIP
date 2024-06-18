@@ -60,19 +60,19 @@ typedef struct
 
 #define msg_buff_size 32 //размер буфера сообщений
 
-class Msg
+class LipMessage
 {
 public:
-    static Msg& getInstance();
+    static LipMessage& getInstance();
     void send_message(u32 event, u32 p1, u32 p2);//добавить сообщение в конец очереди
     bool get_message(TMessage* m);//извлечь первое в очереди сообщение
     void clear_msg_queue();//очистка очереди сообщений
 private:
-    Msg();
-    Msg(const Msg&) = delete;
-    Msg& operator=(const Msg&) = delete;
-    Msg(const Msg&&) = delete;
-    Msg& operator=(const Msg&&) = delete;
+    LipMessage();
+    LipMessage(const LipMessage&) = delete;
+    LipMessage& operator=(const LipMessage&) = delete;
+    LipMessage(const LipMessage&&) = delete;
+    LipMessage& operator=(const LipMessage&&) = delete;
 
     TMessage Messages[msg_buff_size];//очередь сообщений
     u32 msg_queue_end = 0;//конец очереди

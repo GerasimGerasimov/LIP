@@ -140,7 +140,7 @@
     <ClInclude Include="..\..\App\MCU\Indicator\LIP_5Nx.h" />
     <ClInclude Include="..\..\App\MCU\ini\IniResources.h" />
     <ClInclude Include="..\..\App\MCU\ini\parser.h" />
-    <ClInclude Include="..\..\App\MCU\Msg\msg.h" />
+    <ClInclude Include="..\..\App\MCU\Message\Message.h" />
     <ClInclude Include="..\..\App\MCU\Page\Page.h" />
     <ClInclude Include="..\..\App\MCU\Parameters\GeneralCaseSignal.h" />
     <ClInclude Include="..\..\App\MCU\Parameters\IniString.h" />
@@ -196,7 +196,7 @@
     <ClCompile Include="..\..\App\MCU\Indicator\LIP_5Nx.cpp" />
     <ClCompile Include="..\..\App\MCU\ini\IniResources.cpp" />
     <ClCompile Include="..\..\App\MCU\ini\parser.cpp" />
-    <ClCompile Include="..\..\App\MCU\Msg\msg.cpp" />
+    <ClCompile Include="..\..\App\MCU\Message\Message.cpp" />
     <ClCompile Include="..\..\App\MCU\Page\Page.cpp" />
     <ClCompile Include="..\..\App\MCU\Parameters\GeneralCaseSignal.cpp" />
     <ClCompile Include="..\..\App\MCU\Parameters\IniString.cpp" />
