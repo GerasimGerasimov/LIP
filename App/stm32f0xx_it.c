@@ -74,8 +74,7 @@ void TIM1_CC_IRQHandler(void){
 }
 
 //считывание DI с кнопок
-u8 SPI_DIO_Processing(){
-  u8 RetVal = 0;
+void SPI_DIO_Processing(){
   static bool isWaitReceive = false;
   //если кристалл ещё не выбран CE в "1"
   //сдвиговые регистры входов находятся в ресете
@@ -118,7 +117,6 @@ u8 SPI_DIO_Processing(){
 
     }
   }
-  return RetVal;
 }
 
 void TIM2_IRQHandler(){

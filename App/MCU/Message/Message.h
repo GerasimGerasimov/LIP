@@ -8,7 +8,7 @@
 #define MAXMESSAGE  0xFFFF
 
 
-enum class EventSrc
+enum class Event
 {
     NONE,
     KEYBOARD,
@@ -52,7 +52,7 @@ enum class KeyPressFeature : u32
 
 typedef struct
 {//структура сообщения
-    u32 Event;//тип сообщения
+    Event event;//тип сообщения
     //параметры сообщения
     u32 p1;//первый параметр
     u32 p2;//второй параметр
@@ -64,7 +64,7 @@ class LipMessage
 {
 public:
     static LipMessage& getInstance();
-    void send_message(u32 event, u32 p1, u32 p2);//добавить сообщение в конец очереди
+    void send_message(Event event, u32 p1, u32 p2);//добавить сообщение в конец очереди
     bool get_message(TMessage* m);//извлечь первое в очереди сообщение
     void clear_msg_queue();//очистка очереди сообщений
 private:

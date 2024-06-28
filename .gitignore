@@ -5,7 +5,7 @@ Exe/
 out/
 settings/
 Visual Studio/
-*.json
+
 *.ewd
 *.ewt
 *.wsdt
@@ -25,3 +25,4 @@ Visual Studio/
 x64/
 .vs/
 .metadata/
+.vscode/

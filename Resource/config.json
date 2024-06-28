@@ -1,0 +1,41 @@
+{
+  "App": "E:/IMD_NEW/projects/LIP/LIP.CPU/firmware/branches/LIP/App/out/LIP.hex",      
+  "SkipSectors":["0x08006000", "0x08008000", "0x08008800", "0x08009000", "0x08009800", "0x0800A000", "0x0800A800", "0x0800B000", "0x0800B800", "0x0800C000", "0x0800C800", "0x0800D000", "0x0800D800", "0x0800E000", "0x0800E800", "0x0800F000", "0x0800F800", "0x08010000", "0x08010800", "0x08011000", "0x08011800", "0x08012000", "0x08012800", "0x08013000", "0x08013800", "0x08014000", "0x08014800", "0x08015000", "0x08015800", "0x08016000", "0x08016800", "0x08017000", "0x08017800", "0x08018000", "0x08018800", "0x08019000", "0x08019800", "0x0801A000", "0x0801A800", "0x0801B000", "0x0801B800", "0x0801C000", "0x0801C800", "0x0801D000", "0x0801D800", "0x0801E000", "0x0801E800", "0x0801F000", "0x0801F800", "0x08020000", "0x08020800", "0x08021000", "0x08021800", "0x08022000"],
+  "SkipSectorsRes":["0x08006000", "0x08030000"],
+  "COM":{
+    "port":"COM3",
+  "settings": {
+        "baudRate": 115200,
+        "dataBits": 8,
+        "parity": "none",
+        "stopBits": 1,
+        "flowControl": false
+    }
+  },
+  "FirmwareCheckInfo": {
+    "info": "0x08008200",
+    "infoSize": 8,
+    "CheckFrom": "0x08008208",
+    "CheckTo":   "0x0802FFFF"
+  },
+  "resources": {
+    "start": "0x08030000",
+    "items": {
+      "ID" : "12345678 OLED.CM4 v1.0.0 29.01.2023 www.intmash.ru",
+      "URL" : "www.intmash.ru",
+      "SOURCES":"DEV1/SLF1", 
+      "DEV1" : { 
+          "file":"E:/IMD_NEW/projects/LIP/LIP.CPU/firmware/branches/LIP/Resource/DExS.DCD-TBI_v2.0.0-mini.ini"
+        },
+      "DEVICES":"U1/SLF",
+      "U1":"DEV1/COM1/1",
+      "SLF":"SLF1//0",
+      "Config": "5N/A 5N/A 5N/A",
+      "Page1" : "U1/RAM/Uref/RW\r\nU1/RAM/Iref/RW\r\nU1/RAM/Iin/R",
+      "Page2" : "U1/RAM/Iin/R\r\nU1/RAM/Uref/RW\r\nU1/RAM/Iref/RW",
+      "Page3": "U1/RAM/Ia/R\r\nU1/RAM/Ib/R\r\nU1/RAM/Ic/R",
+      "Page4": "U1/RAM/counter0/R\r\nU1/RAM/counter1/R\r\nU1/RAM/counter2/R\r\n"
+      }
+  }
+}
+

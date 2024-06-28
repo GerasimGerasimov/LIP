@@ -26,7 +26,9 @@ LipMessage& LipMessage::getInstance(){
     return msg;
 }
 
-LipMessage::LipMessage(){}
+LipMessage::LipMessage(){
+    clear_msg_queue();
+}
 
 void LipMessage::clear_msg_queue(){//очистка очереди сообщений
     u32 i = msg_buff_size;
@@ -34,7 +36,7 @@ void LipMessage::clear_msg_queue(){//очистка очереди сообще�
     msg_queue_beg = 0;//начало очереди
     while(i != 0){//заполняю нулями все поля буфера
         i--;
-        Messages[i].Event = 0;
+        Messages[i].event = Event::NONE;
         Messages[i].p1 = 0;
         Messages[i].p2 = 0;
     }
@@ -46,8 +48,8 @@ void LipMessage::clear_msg_queue(){//очистка очереди сообще�
 //и если достиг максимального значения (кол-во сообщений в буфере)
 //перескакиваю в "0 значение" - в общем если мессаги из очереди не извлекаются
 //они по кругу затираются более свежими сообщениями
-void LipMessage::send_message(u32 event, u32 p1, u32 p2){
-    Messages[msg_queue_end].Event = event;
+void LipMessage::send_message(Event event, u32 p1, u32 p2){
+    Messages[msg_queue_end].event = event;
     Messages[msg_queue_end].p1 = p1;
     Messages[msg_queue_end].p2 = p2;
     msg_queue_end++;
