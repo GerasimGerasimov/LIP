@@ -170,6 +170,7 @@
     <ClInclude Include="Drivers\WinIndicator\BaseWindow.h" />
     <ClInclude Include="Drivers\WinIndicator\IndicatorContainer.h" />
     <ClInclude Include="Drivers\WinIndicator\Segment.h" />
+    <ClInclude Include="Drivers\WinIndicator\SegmentSS8.h" />
     <ClInclude Include="Drivers\WinIndicator\Win7Segment.h" />
     <ClInclude Include="Drivers\WinIndicator\WinLIPModule.h" />
     <ClInclude Include="Drivers\WinIndicator\WinLIP_5Nx.h" />
@@ -226,6 +227,7 @@
     <ClCompile Include="Drivers\WinIndicator\BaseWindow.cpp" />
     <ClCompile Include="Drivers\WinIndicator\IndicatorContainer.cpp" />
     <ClCompile Include="Drivers\WinIndicator\Segment.cpp" />
+    <ClCompile Include="Drivers\WinIndicator\SegmentSS8.cpp" />
     <ClCompile Include="Drivers\WinIndicator\Win7Segment.cpp" />
     <ClCompile Include="Drivers\WinIndicator\WinLIPModule.cpp" />
     <ClCompile Include="Drivers\WinIndicator\WinLIP_5Nx.cpp" />

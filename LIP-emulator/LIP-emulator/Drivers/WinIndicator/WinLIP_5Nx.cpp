@@ -8,8 +8,6 @@ WinLIP_5Nx::WinLIP_5Nx(Parameter param) : IndicatorContainer(param){
 }
 
 void WinLIP_5Nx::createIndicator(){
-    width;
-    height;
     BaseWindow::Parameter param;
     param.parrent = hwnd;
     param.rect.left = border.left;

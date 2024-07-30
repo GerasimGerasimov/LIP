@@ -250,7 +250,10 @@
       <Filter>Drivers\WinIndicator</Filter>
     </ClInclude>
     <ClInclude Include="..\..\App\MCU\Indicator\LIP_SS8.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>MCU\Indicator</Filter>
+    </ClInclude>
+    <ClInclude Include="Drivers\WinIndicator\SegmentSS8.h">
+      <Filter>Drivers\WinIndicator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -396,7 +399,10 @@
       <Filter>Drivers\WinIndicator</Filter>
     </ClCompile>
     <ClCompile Include="..\..\App\MCU\Indicator\LIP_SS8.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>MCU\Indicator</Filter>
+    </ClCompile>
+    <ClCompile Include="Drivers\WinIndicator\SegmentSS8.cpp">
+      <Filter>Drivers\WinIndicator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

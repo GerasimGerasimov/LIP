@@ -5,9 +5,12 @@ LIP_SS8::LIP_SS8(){
 }
 
 std::vector<uint8_t> LIP_SS8::getValue(){
-    return std::vector<uint8_t>();
+    std::vector<uint8_t> result(DataSize);
+    result[0] = 63;
+    result[1] = 192;
+    return result;
 }
 
 bool LIP_SS8::update(){
-    return false;
+    return true;
 }
