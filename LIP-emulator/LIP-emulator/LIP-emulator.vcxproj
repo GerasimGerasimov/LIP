@@ -138,6 +138,7 @@
     <ClInclude Include="..\..\App\MCU\IDrivers\iresources.h" />
     <ClInclude Include="..\..\App\MCU\Indicator\Indicator.h" />
     <ClInclude Include="..\..\App\MCU\Indicator\LIP_5Nx.h" />
+    <ClInclude Include="..\..\App\MCU\Indicator\LIP_SS8.h" />
     <ClInclude Include="..\..\App\MCU\ini\IniResources.h" />
     <ClInclude Include="..\..\App\MCU\ini\parser.h" />
     <ClInclude Include="..\..\App\MCU\Message\Message.h" />
@@ -172,6 +173,7 @@
     <ClInclude Include="Drivers\WinIndicator\Win7Segment.h" />
     <ClInclude Include="Drivers\WinIndicator\WinLIPModule.h" />
     <ClInclude Include="Drivers\WinIndicator\WinLIP_5Nx.h" />
+    <ClInclude Include="Drivers\WinIndicator\WinLip_SwitchStatus_8.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="LIP-emulator.h" />
     <ClInclude Include="OutStream.h" />
@@ -194,6 +196,7 @@
     <ClCompile Include="..\..\App\MCU\Helpers\utils.cpp" />
     <ClCompile Include="..\..\App\MCU\Indicator\Indicator.cpp" />
     <ClCompile Include="..\..\App\MCU\Indicator\LIP_5Nx.cpp" />
+    <ClCompile Include="..\..\App\MCU\Indicator\LIP_SS8.cpp" />
     <ClCompile Include="..\..\App\MCU\ini\IniResources.cpp" />
     <ClCompile Include="..\..\App\MCU\ini\parser.cpp" />
     <ClCompile Include="..\..\App\MCU\Message\Message.cpp" />
@@ -226,6 +229,7 @@
     <ClCompile Include="Drivers\WinIndicator\Win7Segment.cpp" />
     <ClCompile Include="Drivers\WinIndicator\WinLIPModule.cpp" />
     <ClCompile Include="Drivers\WinIndicator\WinLIP_5Nx.cpp" />
+    <ClCompile Include="Drivers\WinIndicator\WinLip_SwitchStatus_8.cpp" />
     <ClCompile Include="LIP-emulator.cpp" />
     <ClCompile Include="OutStream.cpp" />
     <ClCompile Include="STM32\DMAIndicator.cpp" />

@@ -263,7 +263,7 @@ std::vector<std::string> IniParser::getListOfDelimitedStrInclude(char delimiter,
     return res;
 }
 
-std::vector<std::string> Parser::splitString(std::string delimiter, std::string& text){
+std::vector<std::string> Parser::splitString(std::string delimiter, const std::string& text){
     std::vector<std::string> vecRes;
     int pos, newPos;
     pos = 0;
@@ -276,12 +276,14 @@ std::vector<std::string> Parser::splitString(std::string delimiter, std::string&
     return vecRes;
 }
 
-void Parser::parseConfigurarion(std::vector<std::string>& Configuration, std::function<void(std::string& Type)> func){
-    for(auto& ind : Configuration){
+//TODO std::function нарушние прав доступа при закрытии
+void Parser::parseConfigurarion(std::vector<std::string>& Configuration, std::map<std::string, std::function<void(std::string& Type)>> &func){
+    for(const auto& ind : Configuration){
         std::vector<std::string> TypeIndication = splitString("/", ind);
-        if(TypeIndication[0] == "5N"){
-            func(TypeIndication[1]);
+        if(func.count(TypeIndication[0])){
+            std::string type = TypeIndication.size() == 1 ? "" : TypeIndication[1];
+            func.at(TypeIndication[0])(type);
         }
-
+        
     }
 }

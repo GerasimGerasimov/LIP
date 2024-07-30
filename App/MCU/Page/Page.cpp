@@ -1,5 +1,6 @@
 #include "Page.h"
 #include "Indicator/LIP_5Nx.h"
+#include "Indicator/LIP_SS8.h"
 #include "Resources/InternalResources.h"
 #include "ini/parser.h"
 
@@ -9,13 +10,19 @@ void Page::init(){
     std::string Config = InternalResources::getInstance().getItemStringByName("Config");
     Configuration = Parser::splitString(" ", Config);
 
-    auto lambda = [this](std::string& Type){
+    auto lambda5N = [this](std::string& Type){
         ListIndicators.push_back(new LIP_5Nx);
         bool typeA = (Type == "A");
         ListIndicators.back()->setTypeAnode(typeA);
     };
 
-    Parser::parseConfigurarion(Configuration, lambda);
+    auto lambdaSS8 = [this](std::string&){
+        ListIndicators.push_back(new LIP_SS8);
+    };
+    std::map<std::string, std::function<void(std::string& Type)>> parseHandler;
+    parseHandler[i5N] = lambda5N;
+    parseHandler[iSwitchStatus] = lambdaSS8;
+    Parser::parseConfigurarion(Configuration, parseHandler);
 }
 
 Page::Page(){

@@ -3,6 +3,10 @@
 #include <string>
 #include <vector>
 #include <functional>
+#include <map>
+
+#define i5N "5N"
+#define iSwitchStatus "SwitchStatus_8"
 
 enum class ParcerResult
 {
@@ -55,6 +59,6 @@ private:
 
 namespace Parser
 {
-    std::vector<std::string> splitString(std::string delimiter, std::string& text);
-    void parseConfigurarion(std::vector<std::string>& Configuration, std::function<void(std::string& Type)> func);
+    std::vector<std::string> splitString(std::string delimiter, const std::string& text);
+    void parseConfigurarion(std::vector<std::string>& Configuration, std::map<std::string, std::function<void(std::string& Type)>> &func);
 }

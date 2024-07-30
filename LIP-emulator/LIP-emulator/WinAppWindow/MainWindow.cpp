@@ -55,11 +55,13 @@ void MainWindow::createIndicator(){
     BaseObject::Parameter param;
     param.parrent = hWnd;
     int countIndicator = 0; //TODO пока только 5N индикатороы countIndicator = Configuration.size();
-
-    Parser::parseConfigurarion(Configuration,
-        [&countIndicator](std::string&){
-            ++countIndicator;
-        });
+    std::map<std::string, std::function<void(std::string& Type)>> parseHandler;
+    auto lambda = [&countIndicator](std::string&){
+        ++countIndicator;
+    };
+    parseHandler[i5N] = lambda;
+    parseHandler[iSwitchStatus] = lambda;
+    Parser::parseConfigurarion(Configuration, parseHandler);
 
     // вычисление размеров модуля с индикаторами
     int indent = 10;
@@ -72,7 +74,7 @@ void MainWindow::createIndicator(){
     rectModule.top = indent;
     rectModule.bottom = indent + borderIndicator.top + borderIndicator.bottom + countIndicator * diserHeightIndicator + (countIndicator - 1) * indent;
     param.rect = rectModule;
-    indicator = new WinLIPModule(param, Configuration, borderIndicator);
+    indicator = new WinLIPModule(param, Configuration, borderIndicator);//TODO обработка отсутствия параметров индикаторов
 }
 
 BOOL MainWindow::InitInstance(HINSTANCE hInstance, int nCmdShow){
