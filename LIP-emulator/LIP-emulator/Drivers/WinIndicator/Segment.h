@@ -2,7 +2,7 @@
 
 #include "BaseWindow.h"
 
-//конкретный сегмент
+//РєРѕРЅРєСЂРµС‚РЅС‹Р№ СЃРµРіРјРµРЅС‚
 class Segment : public BaseObject
 {
 private:
@@ -13,7 +13,7 @@ private:
     void createSegment();
 public:
     Segment(Parameter param);
-    //для однообразия кода используется std::vector<uint8_t>
+    //РґР»СЏ РѕРґРЅРѕРѕР±СЂР°Р·РёСЏ РєРѕРґР° РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ std::vector<uint8_t>
     void setData(std::vector<uint8_t>& vecData) override;
 
 };

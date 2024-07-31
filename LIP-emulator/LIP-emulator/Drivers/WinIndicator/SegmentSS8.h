@@ -5,10 +5,10 @@
 class SegmentSS8 : public BaseObject
 {
 private:
-    HBRUSH brushEnable; //включен
-    HBRUSH brushDisable; //отключён
-    HBRUSH brushDisableAlarm; //отключён по аварии
-    HBRUSH brushOff; //не светит
+    HBRUSH brushEnable; //РІРєР»СЋС‡РµРЅ
+    HBRUSH brushDisable; //РѕС‚РєР»СЋС‡С‘РЅ
+    HBRUSH brushDisableAlarm; //РѕС‚РєР»СЋС‡С‘РЅ РїРѕ Р°РІР°СЂРёРё
+    HBRUSH brushOff; //РЅРµ СЃРІРµС‚РёС‚
     HDC hdc;
     void setColor(HBRUSH brush);
     void createSegment();

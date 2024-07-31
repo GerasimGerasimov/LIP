@@ -1,4 +1,4 @@
-﻿// LIP-emulator.cpp : Определяет точку входа для приложения.
+// LIP-emulator.cpp : Определяет точку входа для приложения.
 //
 
 #include "framework.h"

@@ -16,7 +16,7 @@
 
 #define COMAND_READ 3
 
-//очистить индикатор
+//РѕС‡РёСЃС‚РёС‚СЊ РёРЅРґРёРєР°С‚РѕСЂ
 void ParametrControlSlot::clear(){
     parameter.Device = "";
     parameter.Section = "";
@@ -32,7 +32,7 @@ void ParametrControlSlot::createReadCmd(){
     std::string RegHexAddr = parameter.resources->getRegHexAddr();
     const u8 DevAddr = Devices::getInstance().getDevNetWorkAddr(parameter.Device);
     slot->TimeOut = 50;
-    std::vector<u8> comand(6);//TODO сделать динамический размер
+    std::vector<u8> comand(6);//TODO СЃРґРµР»Р°С‚СЊ РґРёРЅР°РјРёС‡РµСЃРєРёР№ СЂР°Р·РјРµСЂ
     u8 count = 0;
     comand[count++] = DevAddr;
     comand[count++] = COMAND_READ;
@@ -51,7 +51,7 @@ bool ParametrControlSlot::setIsignal(){
     std::string dev = Devices::getInstance().getSourceOfDev(parameter.Device.c_str());
     ItemLimits item = InternalResources::getInstance().getItemLimitsByName(dev.c_str());
     IniParser::getInstance().setRoot(item.RootOffset, item.Size);
-    if(!IniParser::getInstance().setSectionToRead(parameter.Section.c_str())){  //если нет секции в .ini
+    if(!IniParser::getInstance().setSectionToRead(parameter.Section.c_str())){  //РµСЃР»Рё РЅРµС‚ СЃРµРєС†РёРё РІ .ini
         return false;
     }
     TSectionReadResult readChar{NULL, 0};
@@ -62,7 +62,7 @@ bool ParametrControlSlot::setIsignal(){
         readChar = IniParser::getInstance().getNextTagChar();
         readResult.append(readChar.tag, readChar.result);
         if(readResult == ""){
-            return false; //если .ini закончился и ничего не нашлось
+            return false; //РµСЃР»Рё .ini Р·Р°РєРѕРЅС‡РёР»СЃСЏ Рё РЅРёС‡РµРіРѕ РЅРµ РЅР°С€Р»РѕСЃСЊ
         }
         pos = readResult.find(parameter.Name);
     } while(pos == std::string::npos);

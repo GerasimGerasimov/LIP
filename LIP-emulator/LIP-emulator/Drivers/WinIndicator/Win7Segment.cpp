@@ -16,20 +16,6 @@ int Win7Segment::getByteIndication(){
     return 1;
 }
 
-//int Win7Segment::getWidth() const {
-//    return width;
-//}
-//
-//int Win7Segment::getHeight() const {
-//    return height;
-//}
-
-//void Win7Segment::turnOff() {
-//    for (const auto& n : Segments) {
-//        n->turnOff();
-//    }
-//}
-
 void Win7Segment::fillLocationSegment(){
     RECT rectSegment = {0};
     rectSegment.left = border.left;

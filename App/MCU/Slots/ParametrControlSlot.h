@@ -11,8 +11,8 @@ class ParametrControlSlot
 protected:
     enum class Type
     {
-        R,  //чтение
-        RW  //чтение и запись
+        R,  //С‡С‚РµРЅРёРµ
+        RW  //С‡С‚РµРЅРёРµ Рё Р·Р°РїРёСЃСЊ
     };
     struct Props
     {
@@ -33,7 +33,7 @@ public:
     ParametrControlSlot();
     ~ParametrControlSlot();
     std::string getValueStr();
-    bool setParameter(std::string& param); //установить новую индикацию
+    bool setParameter(std::string& param); //СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РЅРѕРІСѓСЋ РёРЅРґРёРєР°С†РёСЋ
     void stopSlot();
     void startSlot();
     void setFlag(Slot::StateFlags newFlag);

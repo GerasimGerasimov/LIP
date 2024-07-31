@@ -2,11 +2,11 @@
 
 #include "IndicatorContainer.h"
 
-//TODO пробное название
+//TODO РїСЂРѕР±РЅРѕРµ РЅР°Р·РІР°РЅРёРµ
 class WinLip_SwitchStatus_8 : public IndicatorContainer
 {
 private:
-    const int count = 8;//каждая лампочка - 2 бита
+    const int count = 8;//РєР°Р¶РґР°СЏ Р»Р°РјРїРѕС‡РєР° - 2 Р±РёС‚Р°
     const int line = 2;
 public:
     WinLip_SwitchStatus_8(Parameter param);

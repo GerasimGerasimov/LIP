@@ -1,6 +1,6 @@
 #include "IndicatorContainer.h"
 
-//TODO взможно сделать обработку без static
+//TODO РІР·РјРѕР¶РЅРѕ СЃРґРµР»Р°С‚СЊ РѕР±СЂР°Р±РѕС‚РєСѓ Р±РµР· static
 //int IndicatorContainer::indent = 10;
 //RECT IndicatorContainer::border = { 10, 10, 10, 10 };
 
@@ -21,11 +21,11 @@ IndicatorContainer::IndicatorContainer(Parameter param) : BaseWindow(param){
 }
 
 void IndicatorContainer::setData(std::vector<uint8_t>& vecData){
-    //итератор для сохранения используемого элемента
+    //РёС‚РµСЂР°С‚РѕСЂ РґР»СЏ СЃРѕС…СЂР°РЅРµРЅРёСЏ РёСЃРїРѕР»СЊР·СѓРµРјРѕРіРѕ СЌР»РµРјРµРЅС‚Р°
     std::vector<uint8_t>::iterator iterator = vecData.begin();
     
-    //данные приходят в обратном порядке
-    //для переворачивания данных обратно - отправляются данные начиная в с последнего индиккатора
+    //РґР°РЅРЅС‹Рµ РїСЂРёС…РѕРґСЏС‚ РІ РѕР±СЂР°С‚РЅРѕРј РїРѕСЂСЏРґРєРµ
+    //РґР»СЏ РїРµСЂРµРІРѕСЂР°С‡РёРІР°РЅРёСЏ РґР°РЅРЅС‹С… РѕР±СЂР°С‚РЅРѕ - РѕС‚РїСЂР°РІР»СЏСЋС‚СЃСЏ РґР°РЅРЅС‹Рµ РЅР°С‡РёРЅР°СЏ РІ СЃ РїРѕСЃР»РµРґРЅРµРіРѕ РёРЅРґРёРєРєР°С‚РѕСЂР°
     for(auto n = Indicators.rbegin(); n != Indicators.rend(); ++n){
         int byteCount = (*n)->getByteIndication();
         std::vector<uint8_t> dataIndicator;

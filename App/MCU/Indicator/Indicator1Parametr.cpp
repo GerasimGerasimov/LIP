@@ -1,6 +1,6 @@
 #include "Indicator1Parametr.h"
 
-//установить новый параметр
+//СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РЅРѕРІС‹Р№ РїР°СЂР°РјРµС‚СЂ
 void Indicator1Parametr::setParameter(std::string& param){
     errorParsing = parametrControl.setParameter(param) ? false : true;
 }

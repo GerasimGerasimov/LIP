@@ -11,10 +11,10 @@ protected:
     std::vector<std::unique_ptr<BaseObject>> Indicators;
     RECT border;
     int indent;
-    int widthIndicator; //длина дочернего индикатора
-    int heightIndicator; //высота дочернего индикатора
+    int widthIndicator; //РґР»РёРЅР° РґРѕС‡РµСЂРЅРµРіРѕ РёРЅРґРёРєР°С‚РѕСЂР°
+    int heightIndicator; //РІС‹СЃРѕС‚Р° РґРѕС‡РµСЂРЅРµРіРѕ РёРЅРґРёРєР°С‚РѕСЂР°
 
-    //в WinLIP_5Nx и WinLIPModule работает одинаково в Win7Segment останавливаются вызовы
+    //РІ WinLIP_5Nx Рё WinLIPModule СЂР°Р±РѕС‚Р°РµС‚ РѕРґРёРЅР°РєРѕРІРѕ РІ Win7Segment РѕСЃС‚Р°РЅР°РІР»РёРІР°СЋС‚СЃСЏ РІС‹Р·РѕРІС‹
     virtual std::vector<uint8_t> splitData(std::vector<uint8_t>::iterator& iterator, int byte);
 public:
 
