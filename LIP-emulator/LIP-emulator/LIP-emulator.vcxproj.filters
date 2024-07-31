@@ -255,6 +255,9 @@
     <ClInclude Include="Drivers\WinIndicator\SegmentSS8.h">
       <Filter>Drivers\WinIndicator</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\App\MCU\Slots\ParametrControlSlot.h">
+      <Filter>MCU\Slots</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LIP-emulator.cpp">
@@ -403,6 +406,9 @@
     </ClCompile>
     <ClCompile Include="Drivers\WinIndicator\SegmentSS8.cpp">
       <Filter>Drivers\WinIndicator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\Slots\ParametrControlSlot.cpp">
+      <Filter>MCU\Slots</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

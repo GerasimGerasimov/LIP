@@ -1136,6 +1136,9 @@
             <file>
                 <name>$PROJ_DIR$\..\MCU\Indicator\LIP_5Nx.cpp</name>
             </file>
+            <file>
+                <name>$PROJ_DIR$\..\MCU\Indicator\LIP_SS8.cpp</name>
+            </file>
         </group>
         <group>
             <name>ini</name>
@@ -1222,6 +1225,9 @@
             <name>Slots</name>
             <file>
                 <name>$PROJ_DIR$\..\MCU\Slots\HandlerSlotRead.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\MCU\Slots\ParametrControlSlot.cpp</name>
             </file>
         </group>
         <file>
