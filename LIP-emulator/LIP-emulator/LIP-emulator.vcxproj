@@ -137,6 +137,7 @@
     <ClInclude Include="..\..\App\MCU\Helpers\utils.h" />
     <ClInclude Include="..\..\App\MCU\IDrivers\iresources.h" />
     <ClInclude Include="..\..\App\MCU\Indicator\Indicator.h" />
+    <ClInclude Include="..\..\App\MCU\Indicator\Indicator1Parametr.h" />
     <ClInclude Include="..\..\App\MCU\Indicator\LIP_5Nx.h" />
     <ClInclude Include="..\..\App\MCU\Indicator\LIP_SS8.h" />
     <ClInclude Include="..\..\App\MCU\ini\IniResources.h" />
@@ -197,6 +198,7 @@
     <ClCompile Include="..\..\App\MCU\DevicePollManager\Slot.cpp" />
     <ClCompile Include="..\..\App\MCU\Helpers\utils.cpp" />
     <ClCompile Include="..\..\App\MCU\Indicator\Indicator.cpp" />
+    <ClCompile Include="..\..\App\MCU\Indicator\Indicator1Parametr.cpp" />
     <ClCompile Include="..\..\App\MCU\Indicator\LIP_5Nx.cpp" />
     <ClCompile Include="..\..\App\MCU\Indicator\LIP_SS8.cpp" />
     <ClCompile Include="..\..\App\MCU\ini\IniResources.cpp" />

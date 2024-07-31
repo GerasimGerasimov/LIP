@@ -30,35 +30,6 @@ std::vector<uint8_t> LIP_5Nx::getValue(){
     return result;
 }
 
-//установить новый параметр
-void LIP_5Nx::setParameter(std::string& param){
-    errorParsing = parametrControl.setParameter(param) ? false : true;
-}
-
-bool LIP_5Nx::update(){
-    if(errorParsing){
-        return true;
-    }
-    if(parametrControl.isStateFlag(Slot::StateFlags::COMPLETE_READ)){
-        return true;
-    }
-    if(parametrControl.isStateFlag(Slot::StateFlags::NO_VALID)){
-        return true;
-    }
-    return false;
-}
-
-void LIP_5Nx::stopSlot(){
-    parametrControl.stopSlot();
-}
-
-void LIP_5Nx::startSlot(){
-    if(errorParsing){
-        return;
-    }
-    parametrControl.startSlot();
-}
-
 const std::string LIP_5Nx::parseErrorStr = "-----";
 const std::string LIP_5Nx::connectErrorStr = " . . . . .";
 

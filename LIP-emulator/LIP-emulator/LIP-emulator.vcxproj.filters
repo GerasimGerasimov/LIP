@@ -258,6 +258,9 @@
     <ClInclude Include="..\..\App\MCU\Slots\ParametrControlSlot.h">
       <Filter>MCU\Slots</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\App\MCU\Indicator\Indicator1Parametr.h">
+      <Filter>MCU\Indicator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LIP-emulator.cpp">
@@ -409,6 +412,9 @@
     </ClCompile>
     <ClCompile Include="..\..\App\MCU\Slots\ParametrControlSlot.cpp">
       <Filter>MCU\Slots</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\MCU\Indicator\Indicator1Parametr.cpp">
+      <Filter>MCU\Indicator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

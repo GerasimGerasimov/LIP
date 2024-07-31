@@ -1,13 +1,11 @@
 #pragma once
 
-#include "Indicator.h"
-#include "Slots/ParametrControlSlot.h"
+#include "Indicator1Parametr.h"
 
 #include <stdint.h>
 #include <string>
 
-//индикатор 5Nxx содержит слот, для чтения конкретного параметра
-class LIP_5Nx : public Indicator
+class LIP_5Nx : public Indicator1Parametr
 {
 private:
     static const std::string parseErrorStr;
@@ -15,15 +13,10 @@ private:
     bool dot = false;
     static const char ASCIITable[96];
     uint8_t getChar(char symbol);
-    ParametrControlSlot parametrControl;
     void transformSizeSring(std::string& data);
 public:
     LIP_5Nx();
     ~LIP_5Nx();
     std::vector<uint8_t> getValue() override;
-    void setParameter(std::string& param) override;
-    bool update() override;
-    void stopSlot() override;
-    void startSlot() override;
 };
 
