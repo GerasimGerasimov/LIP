@@ -73,7 +73,9 @@ uint16_t Page::getByteIndicators(){
 void Page::setIndication(std::string page){
     std::vector<std::string> newIndication = Parser::splitString("\r\n", page);
     for(int ind = 0; ind < ListIndicators.size(); ++ind){
-        //TODO починить нехватку newIndication
+        if(ind >= newIndication.size()){
+            newIndication.push_back("");
+        }
         ListIndicators[ind]->setParameter(newIndication[ind]);
     }
 }

@@ -9,10 +9,9 @@
 #include "bastypes.h"
 #include "mbtypes.h"
 #include "flashdata.h"
-#include "ramdata.h"
+//#include "ramdata.h"
 #include "modbus.h"
 #include "stm32f0xx.h"
-#include "ramdata.h"//TODO
 
 TClient uart1data;
 void RxDMA1Ch5(void);//настройка DMA на чтение данных из UART

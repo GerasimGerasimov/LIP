@@ -135,15 +135,6 @@ void Systic_init(void){
 void NVIC_Configuration(void){
   NVIC_InitTypeDef NVIC_InitStructure;
 
-#ifdef  VECT_TAB_RAM  
-  /* Set the Vector Table base location at 0x20000000 */
-  //NVIC_SetVectorTable(NVIC_VectTab_RAM, 0x0); //TODO
-#else  /* VECT_TAB_FLASH  */
-  /* Set the Vector Table base location at 0x08000000 */
-  //NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x0);   
-#endif
-
-  //NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
   /* Enable the TIM1 gloabal Interrupt */
   NVIC_InitStructure.NVIC_IRQChannel = TIM1_CC_IRQn;
   NVIC_InitStructure.NVIC_IRQChannelPriority = 0;

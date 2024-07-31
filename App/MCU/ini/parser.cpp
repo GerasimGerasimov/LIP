@@ -276,7 +276,6 @@ std::vector<std::string> Parser::splitString(std::string delimiter, const std::s
     return vecRes;
 }
 
-//TODO std::function нарушние прав доступа при закрытии
 void Parser::parseConfigurarion(std::vector<std::string>& Configuration, std::map<std::string, std::function<void(std::string& Type)>> &func){
     for(const auto& ind : Configuration){
         std::vector<std::string> TypeIndication = splitString("/", ind);

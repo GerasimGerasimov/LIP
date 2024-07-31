@@ -1134,6 +1134,9 @@
                 <name>$PROJ_DIR$\..\MCU\Indicator\Indicator.cpp</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\..\MCU\Indicator\Indicator1Parametr.cpp</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\..\MCU\Indicator\LIP_5Nx.cpp</name>
             </file>
             <file>

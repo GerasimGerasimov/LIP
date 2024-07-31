@@ -27,19 +27,6 @@ void SPI1_Configuration();
 void SPI2_Configuration();
 void DMA_Configuration();
 
-uint8_t arr[15] = {0}; //TODO проверка DMA
-
-void fillArr(){
-  //uint16_t volatile* arrPtr = &RAM_DATA.Iz;
-  for(int i = 0; i < 15; ++i){
-    //arr[i] = ~((uint8_t)(RAM_DATA.Iz % 256)) ;
-    //++arrPtr;
-    arr[i] = ~((uint8_t)(1 << (i % 8)));
-  }
-
-}
-
-
 ErrorStatus HSEStartUpStatus;
 
 void Init(void){
@@ -200,7 +187,6 @@ void TIM1_Configuration(void){
   TIM_OCInitStructure.TIM_Pulse = 0xFFFF;
   TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_Timing;
   TIM_OC1Init(TIM1, &TIM_OCInitStructure);
-  //TIM_OC2Init(TIM1, &TIM_OCInitStructure);
 
    /* TIM1 counter enable */
   TIM_Cmd(TIM1, ENABLE);
@@ -251,7 +237,7 @@ void DMA_Configuration(){
   /* DMA1 channel1 configuration ----------------------------------------------*/
   //DMA_DeInit(DMA1_Channel3);
   DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) & (SPI1->DR);
-  DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)arr;
+  DMA_InitStructure.DMA_MemoryBaseAddr = 0;
   DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
   DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;
   DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
@@ -271,12 +257,6 @@ void DMA_Configuration(){
   //включение в другом месте
 }
 
-//void Systic_init(void)
-//{
-//  SysTick->LOAD  = 0xffff;      /* set reload register */  
-//  SysTick->VAL   = 0;           /* Load the SysTick Counter Value */
-//  SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk;
-//}
 //******************************************************************************
 
 /*******************************************************************************
@@ -289,15 +269,6 @@ void DMA_Configuration(){
 void NVIC_Configuration(void){
   NVIC_InitTypeDef NVIC_InitStructure;
 
-#ifdef  VECT_TAB_RAM  
-  /* Set the Vector Table base location at 0x20000000 */
-  //NVIC_SetVectorTable(NVIC_VectTab_RAM, 0x0);
-#else  /* VECT_TAB_FLASH  */
-  /* Set the Vector Table base location at 0x08000000 */
-  //NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x0);   
-#endif
-
-  //NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
   /* Enable the TIM1 gloabal Interrupt */
   NVIC_InitStructure.NVIC_IRQChannel = TIM1_CC_IRQn;
   NVIC_InitStructure.NVIC_IRQChannelPriority = 0;
