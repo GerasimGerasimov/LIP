@@ -48,7 +48,7 @@ void Slot::addcmd(const std::vector<u8>& v){
     OutBuf.resize(v.size() + 2);
     std::memcpy(OutBuf.data(), v.data(), v.size());
     InputBuf.resize(OutBuf[5] * 2 + 5);
-    cmdLen = v.size() + 2;
+    cmdLen = OutBuf.size();
     FrameEndCrc16((u8*)OutBuf.data(), cmdLen);
 }
 

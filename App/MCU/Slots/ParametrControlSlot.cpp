@@ -32,18 +32,16 @@ void ParametrControlSlot::createReadCmd(){
     std::string RegHexAddr = parameter.resources->getRegHexAddr();
     const u8 DevAddr = Devices::getInstance().getDevNetWorkAddr(parameter.Device);
     slot->TimeOut = 50;
-    std::vector<u8> comand(6);//TODO сделать динамический размер
-    u8 count = 0;
-    comand[count++] = DevAddr;
-    comand[count++] = COMAND_READ;
+    std::vector<u8> comand;
+    comand.reserve(6);
+    comand.push_back(DevAddr);
+    comand.push_back(COMAND_READ);
     u16 addr = (u16)std::stoul(RegHexAddr, nullptr, 16);
-    comand[count++] = (u8)(addr >> 8) & 0x00FF;
-    comand[count++] = (u8)(addr & 0x00FF);
+    comand.push_back((u8)(addr >> 8) & 0x00FF);
+    comand.push_back((u8)(addr & 0x00FF));
     u8 sizeByte = parameter.resources->getSizeByte();
-    comand[count++] = 0;
-    comand[count++] = sizeByte / 2;
-    //count += 2;
-    //FrameEndCrc16(comand.data(), count);//
+    comand.push_back(0);
+    comand.push_back(sizeByte / 2);
     slot->addcmd(comand);
 }
 

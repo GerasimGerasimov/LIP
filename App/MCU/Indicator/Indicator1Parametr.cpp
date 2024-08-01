@@ -6,12 +6,15 @@ void Indicator1Parametr::setParameter(std::string& param){
 }
 
 bool Indicator1Parametr::update(){
+    //ошибка парсинга
     if(errorParsing){
         return true;
     }
+    //прочитали данные
     if(parametrControl.isStateFlag(Slot::StateFlags::COMPLETE_READ)){
         return true;
     }
+    //нет связи
     if(parametrControl.isStateFlag(Slot::StateFlags::NO_VALID)){
         return true;
     }
