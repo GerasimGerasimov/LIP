@@ -20,7 +20,7 @@ std::string IniResources::getScaleValueByKey(const std::string& key, const std::
     return "1.0";
 }
 
-std::string IniResources::getSection(std::string section){
+std::string IniResources::getSection(std::string& section){
     std::string newSection = "";
     if(SectionNameMap.count(section)){
         newSection = SectionNameMap.at(section);

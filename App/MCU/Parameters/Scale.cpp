@@ -1,7 +1,7 @@
 #include "Scale.h"
 #include "ini/parser.h"
 
-std::string Scale::getValueFromList(std::vector<std::string> values){
+std::string Scale::getValueFromList(std::vector<std::string>& values){
     /*TODO список вариантов, с номером выбранного варианта в конце*/
     return "1.0";
 }

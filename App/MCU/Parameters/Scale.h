@@ -8,7 +8,7 @@ class Scale : public ISignal
 {
 protected:
     int	ValueSize;
-    std::string getValueFromList(std::vector<std::string> values);
+    std::string getValueFromList(std::vector<std::string>& values);
 public:
     struct Props
     {

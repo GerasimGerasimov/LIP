@@ -98,7 +98,7 @@ Slot* DevicePollManager::getSlotByDevPosAndSection(const std::string& device, co
     return nullptr;
 }
 
-Slot* DevicePollManager::CreateCustomSlot(std::string devname, std::string section){
+Slot* DevicePollManager::CreateCustomSlot(std::string& devname, std::string& section){
 
     Slot* res = new Slot(devname, section, 0, 0);
     res->setFlag(Slot::StateFlags::SKIP_SLOT);

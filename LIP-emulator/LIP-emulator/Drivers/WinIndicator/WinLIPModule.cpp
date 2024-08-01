@@ -2,7 +2,7 @@
 #include "ini/parser.h"
 #include "WinLip_SwitchStatus_8.h"
 
-WinLIPModule::WinLIPModule(Parameter param, std::vector<std::string> Config, RECT newBorder) : IndicatorContainer(param){
+WinLIPModule::WinLIPModule(Parameter& param, std::vector<std::string>& Config, RECT& newBorder) : IndicatorContainer(param){
     Configuration = Config;
     border = newBorder;
     int countHeight = 0; //TODO пока только 5N индикатороы count = Configuration.size();

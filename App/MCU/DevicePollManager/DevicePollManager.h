@@ -29,7 +29,7 @@ public:
     std::vector <Slot*> Slots;
     Status status;
     Slot* getSlotByDevPosAndSection(const std::string& device, const std::string& section);
-    Slot* CreateCustomSlot(std::string devname, std::string section);
+    Slot* CreateCustomSlot(std::string& devname, std::string& section);
     void addSlot(Slot* newSlot);
     void CreateSlotsByStart();
     void deleteSlot();

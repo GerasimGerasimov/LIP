@@ -21,7 +21,7 @@ public:
     ~Page();
     bool update();
     uint16_t getByteIndicators();
-    void setIndication(std::string page);
+    void setIndication(std::string& page);
     uint16_t getSizeSegment();
     void setBuffer(Buffer* newBuffer);
     void stopSlot();

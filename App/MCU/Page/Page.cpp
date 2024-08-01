@@ -70,7 +70,7 @@ uint16_t Page::getByteIndicators(){
 }
 
 //установить новую страницу
-void Page::setIndication(std::string page){
+void Page::setIndication(std::string& page){
     std::vector<std::string> newIndication = Parser::splitString("\r\n", page);
     for(int ind = 0; ind < ListIndicators.size(); ++ind){
         if(ind >= newIndication.size()){
