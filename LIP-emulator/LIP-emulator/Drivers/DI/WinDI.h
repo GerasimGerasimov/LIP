@@ -13,11 +13,10 @@ private:
 
     void createButtonDI();
     const int countDI = 16;
-    RECT rectButton;
     int widthButton;
     int heightButton;
-    void create();
 public:
     WinDI(Parameter param);
+    int getDIPush(HWND Param);
 };
 

@@ -20,5 +20,6 @@ namespace MainWindow
     void close();
     void TimeStart(TIMERPROC proc);
     extern UINT IDT_TIMER1;
+    void keyBoardControlMCU(LPARAM Param);
 };
 

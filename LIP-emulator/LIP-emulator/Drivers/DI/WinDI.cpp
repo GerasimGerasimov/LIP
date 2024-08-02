@@ -10,25 +10,26 @@ void WinDI::createButtonDI(){
         std::stringstream ss;
         ss << i;
         nameDI += ss.str();
-        HWND hwndDI = CreateWindowA("button", nameDI.c_str(), WS_VISIBLE | WS_CHILD | BS_AUTOCHECKBOX | WS_TABSTOP | WS_BORDER, rectButton.left, rectButton.top, widthButton, heightButton, hwnd,
+        HWND hwndDI = CreateWindowA("button", nameDI.c_str(), WS_VISIBLE | WS_CHILD /*| BS_AUTOCHECKBOX */| WS_TABSTOP | WS_BORDER | BS_PUSHBUTTON, rect.left, rect.top, widthButton, heightButton, Parrent,
             NULL, NULL, NULL);
         ButtonDI.push_back(hwndDI);
-        OffsetRect(&rectButton, 0, heightButton);
+        OffsetRect(&rect, 0, heightButton);
     }
-}
-
-void WinDI::create(){
-    hwnd = CreateWindow(L"static", L"", WS_VISIBLE | WS_CHILD | WS_BORDER, rect.left, rect.top, width, height, Parrent,
-        NULL, NULL, NULL);
 }
 
 WinDI::WinDI(Parameter param) : BaseObject(param){
     widthButton = 65;
-    heightButton = 20;
+    heightButton = 25;
     width = widthButton;
     height = heightButton * countDI;
-
-    create();
-    rectButton = {0, 0, widthButton, heightButton};
     createButtonDI();
+}
+
+int WinDI::getDIPush(HWND Param){
+    for(int i = 0; i < ButtonDI.size(); ++i){
+        if(Param == ButtonDI[i]){
+            return i;
+        }
+    }
+    return -1;
 }

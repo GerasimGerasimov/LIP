@@ -6,6 +6,7 @@
 #include "com_master_driver.h"
 #include "Resources/InternalResources.h"
 #include "ini/parser.h"
+#include "Message/Message.h"
 
 namespace MainWindow
 {
@@ -127,6 +128,7 @@ LRESULT MainWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
     case WM_COMMAND:
     {
         int wmId = LOWORD(wParam);
+        keyBoardControlMCU(lParam);
         // Разобрать выбор в меню:
         switch(wmId){
         case IDM_ABOUT:
@@ -193,4 +195,20 @@ void MainWindow::close(){
 
 void MainWindow::TimeStart(TIMERPROC proc){
     SetTimer(hWnd, IDT_TIMER1, 100, proc);
+}
+
+void MainWindow::keyBoardControlMCU(LPARAM Param){
+    int butDI = winDI->getDIPush(reinterpret_cast<HWND>(Param));
+    switch(butDI){
+    case 0:
+        lip::cout << "push DI_0 \n";
+        LipMessage::getInstance().send_message(Event::KEYBOARD, static_cast<u32>(KeyCodes::F1), 0);
+        break;
+    case 1:
+        lip::cout << "push DI_1 \n";
+        LipMessage::getInstance().send_message(Event::KEYBOARD, static_cast<u32>(KeyCodes::F2), 0);
+        break;
+    default:
+        return;
+    }
 }
