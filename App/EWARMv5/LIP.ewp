@@ -1087,6 +1087,9 @@
             </file>
         </group>
         <file>
+            <name>$PROJ_DIR$\..\Drivers\KeyBoardUpdate.cpp</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\Drivers\STM32F0xx_Intmash_USART.c</name>
         </file>
     </group>
