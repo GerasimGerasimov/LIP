@@ -226,7 +226,6 @@
     <ClCompile Include="..\..\App\MCU\Slots\ParametrControlSlot.cpp" />
     <ClCompile Include="Drivers\BaseObject.cpp" />
     <ClCompile Include="Drivers\com_master_driver.cpp" />
-    <ClCompile Include="Drivers\DI\KeyBoardUpdate.cpp" />
     <ClCompile Include="Drivers\DI\WinDI.cpp" />
     <ClCompile Include="Drivers\Resources\os_resources.cpp" />
     <ClCompile Include="Drivers\WinIndicator\BaseWindow.cpp" />

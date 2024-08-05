@@ -416,9 +416,6 @@
     <ClCompile Include="..\..\App\MCU\Indicator\Indicator1Parametr.cpp">
       <Filter>MCU\Indicator</Filter>
     </ClCompile>
-    <ClCompile Include="Drivers\DI\KeyBoardUpdate.cpp">
-      <Filter>Drivers\DI</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LIP-emulator.rc">

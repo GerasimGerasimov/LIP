@@ -1,6 +1,7 @@
 #include "DEFINES.h"
 #include "ramdata.h"
 #include "livecontrol.h"
+#include "Message/Message.h"
 
 // CE - выбор сдвигового регистра
 // LOCK - защёлка
@@ -9,18 +10,24 @@
 // UP - выставить сигнал в 1
 // DWN - выставить сигнал в 0 
 
-#define DI_CE_ST     (GPIOB->ODR & GPIO_Pin_15)
-#define DI_CE_UP     GPIO_SetBits(GPIOB, GPIO_Pin_15)
-#define DI_CE_DWN    GPIO_ResetBits(GPIOB, GPIO_Pin_15)
+namespace KeyBoard
+{
+  #define DI_CE_ST     (GPIOB->ODR & GPIO_Pin_15)
+  #define DI_CE_UP     GPIO_SetBits(GPIOB, GPIO_Pin_15)
+  #define DI_CE_DWN    GPIO_ResetBits(GPIOB, GPIO_Pin_15)
 
-#define DI_LOCK_ST   (GPIOB->ODR & GPIO_Pin_12)
-#define DI_LOCK_UP   GPIO_SetBits(GPIOB, GPIO_Pin_12)
-#define DI_LOCK_DWN  GPIO_ResetBits(GPIOB, GPIO_Pin_12)
+  #define DI_LOCK_ST   (GPIOB->ODR & GPIO_Pin_12)
+  #define DI_LOCK_UP   GPIO_SetBits(GPIOB, GPIO_Pin_12)
+  #define DI_LOCK_DWN  GPIO_ResetBits(GPIOB, GPIO_Pin_12)
 
-u16 SPI_DIO_Inputs;
+  u16 SPI_DIO_Inputs = 0;
+  u16 old_DIO_Inputs = 0;
 
+  void SPI_DIO_Processing();
+  void setMessage();
+}
 //считывание DI с кнопок
-void SPI_DIO_Processing(){
+void KeyBoard::SPI_DIO_Processing(){
   static bool isWaitReceive = false;
   //если кристалл ещё не выбран CE в "1"
   //сдвиговые регистры входов находятся в ресете
@@ -56,7 +63,7 @@ void SPI_DIO_Processing(){
       DI_LOCK_UP;
       isWaitReceive = false;
 
-      SPI_DIO_Inputs = ~(SPI_I2S_ReceiveData16(SPI2));
+      KeyBoard::SPI_DIO_Inputs = ~(SPI_I2S_ReceiveData16(SPI2));
       /* (InputsPolarity == DIO_MODE_NORMAL)
                           ? SPI_DIO->DR
                           : ~(SPI_DIO->DR); */
@@ -65,10 +72,23 @@ void SPI_DIO_Processing(){
   }
 }
 
+void KeyBoard::setMessage(){
+  for(const auto& n : keyKodes){
+    u32 kodeTemp = static_cast<u32>(n);
+    if(KeyBoard::SPI_DIO_Inputs & kodeTemp){
+      if(!(KeyBoard::old_DIO_Inputs & kodeTemp)){
+        LipMessage::getInstance().send_message(Event::KEYBOARD, kodeTemp, 0);
+      }
+    }
+  }
+  KeyBoard::old_DIO_Inputs = KeyBoard::SPI_DIO_Inputs;
+}
+
 extern "C" void TIM2_IRQHandler(){
   TIM2->SR = 0;
 
-  SPI_DIO_Processing();
-  RAM_DATA.DI = SPI_DIO_Inputs;
+  KeyBoard::SPI_DIO_Processing();
+  RAM_DATA.DI = KeyBoard::SPI_DIO_Inputs;
   ctrlSysLive();
+  KeyBoard::setMessage();
 }

@@ -63,3 +63,8 @@ bool LipMessage::get_message(TMessage* m){
     if(msg_queue_beg >= msg_buff_size){ msg_queue_beg = 0; }//контролирую границы
     return true;//в очереди что-то было!
 }
+
+namespace KeyBoard
+{
+    std::array<KeyCodes, 2> keyKodes = {KeyCodes::Down, KeyCodes::Up};
+}

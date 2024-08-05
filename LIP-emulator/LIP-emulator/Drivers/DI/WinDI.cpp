@@ -28,7 +28,7 @@ WinDI::WinDI(Parameter param) : BaseObject(param){
 int WinDI::getDIPush(HWND Param){
     for(int i = 0; i < ButtonDI.size(); ++i){
         if(Param == ButtonDI[i]){
-            return i;
+            return (1 << i);
         }
     }
     return -1;

@@ -4,6 +4,8 @@
 
 #include "stm32f0xx.h"
 
+#include <array>
+
 //defines
 #define MAXMESSAGE  0xFFFF
 
@@ -29,19 +31,8 @@ LEFT | ENTER | RIGHT
 enum class KeyCodes : u32
 {
     None = 0, //ни одна клавиша не нажата
-    ESC = 8, //отмена (и выход на один уровень меню вверх)
-    Up = 16, //2 //стрелка вверх
-
-    Right = 256, //стрелка вправо
-    ENT = 32,//5 //выбор сделан
-    Left = 64, //стрелка влево
-
-    Down = 128,//8 //стрелка вниз
-    F1 = 1, //функциональная клавиша F1
-    F2 = 2, //функциональная клавиша F2
-    F3 = 4, //функциональная клавиша F3
-    F3_Left = F3 + Left, //зажата клавиша F3 и стрелка влево
-    F3_Right = F3 + Right //зажата клавиша F3 и стрелка вправо
+    Down = 1,// //стрелка вниз
+    Up = 2, //2 //стрелка вверх
 };
 
 enum class KeyPressFeature : u32
@@ -78,5 +69,12 @@ private:
     u32 msg_queue_end = 0;//конец очереди
     u32 msg_queue_beg = 0;//начало очереди
 };
+
+
+namespace KeyBoard
+{
+    extern std::array<KeyCodes, 2> keyKodes;
+}
+
 
 #endif

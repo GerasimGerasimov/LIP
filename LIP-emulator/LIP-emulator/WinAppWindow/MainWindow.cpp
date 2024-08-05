@@ -199,16 +199,14 @@ void MainWindow::TimeStart(TIMERPROC proc){
 
 void MainWindow::keyBoardControlMCU(LPARAM Param){
     int butDI = winDI->getDIPush(reinterpret_cast<HWND>(Param));
-    switch(butDI){
-    case 0:
-        lip::cout << "push DI_0 \n";
-        LipMessage::getInstance().send_message(Event::KEYBOARD, static_cast<u32>(KeyCodes::F1), 0);
-        break;
-    case 1:
-        lip::cout << "push DI_1 \n";
-        LipMessage::getInstance().send_message(Event::KEYBOARD, static_cast<u32>(KeyCodes::F2), 0);
-        break;
-    default:
+    if(butDI == -1){
         return;
+    }
+    for(const auto& n : KeyBoard::keyKodes){
+        unsigned int kodeTemp = static_cast<unsigned int>(n);
+        if(butDI & kodeTemp){
+            LipMessage::getInstance().send_message(Event::KEYBOARD, kodeTemp, 0);
+            lip::cout << "push DI_" << kodeTemp << "\n";
+        }
     }
 }
