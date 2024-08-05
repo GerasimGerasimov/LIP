@@ -1,17 +1,25 @@
 #include "Router.h"
 #include "Resources/InternalResources.h"
 #include "DMAIndicator.h"
+#include "Message/Message.h"
+#include "ini/parser.h"
 
 //#include "OutStream.h"
 
 
 Router::Router(){
-    currentPage = InternalResources::getInstance().getItemStringByName("Page4");
-
-    page.setIndication(currentPage);
+    currentPage = 0; 
+    std::string pages = InternalResources::getInstance().getItemStringByName("Pages");
+    Pages = Parser::splitString("/", pages);
+    setPage();
     bufferData.setSizeBuffer(page.getSizeSegment());
     page.setBuffer(&bufferData);
     DMAIndicator::getInstance().setMemoryBaseAddr(bufferData);
+}
+
+void Router::setPage(){
+    std::string setStartPage = InternalResources::getInstance().getItemStringByName(Pages[currentPage].c_str());
+    page.setIndication(setStartPage);
 }
 
 Router& Router::getInstance(){
@@ -19,7 +27,26 @@ Router& Router::getInstance(){
     return router;
 }
 
-void Router::ProcessMessage(TMessage* m){}
+void Router::ProcessMessage(TMessage* m){
+    if(m->event == Event::KEYBOARD){
+        switch(m->p1){
+        case 1:
+            if(currentPage > 0){
+                --currentPage;
+                setPage();
+            }
+            break;
+        case 2:
+            if(currentPage < Pages.size() - 1){
+                ++currentPage;
+                setPage();
+            }
+            break;
+        default:
+            break;
+        }
+    }
+}
 
 void Router::setTask(Router::Task task){
 

@@ -17,6 +17,8 @@ private:
     Router& operator=(const Router&&) = delete;
     //Buffer bufferSender;
     Buffer bufferData;
+    std::vector<std::string> Pages;
+    void setPage();
 public:
     struct Task
     {
@@ -27,7 +29,7 @@ public:
 
     static Router& getInstance();
     Page page;
-    std::string currentPage;
+    int currentPage;
     void ProcessMessage(TMessage* m);
     void setTask(Task task);
     void update();

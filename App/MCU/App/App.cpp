@@ -37,5 +37,8 @@ void App::run(){
         processModbusSlave();
         Router::getInstance().update();
         DevicePollManager::getInstance().execute();
+        if(LipMessage::getInstance().get_message(&message)){
+            Router::getInstance().ProcessMessage(&message);
+        }
     }
 }

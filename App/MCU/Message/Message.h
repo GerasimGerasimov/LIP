@@ -50,13 +50,13 @@ enum class KeyPressFeature : u32
     AutoRepeat
 };
 
-typedef struct
+struct TMessage
 {//структура сообщения
-    Event event;//тип сообщения
+    Event event = Event::NONE;//тип сообщения
     //параметры сообщения
-    u32 p1;//первый параметр
-    u32 p2;//второй параметр
-} TMessage;
+    u32 p1 = 0;//первый параметр
+    u32 p2 = 0;//второй параметр
+};
 
 #define msg_buff_size 32 //размер буфера сообщений
 

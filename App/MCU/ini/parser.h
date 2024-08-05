@@ -6,7 +6,7 @@
 #include <map>
 
 #define i5N "5N"
-#define iSwitchStatus "SwitchStatus_8"
+#define iSwitchStatus "SS8"
 
 enum class ParcerResult
 {
