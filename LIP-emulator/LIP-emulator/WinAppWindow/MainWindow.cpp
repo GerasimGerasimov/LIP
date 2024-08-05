@@ -7,6 +7,7 @@
 #include "Resources/InternalResources.h"
 #include "ini/parser.h"
 #include "Message/Message.h"
+#include "WinIndicator/WinLip_SwitchStatus_8.h"
 
 namespace MainWindow
 {
@@ -55,25 +56,52 @@ void MainWindow::createIndicator(){
     std::vector<std::string> Configuration = Parser::splitString(" ", Config);
     BaseObject::Parameter param;
     param.parrent = hWnd;
-    int countIndicator = 0; //TODO пока только 5N индикатороы countIndicator = Configuration.size();
-    std::map<std::string, std::function<void(std::string& Type)>> parseHandler;
-    auto lambda = [&countIndicator](std::string&){
-        ++countIndicator;
+
+    struct SizeIndicator
+    {
+        int width = 0;
+        int height = 0;
     };
-    parseHandler[i5N] = lambda;
-    parseHandler[iSwitchStatus] = lambda;
+
+    SizeIndicator desirSizeIndicator;
+    int indent = 10;
+
+    std::map<std::string, std::function<void(std::string& Type)>> parseHandler;
+    auto lambda5N = [&desirSizeIndicator, indent](std::string&){
+        int tempWidth = WinLIP_5Nx::getDesirWidth();
+        if(desirSizeIndicator.width < tempWidth){
+            desirSizeIndicator.width = tempWidth;
+        }
+        desirSizeIndicator.height += WinLIP_5Nx::getDesirHeight();
+        desirSizeIndicator.height += indent;
+        };
+    auto lambdaSS8 = [&desirSizeIndicator, indent](std::string&){
+        int tempWidth = WinLip_SwitchStatus_8::getDesirWidth();
+        if(desirSizeIndicator.width < tempWidth){
+            desirSizeIndicator.width = tempWidth;
+        }
+        desirSizeIndicator.height += WinLip_SwitchStatus_8::getDesirHeight();
+        desirSizeIndicator.height += indent;
+        };
+    parseHandler[i5N] = lambda5N;
+    parseHandler[iSwitchStatus] = lambdaSS8;
     Parser::parseConfigurarion(Configuration, parseHandler);
 
     // вычисление размеров модуля с индикаторами
-    int indent = 10;
-    int diserWidthIndicator = 310;
-    int diserHeightIndicator = 90;
+    int widthIndicator = 0;
+    int heightIndicator = 0;
+    if(widthIndicator < desirSizeIndicator.width){
+        widthIndicator = desirSizeIndicator.width;
+    }
+    heightIndicator += desirSizeIndicator.height;
+    heightIndicator -= indent;
+
     RECT borderIndicator{10, 10, 10, 10};
     RECT rectModule;
     rectModule.left = indent;
-    rectModule.right = indent + diserWidthIndicator + borderIndicator.right + borderIndicator.left;
+    rectModule.right = indent + widthIndicator + borderIndicator.right + borderIndicator.left;
     rectModule.top = indent;
-    rectModule.bottom = indent + borderIndicator.top + borderIndicator.bottom + countIndicator * diserHeightIndicator + (countIndicator - 1) * indent;
+    rectModule.bottom = indent + heightIndicator + borderIndicator.top + borderIndicator.bottom;
     param.rect = rectModule;
     indicator = new WinLIPModule(param, Configuration, borderIndicator);//TODO обработка отсутствия параметров индикаторов
 }

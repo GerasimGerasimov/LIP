@@ -5,7 +5,7 @@
 WinLIPModule::WinLIPModule(Parameter& param, std::vector<std::string>& Config, RECT& newBorder) : IndicatorContainer(param){
     Configuration = Config;
     border = newBorder;
-    int countHeight = 0; //TODO пока только 5N индикатороы count = Configuration.size();
+    int countHeight = 0;
     std::map<std::string, std::function<void(std::string& Type)>> parseHandler;
     auto lambdaHeight = [&countHeight](std::string&){
         ++countHeight;

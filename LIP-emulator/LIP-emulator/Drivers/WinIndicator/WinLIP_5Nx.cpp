@@ -25,3 +25,11 @@ void WinLIP_5Nx::createIndicator(){
 int WinLIP_5Nx::getByteIndication(){
     return count;
 }
+
+int WinLIP_5Nx::getDesirWidth(){
+    return desirWidth;
+}
+
+int WinLIP_5Nx::getDesirHeight(){
+    return desirHeight;
+}

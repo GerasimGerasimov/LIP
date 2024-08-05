@@ -46,3 +46,11 @@ void WinLip_SwitchStatus_8::setData(std::vector<uint8_t>& vecData){
         }
     }
 }
+
+int WinLip_SwitchStatus_8::getDesirWidth(){
+    return desirWidth;
+}
+
+int WinLip_SwitchStatus_8::getDesirHeight(){
+    return desirHeight;
+}
