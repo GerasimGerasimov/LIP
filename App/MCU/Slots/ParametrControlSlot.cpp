@@ -25,6 +25,7 @@ void ParametrControlSlot::clear(){
         delete parameter.resources;
         parameter.resources = nullptr;
     }
+    slot->clearFlags();
     slot->setFlag(Slot::StateFlags::SKIP_SLOT);
 }
 

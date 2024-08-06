@@ -57,6 +57,7 @@ public:
     void setFlag(StateFlags newFlag);
     void resetFlag(StateFlags delFlag);
     bool isStateFlag(StateFlags isFlag);
+    void clearFlags();
 private:
     bool isReplyCRCValid(s16 result, u8* reply);
     u16 TmpInterval;

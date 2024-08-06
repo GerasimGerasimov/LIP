@@ -88,5 +88,10 @@ bool Slot::isStateFlag(StateFlags isFlag){
     return (Flags & (static_cast<u16>(isFlag)));
 }
 
+//очистка всех флагов
+void Slot::clearFlags(){
+    Flags = 0;
+}
+
 Slot::~Slot(){}
 

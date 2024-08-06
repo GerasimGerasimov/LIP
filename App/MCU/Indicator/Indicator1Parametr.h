@@ -8,6 +8,7 @@ class Indicator1Parametr : public Indicator
 {
 protected:
     ParametrControlSlot parametrControl;
+    bool updating = false;
 public:
     void setParameter(std::string& param) override;
     bool update() override;

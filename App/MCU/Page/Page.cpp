@@ -43,7 +43,7 @@ Page::~Page(){
 bool Page::update(){
     u16 offsetStart = 0;
     u16 offsetEnd = 0;
-    uint16_t countFillBuffer = 0;
+    static uint16_t countFillBuffer = 0;
     for(int i = 0; i < ListIndicators.size(); ++i){
         offsetStart = offsetEnd;
         offsetEnd += ListIndicators[i]->getDataSize();
@@ -54,6 +54,7 @@ bool Page::update(){
         }
     }
     if(countFillBuffer == ListIndicators.size()){
+        countFillBuffer = 0;
         return true;
     }
 
