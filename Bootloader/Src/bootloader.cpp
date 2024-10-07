@@ -454,3 +454,8 @@ u16 startApplication(TClient* Slave){
     BootLoaderStart[5] = 0x00;
     NVIC_SystemReset();
 }
+
+bool isApplicationToBe(){
+  uint32_t jumpAddress = *(__IO uint32_t*) (APPLICATION_ADDRESS + 4); 
+  return (bool) (jumpAddress != 0xFFFFFFFF);
+}

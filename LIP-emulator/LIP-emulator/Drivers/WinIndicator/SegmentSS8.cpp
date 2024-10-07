@@ -13,9 +13,9 @@ void SegmentSS8::createSegment(){
 SegmentSS8::SegmentSS8(Parameter param) : BaseObject(param){
     createSegment();
 
-    brushEnable = CreateSolidBrush(RGB(0, 255, 0));
-    brushDisable = CreateSolidBrush(RGB(255, 255, 0));
-    brushDisableAlarm = CreateSolidBrush(RGB(255, 0, 0));
+    brushEnable = CreateSolidBrush(RGB(255, 255, 0));
+    brushDisable = CreateSolidBrush(RGB(255, 0, 0));
+    brushDisableAlarm = CreateSolidBrush(RGB(0, 255, 0));
     brushOff = CreateSolidBrush(RGB(0, 0, 0));
 
     hdc = GetDC(hwnd);

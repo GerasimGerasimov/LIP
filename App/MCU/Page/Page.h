@@ -27,5 +27,3 @@ public:
     void stopSlot();
     void startSlot();
 };
-
-void updateDMA();

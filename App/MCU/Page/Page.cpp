@@ -4,8 +4,6 @@
 #include "Resources/InternalResources.h"
 #include "ini/parser.h"
 
-Page* pageFunction;
-
 void Page::init(){
     std::string Config = InternalResources::getInstance().getItemStringByName("Config");
     Configuration = Parser::splitString(" ", Config);
@@ -99,9 +97,4 @@ void Page::startSlot(){
     for(const auto& ind : ListIndicators){
         ind->startSlot();
     }
-}
-
-//для DMA
-void updateDMA(){
-    pageFunction->update();
 }

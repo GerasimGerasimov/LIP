@@ -15,7 +15,7 @@ std::vector<uint8_t> LIP_SS8::getValue(){
     unsigned short number;
     number = stoul(data);
     std::vector<uint8_t> result(DataSize);
-    result[0] = number;
-    result[1] = number >> 8;
+    result[1] = number;
+    result[0] = number >> 8;
     return result;
 }
