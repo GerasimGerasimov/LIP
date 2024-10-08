@@ -6,7 +6,7 @@
 #include "Router/Router.h"
 #include "DevicePollManager/Devices.h"
 //#include "OutStream.h"
-//#include "ramdata.h"
+#include "ramdata.h"
 
 #include <string>
 
@@ -16,6 +16,8 @@ App& App::getInstance(){
     static App app;
     return app;
 }
+
+bool start = false;
 
 void App::run(){
 
@@ -32,13 +34,27 @@ void App::run(){
 
     //DevicePollManager::getInstance().addSlot(slot);
     //InternalResources::getInstance();
-
+    
     while(true){
         processModbusSlave();
         Router::getInstance().update();
-        DevicePollManager::getInstance().execute();
+        if(start){
+            DevicePollManager::getInstance().execute();
+            ++RAM_DATA.counter[0];
+        }
+        ++RAM_DATA.counter[1];
         if(LipMessage::getInstance().get_message(&message)){
             Router::getInstance().ProcessMessage(&message);
+            if(message.event == Event::KEYBOARD){
+                if(message.p1 == 4){
+                        start = true;
+                        ++RAM_DATA.counter[2];
+                }
+                else if(message.p1 == 8){
+                    start = false;
+                    ++RAM_DATA.counter[3];
+                }
+            }
         }
     }
 }

@@ -33,6 +33,8 @@ enum class KeyCodes : u32
     None = 0, //ни одна клавиша не нажата
     Down = 1,// //стрелка вниз
     Up = 2, //2 //стрелка вверх
+    Test = 4,
+    Test2 = 8
 };
 
 enum class KeyPressFeature : u32
@@ -73,7 +75,7 @@ private:
 
 namespace KeyBoard
 {
-    extern std::array<KeyCodes, 2> keyKodes;
+    extern std::array<KeyCodes, 4> keyKodes;
 }
 
 

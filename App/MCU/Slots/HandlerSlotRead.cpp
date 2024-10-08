@@ -1,5 +1,6 @@
 #include "HandlerSlotRead.h"
 #include "Helpers/utils.h"
+#include "ramdata.h"
 
 enum class ModbusReadRegister
 {
@@ -21,6 +22,14 @@ void HandlerSlotRead::parseSlotRead(Slot* slot, u8* reply){
         Utils::swp_copy_u16((u8*)&reply[(u8)ModbusReadRegister::ANSW_DATA_POS],
             (u16*)slot->InputBuf.data(),
             regs_count);
+        RAM_DATA.data[0] = reply[0];
+        RAM_DATA.data[1] = reply[1];
+        RAM_DATA.data[2] = reply[2];
+        RAM_DATA.data[3] = reply[3];
+        RAM_DATA.data[4] = reply[4];
+        RAM_DATA.data[5] = reply[5];
+        //RAM_DATA.data[6] = reply[6];
+        //RAM_DATA.data[7] = reply[7];
         slot->InputBufValidBytes = regs_count;
         slot->setFlag(Slot::StateFlags::DATA_VALID);
         slot->setFlag(Slot::StateFlags::COMPLETE_READ);

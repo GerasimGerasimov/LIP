@@ -66,5 +66,5 @@ bool LipMessage::get_message(TMessage* m){
 
 namespace KeyBoard
 {
-    std::array<KeyCodes, 2> keyKodes = {KeyCodes::Down, KeyCodes::Up};
+    std::array<KeyCodes, 4> keyKodes = {KeyCodes::Down, KeyCodes::Up, KeyCodes::Test, KeyCodes::Test2};
 }
