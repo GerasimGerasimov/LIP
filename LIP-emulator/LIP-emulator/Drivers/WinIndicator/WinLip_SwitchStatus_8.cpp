@@ -37,12 +37,16 @@ void WinLip_SwitchStatus_8::setData(std::vector<uint8_t>& vecData){
     if(vecData.size() != 2){
         return;
     }
+    int bitLedBite = count / bitPerLED;
     for(int s = 0; s < line; ++s){
-        for(int i = 0; i < Indicators.size() / line; ++i){
+        for(int i = 0; i < count / line; ++i){
+            int indexIndicator = (i + (s * (count / line)));
+            int indexData = indexIndicator / (bitLedBite);
             std::vector<uint8_t> state(1);
-            state[0] = ((vecData[s]) & (1 << (i * 2))) ? 1 : 0;
-            state[0] |= ((vecData[s]) & (1 << (i * 2 + 1))) ? 2 : 0;
-            Indicators[s * 4 + i]->setData(state);
+            state[0] = ((vecData[indexData]) & (1 << (count - 1 - ((indexIndicator % bitLedBite) * 2)))) ? 1 : 0;
+            state[0] |= ((vecData[indexData]) & (1 << (count - 1 - ((indexIndicator % bitLedBite) * 2 + 1)))) ? 2 : 0;
+            int idIndicator = s * (bitLedBite) + i;
+            Indicators[indexIndicator]->setData(state);
         }
     }
 }

@@ -7,9 +7,10 @@ class WinLip_SwitchStatus_8 : public IndicatorContainer
 {
 private:
     const int count = 8;//каждая лампочка - 2 бита
-    const int line = 2;
-    static const int desirWidth = 210;
-    static const int desirHeight = 90;
+    const int line = 1;
+    const int bitPerLED = 2;
+    static const int desirWidth = 410;
+    static const int desirHeight = 410;
 public:
     WinLip_SwitchStatus_8(Parameter param);
     void createIndicator();
