@@ -96,89 +96,8 @@
     <ClInclude Include="WinAppWindow\MainWindow.h">
       <Filter>WinAppWindow</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\App\MCU\App\App.h">
-      <Filter>MCU\App</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Indicator\Indicator.h">
-      <Filter>MCU\Indicator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Indicator\LIP_5Nx.h">
-      <Filter>MCU\Indicator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Helpers\utils.h">
-      <Filter>MCU\Helpers</Filter>
-    </ClInclude>
     <ClInclude Include="STM32\bastypes.h">
       <Filter>STM32</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\ini\IniResources.h">
-      <Filter>MCU\ini</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\ini\parser.h">
-      <Filter>MCU\ini</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Router\Router.h">
-      <Filter>MCU\Router</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Slots\SlotHandlerType.h">
-      <Filter>MCU\Slots</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Buffer\Buffer.h">
-      <Filter>MCU\Buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Parameters\GeneralCaseSignal.h">
-      <Filter>MCU\Parameters</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Parameters\InternalAdresation.h">
-      <Filter>MCU\Parameters</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Parameters\Parameter.h">
-      <Filter>MCU\Parameters</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Parameters\ParametersUtils.h">
-      <Filter>MCU\Parameters</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Parameters\Scale.h">
-      <Filter>MCU\Parameters</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Parameters\scaleutils.h">
-      <Filter>MCU\Parameters</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Parameters\signal.h">
-      <Filter>MCU\Parameters</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Parameters\SignalFactoty.h">
-      <Filter>MCU\Parameters</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Parameters\TBit.h">
-      <Filter>MCU\Parameters</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Parameters\TFloat.h">
-      <Filter>MCU\Parameters</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Parameters\TPrmList.h">
-      <Filter>MCU\Parameters</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Parameters\TS16BIT.h">
-      <Filter>MCU\Parameters</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Parameters\TU8BIT.h">
-      <Filter>MCU\Parameters</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Parameters\TU16BIT.h">
-      <Filter>MCU\Parameters</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Parameters\TU32BIT.h">
-      <Filter>MCU\Parameters</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Page\Page.h">
-      <Filter>MCU\Page</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\DevicePollManager\DevicePollManager.h">
-      <Filter>MCU\DevicePollManager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\DevicePollManager\Slot.h">
-      <Filter>MCU\DevicePollManager</Filter>
     </ClInclude>
     <ClInclude Include="STM32\DMAIndicator.h">
       <Filter>STM32</Filter>
@@ -191,9 +110,6 @@
     </ClInclude>
     <ClInclude Include="OutStream.h">
       <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Slots\HandlerSlotRead.h">
-      <Filter>MCU\Slots</Filter>
     </ClInclude>
     <ClInclude Include="Drivers\WinIndicator\BaseWindow.h">
       <Filter>Drivers\WinIndicator</Filter>
@@ -222,44 +138,128 @@
     <ClInclude Include="Drivers\DI\WinDI.h">
       <Filter>Drivers\DI</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Resources\InternalResources.h">
-      <Filter>MCU\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\IDrivers\iresources.h">
-      <Filter>MCU\IDrivers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\DevicePollManager\Devices.h">
-      <Filter>MCU\DevicePollManager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Parameters\IniString.h">
-      <Filter>MCU\Parameters</Filter>
-    </ClInclude>
     <ClInclude Include="Drivers\Resources\os_resources.h">
       <Filter>Drivers\Resources</Filter>
     </ClInclude>
     <ClInclude Include="STM32\stm32f0xx.h">
       <Filter>STM32</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\App\MCU\crc16.h">
-      <Filter>MCU</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Message\Message.h">
-      <Filter>MCU\Message</Filter>
-    </ClInclude>
     <ClInclude Include="Drivers\WinIndicator\WinLip_SwitchStatus_8.h">
       <Filter>Drivers\WinIndicator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Indicator\LIP_SS8.h">
-      <Filter>MCU\Indicator</Filter>
     </ClInclude>
     <ClInclude Include="Drivers\WinIndicator\SegmentSS8.h">
       <Filter>Drivers\WinIndicator</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Slots\ParametrControlSlot.h">
+    <ClInclude Include="..\..\App\Src\MCU\App\App.h">
+      <Filter>MCU\App</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Buffer\Buffer.h">
+      <Filter>MCU\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\DevicePollManager\DevicePollManager.h">
+      <Filter>MCU\DevicePollManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\DevicePollManager\Devices.h">
+      <Filter>MCU\DevicePollManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\DevicePollManager\Slot.h">
+      <Filter>MCU\DevicePollManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Helpers\utils.h">
+      <Filter>MCU\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\IDrivers\iresources.h">
+      <Filter>MCU\IDrivers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Indicator\Indicator.h">
+      <Filter>MCU\Indicator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Indicator\Indicator1Parametr.h">
+      <Filter>MCU\Indicator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Indicator\LIP_5Nx.h">
+      <Filter>MCU\Indicator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Indicator\LIP_SS8.h">
+      <Filter>MCU\Indicator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\ini\IniResources.h">
+      <Filter>MCU\ini</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\ini\parser.h">
+      <Filter>MCU\ini</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Message\Message.h">
+      <Filter>MCU\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Page\Page.h">
+      <Filter>MCU\Page</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Parameters\GeneralCaseSignal.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Parameters\IniString.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Parameters\InternalAdresation.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Parameters\Parameter.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Parameters\ParametersUtils.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Parameters\Scale.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Parameters\scaleutils.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Parameters\signal.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Parameters\SignalFactoty.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Parameters\TBit.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Parameters\TFloat.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Parameters\TPrmList.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Parameters\TS16BIT.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Parameters\TU8BIT.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Parameters\TU16BIT.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Parameters\TU32BIT.h">
+      <Filter>MCU\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Resources\InternalResources.h">
+      <Filter>MCU\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Router\Router.h">
+      <Filter>MCU\Router</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Slots\HandlerSlotRead.h">
       <Filter>MCU\Slots</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\App\MCU\Indicator\Indicator1Parametr.h">
-      <Filter>MCU\Indicator</Filter>
+    <ClInclude Include="..\..\App\Src\MCU\Slots\ParametrControlSlot.h">
+      <Filter>MCU\Slots</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Slots\SlotHandlerType.h">
+      <Filter>MCU\Slots</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\crc16.h">
+      <Filter>MCU</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -272,89 +272,11 @@
     <ClCompile Include="threads\MainThread.cpp">
       <Filter>threads</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\App\MCU\App\App.cpp">
-      <Filter>MCU\App</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\Indicator\Indicator.cpp">
-      <Filter>MCU\Indicator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\Indicator\LIP_5Nx.cpp">
-      <Filter>MCU\Indicator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\Helpers\utils.cpp">
-      <Filter>MCU\Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\ini\IniResources.cpp">
-      <Filter>MCU\ini</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\ini\parser.cpp">
-      <Filter>MCU\ini</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\Router\Router.cpp">
-      <Filter>MCU\Router</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\Buffer\Buffer.cpp">
-      <Filter>MCU\Buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\Parameters\GeneralCaseSignal.cpp">
-      <Filter>MCU\Parameters</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\Parameters\Parameter.cpp">
-      <Filter>MCU\Parameters</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\Parameters\ParametersUtils.cpp">
-      <Filter>MCU\Parameters</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\Parameters\Scale.cpp">
-      <Filter>MCU\Parameters</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\Parameters\scaleutils.cpp">
-      <Filter>MCU\Parameters</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\Parameters\signal.cpp">
-      <Filter>MCU\Parameters</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\Parameters\SignalFactoty.cpp">
-      <Filter>MCU\Parameters</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\Parameters\TBit.cpp">
-      <Filter>MCU\Parameters</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\Parameters\TFloat.cpp">
-      <Filter>MCU\Parameters</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\Parameters\TPrmList.cpp">
-      <Filter>MCU\Parameters</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\Parameters\TS16BIT.cpp">
-      <Filter>MCU\Parameters</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\Parameters\TU8BIT.cpp">
-      <Filter>MCU\Parameters</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\Parameters\TU16BIT.cpp">
-      <Filter>MCU\Parameters</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\Parameters\TU32BIT.cpp">
-      <Filter>MCU\Parameters</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\Page\Page.cpp">
-      <Filter>MCU\Page</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\DevicePollManager\DevicePollManager.cpp">
-      <Filter>MCU\DevicePollManager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\DevicePollManager\Slot.cpp">
-      <Filter>MCU\DevicePollManager</Filter>
-    </ClCompile>
     <ClCompile Include="STM32\DMAIndicator.cpp">
       <Filter>STM32</Filter>
     </ClCompile>
     <ClCompile Include="OutStream.cpp">
       <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\Slots\HandlerSlotRead.cpp">
-      <Filter>MCU\Slots</Filter>
     </ClCompile>
     <ClCompile Include="Drivers\WinIndicator\BaseWindow.cpp">
       <Filter>Drivers\WinIndicator</Filter>
@@ -383,38 +305,116 @@
     <ClCompile Include="Drivers\DI\WinDI.cpp">
       <Filter>Drivers\DI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\App\MCU\Resources\InternalResources.cpp">
-      <Filter>MCU\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\DevicePollManager\Devices.cpp">
-      <Filter>MCU\DevicePollManager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\Parameters\IniString.cpp">
-      <Filter>MCU\Parameters</Filter>
-    </ClCompile>
     <ClCompile Include="Drivers\Resources\os_resources.cpp">
       <Filter>Drivers\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\crc16.c">
-      <Filter>MCU</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\MCU\Message\Message.cpp">
-      <Filter>MCU\Message</Filter>
     </ClCompile>
     <ClCompile Include="Drivers\WinIndicator\WinLip_SwitchStatus_8.cpp">
       <Filter>Drivers\WinIndicator</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\App\MCU\Indicator\LIP_SS8.cpp">
-      <Filter>MCU\Indicator</Filter>
-    </ClCompile>
     <ClCompile Include="Drivers\WinIndicator\SegmentSS8.cpp">
       <Filter>Drivers\WinIndicator</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\App\MCU\Slots\ParametrControlSlot.cpp">
+    <ClCompile Include="..\..\App\Src\MCU\App\App.cpp">
+      <Filter>MCU\App</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\Buffer\Buffer.cpp">
+      <Filter>MCU\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\DevicePollManager\DevicePollManager.cpp">
+      <Filter>MCU\DevicePollManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\DevicePollManager\Devices.cpp">
+      <Filter>MCU\DevicePollManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\DevicePollManager\Slot.cpp">
+      <Filter>MCU\DevicePollManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\Helpers\utils.cpp">
+      <Filter>MCU\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\Indicator\Indicator.cpp">
+      <Filter>MCU\Indicator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\Indicator\Indicator1Parametr.cpp">
+      <Filter>MCU\Indicator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\Indicator\LIP_5Nx.cpp">
+      <Filter>MCU\Indicator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\Indicator\LIP_SS8.cpp">
+      <Filter>MCU\Indicator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\ini\IniResources.cpp">
+      <Filter>MCU\ini</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\ini\parser.cpp">
+      <Filter>MCU\ini</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\Message\Message.cpp">
+      <Filter>MCU\Message</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\Page\Page.cpp">
+      <Filter>MCU\Page</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\Parameters\GeneralCaseSignal.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\Parameters\IniString.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\Parameters\Parameter.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\Parameters\ParametersUtils.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\Parameters\Scale.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\Parameters\scaleutils.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\Parameters\signal.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\Parameters\SignalFactoty.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\Parameters\TBit.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\Parameters\TFloat.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\Parameters\TPrmList.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\Parameters\TS16BIT.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\Parameters\TU8BIT.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\Parameters\TU16BIT.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\Parameters\TU32BIT.cpp">
+      <Filter>MCU\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\Resources\InternalResources.cpp">
+      <Filter>MCU\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\Router\Router.cpp">
+      <Filter>MCU\Router</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\Slots\HandlerSlotRead.cpp">
       <Filter>MCU\Slots</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\App\MCU\Indicator\Indicator1Parametr.cpp">
-      <Filter>MCU\Indicator</Filter>
+    <ClCompile Include="..\..\App\Src\MCU\Slots\ParametrControlSlot.cpp">
+      <Filter>MCU\Slots</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\crc16.c">
+      <Filter>MCU</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
