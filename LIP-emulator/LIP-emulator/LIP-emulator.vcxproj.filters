@@ -261,6 +261,9 @@
     <ClInclude Include="..\..\App\Src\MCU\crc16.h">
       <Filter>MCU</Filter>
     </ClInclude>
+    <ClInclude Include="ramdata.h">
+      <Filter>Drivers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LIP-emulator.cpp">
@@ -415,6 +418,9 @@
     </ClCompile>
     <ClCompile Include="..\..\App\Src\MCU\crc16.c">
       <Filter>MCU</Filter>
+    </ClCompile>
+    <ClCompile Include="ramdata.cpp">
+      <Filter>Drivers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

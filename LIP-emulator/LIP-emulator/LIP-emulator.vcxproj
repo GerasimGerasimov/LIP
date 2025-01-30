@@ -180,6 +180,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="LIP-emulator.h" />
     <ClInclude Include="OutStream.h" />
+    <ClInclude Include="ramdata.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="STM32\bastypes.h" />
     <ClInclude Include="STM32\DMAIndicator.h" />
@@ -238,6 +239,7 @@
     <ClCompile Include="Drivers\WinIndicator\WinLip_SwitchStatus_8.cpp" />
     <ClCompile Include="LIP-emulator.cpp" />
     <ClCompile Include="OutStream.cpp" />
+    <ClCompile Include="ramdata.cpp" />
     <ClCompile Include="STM32\DMAIndicator.cpp" />
     <ClCompile Include="threads\MainThread.cpp" />
     <ClCompile Include="WinAppWindow\MainWindow.cpp" />

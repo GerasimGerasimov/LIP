@@ -335,12 +335,12 @@ void FlashSectorWriteBootloader(u32 FlashSectorAddr, u8* Buffer, u16 Count){
         FlashSectorAddr += 2;
 
         if(FLASH_COMPLETE == FLASHStatus){
-            //++RAM_DATA.counter1;
+            ++RAM_DATA.counter1;
         }
         if(FLASH_ERROR_WRP == FLASHStatus){
-            //++RAM_DATA.counter2;
+            ++RAM_DATA.counter2;
         }
-        //++RAM_DATA.counter3;
+        ++RAM_DATA.counter3;
     }
 
 }
@@ -359,6 +359,10 @@ u16 writeCodeToFlash(TClient* Slave){
       .b[2] = Slave->Buffer[6],
       .b[3] = Slave->Buffer[5]
     };
+    RAM_DATA.data32[1] = StartAddr.L;
+    RAM_DATA.data[3] = count.i;
+
+
     //u8 * pData = (u8 * ) &Slave->Buffer[9];
     //writeCodeSpase(StartAddr.L, count.i, pData);
     u8* Data = &(Slave->Buffer[9]);
