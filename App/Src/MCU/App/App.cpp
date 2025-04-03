@@ -34,11 +34,11 @@ void App::run(){
     //InternalResources::getInstance();
 
     while(true){
-        processModbusSlave();
-        Router::getInstance().update();
-        DevicePollManager::getInstance().execute();
+        processModbusSlave();// Интерфейс для связи по MODBUS
+        Router::getInstance().update();// Обработка страниц
+        DevicePollManager::getInstance().execute();// USART2 MASTER
         if(LipMessage::getInstance().get_message(&message)){
-            Router::getInstance().ProcessMessage(&message);
+            Router::getInstance().ProcessMessage(&message);// Обработка нажатия кнопок
         }
     }
 }

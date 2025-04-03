@@ -21,8 +21,8 @@
   */
 int main(void)              //главная программа
 {
-    BootLoadCmdFillZero();
-    Init();                   //инициализация переферии  
+    BootLoadCmdFillZero();// Очистка памяти команд Загрузчика (если есть Bootloader) 
+    Init();// Инициализация переферии  
 
     LED_RUN_ON;
     LED_LINK1_OFF;
