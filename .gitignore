@@ -26,3 +26,6 @@ x64/
 .vs/
 .metadata/
 .vscode/
+
+res*.bin
+!res.bin

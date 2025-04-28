@@ -1,13 +1,14 @@
 #include "WinLIPModule.h"
 #include "ini/parser.h"
 #include "WinLip_SwitchStatus_8.h"
+#include "OutStream.h"
 
 WinLIPModule::WinLIPModule(Parameter& param, std::vector<std::string>& Config, RECT& newBorder) : IndicatorContainer(param){
     Configuration = Config;
     border = newBorder;
     int countHeight = 0;
-    std::map<std::string, std::function<void(std::string& Type)>> parseHandler;
-    auto lambdaHeight = [&countHeight](std::string&){
+    std::map<std::string, std::function<void(std::vector<std::string>& Type)>> parseHandler;
+    auto lambdaHeight = [&countHeight](std::vector<std::string>&){
         ++countHeight;
         };
     parseHandler[i5N] = lambdaHeight;
@@ -35,16 +36,21 @@ void WinLIPModule::createSegmentHeight(){
     param.rect.right = width - border.right;
     param.rect.bottom = param.rect.top + heightIndicator;
 
-    auto lambdaCreateSegment5N = [this, &param](std::string&){
-        Indicators.push_back(std::make_unique<WinLIP_5Nx>(param));
+    auto lambdaCreateSegment5N = [this, &param](std::vector<std::string>& config){
+        if(config.size() != 3){
+            lip::cout << L"Не правильная конфигурация индикатора XN";
+            return;
+        }
+        uint8_t num = std::stoi(config[2]);
+        Indicators.push_back(std::make_unique<WinLIP_XNx>(param, num));
         insertRectParamHeight(param);
     };
 
-    auto lambdaCreateSegmentSwitchStatus = [this, &param](std::string&){
+    auto lambdaCreateSegmentSwitchStatus = [this, &param](std::vector<std::string>&){
         Indicators.push_back(std::make_unique<WinLip_SwitchStatus_8>(param));
         insertRectParamHeight(param);
     };
-    std::map<std::string, std::function<void(std::string& Type)>> parseHandler;
+    std::map<std::string, std::function<void(std::vector<std::string>& Type)>> parseHandler;
     parseHandler[i5N] = lambdaCreateSegment5N;
     parseHandler[iSwitchStatus] = lambdaCreateSegmentSwitchStatus;
     Parser::parseConfigurarion(Configuration, parseHandler);

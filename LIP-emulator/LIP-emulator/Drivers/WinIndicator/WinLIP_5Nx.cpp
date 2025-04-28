@@ -1,13 +1,14 @@
 #include "WinLIP_5Nx.h"
 
 
-WinLIP_5Nx::WinLIP_5Nx(Parameter param) : IndicatorContainer(param){
+WinLIP_XNx::WinLIP_XNx(Parameter param, uint8_t dataSize) : IndicatorContainer(param){
+    count = dataSize;
     heightIndicator = param.rect.bottom - param.rect.top - border.bottom - border.top;
     widthIndicator = (param.rect.right - param.rect.left + (count - 1) * indent) / count - border.left - border.right;
     createIndicator();
 }
 
-void WinLIP_5Nx::createIndicator(){
+void WinLIP_XNx::createIndicator(){
     BaseWindow::Parameter param;
     param.parrent = hwnd;
     param.rect.left = border.left;
@@ -22,14 +23,14 @@ void WinLIP_5Nx::createIndicator(){
     }
 }
 
-int WinLIP_5Nx::getByteIndication(){
+int WinLIP_XNx::getByteIndication(){
     return count;
 }
 
-int WinLIP_5Nx::getDesirWidth(){
+int WinLIP_XNx::getDesirWidth(){
     return desirWidth;
 }
 
-int WinLIP_5Nx::getDesirHeight(){
+int WinLIP_XNx::getDesirHeight(){
     return desirHeight;
 }

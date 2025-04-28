@@ -1,11 +1,11 @@
 #include "LIP_5Nx.h"
 
-LIP_5Nx::LIP_5Nx(){
-    DataSize = 5;
+LIP_XNx::LIP_XNx(uint8_t dataSize){
+    DataSize = dataSize;
 }
 
 //получить список байт на отправку в SPI
-std::vector<uint8_t> LIP_5Nx::getValue(){
+std::vector<uint8_t> LIP_XNx::getValue(){
     
     std::string data;
     if(parametrControl.isStateFlag(Slot::StateFlags::NO_VALID)){
@@ -30,10 +30,10 @@ std::vector<uint8_t> LIP_5Nx::getValue(){
     return result;
 }
 
-const std::string LIP_5Nx::parseErrorStr = "-----";
-const std::string LIP_5Nx::connectErrorStr = " . . . . .";
+const std::string LIP_XNx::parseErrorStr = "-----";
+const std::string LIP_XNx::connectErrorStr = " . . . . .";
 
-const char LIP_5Nx::ASCIITable[96] = {
+const char LIP_XNx::ASCIITable[96] = {
     0x00, 0x86, 0x22, 0x49, 0x2D, 0x6B, 0x53, 0x46,
     0x70, 0x0F, 0x63, 0x46, 0x80, 0x40, 0x80, 0x52,
     0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07,
@@ -49,7 +49,7 @@ const char LIP_5Nx::ASCIITable[96] = {
 };
 
 //получить ASCII символ для индикации
-uint8_t LIP_5Nx::getChar(char symbol){
+uint8_t LIP_XNx::getChar(char symbol){
 
     symbol = (symbol <= 0x20) ? 0 : symbol - 0x20;
 
@@ -63,10 +63,10 @@ uint8_t LIP_5Nx::getChar(char symbol){
 }
 
 //изменение строки под необходимый размер байт
-void LIP_5Nx::transformSizeSring(std::string& data){
+void LIP_XNx::transformSizeSring(std::string& data){
     size_t pos = data.find('.');
     uint8_t size = DataSize;
-    if(pos != std::string::npos){
+    if(pos != std::string::npos && pos < size){
         ++size;
     }
     if(data.size() < size){
@@ -80,4 +80,4 @@ void LIP_5Nx::transformSizeSring(std::string& data){
     }
 }
 
-LIP_5Nx::~LIP_5Nx(){}
+LIP_XNx::~LIP_XNx(){}

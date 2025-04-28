@@ -25,9 +25,9 @@ namespace MainWindow
 }
 
 void MainWindow::createObject(){
-    createIndicator();
     createDI();
     createOutText();
+    createIndicator();
     ComMasterDriver::open();
 }
 
@@ -66,16 +66,16 @@ void MainWindow::createIndicator(){
     SizeIndicator desirSizeIndicator;
     int indent = 10;
 
-    std::map<std::string, std::function<void(std::string& Type)>> parseHandler;
-    auto lambda5N = [&desirSizeIndicator, indent](std::string&){
-        int tempWidth = WinLIP_5Nx::getDesirWidth();
+    std::map<std::string, std::function<void(std::vector<std::string>& Type)>> parseHandler;
+    auto lambda5N = [&desirSizeIndicator, indent](std::vector<std::string>&){
+        int tempWidth = WinLIP_XNx::getDesirWidth();
         if(desirSizeIndicator.width < tempWidth){
             desirSizeIndicator.width = tempWidth;
         }
-        desirSizeIndicator.height += WinLIP_5Nx::getDesirHeight();
+        desirSizeIndicator.height += WinLIP_XNx::getDesirHeight();
         desirSizeIndicator.height += indent;
         };
-    auto lambdaSS8 = [&desirSizeIndicator, indent](std::string&){
+    auto lambdaSS8 = [&desirSizeIndicator, indent](std::vector<std::string>&){
         int tempWidth = WinLip_SwitchStatus_8::getDesirWidth();
         if(desirSizeIndicator.width < tempWidth){
             desirSizeIndicator.width = tempWidth;

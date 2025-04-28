@@ -8,17 +8,23 @@ void Page::init(){
     std::string Config = InternalResources::getInstance().getItemStringByName("Config");
     Configuration = Parser::splitString(" ", Config);
 
-    auto lambda5N = [this](std::string& Type){
-        ListIndicators.push_back(new LIP_5Nx);
-        bool typeA = (Type == "A");
+    auto lambdaXN = [this](std::vector<std::string>& Config){
+        std::string type;
+        uint8_t num = 0;
+        if(Config.size() == 3){
+            type = Config[1];
+            num = std::stoi(Config[2]);
+        }
+        ListIndicators.push_back(new LIP_XNx(num));
+        bool typeA = (type == "A");
         ListIndicators.back()->setTypeAnode(typeA);
     };
 
-    auto lambdaSS8 = [this](std::string&){
+    auto lambdaSS8 = [this](std::vector<std::string>& Config){
         ListIndicators.push_back(new LIP_SS8);
     };
-    std::map<std::string, std::function<void(std::string& Type)>> parseHandler;
-    parseHandler[i5N] = lambda5N;
+    std::map<std::string, std::function<void(std::vector<std::string>& Config)>> parseHandler;
+    parseHandler[i5N] = lambdaXN;
     parseHandler[iSwitchStatus] = lambdaSS8;
     Parser::parseConfigurarion(Configuration, parseHandler);
 }

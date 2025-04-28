@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <string>
 
-class LIP_5Nx : public Indicator1Parametr
+class LIP_XNx : public Indicator1Parametr
 {
 private:
     static const std::string parseErrorStr;
@@ -15,8 +15,8 @@ private:
     uint8_t getChar(char symbol);
     void transformSizeSring(std::string& data);
 public:
-    LIP_5Nx();
-    ~LIP_5Nx();
+    LIP_XNx(uint8_t dataSize);
+    ~LIP_XNx();
     std::vector<uint8_t> getValue() override;
 };
 

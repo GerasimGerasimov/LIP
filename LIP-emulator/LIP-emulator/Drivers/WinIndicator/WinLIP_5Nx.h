@@ -6,14 +6,14 @@
 #include <vector>
 
 //плата LIP.5Nx
-class WinLIP_5Nx : public IndicatorContainer
+class WinLIP_XNx : public IndicatorContainer
 {
 private:
     static const int desirWidth = 310;
     static const int desirHeight = 90;
-    const int count = 5;
+    int count;
 public:
-    WinLIP_5Nx(Parameter param);
+    WinLIP_XNx(Parameter param, uint8_t dataSize);
     void createIndicator();
     int getByteIndication() override;
     static int getDesirWidth();

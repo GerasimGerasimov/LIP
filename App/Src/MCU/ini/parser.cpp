@@ -276,12 +276,11 @@ std::vector<std::string> Parser::splitString(std::string delimiter, const std::s
     return vecRes;
 }
 
-void Parser::parseConfigurarion(std::vector<std::string>& Configuration, std::map<std::string, std::function<void(std::string& Type)>> &func){
+void Parser::parseConfigurarion(std::vector<std::string>& Configuration, std::map<std::string, std::function<void(std::vector<std::string>& Config)>> &func){
     for(const auto& ind : Configuration){
-        std::vector<std::string> TypeIndication = splitString("/", ind);
-        if(func.count(TypeIndication[0])){
-            std::string type = TypeIndication.size() == 1 ? "" : TypeIndication[1];
-            func.at(TypeIndication[0])(type);
+        std::vector<std::string> config = splitString("/", ind);
+        if(func.count(config[0])){
+            func.at(config[0])(config);
         }
         
     }
