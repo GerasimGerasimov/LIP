@@ -16,8 +16,6 @@ void ModbusInit(void);
 void REinit(void);
 void ModbusRamRead(u32 DATA_BASE, TClient* pC);
 void ModbusRamWrite(u32 DATA_BASE, TClient* pC);
-void ModbusCDWrite(u32 DATA_BASE, TClient* pC);//запись калибровочных данных
-void ModbusFlashWrite(u32 DATA_BASE, TClient* pC);
 /////////
 void ModbusFlashWrite_(u32 DATA_BASE, TClient* pC);
 ////
@@ -110,7 +108,6 @@ bool ModbusMemWrite(TClient* pC){
   //для flash дисплея   
   if((w.i >= r_min_DEVICE_FLASH_DATA) && (w.i <= r_max_DEVICE_FLASH_DATA)){
     ModbusFlashWrite_((u32)&FLASH_DATA, pC);
-    FLASH_change = 1;
     REinit();
     return (TRUE);
   }
@@ -270,63 +267,6 @@ void ModbusFlashWrite_(u32 DATA_BASE, TClient* pC){
 void REinit(void){
   uart1rs485_ReInit();
   //uart2rs485_ReInit();
-}
-
-//запись данный внутри программы во флеш
-void ModbusFlashWrite_DATA(u16 DATA_1, u16 DATA_2){
-  u16 crc;
-  u16* dest;
- // u8 *source;
-  //bauint w; //for swaping modbus packets
-  //0)копировать основной сектор флэша во временный буфер aFlashTmpBuffer
-  CopyFlashToTmpBuffer_((u32)&FLASH_DATA, (u32)&aFlashTmpBuffer);
-  //1) получить из буфера номер регистра 
-  //1.1) преобразовать его в адрес в памяти
-  //2)получим кол-во переданных регистров
- // u8 ModbusAddrCount = pC->Buffer[_u_word_count_lo];
-  //3)внести изменения во временный буфер
-//  source = &pC->Buffer[_u_data_section_cm10];
-//  dest = (u16*)&aFlashTmpBuffer[0] + (pC->Buffer[_u_start_addr_lo]);//RAM_DATA.Iload....<<1
-
-
-  dest = (u16*)(aFlashTmpBuffer + ((u32)&FLASH_DATA.Iz - (u32)&FLASH_DATA.MODBUS1));
-  *dest = DATA_1;
-
-  dest = (u16*)(aFlashTmpBuffer + ((u32)&FLASH_DATA.Uz - (u32)&FLASH_DATA.MODBUS1));
-  *dest = DATA_2;
-
-/*  do {
-    w.b[1] = *source++;
-    w.b[0] = *source++;
-    *dest++ = w.i;
-  } while (--ModbusAddrCount != 0);*/
-  //4)данные находятся во временном буфере, теперь:
-  //4.1)Подсчитать контрольную сумму временного буфера
-  crc = crc16(&aFlashTmpBuffer[0], FlashTmpBufferSize_bytes - 2);
-  //4.2)добавить контрольную сумму в конец временного буфера
-  aFlashTmpBuffer[254] = (crc >> 8) & 0x00ff;
-  aFlashTmpBuffer[255] = crc & 0x00ff;
-  //5)стереть резервный сектор флэша
-  //6)записать туда данные из временного буфера
-  __disable_irq(); // handles nested interrupt
-  FlashSectorWrite((u32)&BKFLASH_DATA, (u32)&aFlashTmpBuffer);//
-  //6.1)Проверить CRC буфера, если не испортился писать дальше
-  if(crc16((u8*)&BKFLASH_DATA, FlashTmpBufferSize_bytes) == 0){
-    FlashSectorWrite((u32)&FLASH_DATA, (u32)&aFlashTmpBuffer);// пишем в основной сектор
-  }
-  else{
-    //Блок оказался кривым, резервный сектор флеша испорчен.
-    //Попытаться Восстановить из основного, если не получится
-    //не пытаться переписать основной сектор
-    FlashSectorWrite((u32)&FLASH_DATA, (u32)&BKFLASH_DATA);
-
-    //тут по идее какую нибудь ошибку бы выдать
-  }
-
-  __enable_irq(); // handles nested interrupt
-
-  //pC->TXCount=6;
- // frame_end(pC);
 }
 
 u8 StartBootLoader(TClient* Slave){

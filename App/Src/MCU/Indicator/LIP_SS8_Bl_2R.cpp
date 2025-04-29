@@ -54,6 +54,5 @@ std::vector<uint8_t> LIP_SS8_Bl_2R::getValue(){
 }
 
 void LIP_SS8_Bl_2R::ProcessMessage(TMessage* m){
-    ++RAM_DATA.counter[1];
     Blink = !Blink;
 }

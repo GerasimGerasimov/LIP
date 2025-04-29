@@ -53,7 +53,6 @@ const char*& Utils::getFormat(float& value){
     static const char* _2_ = "%.2f";
     static const char* _3_ = "%.3f";
     static const char* _4_ = "%.4f";
-    static const char* _5_ = "%.5f";
     int f = (int)value;
     float d = value - f;
     d = (d < 0) ? -d : d;
@@ -71,7 +70,6 @@ const char*& Utils::getFloatFormat(float& value){
     static const char* _2_ = "%.2f";
     static const char* _3_ = "%.3f";
     static const char* _4_ = "%.4f";
-    static const char* _5_ = "%.5f";
     float f = value;
     f = (f < 0) ? -f : f;
     if(f == 0) return _0_;
