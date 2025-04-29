@@ -265,7 +265,10 @@
       <Filter>Drivers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\App\Src\MCU\Indicator\LIP_SS8_Bl_2R.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>MCU\Indicator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Indicator\ControlIndicatorSlot.h">
+      <Filter>MCU\Indicator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -426,7 +429,10 @@
       <Filter>Drivers</Filter>
     </ClCompile>
     <ClCompile Include="..\..\App\Src\MCU\Indicator\LIP_SS8_Bl_2R.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>MCU\Indicator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\Indicator\ControlIndicatorSlot.cpp">
+      <Filter>MCU\Indicator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

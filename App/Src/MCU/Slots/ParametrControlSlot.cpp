@@ -32,7 +32,7 @@ void ParametrControlSlot::clear(){
 void ParametrControlSlot::createReadCmd(){
     std::string RegHexAddr = parameter.resources->getRegHexAddr();
     const u8 DevAddr = Devices::getInstance().getDevNetWorkAddr(parameter.Device);
-    slot->TimeOut = 50;
+    slot->TimeOut = 500;
     std::vector<u8> comand;
     comand.reserve(6);
     comand.push_back(DevAddr);

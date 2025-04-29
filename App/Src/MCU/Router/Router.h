@@ -3,8 +3,10 @@
 #include "Page/Page.h"
 
 #include <string>
+#include <map>
 
 class TMessage;
+class ControlIndicatorSlot;
 
 //содержит Page и управляет страницами
 class Router
@@ -18,7 +20,13 @@ private:
     //Buffer bufferSender;
     Buffer bufferData;
     std::vector<std::string> Pages;
+    std::map<std::string, ControlIndicatorSlot*> IndicatorSlots;
+    uint16_t countUpdateSlot = 0;
     void setPage();
+    void setIndicatorSlots();
+    bool updateIndicatorSlots();
+    void stopIndicatorSlots();
+    void startIndicatorSlots();
 public:
     struct Task
     {
@@ -36,5 +44,7 @@ public:
     void setEmptyBufferStatus();
     bool isFillBuffer();
     uint16_t getBufferSize();
+    ControlIndicatorSlot* getAppSlot(std::string name);
+    ~Router();
 };
 

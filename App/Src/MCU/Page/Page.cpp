@@ -54,7 +54,8 @@ Page::~Page(){
 bool Page::update(){
     u16 offsetStart = 0;
     u16 offsetEnd = 0;
-    static uint16_t countFillBuffer = 0;
+    static uint16_t countFillBuffer = 0; //Проверка на заполнение всех слотов
+    //Заполнение буфера в порядке расположения индикаторов
     for(int i = 0; i < ListIndicators.size(); ++i){
         offsetStart = offsetEnd;
         offsetEnd += ListIndicators[i]->getDataSize();
@@ -65,6 +66,7 @@ bool Page::update(){
         }
     }
     if(countFillBuffer == ListIndicators.size()){
+        //Все слоты заполнены
         countFillBuffer = 0;
         return true;
     }

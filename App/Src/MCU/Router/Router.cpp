@@ -3,6 +3,7 @@
 #include "DMAIndicator.h"
 #include "Message/Message.h"
 #include "ini/parser.h"
+#include "Indicator/ControlIndicatorSlot.h"
 
 //#include "OutStream.h"
 
@@ -11,6 +12,7 @@ Router::Router(){
     currentPage = 0; 
     std::string pages = InternalResources::getInstance().getItemStringByName("Pages");
     std::string registers = InternalResources::getInstance().getItemStringByName("REGISTERS");
+    setIndicatorSlots();
     Pages = Parser::splitString("/", pages);
     setPage();
     bufferData.setSizeBuffer(page.getSizeSegment());
@@ -21,6 +23,43 @@ Router::Router(){
 void Router::setPage(){
     std::string setStartPage = InternalResources::getInstance().getItemStringByName(Pages[currentPage].c_str());
     page.setIndication(setStartPage);
+}
+
+void Router::setIndicatorSlots(){
+    std::string registers = InternalResources::getInstance().getItemStringByName("SLOTS");
+    std::vector<std::string> regSlot = Parser::splitString("/", registers);
+    for(const auto& n : regSlot){
+        std::string str = InternalResources::getInstance().getItemStringByName(n.c_str());
+        if(n != ""){
+            ControlIndicatorSlot* newIndicatorSlot = new ControlIndicatorSlot;
+            newIndicatorSlot->setParameter(str);
+            IndicatorSlots[n] = newIndicatorSlot;
+        }
+    }
+}
+
+bool Router::updateIndicatorSlots(){
+    for(const auto& slot : IndicatorSlots){
+        if(slot.second->update()){
+            ++countUpdateSlot;
+        }
+    }
+    if(countUpdateSlot == IndicatorSlots.size()){
+        return true;
+    }
+    return false;
+}
+
+void Router::stopIndicatorSlots(){
+    for(auto& slot : IndicatorSlots){
+        slot.second->stopSlot();
+    }
+}
+
+void Router::startIndicatorSlots(){
+    for(auto& slot : IndicatorSlots){
+        slot.second->startSlot();
+    }
 }
 
 Router& Router::getInstance(){
@@ -56,15 +95,20 @@ void Router::setTask(Router::Task task){
 
 void Router::update(){
     if(bufferData.getStatus() == Buffer::Status::EMPTY){
-        if(page.update()){
-            bufferData.setFillStatus();
-            page.stopSlot();
+        if(updateIndicatorSlots()){ //TODO Отправить в update() индикаторов
+            if(page.update()){
+                bufferData.setFillStatus();
+                page.stopSlot();
+                stopIndicatorSlots();
+                countUpdateSlot = 0;
+            }
         }
     }
 }
 
 void Router::setEmptyBufferStatus(){
     bufferData.setEmptyStatus();
+    startIndicatorSlots();
     page.startSlot();
 }
 
@@ -74,4 +118,18 @@ bool Router::isFillBuffer(){
 
 uint16_t Router::getBufferSize(){
     return bufferData.getSize();
+}
+
+ControlIndicatorSlot* Router::getAppSlot(std::string name){
+    if(IndicatorSlots.count(name)){
+        return IndicatorSlots.at(name);
+    }
+    return nullptr;
+}
+
+Router::~Router(){
+    for(auto& slot : IndicatorSlots){
+        delete slot.second;
+        slot.second = nullptr;
+    }
 }

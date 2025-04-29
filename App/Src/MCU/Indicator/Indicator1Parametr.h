@@ -4,6 +4,7 @@
 #include "Slots/ParametrControlSlot.h"
 
 //общий класс для индикаторов содержащих слот, для чтения 1 конкретного параметра
+//TODO УДАЛИТЬ дублирование кода с ControlIndicatorSlot
 class Indicator1Parametr : public Indicator
 {
 protected:

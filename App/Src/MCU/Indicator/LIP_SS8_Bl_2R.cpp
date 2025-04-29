@@ -1,11 +1,15 @@
 #include "LIP_SS8_Bl_2R.h"
 #include "Message/Message.h"
+#include "Indicator/ControlIndicatorSlot.h"
+#include "Router/Router.h"
 #include "ramdata.h"
 
 #define LED_SIZE 8
 
 std::vector<uint8_t> LIP_SS8_Bl_2R::getValue(){
     std::string data;
+    ControlIndicatorSlot* controlSlot = Router::getInstance().getAppSlot("S1");
+    data = controlSlot->getValueStr();
     if(parametrControl.isStateFlag(Slot::StateFlags::NO_VALID) || errorParsing){
         data = "0";
     }

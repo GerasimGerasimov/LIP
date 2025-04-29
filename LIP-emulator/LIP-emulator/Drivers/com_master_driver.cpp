@@ -53,7 +53,7 @@ void ComMasterDriver::open(){
 
         CommTimeouts.ReadIntervalTimeout = 20;
         CommTimeouts.ReadTotalTimeoutMultiplier = 0;
-        CommTimeouts.ReadTotalTimeoutConstant = 500;
+        CommTimeouts.ReadTotalTimeoutConstant = 1000;
         CommTimeouts.WriteTotalTimeoutMultiplier = 0;
         CommTimeouts.WriteTotalTimeoutConstant = 0;
         fSuccess = SetCommTimeouts(handleCom, &CommTimeouts);
