@@ -13,6 +13,7 @@ WinLIPModule::WinLIPModule(Parameter& param, std::vector<std::string>& Config, R
         };
     parseHandler[i5N] = lambdaHeight;
     parseHandler[iSwitchStatus] = lambdaHeight;
+    parseHandler[iSwitchStatusBlink2Reg] = lambdaHeight;
     Parser::parseConfigurarion(Configuration, parseHandler);
 
     if(countHeight > 0){
@@ -53,6 +54,7 @@ void WinLIPModule::createSegmentHeight(){
     std::map<std::string, std::function<void(std::vector<std::string>& Type)>> parseHandler;
     parseHandler[i5N] = lambdaCreateSegment5N;
     parseHandler[iSwitchStatus] = lambdaCreateSegmentSwitchStatus;
+    parseHandler[iSwitchStatusBlink2Reg] = lambdaCreateSegmentSwitchStatus;
     Parser::parseConfigurarion(Configuration, parseHandler);
 }
 

@@ -7,6 +7,7 @@
 
 #define i5N "XN"
 #define iSwitchStatus "SS8"
+#define iSwitchStatusBlink2Reg "SS8_Bl_2R"
 
 enum class ParcerResult
 {

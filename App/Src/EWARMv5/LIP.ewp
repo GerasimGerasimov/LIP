@@ -1145,6 +1145,12 @@
             <file>
                 <name>$PROJ_DIR$\..\MCU\Indicator\LIP_SS8.cpp</name>
             </file>
+            <file>
+                <name>$PROJ_DIR$\..\MCU\Indicator\LIP_SS8_Bl_2R.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\MCU\Indicator\LIP_SS8_Bl_2R.h</name>
+            </file>
         </group>
         <group>
             <name>ini</name>

@@ -264,6 +264,9 @@
     <ClInclude Include="ramdata.h">
       <Filter>Drivers</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\App\Src\MCU\Indicator\LIP_SS8_Bl_2R.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LIP-emulator.cpp">
@@ -421,6 +424,9 @@
     </ClCompile>
     <ClCompile Include="ramdata.cpp">
       <Filter>Drivers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\App\Src\MCU\Indicator\LIP_SS8_Bl_2R.cpp">
+      <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

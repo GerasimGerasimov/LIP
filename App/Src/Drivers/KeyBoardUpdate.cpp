@@ -90,5 +90,11 @@ extern "C" void TIM2_IRQHandler(){
   KeyBoard::SPI_DIO_Processing();
   RAM_DATA.DI = KeyBoard::SPI_DIO_Inputs;
   ctrlSysLive();
+  static u16 delay = 0;
+  if(delay == 100){
+    delay = 0;
+    LipMessage::getInstance().send_message(Event::TIMER, 0, 0);
+  }
+  ++delay;
   KeyBoard::setMessage();
 }

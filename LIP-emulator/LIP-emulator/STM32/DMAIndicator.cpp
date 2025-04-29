@@ -2,11 +2,18 @@
 #include "Page/Page.h"
 #include "Router/Router.h"
 #include "MainWindow.h"
+#include "Message/Message.h"
 
 VOID CALLBACK MyTimerProc(HWND hwnd, UINT message, UINT idTimer, DWORD dwTime){
     if(Router::getInstance().isFillBuffer()){
         DMAIndicator::getInstance().DMAstart(Router::getInstance().getBufferSize());
     }
+    static int delay = 0;
+    if(delay == 10){
+        delay = 0;
+        LipMessage::getInstance().send_message(Event::TIMER, 0, 0);
+    }
+    ++delay;
 }
 
 DMAIndicator::DMAIndicator(){

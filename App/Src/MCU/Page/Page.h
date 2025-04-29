@@ -7,6 +7,8 @@
 #include "Indicator/Indicator.h"
 #include "Buffer/Buffer.h"
 
+struct TMessage;
+
 //управляет конкретными индикаторами отображения в данный момент
 class Page
 {
@@ -26,4 +28,5 @@ public:
     void setBuffer(Buffer* newBuffer);
     void stopSlot();
     void startSlot();
+    void ProcessMessage(TMessage* m);
 };

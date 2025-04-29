@@ -1,8 +1,10 @@
 #include "Page.h"
 #include "Indicator/LIP_5Nx.h"
 #include "Indicator/LIP_SS8.h"
+#include "Indicator/LIP_SS8_Bl_2R.h"
 #include "Resources/InternalResources.h"
 #include "ini/parser.h"
+#include "Message/Message.h"
 
 void Page::init(){
     std::string Config = InternalResources::getInstance().getItemStringByName("Config");
@@ -23,9 +25,14 @@ void Page::init(){
     auto lambdaSS8 = [this](std::vector<std::string>& Config){
         ListIndicators.push_back(new LIP_SS8);
     };
+
+    auto lambdaSS8_Bl_2R = [this](std::vector<std::string>& Config){
+        ListIndicators.push_back(new LIP_SS8_Bl_2R);
+    };
     std::map<std::string, std::function<void(std::vector<std::string>& Config)>> parseHandler;
     parseHandler[i5N] = lambdaXN;
     parseHandler[iSwitchStatus] = lambdaSS8;
+    parseHandler[iSwitchStatusBlink2Reg] = lambdaSS8_Bl_2R;
     Parser::parseConfigurarion(Configuration, parseHandler);
 }
 
@@ -102,5 +109,11 @@ void Page::stopSlot(){
 void Page::startSlot(){
     for(const auto& ind : ListIndicators){
         ind->startSlot();
+    }
+}
+
+void Page::ProcessMessage(TMessage* m){
+    for(const auto& ind : ListIndicators){
+        ind->ProcessMessage(m);
     }
 }

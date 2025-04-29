@@ -85,6 +85,7 @@ void MainWindow::createIndicator(){
         };
     parseHandler[i5N] = lambda5N;
     parseHandler[iSwitchStatus] = lambdaSS8;
+    parseHandler[iSwitchStatusBlink2Reg] = lambdaSS8;
     Parser::parseConfigurarion(Configuration, parseHandler);
 
     // вычисление размеров модуля с индикаторами

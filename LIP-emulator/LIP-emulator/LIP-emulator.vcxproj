@@ -140,6 +140,7 @@
     <ClInclude Include="..\..\App\Src\MCU\Indicator\Indicator1Parametr.h" />
     <ClInclude Include="..\..\App\Src\MCU\Indicator\LIP_5Nx.h" />
     <ClInclude Include="..\..\App\Src\MCU\Indicator\LIP_SS8.h" />
+    <ClInclude Include="..\..\App\Src\MCU\Indicator\LIP_SS8_Bl_2R.h" />
     <ClInclude Include="..\..\App\Src\MCU\ini\IniResources.h" />
     <ClInclude Include="..\..\App\Src\MCU\ini\parser.h" />
     <ClInclude Include="..\..\App\Src\MCU\Message\Message.h" />
@@ -202,6 +203,7 @@
     <ClCompile Include="..\..\App\Src\MCU\Indicator\Indicator1Parametr.cpp" />
     <ClCompile Include="..\..\App\Src\MCU\Indicator\LIP_5Nx.cpp" />
     <ClCompile Include="..\..\App\Src\MCU\Indicator\LIP_SS8.cpp" />
+    <ClCompile Include="..\..\App\Src\MCU\Indicator\LIP_SS8_Bl_2R.cpp" />
     <ClCompile Include="..\..\App\Src\MCU\ini\IniResources.cpp" />
     <ClCompile Include="..\..\App\Src\MCU\ini\parser.cpp" />
     <ClCompile Include="..\..\App\Src\MCU\Message\Message.cpp" />

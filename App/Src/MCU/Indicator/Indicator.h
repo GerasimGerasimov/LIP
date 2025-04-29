@@ -5,6 +5,7 @@
 #include <vector>
 
 class Parameter;
+struct TMessage;
 
 class Indicator
 {
@@ -19,6 +20,7 @@ public:
     virtual void stopSlot(){};
     virtual void startSlot(){};
     void setTypeAnode(bool anode);
+    virtual void ProcessMessage(TMessage* m){};
 protected:
     bool errorParsing = false;
     uint8_t DataSize = 0;

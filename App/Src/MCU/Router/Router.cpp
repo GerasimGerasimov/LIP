@@ -10,6 +10,7 @@
 Router::Router(){
     currentPage = 0; 
     std::string pages = InternalResources::getInstance().getItemStringByName("Pages");
+    std::string registers = InternalResources::getInstance().getItemStringByName("REGISTERS");
     Pages = Parser::splitString("/", pages);
     setPage();
     bufferData.setSizeBuffer(page.getSizeSegment());
@@ -46,6 +47,7 @@ void Router::ProcessMessage(TMessage* m){
             break;
         }
     }
+    page.ProcessMessage(m);
 }
 
 void Router::setTask(Router::Task task){
