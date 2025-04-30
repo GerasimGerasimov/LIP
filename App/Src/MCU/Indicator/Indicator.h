@@ -3,9 +3,11 @@
 #include <stdint.h>
 #include <string>
 #include <vector>
+#include <map>
 
 class Parameter;
 struct TMessage;
+class ControlIndicatorSlot;
 
 class Indicator
 {
@@ -21,6 +23,7 @@ public:
     virtual void startSlot(){};
     void setTypeAnode(bool anode);
     virtual void ProcessMessage(TMessage* m){};
+    virtual void setAppSlots(std::map<std::string, ControlIndicatorSlot*>& indSlots){}
 protected:
     bool errorParsing = false;
     uint8_t DataSize = 0;

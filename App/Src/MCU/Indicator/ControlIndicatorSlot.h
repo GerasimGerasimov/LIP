@@ -14,4 +14,6 @@ public:
     void stopSlot();
     void startSlot();
     std::string getValueStr();
+    bool isStateFlag(Slot::StateFlags isFlag);
+    bool isErrorParsing();
 };

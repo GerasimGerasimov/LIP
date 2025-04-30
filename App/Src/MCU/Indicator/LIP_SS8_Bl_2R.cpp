@@ -2,19 +2,25 @@
 #include "Message/Message.h"
 #include "Indicator/ControlIndicatorSlot.h"
 #include "Router/Router.h"
+#include "ini/parser.h"
 #include "ramdata.h"
 
 #define LED_SIZE 8
+#define ON_OFF 0
+#define ISOLATION_CONTROL 1
+
+LIP_SS8_Bl_2R::LIP_SS8_Bl_2R(){
+    DataSize = 2;
+}
 
 std::vector<uint8_t> LIP_SS8_Bl_2R::getValue(){
     std::string data;
-    ControlIndicatorSlot* controlSlot = Router::getInstance().getAppSlot("S1");
-    data = controlSlot->getValueStr();
-    if(parametrControl.isStateFlag(Slot::StateFlags::NO_VALID) || errorParsing){
+     ControlIndicatorSlot* controlSlot = Slots[ON_OFF].Slot;
+    if(controlSlot->isStateFlag(Slot::StateFlags::NO_VALID) || controlSlot->isErrorParsing()){
         data = "0";
     }
     else{
-        data = parametrControl.getValueStr();
+        data = controlSlot->getValueStr();
     }
     unsigned short number;
     unsigned short res = 0;
@@ -53,6 +59,38 @@ std::vector<uint8_t> LIP_SS8_Bl_2R::getValue(){
     return result;
 }
 
+bool LIP_SS8_Bl_2R::update(){
+    //TODO перенести из Router::updateIndicatorSlots()
+    return true;
+}
+
 void LIP_SS8_Bl_2R::ProcessMessage(TMessage* m){
     Blink = !Blink;
+}
+
+void LIP_SS8_Bl_2R::setParameter(std::string& param){
+    std::vector<std::string> tags = Parser::splitString(" ", param);
+    for(auto& n : tags){
+        IndicatorSlot indSlot;
+        std::vector<std::string> spltTag = Parser::splitString(":", n);
+        indSlot.Tag = spltTag[0];
+        if(spltTag.size() > 1){
+            std::vector<std::string> spltVecBytes = Parser::splitString("/", spltTag[1]);
+            
+            for(auto& j : spltVecBytes){
+                std::vector<std::string> spltPair = Parser::splitString(".", j);
+                std::pair<unsigned char, unsigned char> bytes = {stoi(spltPair[0]), stoi(spltPair[1])};
+                indSlot.TagByte.push_back(bytes);
+            }
+        }
+        Slots.push_back(indSlot);
+    }
+}
+
+void LIP_SS8_Bl_2R::setAppSlots(std::map<std::string, ControlIndicatorSlot*>& indSlots){
+    for(auto& n : Slots){
+        if(indSlots.count(n.Tag)){
+            n.Slot = indSlots.at(n.Tag);
+        }
+    }
 }

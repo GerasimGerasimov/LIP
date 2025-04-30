@@ -11,10 +11,10 @@
 Router::Router(){
     currentPage = 0; 
     std::string pages = InternalResources::getInstance().getItemStringByName("Pages");
-    std::string registers = InternalResources::getInstance().getItemStringByName("REGISTERS");
     setIndicatorSlots();
     Pages = Parser::splitString("/", pages);
     setPage();
+    page.setAppIndicatorSlots(IndicatorSlots);
     bufferData.setSizeBuffer(page.getSizeSegment());
     page.setBuffer(&bufferData);
     DMAIndicator::getInstance().setMemoryBaseAddr(bufferData);

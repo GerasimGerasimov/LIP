@@ -119,3 +119,9 @@ void Page::ProcessMessage(TMessage* m){
         ind->ProcessMessage(m);
     }
 }
+
+void Page::setAppIndicatorSlots(std::map<std::string, ControlIndicatorSlot*>& indSlots){
+    for(const auto& ind : ListIndicators){
+        ind->setAppSlots(indSlots);
+    }
+}

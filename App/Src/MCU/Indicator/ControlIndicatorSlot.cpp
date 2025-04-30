@@ -42,3 +42,11 @@ void ControlIndicatorSlot::startSlot(){
 std::string ControlIndicatorSlot::getValueStr(){
     return parametrControl.getValueStr();
 }
+
+bool ControlIndicatorSlot::isStateFlag(Slot::StateFlags isFlag){
+    return parametrControl.isStateFlag(isFlag);
+}
+
+bool ControlIndicatorSlot::isErrorParsing(){
+    return errorParsing;
+}
