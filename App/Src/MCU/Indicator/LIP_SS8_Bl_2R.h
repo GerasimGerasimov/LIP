@@ -14,7 +14,8 @@ private:
     enum class PRIORITY
     {
         ALARM,
-        ISOLATION,
+        ISOLATION_WARNING,
+        ISOLATION_ALARM,
         BASE
     };
 

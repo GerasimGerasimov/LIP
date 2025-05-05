@@ -7,10 +7,12 @@
 
 #define LED_SIZE 8
 #define ON_OFF 0
-#define ISOLATION_CONTROL 1
+#define ISOL_WRN 1
+#define ISOL_ALARM 2
 
 #define SHIFT_GREEN 1
 #define SHIFT_RED 2
+
 #define SHIFT_BASE 1
 #define SHIFT_ALARM 2
 
@@ -52,9 +54,10 @@ std::vector<uint8_t> LIP_SS8_Bl_2R::getValue(){
     unsigned short res = 0;
     number = stoul(data);
     unsigned short isolationData = 0;
-    unsigned short isolationRes = 0;
+    unsigned short isolationWarn = 0;
+    unsigned short isolationAlarm = 0;
     if(Slots.size() > 1){
-        controlSlot = Slots[ISOLATION_CONTROL].Slot;
+        controlSlot = Slots[ISOL_WRN].Slot;
         if(controlSlot->isStateFlag(Slot::StateFlags::NO_VALID) || controlSlot->isErrorParsing()){
             data = "0";
         }
@@ -63,10 +66,28 @@ std::vector<uint8_t> LIP_SS8_Bl_2R::getValue(){
         }
         isolationData = stoul(data);
 
-        std::vector<std::pair<unsigned char, unsigned char>>& tempTagByte = Slots[ISOLATION_CONTROL].TagByte;
+        std::vector<std::pair<unsigned char, unsigned char>>& tempTagByte = Slots[ISOL_WRN].TagByte;
         for(int i = 0; i < tempTagByte.size(); ++ i){
             if(isolationData & (1 << tempTagByte[i].first)){
-                isolationRes |= (1 << tempTagByte[i].second);
+                isolationWarn |= (1 << tempTagByte[i].second);
+            }
+        }
+
+        if(Slots.size() > 2){
+            controlSlot = Slots[ISOL_ALARM].Slot;
+            if(controlSlot->isStateFlag(Slot::StateFlags::NO_VALID) || controlSlot->isErrorParsing()){
+                data = "0";
+            }
+            else{
+                data = controlSlot->getValueStr();
+            }
+            isolationData = stoul(data);
+
+            std::vector<std::pair<unsigned char, unsigned char>>& tempTagByte = Slots[ISOL_ALARM].TagByte;
+            for(int i = 0; i < tempTagByte.size(); ++i){
+                if(isolationData & (1 << tempTagByte[i].first)){
+                    isolationAlarm |= (1 << tempTagByte[i].second);
+                }
             }
         }
     }
@@ -76,9 +97,12 @@ std::vector<uint8_t> LIP_SS8_Bl_2R::getValue(){
         //Определение приоритетов
         if(number & (SHIFT_ALARM << (i * 2))){
             Priority = PRIORITY::ALARM;
-        }  
-        else if(isolationRes & (1 << i)){
-            Priority = PRIORITY::ISOLATION;
+        }
+        else if(isolationAlarm & (1 << i)){
+            Priority = PRIORITY::ISOLATION_ALARM;
+        }
+        else if(isolationWarn & (1 << i)){
+            Priority = PRIORITY::ISOLATION_WARNING;
         }
         else{
             Priority = PRIORITY::BASE;
@@ -94,7 +118,15 @@ std::vector<uint8_t> LIP_SS8_Bl_2R::getValue(){
                 resetLED(i, res);
             }
             break;
-        case LIP_SS8_Bl_2R::PRIORITY::ISOLATION:
+        case LIP_SS8_Bl_2R::PRIORITY::ISOLATION_ALARM:
+            if(Blink){
+                setYellow(i, res);
+            }
+            else{
+                resetLED(i, res);
+            }
+            break;
+        case LIP_SS8_Bl_2R::PRIORITY::ISOLATION_WARNING:
             setYellow(i, res);
             break;
         case LIP_SS8_Bl_2R::PRIORITY::BASE:
