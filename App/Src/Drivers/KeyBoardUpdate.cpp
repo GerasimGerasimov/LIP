@@ -1,5 +1,6 @@
 #include "DEFINES.h"
 #include "ramdata.h"
+#include "flashdata.h"
 #include "livecontrol.h"
 #include "Message/Message.h"
 
@@ -91,7 +92,7 @@ extern "C" void TIM2_IRQHandler(){
   RAM_DATA.DI = KeyBoard::SPI_DIO_Inputs;
   ctrlSysLive();
   static u16 delay = 0;
-  if(delay == 100){
+  if(delay == FLASH_DATA.DelayLED){
     delay = 0;
     LipMessage::getInstance().send_message(Event::TIMER, 0, 0);
   }

@@ -9,7 +9,7 @@ VOID CALLBACK MyTimerProc(HWND hwnd, UINT message, UINT idTimer, DWORD dwTime){
         DMAIndicator::getInstance().DMAstart(Router::getInstance().getBufferSize());
     }
     static int delay = 0;
-    if(delay == 10){
+    if(delay == 5){
         delay = 0;
         LipMessage::getInstance().send_message(Event::TIMER, 0, 0);
     }

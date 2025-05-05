@@ -90,6 +90,7 @@ struct TFLASH_DATA
 // Секция связи
   bavu16 MODBUS1;         //0x0000// device addres and baud rate for uart1 (modbus1);
   bavu16 MODBUS2;         //0x0002// device addres and baud rate for uart2 (modbus2);
+  u16 DelayLED;
 };
 
 
