@@ -9,11 +9,37 @@
 #define ON_OFF 0
 #define ISOLATION_CONTROL 1
 
+#define SHIFT_GREEN 1
+#define SHIFT_RED 2
+#define SHIFT_BASE 1
+#define SHIFT_ALARM 2
+
+void LIP_SS8_Bl_2R::setRed(unsigned short indicator, unsigned short& result){
+    result &= ~(SHIFT_GREEN << (indicator * 2));
+    result |= SHIFT_RED << (indicator * 2);
+}
+
+void LIP_SS8_Bl_2R::setGreen(unsigned short indicator, unsigned short& result){
+    result |= SHIFT_GREEN << (indicator * 2);
+    result &= ~(SHIFT_RED << (indicator * 2));
+}
+
+void LIP_SS8_Bl_2R::setYellow(unsigned short indicator, unsigned short& result){
+    result |= SHIFT_GREEN << (indicator * 2);
+    result |= SHIFT_RED << (indicator * 2);
+}
+
+void LIP_SS8_Bl_2R::resetLED(unsigned short indicator, unsigned short& result){
+    result &= ~(SHIFT_GREEN << (indicator * 2));
+    result &= ~(SHIFT_RED << (indicator * 2));
+}
+
 LIP_SS8_Bl_2R::LIP_SS8_Bl_2R(){
     DataSize = 2;
 }
 
 std::vector<uint8_t> LIP_SS8_Bl_2R::getValue(){
+    //TODO Разделить на функции
     std::string data;
      ControlIndicatorSlot* controlSlot = Slots[ON_OFF].Slot;
     if(controlSlot->isStateFlag(Slot::StateFlags::NO_VALID) || controlSlot->isErrorParsing()){
@@ -25,35 +51,62 @@ std::vector<uint8_t> LIP_SS8_Bl_2R::getValue(){
     unsigned short number;
     unsigned short res = 0;
     number = stoul(data);
-    std::vector<uint8_t> result(DataSize);
-    for(int i = 0; i < LED_SIZE * 2; ++i){
-        if(i % 2 == 0){
-            if(number & (1 << i)){
-                res |= 2 << i;
-            }
-            else{
-                res |= 1 << i;
-            }
+    unsigned short isolationData = 0;
+    unsigned short isolationRes = 0;
+    if(Slots.size() > 1){
+        controlSlot = Slots[ISOLATION_CONTROL].Slot;
+        if(controlSlot->isStateFlag(Slot::StateFlags::NO_VALID) || controlSlot->isErrorParsing()){
+            data = "0";
         }
         else{
-            if(number & (1 << i)){
-                res &= ~(2 << (i - 1));
-                if(Blink){
-                    res |= (1 << (i - 1));
-                }
-                else{
-                    res &= ~(1 << (i - 1));
-                    res &= ~(2 << (i - 1));
-                }
+            data = controlSlot->getValueStr();
+        }
+        isolationData = stoul(data);
+
+        std::vector<std::pair<unsigned char, unsigned char>>& tempTagByte = Slots[ISOLATION_CONTROL].TagByte;
+        for(int i = 0; i < tempTagByte.size(); ++ i){
+            if(isolationData & (1 << tempTagByte[i].first)){
+                isolationRes |= (1 << tempTagByte[i].second);
             }
         }
     }
-    //for(int i = 1; i < LED_SIZE * 2; i += 2){
-    //    if(number & (1 << i)){
-    //        res |= 2 << i;
-    //        res &= ~(1 << i);
-    //    }
-    //}
+
+    std::vector<uint8_t> result(DataSize);
+    for(int i = 0; i < LED_SIZE; ++i){
+        //Определение приоритетов
+        if(number & (SHIFT_ALARM << (i * 2))){
+            Priority = PRIORITY::ALARM;
+        }  
+        else if(isolationRes & (1 << i)){
+            Priority = PRIORITY::ISOLATION;
+        }
+        else{
+            Priority = PRIORITY::BASE;
+        }
+
+        switch(Priority){
+        case LIP_SS8_Bl_2R::PRIORITY::ALARM:
+            //Мигание зелёным
+            if(Blink){
+                setGreen(i, res);
+            }
+            else{
+                resetLED(i, res);
+            }
+            break;
+        case LIP_SS8_Bl_2R::PRIORITY::ISOLATION:
+            setYellow(i, res);
+            break;
+        case LIP_SS8_Bl_2R::PRIORITY::BASE:
+            if(number & (SHIFT_BASE << (i * 2))){
+                setRed(i, res);
+            }
+            else{
+                setGreen(i, res);
+            }
+            break;
+        }
+    }
     result[1] = res;
     result[0] = res >> 8;
     return result;
@@ -65,7 +118,9 @@ bool LIP_SS8_Bl_2R::update(){
 }
 
 void LIP_SS8_Bl_2R::ProcessMessage(TMessage* m){
-    Blink = !Blink;
+    if(m->event == Event::TIMER){
+        Blink = !Blink;
+    }
 }
 
 void LIP_SS8_Bl_2R::setParameter(std::string& param){
