@@ -149,16 +149,14 @@ struct TRAM_DATA
   u32 TotalMem; //4 байта
   u32 arena;
   u32 totalFreeSpace;
+  u16 DI;
+  u16 reserve;
   //данные 32 бит
   u32 data32[8];
   //данные 16 бит
   u16 data[8];
   //счётчики
   u16 counter[8];
-  u16 DI;
-  u16 reserve;
-  u16 reserve2;
-  u16 reserve3;
 };
 
 #define uart_buff_size 0x0ff // buffer size;
