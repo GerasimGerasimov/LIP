@@ -1247,6 +1247,15 @@
             <file>
                 <name>$PROJ_DIR$\..\MCU\Slots\ParametrControlSlot.cpp</name>
             </file>
+            <file>
+                <name>$PROJ_DIR$\..\MCU\Slots\ParametrControlSlotXN.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\MCU\Slots\ParametrControlSlotXN.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\MCU\Slots\SlotHandlerType.h</name>
+            </file>
         </group>
         <file>
             <name>$PROJ_DIR$\..\MCU\crc16.c</name>

@@ -13,6 +13,7 @@ std::vector<uint8_t> LIP_XNx::getValue(){
     }
     else{
         data = errorParsing ? parseErrorStr : parametrControl.getValueStr();
+        transformNumDecimal(data);
         transformSizeSring(data);
     }
     std::vector<uint8_t> result;
@@ -77,6 +78,36 @@ void LIP_XNx::transformSizeSring(std::string& data){
     else if(data.size() > size){
         u8 deleteSize = data.size() - size;
         data.erase(data.length() - deleteSize);
+    }
+}
+
+void LIP_XNx::transformNumDecimal(std::string& data){
+    uint16_t num = parametrControl.getNumDecimal();
+    size_t dotPos = data.find('.');
+
+    if(dotPos == std::string::npos){
+        if(num > 0){
+            data += "." + std::string(num, '0');
+        }
+        return;
+    }
+
+    if(num == 0){
+        // Удаляем точку и всё после неё
+        data = data.substr(0, dotPos);
+        return;
+    }
+
+    size_t fractionLen = data.size() - dotPos - 1;
+
+    if(fractionLen == num){
+        return; // Ничего не нужно менять
+    }
+    else if(fractionLen > num){
+        data = data.substr(0, dotPos + 1 + num); // Обрезаем
+    }
+    else{
+        data += std::string(num - fractionLen, '0'); // Дополняем
     }
 }
 

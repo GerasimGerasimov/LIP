@@ -12,9 +12,14 @@
 #define DEVICE 0
 #define SECTION 1
 #define NAME 2
-#define TYPE 3
 
 #define COMAND_READ 3
+
+void ParametrControlSlot::setProps(std::vector<std::string>& page){
+    parameter.Device = page[DEVICE];
+    parameter.Section = IniResources::getSection(page[SECTION]);
+    parameter.Name = page[NAME];
+}
 
 //очистить индикатор
 void ParametrControlSlot::clear(){
@@ -99,10 +104,7 @@ bool ParametrControlSlot::setParameter(std::string& param){
         return false;
     }
     std::vector<std::string> page = Parser::splitString("/", param);
-    parameter.Device = page[DEVICE];
-    parameter.Section = IniResources::getSection(page[SECTION]);
-    parameter.Name = page[NAME];
-    parameter.type = (page[TYPE] == "RW") ? Type::RW : Type::R;
+    setProps(page);
 
     if(setIsignal()){
         createReadCmd();

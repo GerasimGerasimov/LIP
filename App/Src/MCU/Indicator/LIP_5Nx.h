@@ -14,6 +14,7 @@ private:
     static const char ASCIITable[96];
     uint8_t getChar(char symbol);
     void transformSizeSring(std::string& data);
+    void transformNumDecimal(std::string& data);
 public:
     LIP_XNx(uint8_t dataSize);
     ~LIP_XNx();

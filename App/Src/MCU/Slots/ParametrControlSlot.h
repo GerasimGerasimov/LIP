@@ -9,19 +9,15 @@ class Parameter;
 class ParametrControlSlot
 {
 protected:
-    enum class Type
-    {
-        R,  //чтение
-        RW  //чтение и запись
-    };
     struct Props
     {
         std::string Device = "";
         std::string Section = "";
         std::string Name = "";
-        Type type = Type::R;
         Parameter* resources = nullptr;
     };
+
+    virtual void setProps(std::vector<std::string>& page);
 private:
     Slot* slot;
     Props parameter;
@@ -31,7 +27,7 @@ private:
     bool setIsignal();
 public:
     ParametrControlSlot();
-    ~ParametrControlSlot();
+    virtual ~ParametrControlSlot();
     std::string getValueStr();
     bool setParameter(std::string& param); //установить новую индикацию
     void stopSlot();

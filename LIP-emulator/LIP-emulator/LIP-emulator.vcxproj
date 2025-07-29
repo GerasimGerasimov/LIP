@@ -166,6 +166,7 @@
     <ClInclude Include="..\..\App\Src\MCU\Router\Router.h" />
     <ClInclude Include="..\..\App\Src\MCU\Slots\HandlerSlotRead.h" />
     <ClInclude Include="..\..\App\Src\MCU\Slots\ParametrControlSlot.h" />
+    <ClInclude Include="..\..\App\Src\MCU\Slots\ParametrControlSlotXN.h" />
     <ClInclude Include="..\..\App\Src\MCU\Slots\SlotHandlerType.h" />
     <ClInclude Include="Drivers\BaseObject.h" />
     <ClInclude Include="Drivers\com_master_driver.h" />
@@ -229,6 +230,7 @@
     <ClCompile Include="..\..\App\Src\MCU\Router\Router.cpp" />
     <ClCompile Include="..\..\App\Src\MCU\Slots\HandlerSlotRead.cpp" />
     <ClCompile Include="..\..\App\Src\MCU\Slots\ParametrControlSlot.cpp" />
+    <ClCompile Include="..\..\App\Src\MCU\Slots\ParametrControlSlotXN.cpp" />
     <ClCompile Include="Drivers\BaseObject.cpp" />
     <ClCompile Include="Drivers\com_master_driver.cpp" />
     <ClCompile Include="Drivers\DI\WinDI.cpp" />
