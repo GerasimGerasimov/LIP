@@ -37,18 +37,14 @@ void frame_end(TClient* pC){
   pC->Buffer[pC->TXCount++] = crc.b[0];//crc;//crc >> 8;//crc  ;//CRCLo;
 }
 
-u8 GetDeviceIDLength(void){
-  u8 i = 0;
-  while(DeviceID[i++] != 0);
-  return i;
-}
 
 void GetDeviceID(TClient* pC){
   u8 i = 0;
   u8 j;
   j = pC->Buffer[_u_byte_cnt] = pC->TXCount = GetDeviceIDLength();
+  const char *ID = getID();
   do
-    pC->Buffer[_u_data_section_cm03 + i] = DeviceID[i];
+    pC->Buffer[_u_data_section_cm03 + i] = ID[i];
   while((i++) != j);
   pC->TXCount += 2;//прибавить длину заголовка
   frame_end(pC);

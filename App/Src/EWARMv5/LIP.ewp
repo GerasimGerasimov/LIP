@@ -1333,7 +1333,7 @@
             <name>$PROJ_DIR$\..\flashdata.c</name>
         </file>
         <file>
-            <name>$PROJ_DIR$\..\id.c</name>
+            <name>$PROJ_DIR$\..\id.cpp</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\init.c</name>
