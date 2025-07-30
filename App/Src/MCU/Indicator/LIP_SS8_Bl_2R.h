@@ -16,6 +16,7 @@ private:
         ALARM,
         ISOLATION_WARNING,
         ISOLATION_ALARM,
+        SWICH,
         BASE
     };
 
