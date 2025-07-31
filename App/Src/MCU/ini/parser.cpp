@@ -276,6 +276,25 @@ std::vector<std::string> Parser::splitString(std::string delimiter, const std::s
     return vecRes;
 }
 
+std::vector<std::string> Parser::splitString2Delim(std::string startDelim, std::string endDelim, const std::string& text){
+    std::vector<std::string> vecRes;
+    size_t pos = 0;
+    while(true){
+        size_t start = text.find(startDelim, pos);
+        if(start == std::string::npos)
+            break;
+        start += startDelim.length();
+
+        size_t end = text.find(endDelim, start);
+        if(end == std::string::npos)
+            break;
+
+        vecRes.push_back(text.substr(start, end - start));
+        pos = end + endDelim.length();
+    }
+    return vecRes;
+}
+
 void Parser::parseConfigurarion(std::vector<std::string>& Configuration, std::map<std::string, std::function<void(std::vector<std::string>& Config)>> &func){
     for(const auto& ind : Configuration){
         std::vector<std::string> config = splitString("/", ind);

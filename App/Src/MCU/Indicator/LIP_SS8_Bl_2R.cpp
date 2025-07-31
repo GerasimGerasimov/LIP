@@ -45,65 +45,63 @@ LIP_SS8_Bl_2R::LIP_SS8_Bl_2R(){
 std::vector<uint8_t> LIP_SS8_Bl_2R::getValue(){
     //TODO Разделить на функции
     std::string data;
-     ControlIndicatorSlot* controlSlot = Slots[SWITCH_ON].Slot;
-    if(controlSlot->isStateFlag(Slot::StateFlags::NO_VALID) || controlSlot->isErrorParsing()){
-        data = "0";
-    }
-    else{
-        data = controlSlot->getValueStr();
-    }
+    ControlIndicatorSlot* controlSlot;
+    std::vector<std::pair<unsigned char, unsigned char>>* tempTagByte;
     unsigned short number;
     unsigned short switchON = 0;
-    unsigned short switchAlarm = 0;
     unsigned short res = 0;
-    number = stoul(data);
 
-    std::vector<std::pair<unsigned char, unsigned char>>* tempTagByte = &(Slots[SWITCH_ON].TagByte);  //Указатель для оптимизации
-    for(int i = 0; i < tempTagByte->size(); ++i){
-        if(number & (1 << (*tempTagByte)[i].first)){
-            switchON |= (1 << (*tempTagByte)[i].second);
-        }
-    }
+    std::vector<IndicatorSlot>* tagsFunction = &(Slots[SWITCH_ON]);
 
-    controlSlot = Slots[SWITCH_ALARM].Slot;
-    if(controlSlot->isStateFlag(Slot::StateFlags::NO_VALID) || controlSlot->isErrorParsing()){
-        data = "0";
-    }
-    else{
-        data = controlSlot->getValueStr();
-    }
-
-    number = stoul(data);
-
-    tempTagByte = &(Slots[SWITCH_ALARM].TagByte);
-    for(int i = 0; i < tempTagByte->size(); ++i){
-        if(number & (1 << (*tempTagByte)[i].first)){
-            switchAlarm |= (1 << (*tempTagByte)[i].second);
-        }
-    }
-
-    unsigned short isolationData = 0;
-    unsigned short isolationWarn = 0;
-    unsigned short isolationAlarm = 0;
-    if(Slots.size() > 2){
-        controlSlot = Slots[ISOL_WRN].Slot;
+    for(auto& n : (*tagsFunction)){
+        controlSlot = n.Slot;
         if(controlSlot->isStateFlag(Slot::StateFlags::NO_VALID) || controlSlot->isErrorParsing()){
             data = "0";
         }
         else{
             data = controlSlot->getValueStr();
         }
-        isolationData = stoul(data);
 
-        tempTagByte = &(Slots[ISOL_WRN].TagByte);
-        for(int i = 0; i < tempTagByte->size(); ++ i){
-            if(isolationData & (1 << (*tempTagByte)[i].first)){
-                isolationWarn |= (1 << (*tempTagByte)[i].second);
+        number = stoul(data);
+
+        tempTagByte = &(n.TagByte);  //Указатель для оптимизации
+        for(int i = 0; i < tempTagByte->size(); ++i){
+            if(number & (1 << (*tempTagByte)[i].first)){
+                switchON |= (1 << (*tempTagByte)[i].second);
             }
         }
+    }
 
-        if(Slots.size() > 3){
-            controlSlot = Slots[ISOL_ALARM].Slot;
+    tagsFunction = &(Slots[SWITCH_ALARM]);
+    unsigned short switchAlarm = 0;
+
+    for(auto& n : (*tagsFunction)){
+        controlSlot = n.Slot;
+        if(controlSlot->isStateFlag(Slot::StateFlags::NO_VALID) || controlSlot->isErrorParsing()){
+            data = "0";
+        }
+        else{
+            data = controlSlot->getValueStr();
+        }
+
+        number = stoul(data);
+        tempTagByte = &(n.TagByte);
+        for(int i = 0; i < tempTagByte->size(); ++i){
+            if(number & (1 << (*tempTagByte)[i].first)){
+                switchAlarm |= (1 << (*tempTagByte)[i].second);
+            }
+        }
+    }
+
+    unsigned short isolationData = 0;
+    unsigned short isolationWarn = 0;
+    unsigned short isolationAlarm = 0;
+    
+    if(Slots.size() > 2){
+
+        tagsFunction = &(Slots[ISOL_WRN]);
+        for(auto& n : (*tagsFunction)){
+            controlSlot = n.Slot;
             if(controlSlot->isStateFlag(Slot::StateFlags::NO_VALID) || controlSlot->isErrorParsing()){
                 data = "0";
             }
@@ -112,17 +110,40 @@ std::vector<uint8_t> LIP_SS8_Bl_2R::getValue(){
             }
             isolationData = stoul(data);
 
-            tempTagByte = &(Slots[ISOL_ALARM].TagByte);
+            tempTagByte = &(n.TagByte);
             for(int i = 0; i < tempTagByte->size(); ++i){
                 if(isolationData & (1 << (*tempTagByte)[i].first)){
-                    isolationAlarm |= (1 << (*tempTagByte)[i].second);
+                    isolationWarn |= (1 << (*tempTagByte)[i].second);
+                }
+            }
+        }
+
+        if(Slots.size() > 3){
+
+            tagsFunction = &(Slots[ISOL_ALARM]);
+
+            for(auto& n : (*tagsFunction)){
+                controlSlot = n.Slot;
+                if(controlSlot->isStateFlag(Slot::StateFlags::NO_VALID) || controlSlot->isErrorParsing()){
+                    data = "0";
+                }
+                else{
+                    data = controlSlot->getValueStr();
+                }
+                isolationData = stoul(data);
+
+                tempTagByte = &(n.TagByte);
+                for(int i = 0; i < tempTagByte->size(); ++i){
+                    if(isolationData & (1 << (*tempTagByte)[i].first)){
+                        isolationAlarm |= (1 << (*tempTagByte)[i].second);
+                    }
                 }
             }
         }
     }
 
     std::vector<uint8_t> result(DataSize);
-    for(int i = 0; i < LED_SIZE; ++i){
+    for(int i = 0; i < LED_SIZE; ++i){ //Привязано к светодиодам
         //Определение приоритетов
         if(switchAlarm & (1 << i)){
             Priority = PRIORITY::ALARM;
@@ -186,28 +207,35 @@ void LIP_SS8_Bl_2R::ProcessMessage(TMessage* m){
 }
 
 void LIP_SS8_Bl_2R::setParameter(std::string& param){
-    std::vector<std::string> tags = Parser::splitString(" ", param);
-    for(auto& n : tags){
-        IndicatorSlot indSlot;
-        std::vector<std::string> spltTag = Parser::splitString(":", n);
-        indSlot.Tag = spltTag[0];
-        if(spltTag.size() > 1){
-            std::vector<std::string> spltVecBytes = Parser::splitString("/", spltTag[1]);
-            
-            for(auto& j : spltVecBytes){
-                std::vector<std::string> spltPair = Parser::splitString(".", j);
-                std::pair<unsigned char, unsigned char> bytes = {stoi(spltPair[0]), stoi(spltPair[1])};
-                indSlot.TagByte.push_back(bytes);
+    std::vector<std::string> functionLed = Parser::splitString2Delim("(", ")", param);
+    for(auto& func : functionLed){
+        std::vector<std::string> tags = Parser::splitString(" ", func);
+        std::vector<IndicatorSlot> slotsFunction;
+        for(auto& n : tags){
+            IndicatorSlot indSlot;
+            std::vector<std::string> spltTag = Parser::splitString(":", n);
+            indSlot.Tag = spltTag[0];
+            if(spltTag.size() > 1){
+                std::vector<std::string> spltVecBytes = Parser::splitString("/", spltTag[1]);
+
+                for(auto& j : spltVecBytes){
+                    std::vector<std::string> spltPair = Parser::splitString(".", j);
+                    std::pair<unsigned char, unsigned char> bytes = {stoi(spltPair[0]), stoi(spltPair[1])};
+                    indSlot.TagByte.push_back(bytes);
+                }
             }
+            slotsFunction.push_back(indSlot);
         }
-        Slots.push_back(indSlot);
+        Slots.push_back(slotsFunction);
     }
 }
 
 void LIP_SS8_Bl_2R::setAppSlots(std::map<std::string, ControlIndicatorSlot*>& indSlots){
-    for(auto& n : Slots){
-        if(indSlots.count(n.Tag)){
-            n.Slot = indSlots.at(n.Tag);
+    for(auto& func : Slots){
+        for(auto& n : func){
+            if(indSlots.count(n.Tag)){
+                n.Slot = indSlots.at(n.Tag);
+            }
         }
     }
 }

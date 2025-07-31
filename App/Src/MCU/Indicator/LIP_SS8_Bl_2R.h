@@ -29,7 +29,7 @@ private:
     };
 
     bool Blink = false;
-    std::vector<IndicatorSlot> Slots;
+    std::vector<std::vector<IndicatorSlot>> Slots;
     PRIORITY Priority = PRIORITY::BASE;
     void setRed(unsigned short indicator, unsigned short& result);
     void setGreen(unsigned short indicator, unsigned short& result);
