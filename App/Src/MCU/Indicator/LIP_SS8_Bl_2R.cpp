@@ -197,6 +197,10 @@ std::vector<uint8_t> LIP_SS8_Bl_2R::getValue(){
 
 bool LIP_SS8_Bl_2R::update(){
     //TODO перенести из Router::updateIndicatorSlots()
+    if(updating){
+        return false;
+    }
+    updating = true;
     return true;
 }
 
@@ -238,4 +242,8 @@ void LIP_SS8_Bl_2R::setAppSlots(std::map<std::string, ControlIndicatorSlot*>& in
             }
         }
     }
+}
+
+void LIP_SS8_Bl_2R::stopSlot(){
+    updating = false;
 }

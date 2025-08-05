@@ -29,6 +29,7 @@ private:
     };
 
     bool Blink = false;
+    bool updating = false;
     std::vector<std::vector<IndicatorSlot>> Slots;
     PRIORITY Priority = PRIORITY::BASE;
     void setRed(unsigned short indicator, unsigned short& result);
@@ -42,4 +43,5 @@ public:
     void ProcessMessage(TMessage* m) override;
     void setParameter(std::string& param) override;
     void setAppSlots(std::map<std::string, ControlIndicatorSlot*>& indSlots) override;
+    void stopSlot() override;
 };
