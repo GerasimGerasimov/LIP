@@ -1134,10 +1134,10 @@
         <group>
             <name>Indicator</name>
             <file>
-                <name>$PROJ_DIR$\..\MCU\Indicator\ControlIndicatorSlot.cpp</name>
+                <name>$PROJ_DIR$\..\MCU\Indicator\ControlSlot.cpp</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\MCU\Indicator\ControlIndicatorSlot.h</name>
+                <name>$PROJ_DIR$\..\MCU\Indicator\ControlSlot.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\..\MCU\Indicator\Indicator.cpp</name>

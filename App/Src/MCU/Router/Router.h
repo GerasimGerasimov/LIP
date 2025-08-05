@@ -6,7 +6,7 @@
 #include <map>
 
 class TMessage;
-class ControlIndicatorSlot;
+class ControlSlot;
 
 //содержит Page и управляет страницами
 class Router
@@ -20,7 +20,7 @@ private:
     //Buffer bufferSender;
     Buffer bufferData;
     std::vector<std::string> Pages;
-    std::map<std::string, ControlIndicatorSlot*> IndicatorSlots;
+    std::map<std::string, ControlSlot*> IndicatorSlots;
     uint16_t countUpdateSlot = 0;
     void setPage();
     void setIndicatorSlots();
@@ -44,7 +44,7 @@ public:
     void setEmptyBufferStatus();
     bool isFillBuffer();
     uint16_t getBufferSize();
-    ControlIndicatorSlot* getAppSlot(std::string name);
+    ControlSlot* getAppSlot(std::string name);
     ~Router();
 };
 

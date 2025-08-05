@@ -1,6 +1,6 @@
 #include "LIP_SS8_Bl_2R.h"
 #include "Message/Message.h"
-#include "Indicator/ControlIndicatorSlot.h"
+#include "Indicator/ControlSlot.h"
 #include "Router/Router.h"
 #include "ini/parser.h"
 #include "ramdata.h"
@@ -45,7 +45,7 @@ LIP_SS8_Bl_2R::LIP_SS8_Bl_2R(){
 std::vector<uint8_t> LIP_SS8_Bl_2R::getValue(){
     //TODO Разделить на функции
     std::string data;
-    ControlIndicatorSlot* controlSlot;
+    ControlSlot* controlSlot;
     std::vector<std::pair<unsigned char, unsigned char>>* tempTagByte;
     unsigned short number;
     unsigned short switchON = 0;
@@ -234,7 +234,7 @@ void LIP_SS8_Bl_2R::setParameter(std::string& param){
     }
 }
 
-void LIP_SS8_Bl_2R::setAppSlots(std::map<std::string, ControlIndicatorSlot*>& indSlots){
+void LIP_SS8_Bl_2R::setAppSlots(std::map<std::string, ControlSlot*>& indSlots){
     for(auto& func : Slots){
         for(auto& n : func){
             if(indSlots.count(n.Tag)){

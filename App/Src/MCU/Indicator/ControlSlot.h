@@ -2,7 +2,7 @@
 
 #include "Slots/ParametrControlSlot.h"
 
-class ControlIndicatorSlot
+class ControlSlot
 {
 private:
     ParametrControlSlot parametrControl;

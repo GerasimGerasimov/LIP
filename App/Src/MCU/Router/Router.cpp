@@ -3,7 +3,7 @@
 #include "DMAIndicator.h"
 #include "Message/Message.h"
 #include "ini/parser.h"
-#include "Indicator/ControlIndicatorSlot.h"
+#include "Indicator/ControlSlot.h"
 
 //#include "OutStream.h"
 
@@ -31,7 +31,7 @@ void Router::setIndicatorSlots(){
     for(const auto& n : regSlot){
         std::string str = InternalResources::getInstance().getItemStringByName(n.c_str());
         if(n != ""){
-            ControlIndicatorSlot* newIndicatorSlot = new ControlIndicatorSlot;
+            ControlSlot* newIndicatorSlot = new ControlSlot;
             newIndicatorSlot->setParameter(str);
             IndicatorSlots[n] = newIndicatorSlot;
         }
@@ -120,7 +120,7 @@ uint16_t Router::getBufferSize(){
     return bufferData.getSize();
 }
 
-ControlIndicatorSlot* Router::getAppSlot(std::string name){
+ControlSlot* Router::getAppSlot(std::string name){
     if(IndicatorSlots.count(name)){
         return IndicatorSlots.at(name);
     }

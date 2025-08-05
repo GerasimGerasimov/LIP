@@ -5,7 +5,7 @@
 #include <vector>
 #include <string>
 
-class ControlIndicatorSlot;
+class ControlSlot;
 
 class LIP_SS8_Bl_2R : public Indicator
 {
@@ -25,7 +25,7 @@ private:
         std::string Tag;
         //Битовые параметры:  от куда брать,  куда ложить
         std::vector<std::pair<unsigned char, unsigned char>> TagByte;
-        ControlIndicatorSlot* Slot = nullptr;
+        ControlSlot* Slot = nullptr;
     };
 
     bool Blink = false;
@@ -42,6 +42,6 @@ public:
     bool update() override;
     void ProcessMessage(TMessage* m) override;
     void setParameter(std::string& param) override;
-    void setAppSlots(std::map<std::string, ControlIndicatorSlot*>& indSlots) override;
+    void setAppSlots(std::map<std::string, ControlSlot*>& indSlots) override;
     void stopSlot() override;
 };

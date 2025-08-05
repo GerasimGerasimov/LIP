@@ -29,5 +29,5 @@ public:
     void stopSlot();
     void startSlot();
     void ProcessMessage(TMessage* m);
-    void setAppIndicatorSlots(std::map<std::string, ControlIndicatorSlot*>& indSlots);
+    void setAppIndicatorSlots(std::map<std::string, ControlSlot*>& indSlots);
 };

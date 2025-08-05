@@ -7,7 +7,7 @@
 
 class Parameter;
 struct TMessage;
-class ControlIndicatorSlot;
+class ControlSlot;
 
 class Indicator
 {
@@ -23,7 +23,7 @@ public:
     virtual void startSlot(){};
     void setTypeAnode(bool anode);
     virtual void ProcessMessage(TMessage* m){};
-    virtual void setAppSlots(std::map<std::string, ControlIndicatorSlot*>& indSlots){}
+    virtual void setAppSlots(std::map<std::string, ControlSlot*>& indSlots){}
 protected:
     bool errorParsing = false;
     uint8_t DataSize = 0;

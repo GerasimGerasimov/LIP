@@ -136,7 +136,7 @@
     <ClInclude Include="..\..\App\Src\MCU\DevicePollManager\Slot.h" />
     <ClInclude Include="..\..\App\Src\MCU\Helpers\utils.h" />
     <ClInclude Include="..\..\App\Src\MCU\IDrivers\iresources.h" />
-    <ClInclude Include="..\..\App\Src\MCU\Indicator\ControlIndicatorSlot.h" />
+    <ClInclude Include="..\..\App\Src\MCU\Indicator\ControlSlot.h" />
     <ClInclude Include="..\..\App\Src\MCU\Indicator\Indicator.h" />
     <ClInclude Include="..\..\App\Src\MCU\Indicator\Indicator1Parametr.h" />
     <ClInclude Include="..\..\App\Src\MCU\Indicator\LIP_5Nx.h" />
@@ -201,7 +201,7 @@
     <ClCompile Include="..\..\App\Src\MCU\DevicePollManager\Devices.cpp" />
     <ClCompile Include="..\..\App\Src\MCU\DevicePollManager\Slot.cpp" />
     <ClCompile Include="..\..\App\Src\MCU\Helpers\utils.cpp" />
-    <ClCompile Include="..\..\App\Src\MCU\Indicator\ControlIndicatorSlot.cpp" />
+    <ClCompile Include="..\..\App\Src\MCU\Indicator\ControlSlot.cpp" />
     <ClCompile Include="..\..\App\Src\MCU\Indicator\Indicator.cpp" />
     <ClCompile Include="..\..\App\Src\MCU\Indicator\Indicator1Parametr.cpp" />
     <ClCompile Include="..\..\App\Src\MCU\Indicator\LIP_5Nx.cpp" />

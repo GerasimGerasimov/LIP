@@ -1,10 +1,10 @@
-#include "ControlIndicatorSlot.h"
+#include "ControlSlot.h"
 
-void ControlIndicatorSlot::setParameter(std::string& param){
+void ControlSlot::setParameter(std::string& param){
     errorParsing = parametrControl.setParameter(param) ? false : true;
 }
 
-bool ControlIndicatorSlot::update(){
+bool ControlSlot::update(){
     if(updating){
         return false;
     }
@@ -27,26 +27,26 @@ bool ControlIndicatorSlot::update(){
     return false;
 }
 
-void ControlIndicatorSlot::stopSlot(){
+void ControlSlot::stopSlot(){
     parametrControl.stopSlot();
     updating = false;
 }
 
-void ControlIndicatorSlot::startSlot(){
+void ControlSlot::startSlot(){
     if(errorParsing){
         return;
     }
     parametrControl.startSlot();
 }
 
-std::string ControlIndicatorSlot::getValueStr(){
+std::string ControlSlot::getValueStr(){
     return parametrControl.getValueStr();
 }
 
-bool ControlIndicatorSlot::isStateFlag(Slot::StateFlags isFlag){
+bool ControlSlot::isStateFlag(Slot::StateFlags isFlag){
     return parametrControl.isStateFlag(isFlag);
 }
 
-bool ControlIndicatorSlot::isErrorParsing(){
+bool ControlSlot::isErrorParsing(){
     return errorParsing;
 }
