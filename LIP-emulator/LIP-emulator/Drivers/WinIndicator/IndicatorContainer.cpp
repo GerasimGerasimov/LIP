@@ -1,6 +1,5 @@
 #include "IndicatorContainer.h"
 
-//TODO взможно сделать обработку без static
 //int IndicatorContainer::indent = 10;
 //RECT IndicatorContainer::border = { 10, 10, 10, 10 };
 

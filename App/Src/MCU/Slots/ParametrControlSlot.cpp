@@ -8,6 +8,7 @@
 #include "Parameters/Parameter.h"
 #include "Parameters/IniString.h"
 #include "Slots/SlotHandlerType.h"
+#include "ramdata.h"
 
 #define DEVICE 0
 #define SECTION 1
@@ -33,6 +34,7 @@ void ParametrControlSlot::clear(){
         delete parameter.resources;
         parameter.resources = nullptr;
     }
+    parameter.Option.erase(parameter.Option.begin(), parameter.Option.end());
     slot->clearFlags();
     slot->setFlag(Slot::StateFlags::SKIP_SLOT);
 }

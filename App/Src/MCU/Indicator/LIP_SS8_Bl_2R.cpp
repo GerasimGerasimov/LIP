@@ -38,6 +38,15 @@ void LIP_SS8_Bl_2R::resetLED(unsigned short indicator, unsigned short& result){
     result &= ~(SHIFT_RED << (indicator * 2));
 }
 
+void LIP_SS8_Bl_2R::clear(){
+    for(auto& row : Slots){
+        row.erase(row.begin(), row.end());
+    }
+
+    // Удаляем пустые под-векторы
+    Slots.erase(Slots.begin(), Slots.end());
+}
+
 LIP_SS8_Bl_2R::LIP_SS8_Bl_2R(){
     DataSize = 2;
 }
@@ -198,7 +207,6 @@ std::vector<uint8_t> LIP_SS8_Bl_2R::getValue(){
 
 
 bool LIP_SS8_Bl_2R::update(){
-    //TODO перенести из Router::updateIndicatorSlots()
     if(updating){
 
         return false;
@@ -234,6 +242,7 @@ void LIP_SS8_Bl_2R::ProcessMessage(TMessage* m){
 }
 
 void LIP_SS8_Bl_2R::setParameter(std::string& param){
+    clear();
     std::vector<std::string> functionLed = Parser::splitString2Delim("(", ")", param);
     for(auto& func : functionLed){
         std::vector<std::string> tags = Parser::splitString(" ", func);

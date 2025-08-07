@@ -36,6 +36,7 @@ private:
     void setGreen(unsigned short indicator, unsigned short& result);
     void setYellow(unsigned short indicator, unsigned short& result);
     void resetLED(unsigned short indicator, unsigned short& result);
+    void clear();
 public:
     LIP_SS8_Bl_2R();
     std::vector<uint8_t> getValue() override;
