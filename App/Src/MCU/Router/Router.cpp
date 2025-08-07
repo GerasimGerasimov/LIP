@@ -6,7 +6,7 @@
 #include "Indicator/ControlSlot.h"
 
 //#include "OutStream.h"
-
+#include "ramdata.h"
 
 Router::Router(){
     currentPage = 0; 
@@ -23,6 +23,7 @@ Router::Router(){
 void Router::setPage(){
     std::string setStartPage = InternalResources::getInstance().getItemStringByName(Pages[currentPage].c_str());
     page.setIndication(setStartPage);
+    page.setAppIndicatorSlots(IndicatorSlots);
 }
 
 void Router::setIndicatorSlots(){
@@ -95,7 +96,7 @@ void Router::setTask(Router::Task task){
 
 void Router::update(){
     if(bufferData.getStatus() == Buffer::Status::EMPTY){
-        updateIndicatorSlots(); //TODO Отправить в update() индикаторов
+        updateIndicatorSlots();
         if(page.update()){
             bufferData.setFillStatus();
             page.stopSlot();
