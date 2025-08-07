@@ -107,44 +107,44 @@ typedef union
     unsigned fram_error : 1;	//
     unsigned fram_bkp_error : 1; //
    //флаги DIO
-    unsigned DOUT1_FAIL : 1; //РАС аварийное отключение
-    unsigned DOUT2_SHAKE : 1; //пока встряхивается встряхиватель  
-    unsigned DOUT3_SIGN : 1; //РПС сигнализация 
-    unsigned DI1 : 1;	     //discret input 1
-    unsigned DI2_BURNING : 1; //значит включен ПРОЖИГ - не ндадо проверять на искру!
-    unsigned DI3_STOP : 1;   //Нажата кнопка Стоп 
-    unsigned DI4_START : 1;  //Нажата кнопка Пуск
-    unsigned DI5_TERM : 1;   //термореле
+    unsigned T100Hz : 1; //РАС аварийное отключение
+    unsigned f5 : 1; //пока встряхивается встряхиватель  
+    unsigned f6 : 1; //РПС сигнализация 
+    unsigned f7 : 1;	     //discret input 1
+    unsigned f8 : 1; //значит включен ПРОЖИГ - не ндадо проверять на искру!
+    unsigned f9 : 1;   //Нажата кнопка Стоп 
+    unsigned f10 : 1;  //Нажата кнопка Пуск
+    unsigned f11 : 1;   //термореле
     //флаги аварий если флаг в 1 - есть авария
-    unsigned SYNCF : 1;	    //SYNC FAULT              
-    unsigned MTZ_SH : 1;    //mtz по входу, Ish
-    unsigned MTZ_L : 1;	    //mtz по нагрузке, Iload
-    unsigned SHC : 1;	    //short circuit кз
-    unsigned OPC : 1;	    //open  circuit хх
-    unsigned OVH : 1;    //over heating (перегрев) 
-    unsigned THFOC : 1;    //fault thyristors not open(неисправность тиристоров неоткрывается)  оставить но не исп
-    unsigned THFAO : 1;    //fault thyristors not close(неисправность тиристоров незакрывается)  оставить но не исп
-    unsigned FQS : 1;    //frequent spark частые пробои - кол-во пробоев за период
+    unsigned f12 : 1;	    //SYNC FAULT              
+    unsigned f13 : 1;    //mtz по входу, Ish
+    unsigned f14 : 1;	    //mtz по нагрузке, Iload
+    unsigned f15 : 1;	    //short circuit кз
+    unsigned f16 : 1;	    //open  circuit хх
+    unsigned f17 : 1;    //over heating (перегрев) 
+    unsigned f18 : 1;    //fault thyristors not open(неисправность тиристоров неоткрывается)  оставить но не исп
+    unsigned f19 : 1;    //fault thyristors not close(неисправность тиристоров незакрывается)  оставить но не исп
+    unsigned f20 : 1;    //frequent spark частые пробои - кол-во пробоев за период
     //r0001
     //прочие флаги 
-    unsigned TR_ENABLE : 1; //импульсы на тиpисторы если есть аварии, при которых выкл импульсы
-    unsigned TR1 : 1;   //проводимость 1- тиристора
-    unsigned TR2 : 1;   ///проводимость 2- тиристора
-    unsigned SPARK : 1;  // Пришла искра
-    unsigned WAIT : 1;   //лаг - состояние ожидания
-    unsigned A_STOP : 1; //флаг изменения/повышения  угла альфа вызова STOP
-    unsigned DOUT4_SHAKE2 : 1;    //второй встряхиватель на внешней плате
-    unsigned DOUT5 : 1;    //дискр вых допольнительно
-    unsigned DOUT6 : 1;	 //дискр вых допольнительно
-    unsigned DI6 : 1;	 //дискр вх допольнительно
-    unsigned NA8 : 1;    //
+    unsigned f21 : 1; //импульсы на тиpисторы если есть аварии, при которых выкл импульсы
+    unsigned f22 : 1;   //проводимость 1- тиристора
+    unsigned f23 : 1;   ///проводимость 2- тиристора
+    unsigned f24 : 1;  // Пришла искра
+    unsigned f25 : 1;   //лаг - состояние ожидания
+    unsigned f26 : 1; //флаг изменения/повышения  угла альфа вызова STOP
+    unsigned f27 : 1;    //второй встряхиватель на внешней плате
+    unsigned f28 : 1;    //дискр вых допольнительно
+    unsigned f29 : 1;	 //дискр вых допольнительно
+    unsigned f30 : 1;	 //дискр вх допольнительно
+    unsigned f31 : 1;    //
   } BA;
 } _FLG0;//флаги управления и индикации;
 
 //параметры расположеные в RAM
 struct TRAM_DATA
 {
-// _FLG0 FLAGS;        //флаги управления и индикации;
+  _FLG0 FLAGS;        //флаги управления и индикации;
   u32 UsedMem; //4 байта
   u32 TotalMem; //4 байта
   u32 arena;

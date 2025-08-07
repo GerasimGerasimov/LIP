@@ -87,7 +87,7 @@ void KeyBoard::setMessage(){
 
 extern "C" void TIM2_IRQHandler(){
   TIM2->SR = 0;
-
+  RAM_DATA.FLAGS.BA.T100Hz = 1;
   KeyBoard::SPI_DIO_Processing();
   RAM_DATA.DI = KeyBoard::SPI_DIO_Inputs;
   ctrlSysLive();
