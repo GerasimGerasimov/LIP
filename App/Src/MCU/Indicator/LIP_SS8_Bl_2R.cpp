@@ -55,7 +55,7 @@ std::vector<uint8_t> LIP_SS8_Bl_2R::getValue(){
 
     for(auto& n : (*tagsFunction)){
         controlSlot = n.Slot;
-        if(controlSlot->isStateFlag(Slot::StateFlags::NO_VALID) || controlSlot->isErrorParsing()){
+        if(controlSlot->getnoValid() || controlSlot->isErrorParsing()){
             data = "0";
         }
         else{
@@ -77,7 +77,7 @@ std::vector<uint8_t> LIP_SS8_Bl_2R::getValue(){
 
     for(auto& n : (*tagsFunction)){
         controlSlot = n.Slot;
-        if(controlSlot->isStateFlag(Slot::StateFlags::NO_VALID) || controlSlot->isErrorParsing()){
+        if(controlSlot->getnoValid() || controlSlot->isErrorParsing()){
             data = "0";
         }
         else{
@@ -102,7 +102,7 @@ std::vector<uint8_t> LIP_SS8_Bl_2R::getValue(){
         tagsFunction = &(Slots[ISOL_WRN]);
         for(auto& n : (*tagsFunction)){
             controlSlot = n.Slot;
-            if(controlSlot->isStateFlag(Slot::StateFlags::NO_VALID) || controlSlot->isErrorParsing()){
+            if(controlSlot->getnoValid() || controlSlot->isErrorParsing()){
                 data = "0";
             }
             else{
@@ -124,7 +124,7 @@ std::vector<uint8_t> LIP_SS8_Bl_2R::getValue(){
 
             for(auto& n : (*tagsFunction)){
                 controlSlot = n.Slot;
-                if(controlSlot->isStateFlag(Slot::StateFlags::NO_VALID) || controlSlot->isErrorParsing()){
+                if(controlSlot->getnoValid() || controlSlot->isErrorParsing()){
                     data = "0";
                 }
                 else{
@@ -212,7 +212,7 @@ bool LIP_SS8_Bl_2R::update(){
     for(auto& func : Slots){
         for(auto& tag : func){
             ++slotsSize;
-            if(tag.Slot->update()){
+            if(tag.Slot->getUpdate()){
                 ++countUpdateSlot;
             }
         }

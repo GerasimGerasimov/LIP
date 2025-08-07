@@ -35,9 +35,6 @@ std::vector<uint8_t> LIP_XNx::getValue(){
 }
 
 bool LIP_XNx::update(){
-    if(updating){
-        return false;
-    }
     if(parametrControl.update()){
         updating = true;
         return true;

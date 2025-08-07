@@ -8,26 +8,41 @@ void ControlSlot::setParameter(std::string& param){
 
 bool ControlSlot::update(){
     
+    if(updating){
+        return false;
+    }
     //ошибка парсинга
     if(errorParsing){
+        updating = true;
         return true;
     }
     //прочитали данные
     if(parametrControl.isStateFlag(Slot::StateFlags::COMPLETE_READ)){
-
+        updating = true;
+        completeRead = true;
         return true;
+    }
+    else{
+        completeRead = false;
     }
     //нет связи
     if(parametrControl.isStateFlag(Slot::StateFlags::NO_VALID)){
-
+        updating = true;
+        noValid = true;
         return true;
     }
+    else{
+        noValid = false;
+    }
+    updating = false;
     return false;
 }
 
 void ControlSlot::stopSlot(){
+    updating = false;
     parametrControl.stopSlot();
-    //updating = false;
+    noValid = false;
+    completeRead = false;
 }
 
 void ControlSlot::startSlot(){
@@ -51,4 +66,16 @@ bool ControlSlot::isStateFlag(Slot::StateFlags isFlag){
 
 bool ControlSlot::isErrorParsing(){
     return errorParsing;
+}
+
+bool ControlSlot::getcompleteRead(){
+    return completeRead;
+}
+
+bool ControlSlot::getnoValid(){
+    return noValid;
+}
+
+bool ControlSlot::getUpdate() {
+    return updating;
 }

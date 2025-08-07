@@ -21,7 +21,7 @@
   * @brief  Main program.
   */
 
- const char IDtext[] =" LIP v1.5.0 7.08.2025 www.intmash.ru ";
+ const char IDtext[] =" LIP v1.5.1 7.08.2025 www.intmash.ru ";
 
 int main(void)              //главная программа
 {

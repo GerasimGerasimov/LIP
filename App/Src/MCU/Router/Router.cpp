@@ -95,14 +95,13 @@ void Router::setTask(Router::Task task){
 
 void Router::update(){
     if(bufferData.getStatus() == Buffer::Status::EMPTY){
-        //if(updateIndicatorSlots()){ //TODO Отправить в update() индикаторов
-            if(page.update()){
-                bufferData.setFillStatus();
-                page.stopSlot();
-                stopIndicatorSlots();
-                countUpdateSlot = 0;
-            }
-        //}
+        updateIndicatorSlots(); //TODO Отправить в update() индикаторов
+        if(page.update()){
+            bufferData.setFillStatus();
+            page.stopSlot();
+            stopIndicatorSlots();
+            countUpdateSlot = 0;
+        }
     }
 }
 
