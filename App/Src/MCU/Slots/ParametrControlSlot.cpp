@@ -19,6 +19,9 @@ void ParametrControlSlot::setProps(std::vector<std::string>& page){
     parameter.Device = page[DEVICE];
     parameter.Section = IniResources::getSection(page[SECTION]);
     parameter.Name = page[NAME];
+    for(int i = NAME + 1; i < page.size(); ++i){
+        parameter.Option.push_back(page[i]);
+    }
 }
 
 //очистить индикатор
@@ -116,6 +119,10 @@ bool ParametrControlSlot::setParameter(std::string& param){
     }
 }
 
+std::vector<std::string>* ParametrControlSlot::getOption(){
+    return &(parameter.Option);
+}
+
 void ParametrControlSlot::stopSlot(){
     slot->setFlag(Slot::StateFlags::SKIP_SLOT);
     slot->resetFlag(Slot::StateFlags::COMPLETE_READ);
@@ -135,4 +142,12 @@ void ParametrControlSlot::resetFlag(Slot::StateFlags delFlag){
 
 bool ParametrControlSlot::isStateFlag(Slot::StateFlags isFlag){
     return slot->isStateFlag(isFlag);
+}
+
+std::string ParametrControlSlot::getName(){
+    return parameter.Name;
+}
+
+std::string ParametrControlSlot::getDev(){
+    return parameter.Device;
 }

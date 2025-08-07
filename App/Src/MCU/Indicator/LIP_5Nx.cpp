@@ -1,5 +1,8 @@
 #include "LIP_5Nx.h"
 
+#define TYPE 0
+#define DECIMAL 1
+
 LIP_XNx::LIP_XNx(uint8_t dataSize){
     DataSize = dataSize;
 }
@@ -29,6 +32,36 @@ std::vector<uint8_t> LIP_XNx::getValue(){
 
 
     return result;
+}
+
+bool LIP_XNx::update(){
+    if(updating){
+        return false;
+    }
+    if(parametrControl.update()){
+        updating = true;
+        return true;
+    }
+    updating = false;
+    return false;
+}
+
+void LIP_XNx::setParameter(std::string& param){
+    parametrControl.setParameter(param);
+    std::vector<std::string>* optionParam = parametrControl.getOption();
+    if(optionParam){
+        type = (optionParam->at(TYPE) == "RW") ? Type::RW : Type::R;
+        numDecimal = std::stoi(optionParam->at(DECIMAL));
+    }
+}
+
+void LIP_XNx::stopSlot(){
+    parametrControl.stopSlot();
+    updating = false;
+}
+
+void LIP_XNx::startSlot(){
+    parametrControl.startSlot();
 }
 
 const std::string LIP_XNx::parseErrorStr = "-----";
@@ -82,17 +115,16 @@ void LIP_XNx::transformSizeSring(std::string& data){
 }
 
 void LIP_XNx::transformNumDecimal(std::string& data){
-    uint16_t num = parametrControl.getNumDecimal();
     size_t dotPos = data.find('.');
 
     if(dotPos == std::string::npos){
-        if(num > 0){
-            data += "." + std::string(num, '0');
+        if(numDecimal > 0){
+            data += "." + std::string(numDecimal, '0');
         }
         return;
     }
 
-    if(num == 0){
+    if(numDecimal == 0){
         // Удаляем точку и всё после неё
         data = data.substr(0, dotPos);
         return;
@@ -100,14 +132,14 @@ void LIP_XNx::transformNumDecimal(std::string& data){
 
     size_t fractionLen = data.size() - dotPos - 1;
 
-    if(fractionLen == num){
+    if(fractionLen == numDecimal){
         return; // Ничего не нужно менять
     }
-    else if(fractionLen > num){
-        data = data.substr(0, dotPos + 1 + num); // Обрезаем
+    else if(fractionLen > numDecimal){
+        data = data.substr(0, dotPos + 1 + numDecimal); // Обрезаем
     }
     else{
-        data += std::string(num - fractionLen, '0'); // Дополняем
+        data += std::string(numDecimal - fractionLen, '0'); // Дополняем
     }
 }
 

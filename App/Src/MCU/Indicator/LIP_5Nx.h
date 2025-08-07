@@ -1,13 +1,23 @@
 #pragma once
 
-#include "Indicator1Parametr.h"
+#include "Indicator.h"
+#include "Indicator/ControlSlot.h"
 
 #include <stdint.h>
 #include <string>
 
-class LIP_XNx : public Indicator1Parametr
+class LIP_XNx : public Indicator
 {
 private:
+    enum class Type
+    {
+        R,  //чтение
+        RW  //чтение и запись
+    };
+    Type type = Type::R;
+    unsigned short numDecimal = 0;
+
+    ControlSlot parametrControl;
     static const std::string parseErrorStr;
     static const std::string connectErrorStr;
     bool dot = false;
@@ -19,5 +29,9 @@ public:
     LIP_XNx(uint8_t dataSize);
     ~LIP_XNx();
     std::vector<uint8_t> getValue() override;
+    bool update() override;
+    void setParameter(std::string& param);
+    void stopSlot() override;
+    void startSlot() override;
 };
 

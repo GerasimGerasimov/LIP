@@ -26,6 +26,7 @@ public:
     virtual void setAppSlots(std::map<std::string, ControlSlot*>& indSlots){}
 protected:
     bool errorParsing = false;
+    bool updating = false;
     uint8_t DataSize = 0;
     bool typeAnode = false;
 };

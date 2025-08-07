@@ -19,3 +19,7 @@ std::vector<uint8_t> LIP_SS8::getValue(){
     result[0] = number >> 8;
     return result;
 }
+
+bool LIP_SS8::update(){
+    return false;
+}

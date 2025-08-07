@@ -1,5 +1,6 @@
 #include "HandlerSlotRead.h"
 #include "Helpers/utils.h"
+#include "ramdata.h"
 
 enum class ModbusReadRegister
 {

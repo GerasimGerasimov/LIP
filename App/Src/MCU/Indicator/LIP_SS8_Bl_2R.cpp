@@ -195,13 +195,36 @@ std::vector<uint8_t> LIP_SS8_Bl_2R::getValue(){
     return result;
 }
 
+
+
 bool LIP_SS8_Bl_2R::update(){
     //TODO перенести из Router::updateIndicatorSlots()
     if(updating){
+
         return false;
     }
-    updating = true;
-    return true;
+
+    uint16_t countUpdateSlot = 0;
+    uint16_t slotsSize = 0;
+
+
+
+    for(auto& func : Slots){
+        for(auto& tag : func){
+            ++slotsSize;
+            if(tag.Slot->update()){
+                ++countUpdateSlot;
+            }
+        }
+    }
+
+    if(countUpdateSlot == slotsSize){
+        updating = true;
+        return true;
+    }
+
+    updating = false;
+    return false;
 }
 
 void LIP_SS8_Bl_2R::ProcessMessage(TMessage* m){

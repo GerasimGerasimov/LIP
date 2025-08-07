@@ -138,7 +138,6 @@
     <ClInclude Include="..\..\App\Src\MCU\IDrivers\iresources.h" />
     <ClInclude Include="..\..\App\Src\MCU\Indicator\ControlSlot.h" />
     <ClInclude Include="..\..\App\Src\MCU\Indicator\Indicator.h" />
-    <ClInclude Include="..\..\App\Src\MCU\Indicator\Indicator1Parametr.h" />
     <ClInclude Include="..\..\App\Src\MCU\Indicator\LIP_5Nx.h" />
     <ClInclude Include="..\..\App\Src\MCU\Indicator\LIP_SS8.h" />
     <ClInclude Include="..\..\App\Src\MCU\Indicator\LIP_SS8_Bl_2R.h" />
@@ -166,7 +165,6 @@
     <ClInclude Include="..\..\App\Src\MCU\Router\Router.h" />
     <ClInclude Include="..\..\App\Src\MCU\Slots\HandlerSlotRead.h" />
     <ClInclude Include="..\..\App\Src\MCU\Slots\ParametrControlSlot.h" />
-    <ClInclude Include="..\..\App\Src\MCU\Slots\ParametrControlSlotXN.h" />
     <ClInclude Include="..\..\App\Src\MCU\Slots\SlotHandlerType.h" />
     <ClInclude Include="Drivers\BaseObject.h" />
     <ClInclude Include="Drivers\com_master_driver.h" />
@@ -203,7 +201,6 @@
     <ClCompile Include="..\..\App\Src\MCU\Helpers\utils.cpp" />
     <ClCompile Include="..\..\App\Src\MCU\Indicator\ControlSlot.cpp" />
     <ClCompile Include="..\..\App\Src\MCU\Indicator\Indicator.cpp" />
-    <ClCompile Include="..\..\App\Src\MCU\Indicator\Indicator1Parametr.cpp" />
     <ClCompile Include="..\..\App\Src\MCU\Indicator\LIP_5Nx.cpp" />
     <ClCompile Include="..\..\App\Src\MCU\Indicator\LIP_SS8.cpp" />
     <ClCompile Include="..\..\App\Src\MCU\Indicator\LIP_SS8_Bl_2R.cpp" />
@@ -230,7 +227,6 @@
     <ClCompile Include="..\..\App\Src\MCU\Router\Router.cpp" />
     <ClCompile Include="..\..\App\Src\MCU\Slots\HandlerSlotRead.cpp" />
     <ClCompile Include="..\..\App\Src\MCU\Slots\ParametrControlSlot.cpp" />
-    <ClCompile Include="..\..\App\Src\MCU\Slots\ParametrControlSlotXN.cpp" />
     <ClCompile Include="Drivers\BaseObject.cpp" />
     <ClCompile Include="Drivers\com_master_driver.cpp" />
     <ClCompile Include="Drivers\DI\WinDI.cpp" />

@@ -6,6 +6,8 @@
 #include "ini/parser.h"
 #include "Message/Message.h"
 
+#include "ramdata.h"
+
 void Page::init(){
     std::string Config = InternalResources::getInstance().getItemStringByName("Config");
     Configuration = Parser::splitString(" ", Config);

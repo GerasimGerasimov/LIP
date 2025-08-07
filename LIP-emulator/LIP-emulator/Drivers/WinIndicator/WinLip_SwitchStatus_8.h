@@ -10,7 +10,7 @@ private:
     const int line = 1;
     const int bitPerLED = 2;
     static const int desirWidth = 410;
-    static const int desirHeight = 210;
+    static const int desirHeight = 100;
 public:
     WinLip_SwitchStatus_8(Parameter param);
     void createIndicator();

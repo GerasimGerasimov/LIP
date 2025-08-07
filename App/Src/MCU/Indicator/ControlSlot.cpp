@@ -1,35 +1,33 @@
 #include "ControlSlot.h"
 
+#include "ramdata.h"
+
 void ControlSlot::setParameter(std::string& param){
     errorParsing = parametrControl.setParameter(param) ? false : true;
 }
 
 bool ControlSlot::update(){
-    if(updating){
-        return false;
-    }
+    
     //ошибка парсинга
     if(errorParsing){
-        updating = true;
         return true;
     }
     //прочитали данные
     if(parametrControl.isStateFlag(Slot::StateFlags::COMPLETE_READ)){
-        updating = true;
+
         return true;
     }
     //нет связи
     if(parametrControl.isStateFlag(Slot::StateFlags::NO_VALID)){
-        updating = true;
+
         return true;
     }
-    updating = false;
     return false;
 }
 
 void ControlSlot::stopSlot(){
     parametrControl.stopSlot();
-    updating = false;
+    //updating = false;
 }
 
 void ControlSlot::startSlot(){
@@ -41,6 +39,10 @@ void ControlSlot::startSlot(){
 
 std::string ControlSlot::getValueStr(){
     return parametrControl.getValueStr();
+}
+
+std::vector<std::string>* ControlSlot::getOption(){
+    return parametrControl.getOption();
 }
 
 bool ControlSlot::isStateFlag(Slot::StateFlags isFlag){

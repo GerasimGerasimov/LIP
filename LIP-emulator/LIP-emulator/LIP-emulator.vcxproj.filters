@@ -174,13 +174,7 @@
     <ClInclude Include="..\..\App\Src\MCU\Indicator\Indicator.h">
       <Filter>MCU\Indicator</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\App\Src\MCU\Indicator\Indicator1Parametr.h">
-      <Filter>MCU\Indicator</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\App\Src\MCU\Indicator\LIP_5Nx.h">
-      <Filter>MCU\Indicator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\App\Src\MCU\Indicator\LIP_SS8.h">
       <Filter>MCU\Indicator</Filter>
     </ClInclude>
     <ClInclude Include="..\..\App\Src\MCU\ini\IniResources.h">
@@ -270,8 +264,8 @@
     <ClInclude Include="..\..\App\Src\MCU\Indicator\ControlSlot.h">
       <Filter>MCU\Indicator</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\App\Src\MCU\Slots\ParametrControlSlotXN.h">
-      <Filter>MCU\Slots</Filter>
+    <ClInclude Include="..\..\App\Src\MCU\Indicator\LIP_SS8.h">
+      <Filter>MCU\Indicator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -347,13 +341,7 @@
     <ClCompile Include="..\..\App\Src\MCU\Indicator\Indicator.cpp">
       <Filter>MCU\Indicator</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\App\Src\MCU\Indicator\Indicator1Parametr.cpp">
-      <Filter>MCU\Indicator</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\App\Src\MCU\Indicator\LIP_5Nx.cpp">
-      <Filter>MCU\Indicator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\App\Src\MCU\Indicator\LIP_SS8.cpp">
       <Filter>MCU\Indicator</Filter>
     </ClCompile>
     <ClCompile Include="..\..\App\Src\MCU\ini\IniResources.cpp">
@@ -437,8 +425,8 @@
     <ClCompile Include="..\..\App\Src\MCU\Indicator\ControlSlot.cpp">
       <Filter>MCU\Indicator</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\App\Src\MCU\Slots\ParametrControlSlotXN.cpp">
-      <Filter>MCU\Slots</Filter>
+    <ClCompile Include="..\..\App\Src\MCU\Indicator\LIP_SS8.cpp">
+      <Filter>MCU\Indicator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
