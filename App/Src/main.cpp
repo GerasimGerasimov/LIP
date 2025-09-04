@@ -23,7 +23,7 @@
 
 #define START_DELAY 100
 
- const char IDtext[] =" LIP v1.5.4 7.08.2025 www.intmash.ru ";
+ const char IDtext[] =" LIP v1.5.5 7.08.2025 www.intmash.ru ";
 
 int main(void)              //главная программа
 {
@@ -34,7 +34,10 @@ int main(void)              //главная программа
     LED_LINK1_OFF;
     LED_LINK2_OFF;
     LED_ALARM_OFF;
+
     int delay = 0;
+    //Задержка на старте 1 сек
+    //Иначе объекты ControlSlot дублируются
     while(delay < START_DELAY){
       if(RAM_DATA.FLAGS.BA.T100Hz){
         RAM_DATA.FLAGS.BA.T100Hz = 0;
