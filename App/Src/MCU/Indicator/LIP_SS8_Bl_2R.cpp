@@ -6,6 +6,7 @@
 #include "ramdata.h"
 
 #define LED_SIZE 8
+#define REG_SIZE 16
 
 #define SWITCH_ON 0
 #define SWITCH_ALARM 1
@@ -81,25 +82,29 @@ std::vector<uint8_t> LIP_SS8_Bl_2R::getValue(){
         }
     }
 
-    tagsFunction = &(Slots[SWITCH_ALARM]);
     unsigned short switchAlarm = 0;
+    if(Slots.size() > 1){
 
-    for(auto& n : (*tagsFunction)){
-        controlSlot = n.Slot;
-        if(controlSlot->getnoValid() || controlSlot->isErrorParsing()){
-            data = "0";
-        }
-        else{
-            data = controlSlot->getValueStr();
-        }
+        tagsFunction = &(Slots[SWITCH_ALARM]);
 
-        number = stoul(data);
-        tempTagByte = &(n.TagByte);
-        for(int i = 0; i < tempTagByte->size(); ++i){
-            if(number & (1 << (*tempTagByte)[i].first)){
-                switchAlarm |= (1 << (*tempTagByte)[i].second);
+        for(auto& n : (*tagsFunction)){
+            controlSlot = n.Slot;
+            if(controlSlot->getnoValid() || controlSlot->isErrorParsing()){
+                data = "0";
+            }
+            else{
+                data = controlSlot->getValueStr();
+            }
+
+            number = stoul(data);
+            tempTagByte = &(n.TagByte);
+            for(int i = 0; i < tempTagByte->size(); ++i){
+                if(number & (1 << (*tempTagByte)[i].first)){
+                    switchAlarm |= (1 << (*tempTagByte)[i].second);
+                }
             }
         }
+
     }
 
     unsigned short isolationData = 0;
@@ -253,11 +258,25 @@ void LIP_SS8_Bl_2R::setParameter(std::string& param){
             indSlot.Tag = spltTag[0];
             if(spltTag.size() > 1){
                 std::vector<std::string> spltVecBytes = Parser::splitString("/", spltTag[1]);
-
-                for(auto& j : spltVecBytes){
-                    std::vector<std::string> spltPair = Parser::splitString(".", j);
-                    std::pair<unsigned char, unsigned char> bytes = {stoi(spltPair[0]), stoi(spltPair[1])};
-                    indSlot.TagByte.push_back(bytes);
+                if(spltVecBytes[0] == "*"){
+                    std::vector<std::string> spltPair = Parser::splitString(".", spltVecBytes[1]);
+                    u16 startByte = stoi(spltPair[0]);
+                    u16 skipByte = stoi(spltPair[1]);
+                    for(int i = 0; i < LED_SIZE; ++i){
+                        u16 curByte = (skipByte + 1) * i + startByte;
+                        if(curByte >= REG_SIZE){
+                            break;
+                        }
+                        std::pair<unsigned char, unsigned char> bytes = {curByte, i};
+                        indSlot.TagByte.push_back(bytes);
+                    }
+                }
+                else{
+                    for(auto& j : spltVecBytes){
+                        std::vector<std::string> spltPair = Parser::splitString(".", j);
+                        std::pair<unsigned char, unsigned char> bytes = {stoi(spltPair[0]), stoi(spltPair[1])};
+                        indSlot.TagByte.push_back(bytes);
+                    }
                 }
             }
             slotsFunction.push_back(indSlot);

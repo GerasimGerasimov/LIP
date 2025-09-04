@@ -31,7 +31,7 @@ void Router::setIndicatorSlots(){
     std::vector<std::string> regSlot = Parser::splitString("/", registers);
     for(const auto& n : regSlot){
         std::string str = InternalResources::getInstance().getItemStringByName(n.c_str());
-        if(n != ""){
+        if(str != ""){
             ControlSlot* newIndicatorSlot = new ControlSlot;
             newIndicatorSlot->setParameter(str);
             IndicatorSlots[n] = newIndicatorSlot;
