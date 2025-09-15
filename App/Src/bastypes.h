@@ -87,10 +87,11 @@ union biauchar
 
 struct TFLASH_DATA
 {
+  u32 SerialNumber; //Серийный номер
 // Секция связи
-  bavu16 MODBUS1;         //0x0000// device addres and baud rate for uart1 (modbus1);
-  bavu16 MODBUS2;         //0x0002// device addres and baud rate for uart2 (modbus2);
-  u16 DelayLED;
+  bavu16 MODBUS1;         //device addres and baud rate for uart1 (modbus1);
+  bavu16 MODBUS2;         //device addres and baud rate for uart2 (modbus2);
+  u16 DelayLED; //Задержка мигания светодиодов
 };
 
 
