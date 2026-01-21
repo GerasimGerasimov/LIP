@@ -35,6 +35,7 @@ void Page::init(){
     parseHandler[i5N] = lambdaXN;
     parseHandler[iSwitchStatus] = lambdaSS8;
     parseHandler[iSwitchStatusBlink2Reg] = lambdaSS8_Bl_2R;
+    ListIndicators.reserve(Configuration.size());
     Parser::parseConfigurarion(Configuration, parseHandler);
 }
 

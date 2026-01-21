@@ -25,18 +25,21 @@ private:
         std::string Tag;
         //Битовые параметры:  от куда брать,  куда ложить
         std::vector<std::pair<unsigned char, unsigned char>> TagByte;
-        ControlSlot* Slot = nullptr;
+        ControlSlot* SlotControl = nullptr;
     };
 
     bool Blink = false;
     bool updating = false;
-    std::vector<std::vector<IndicatorSlot>> Slots;
-    PRIORITY Priority = PRIORITY::BASE;
+    std::vector<std::vector<IndicatorSlot>> SlotsControlList; //Список слотов<Информация о обработке светодиодов для слота>
+    PRIORITY Priority = PRIORITY::BASE; //Приоритет цвета для 1 светодиода
     void setRed(unsigned short indicator, unsigned short& result);
     void setGreen(unsigned short indicator, unsigned short& result);
     void setYellow(unsigned short indicator, unsigned short& result);
     void resetLED(unsigned short indicator, unsigned short& result);
     void clear();
+    unsigned short updateColorLedState(std::vector<IndicatorSlot>* tagsFunction);
+    unsigned short setColorPriorityLED(unsigned short switchLED[]);
+    void setPriorityLED(unsigned short switchLED[], int LED);
 public:
     LIP_SS8_Bl_2R();
     std::vector<uint8_t> getValue() override;
