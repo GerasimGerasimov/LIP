@@ -13,15 +13,7 @@ void Page::init(){
     Configuration = Parser::splitString(" ", Config);
 
     auto lambdaXN = [this](std::vector<std::string>& Config){
-        std::string type;
-        uint8_t num = 0;
-        if(Config.size() == 3){
-            type = Config[1];
-            num = std::stoi(Config[2]);
-        }
-        ListIndicators.push_back(new LIP_XNx(num));
-        bool typeA = (type == "A");
-        ListIndicators.back()->setTypeAnode(typeA);
+        ListIndicators.push_back(new LIP_XNx(Config));
     };
 
     auto lambdaSS8 = [this](std::vector<std::string>& Config){

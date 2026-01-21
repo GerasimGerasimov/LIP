@@ -3,8 +3,15 @@
 #define TYPE 0
 #define DECIMAL 1
 
-LIP_XNx::LIP_XNx(uint8_t dataSize){
-    DataSize = dataSize;
+#define INDICATOR_XN_SIZE_OPTION 3
+#define INDICATOR_XN_TYPE_ANODE 1
+#define INDICATOR_XN_DATA_SIZE 2
+
+LIP_XNx::LIP_XNx(std::vector<std::string>& ConfigOption){
+    if(ConfigOption.size() == INDICATOR_XN_SIZE_OPTION){
+        setTypeAnode(ConfigOption[INDICATOR_XN_TYPE_ANODE] == "A");
+        DataSize = std::stoi(ConfigOption[INDICATOR_XN_DATA_SIZE]);
+    }
 }
 
 //получить список байт на отправку в SPI
@@ -15,7 +22,7 @@ std::vector<uint8_t> LIP_XNx::getValue(){
         data = connectErrorStr;
     }
     else{
-        data = errorParsing ? parseErrorStr : parametrControl.getValueStr();
+        data = parametrControl.isErrorParsing() ? parseErrorStr : parametrControl.getValueStr();
         transformNumDecimal(data);
         transformSizeSring(data);
     }
@@ -44,11 +51,12 @@ bool LIP_XNx::update(){
 }
 
 void LIP_XNx::setParameter(std::string& param){
-    parametrControl.setParameter(param);
-    std::vector<std::string>* optionParam = parametrControl.getOption();
-    if(optionParam){
-        type = (optionParam->at(TYPE) == "RW") ? Type::RW : Type::R;
-        numDecimal = std::stoi(optionParam->at(DECIMAL));
+    if(parametrControl.setParameter(param)){
+        std::vector<std::string>* optionParam = parametrControl.getOption();
+        if(optionParam){
+            type = (optionParam->at(TYPE) == "RW") ? Type::RW : Type::R;
+            numDecimal = std::stoi(optionParam->at(DECIMAL));
+        }
     }
 }
 

@@ -6,7 +6,7 @@ LIP_SS8::LIP_SS8(){
 
 std::vector<uint8_t> LIP_SS8::getValue(){
     std::string data;
-    if(parametrControl.isStateFlag(Slot::StateFlags::NO_VALID) || errorParsing){
+    if(parametrControl.isStateFlag(Slot::StateFlags::NO_VALID) || parametrControl.isErrorParsing()){
         data = "0";
     }
     else{

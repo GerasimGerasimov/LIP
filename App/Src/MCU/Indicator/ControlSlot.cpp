@@ -2,8 +2,9 @@
 
 #include "ramdata.h"
 
-void ControlSlot::setParameter(std::string& param){
+bool ControlSlot::setParameter(std::string& param){
     errorParsing = parametrControl.setParameter(param) ? false : true;
+    return (!errorParsing);
 }
 
 bool ControlSlot::update(){

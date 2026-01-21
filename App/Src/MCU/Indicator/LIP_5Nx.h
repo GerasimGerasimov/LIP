@@ -26,7 +26,7 @@ private:
     void transformSizeSring(std::string& data);
     void transformNumDecimal(std::string& data);
 public:
-    LIP_XNx(uint8_t dataSize);
+    LIP_XNx(std::vector<std::string>& ConfigOption);
     ~LIP_XNx();
     std::vector<uint8_t> getValue() override;
     bool update() override;

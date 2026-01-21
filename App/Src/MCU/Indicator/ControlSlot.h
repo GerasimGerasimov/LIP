@@ -11,7 +11,7 @@ private:
     bool completeRead = false;
     bool noValid = false;
 public:
-    void setParameter(std::string& param);
+    bool setParameter(std::string& param);
     bool update();
     void stopSlot();
     void startSlot();
