@@ -21,7 +21,7 @@ void Page::init(){
     };
 
     auto lambdaSS8_Bl_2R = [this](std::vector<std::string>& Config){
-        ListIndicators.push_back(new LIP_SS8_Bl_2R);
+        ListIndicators.push_back(new LIP_SS8_Bl_2R(Config));
     };
     std::map<std::string, std::function<void(std::vector<std::string>& Config)>> parseHandler;
     parseHandler[i5N] = lambdaXN;

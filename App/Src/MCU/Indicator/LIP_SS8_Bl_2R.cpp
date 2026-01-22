@@ -19,6 +19,46 @@
 #define SHIFT_BASE 1
 #define SHIFT_ALARM 2
 
+#define SYMBOL_BLINK '*'
+
+void LIP_SS8_Bl_2R::setColorFunction(){
+    ColorFunction[COLOR::BLACK] = resetLED;
+    ColorFunction[COLOR::RED] = setRed;
+    ColorFunction[COLOR::GREEN] = setGreen;
+    ColorFunction[COLOR::YELLOW] = setYellow;
+}
+
+void LIP_SS8_Bl_2R::setBaseSetting(std::vector<std::string>& ConfigOption){
+    if(ConfigOption.size() > 1){
+        if(ConfigOption[1][1] == SYMBOL_BLINK){
+            BaseSettingIndicator.Blink = true;
+        }
+        BaseSettingIndicator.CurrentColor = getColorByChar(ConfigOption[1][0]);
+    }
+}
+
+LIP_SS8_Bl_2R::COLOR LIP_SS8_Bl_2R::getColorByChar(char symbol){
+    COLOR result;
+    switch(symbol){
+    case 'B':
+        result = COLOR::BLACK;
+        break;
+    case 'R':
+        result = COLOR::RED;
+        break;
+    case 'G':
+        result = COLOR::GREEN;
+        break;
+    case 'Y':
+        result = COLOR::YELLOW;
+        break;
+    default:
+        result = COLOR::BLACK;
+        break;
+    }
+    return result;
+}
+
 // Цвета устанавливаются в регистр по светодиодам 
 // Установка красного цвета
 void LIP_SS8_Bl_2R::setRed(unsigned short indicator, unsigned short& result){
@@ -115,7 +155,8 @@ unsigned short LIP_SS8_Bl_2R::setColorPriorityLED(unsigned short switchLED[]){
             setRed(i, res);
             break;
         case LIP_SS8_Bl_2R::PRIORITY::BASE:
-            setGreen(i, res);
+            //setGreen(i, res);
+            ColorFunction.at(BaseSettingIndicator.CurrentColor)(i, res);
             break;
         }
     }
@@ -142,8 +183,11 @@ void LIP_SS8_Bl_2R::setPriorityLED(unsigned short switchLED[], int LED){
     }
 }
 
-LIP_SS8_Bl_2R::LIP_SS8_Bl_2R(){
+LIP_SS8_Bl_2R::LIP_SS8_Bl_2R(std::vector<std::string>& ConfigOption){
     DataSize = 2;
+    setColorFunction();
+    setBaseSetting(ConfigOption);
+    
 }
 
 std::vector<uint8_t> LIP_SS8_Bl_2R::getValue(){
