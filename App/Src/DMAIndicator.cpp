@@ -50,9 +50,11 @@ extern "C" void DMA1_Ch4_7_DMA2_Ch3_5_IRQHandler()//прерывание выз�
     }
 }
 
+//10 раз в сек. обновляются индикаторы
 extern "C" void TIM7_IRQHandler(){
     TIM7->SR = 0;
     if (Router::getInstance().isFillBuffer()){
+        //Если все необходимые данные прочитаны, можно запускать отправку в SPI
         DMAIndicator::getInstance().DMAstart(Router::getInstance().getBufferSize());
     }
 }

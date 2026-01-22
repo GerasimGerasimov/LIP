@@ -189,6 +189,7 @@ bool LIP_SS8_Bl_2R::update(){
         for(auto& tag : func){
             ++slotsSize;
             if(tag.SlotControl->getUpdate()){
+                //Слот, привязанный к индикатору обновился
                 ++countUpdateSlot;
             }
         }

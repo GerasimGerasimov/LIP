@@ -17,12 +17,12 @@ private:
     Router& operator=(const Router&) = delete;
     Router(const Router&&) = delete;
     Router& operator=(const Router&&) = delete;
-    //Buffer bufferSender;
-    Buffer bufferData;
-    std::vector<std::string> Pages;
-    std::map<std::string, ControlSlot*> IndicatorSlots;
+    Buffer bufferData; 
+    std::vector<std::string> PageList; //Список страниц
+    std::map<std::string, ControlSlot*> IndicatorSlots; //Слоты для индикаторов LIP_SS8_Bl_2R
     uint16_t countUpdateSlot = 0;
     void setPage();
+    void setPageList();
     void setIndicatorSlots();
     bool updateIndicatorSlots();
     void stopIndicatorSlots();
@@ -36,8 +36,8 @@ public:
     };
 
     static Router& getInstance();
-    Page page;
-    int currentPage;
+    Page page; //Текущая страница объект
+    int currentPage; //Индекс текущей страницы в списке страниц
     void ProcessMessage(TMessage* m);
     void setTask(Task task);
     void update();

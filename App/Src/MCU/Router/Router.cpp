@@ -10,22 +10,33 @@
 
 Router::Router(){
     currentPage = 0; 
-    std::string pages = InternalResources::getInstance().getItemStringByName("Pages");
     setIndicatorSlots();
-    Pages = Parser::splitString("/", pages);
-    setPage();
-    page.setAppIndicatorSlots(IndicatorSlots);
+    setPageList();
     bufferData.setSizeBuffer(page.getSizeSegment());
     page.setBuffer(&bufferData);
     DMAIndicator::getInstance().setMemoryBaseAddr(bufferData);
 }
 
+//Установка страницы по текущему индексу
 void Router::setPage(){
-    std::string setStartPage = InternalResources::getInstance().getItemStringByName(Pages[currentPage].c_str());
+    std::string setStartPage = InternalResources::getInstance().getItemStringByName(PageList[currentPage].c_str());
     page.setIndication(setStartPage);
     page.setAppIndicatorSlots(IndicatorSlots);
 }
 
+//Начальная установка страниц
+void Router::setPageList(){
+    std::string pages = InternalResources::getInstance().getItemStringByName("Pages");
+    std::vector<std::string> pageList = Parser::splitString("/", pages);
+    for(std::string& onePage : pageList){
+        if(onePage != ""){
+            PageList.push_back(std::move(onePage));
+        }
+    }
+    setPage();
+}
+
+//Включение слотов для индикаторов обращающихся к нескольким регистрам
 void Router::setIndicatorSlots(){
     std::string registers = InternalResources::getInstance().getItemStringByName("SLOTS");
     std::vector<std::string> regSlot = Parser::splitString("/", registers);
@@ -39,6 +50,7 @@ void Router::setIndicatorSlots(){
     }
 }
 
+//Проверка всех внешних слотов, обновились ли данные
 bool Router::updateIndicatorSlots(){
     for(const auto& slot : IndicatorSlots){
         if(slot.second->update()){
@@ -78,7 +90,7 @@ void Router::ProcessMessage(TMessage* m){
             }
             break;
         case 2:
-            if(currentPage < Pages.size() - 1){
+            if(currentPage < PageList.size() - 1){
                 ++currentPage;
                 setPage();
             }
@@ -96,8 +108,10 @@ void Router::setTask(Router::Task task){
 
 void Router::update(){
     if(bufferData.getStatus() == Buffer::Status::EMPTY){
+        //Буффер заполняется, пока пустой
         updateIndicatorSlots();
         if(page.update()){
+            //Буффер заполнился, останавливаются слоты, пока не сработает таймер TIM7
             bufferData.setFillStatus();
             page.stopSlot();
             stopIndicatorSlots();
@@ -107,6 +121,7 @@ void Router::update(){
 }
 
 void Router::setEmptyBufferStatus(){
+    //Данные отправлены, можно считывать новые
     bufferData.setEmptyStatus();
     startIndicatorSlots();
     page.startSlot();
