@@ -10,7 +10,7 @@ class WinLIP_XNx : public IndicatorContainer
 {
 private:
     static const int desirWidth = 310;
-    static const int desirHeight = 90;
+    static const int desirHeight = 130;
     int count;
 public:
     WinLIP_XNx(Parameter param, uint8_t dataSize);
