@@ -276,20 +276,21 @@ std::vector<std::string> Parser::splitString(std::string delimiter, const std::s
     return vecRes;
 }
 
-std::vector<std::string> Parser::splitString2Delim(std::string startDelim, std::string endDelim, const std::string& text){
-    std::vector<std::string> vecRes;
+std::vector<std::pair<std::string, std::string>> Parser::splitString2DelimInPrev(std::string startDelim, std::string endDelim, const std::string& text){
+    std::vector < std::pair<std::string, std::string>> vecRes;
     size_t pos = 0;
     while(true){
         size_t start = text.find(startDelim, pos);
         if(start == std::string::npos)
             break;
-        start += startDelim.length();
 
-        size_t end = text.find(endDelim, start);
+        size_t end = text.find(endDelim, start + 1);
         if(end == std::string::npos)
             break;
 
-        vecRes.push_back(text.substr(start, end - start));
+        std::string prefix = text.substr(pos, start - pos);
+        std::string inside = text.substr(start + 1, end - start - 1);
+        vecRes.emplace_back(prefix, inside);
         pos = end + endDelim.length();
     }
     return vecRes;

@@ -13,15 +13,6 @@ class LIP_SS8_Bl_2R : public Indicator
 {
 private:
 
-    enum class PRIORITY
-    {
-        ALARM,
-        ISOLATION_WARNING,
-        ISOLATION_ALARM,
-        SWICH,
-        BASE
-    };
-
     enum class COLOR
     {
         BLACK,
@@ -42,14 +33,14 @@ private:
         //Битовые параметры:  от куда брать,  куда ложить
         std::vector<std::pair<unsigned char, unsigned char>> TagByte;
         ControlSlot* SlotControl = nullptr;
+        ColorSettingLED Color;
     };
 
-    bool Blink = false;
+    bool BlinkIndicator = false;//Текущее состояние мигающий светодиодов на плате
     bool updating = false;
     ColorSettingLED BaseSettingIndicator; //Настройки цвет, который отображается, когда нет сигналов
     std::map<COLOR, std::function<void(unsigned short, unsigned short&)>> ColorFunction;
-    std::vector<std::vector<IndicatorSlot>> SlotsControlList; //Список слотов<Информация о обработке светодиодов для слота>
-    PRIORITY Priority = PRIORITY::BASE; //Приоритет цвета для 1 светодиода
+    std::vector<std::pair<ColorSettingLED, std::vector<IndicatorSlot>>> SlotsControlList; //Список слотов<Настройка цвета, Информация о обработке светодиодов для слота>
     void setColorFunction();
     void setBaseSetting(std::vector<std::string>& ConfigOption);
     COLOR getColorByChar(char symbol);
@@ -58,9 +49,10 @@ private:
     static void setYellow(unsigned short indicator, unsigned short& result);
     static void resetLED(unsigned short indicator, unsigned short& result);
     void clear();
-    unsigned short updateColorLedState(std::vector<IndicatorSlot>* tagsFunction);
-    unsigned short setColorPriorityLED(unsigned short switchLED[]);
-    void setPriorityLED(unsigned short switchLED[], int LED);
+    unsigned short updateColorLedState(std::vector<IndicatorSlot>& tagsFunction);
+    unsigned short setColorPriorityLED(std::vector<std::pair<ColorSettingLED, unsigned short>>& switchLED);
+    void setColorBlinkLED(ColorSettingLED& colorSetting, unsigned short indicator, unsigned short& result);
+    ColorSettingLED getColorSettingByString(std::string& setting);
 public:
     LIP_SS8_Bl_2R(std::vector<std::string>& ConfigOption);
     std::vector<uint8_t> getValue() override;
