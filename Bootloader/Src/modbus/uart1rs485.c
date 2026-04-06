@@ -8,7 +8,6 @@
 #include "uart1rs485.h"
 #include "bastypes.h"
 #include "mbtypes.h"
-#include "flashdata.h"
 #include "ramdata.h"
 #include "modbus.h"
 #include "stm32f0xx.h"
@@ -39,8 +38,8 @@ const u32 U1BPS[] = {
 
 void uart1rs485_init(void){
   SetDIR1ToRX;//драйвер RS485 на приём
-  uart1data.DevAddr = FLASH_DATA.MODBUS1.b[0];//адрес устройства в сети модбас
-  uart1data.BPS = FLASH_DATA.MODBUS1.b[1];
+  uart1data.DevAddr = 1;//адрес устройства в сети модбас
+  uart1data.BPS = 4;
   uart1data.Idx = 0;//буфер начать с начала
   uart1data.TXCount = 0;
   uart1data.ClntTimeOut = 200;//200мкс
@@ -62,28 +61,6 @@ void uart1rs485_init(void){
   U1_RX_DATA_READY = 0;
   RxDMA1Ch5();//настройка DMA на чтение данных из UART
 }
-
-//сравнить BPS и DEVADDR для UART2 если отличаются, то сделать повторнуюю инициализацию
-
-void uart1rs485_ReInit(void){
-
-  USART_InitTypeDef USART_InitStructure;
-
-  if(uart1data.BPS != FLASH_DATA.MODBUS1.b[1]){
-    USART_InitStructure.USART_BaudRate = U1BPS[FLASH_DATA.MODBUS1.b[1]];
-    uart1data.BPS = FLASH_DATA.MODBUS1.b[1];
-    USART_InitStructure.USART_WordLength = USART_WordLength_8b;
-    USART_InitStructure.USART_StopBits = USART_StopBits_1;
-    USART_InitStructure.USART_Parity = USART_Parity_No;
-    USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
-    USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
-    USART_Init(USART1, &USART_InitStructure);
-  }
-  if(uart1data.DevAddr != FLASH_DATA.MODBUS1.b[0]){
-    uart1data.DevAddr = FLASH_DATA.MODBUS1.b[0];
-  }
-}
-
 
 void U1SetTimer(unsigned int Delay){
   SetDIR1ToTX;//переключаю драйвер на передачу, дернули ногой

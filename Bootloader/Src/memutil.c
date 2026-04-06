@@ -1,6 +1,5 @@
 #include "memutil.h"
 #include "mbtypes.h"
-#include "flashdata.h"
 
 
 void u8_mem_cpy(u8* s, u8* d, u8 c);

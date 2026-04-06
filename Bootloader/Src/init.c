@@ -2,7 +2,6 @@
 #include "stm32f0xx.h"
 #include "stm32f0xx_gpio.h"
 #include "ramdata.h"
-#include "flashdata.h"//глобальные константы и структура FLASH_DATA
 #include "memutil.h"
 #include "crc16.h"
 

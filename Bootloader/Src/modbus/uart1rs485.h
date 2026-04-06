@@ -7,7 +7,6 @@ extern "C" {
 #endif 
 
   extern void uart1rs485_init(void);
-  extern void uart1rs485_ReInit(void);
   extern void TxDMA1Ch4(void);
   extern u8 U1_SwCNT(void);
   extern void TIM1_user_U1(void);

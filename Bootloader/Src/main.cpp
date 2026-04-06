@@ -2,7 +2,6 @@
 #include "stm32f0xx.h"//библиотека STM
 #include "bastypes.h"//основные типы данных, объявление типов структур RAM_DATA и FLASH_DATA
 #include "ramdata.h"//глобальные переменные и структура RAM_DATA
-#include "flashdata.h"//глобальные константы и структура FLASH_DATA
 #include "crc16.h"//модуль контрольной суммы
 #include "init.h"//функции инициализации
 

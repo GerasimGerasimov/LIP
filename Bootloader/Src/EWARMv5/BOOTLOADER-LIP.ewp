@@ -1135,9 +1135,6 @@
             <name>$PROJ_DIR$\..\crc16.c</name>
         </file>
         <file>
-            <name>$PROJ_DIR$\..\flashdata.c</name>
-        </file>
-        <file>
             <name>$PROJ_DIR$\..\id.c</name>
         </file>
         <file>

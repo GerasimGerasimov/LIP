@@ -21,7 +21,4 @@ extern bool ModbusMemRead(TClient* pC);
 extern bool ModbusMemWrite(TClient* pC);
 extern bool command_decode(TClient* pC);
 
-void CopyFlashToTmpBuffer_(u32 Addr, u32 Buff);
-extern void FlashWrite(u32 DATA_BASE);
-void ModbusFlashWrite_DATA(u16 DATA_1, u16 DATA_2);
 #endif
