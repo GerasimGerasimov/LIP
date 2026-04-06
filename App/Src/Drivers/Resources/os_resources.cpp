@@ -1,6 +1,6 @@
 #include "os_resources.h"
 
-static const u32 RESOURCES_ADDRESS = 0x08030000;
+static const u32 RESOURCES_ADDRESS = 0x0803D800;
 
 //u8* OSResources::res = (u8*) RESOURCES_ADDRESS;//NULL;
 
