@@ -23,7 +23,7 @@
 
 #define START_DELAY 100
 
- const char IDtext[] =" LIP v1.8.0 26.01.2026 www.intmash.ru ";
+ const char IDtext[] =" LIP v1.9.0 06.04.2026 www.intmash.ru ";
 
 int main(void)              //главная программа
 {

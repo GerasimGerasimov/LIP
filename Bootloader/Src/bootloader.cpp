@@ -445,7 +445,7 @@ u16 writeCodeToFlash(TClient* Slave){
     return DataLength;
 }
 
-#define APPLICATION_ADDRESS 0x08008000
+#define APPLICATION_ADDRESS 0x08004000
 
 void jumpToApplication(void){
     /* Устанавливаем адрес перехода на основную программу */
@@ -501,7 +501,7 @@ typedef struct appCheckInfo
 
 typedef TAppCheckInfo* pAppCheckInfo;
 
-#define APP_INFO_LOCATION 0x08008200
+#define APP_INFO_LOCATION 0x08004200
 #define APP_INFO_SIZE 8
 #define APP_LOCATION APP_INFO_LOCATION + APP_INFO_SIZE
 

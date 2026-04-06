@@ -8,7 +8,7 @@ typedef struct appCheckInfo
 } TAppCheckInfo;
 
 
-#pragma location = 0x08008200
+#pragma location = 0x08004200
 __root const TAppCheckInfo AppCheckInfo = {
   .AppSize = 0xAAAAAAAA,
   .Crc = 0xBBBB,

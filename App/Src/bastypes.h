@@ -94,51 +94,45 @@ struct TFLASH_DATA
   u16 DelayLED; //Задержка мигания светодиодов
 };
 
-
-
-
 typedef union
 {
   vu32	   i;
   struct
   {
 //r0000
-    unsigned flash_error : 1;	//
-    unsigned backup_error : 1;	//
-    unsigned fram_error : 1;	//
-    unsigned fram_bkp_error : 1; //
-   //флаги DIO
-    unsigned T100Hz : 1; //РАС аварийное отключение
-    unsigned f5 : 1; //пока встряхивается встряхиватель  
-    unsigned f6 : 1; //РПС сигнализация 
-    unsigned f7 : 1;	     //discret input 1
-    unsigned f8 : 1; //значит включен ПРОЖИГ - не ндадо проверять на искру!
-    unsigned f9 : 1;   //Нажата кнопка Стоп 
-    unsigned f10 : 1;  //Нажата кнопка Пуск
-    unsigned f11 : 1;   //термореле
-    //флаги аварий если флаг в 1 - есть авария
-    unsigned f12 : 1;	    //SYNC FAULT              
-    unsigned f13 : 1;    //mtz по входу, Ish
-    unsigned f14 : 1;	    //mtz по нагрузке, Iload
-    unsigned f15 : 1;	    //short circuit кз
-    unsigned f16 : 1;	    //open  circuit хх
-    unsigned f17 : 1;    //over heating (перегрев) 
-    unsigned f18 : 1;    //fault thyristors not open(неисправность тиристоров неоткрывается)  оставить но не исп
-    unsigned f19 : 1;    //fault thyristors not close(неисправность тиристоров незакрывается)  оставить но не исп
-    unsigned f20 : 1;    //frequent spark частые пробои - кол-во пробоев за период
-    //r0001
-    //прочие флаги 
-    unsigned f21 : 1; //импульсы на тиpисторы если есть аварии, при которых выкл импульсы
-    unsigned f22 : 1;   //проводимость 1- тиристора
-    unsigned f23 : 1;   ///проводимость 2- тиристора
-    unsigned f24 : 1;  // Пришла искра
-    unsigned f25 : 1;   //лаг - состояние ожидания
-    unsigned f26 : 1; //флаг изменения/повышения  угла альфа вызова STOP
-    unsigned f27 : 1;    //второй встряхиватель на внешней плате
-    unsigned f28 : 1;    //дискр вых допольнительно
-    unsigned f29 : 1;	 //дискр вых допольнительно
-    unsigned f30 : 1;	 //дискр вх допольнительно
-    unsigned f31 : 1;    //
+    unsigned flash_error : 1;//
+    unsigned backup_error : 1;//
+    unsigned fram_error : 1;//
+    unsigned fram_bkp_error : 1;//
+    unsigned T100Hz : 1;//
+    unsigned f5 : 1;//
+    unsigned f6 : 1;//
+    unsigned f7 : 1;//
+    unsigned f8 : 1;//
+    unsigned f9 : 1;//
+    unsigned f10 : 1;//
+    unsigned f11 : 1;//
+    unsigned f12 : 1;//          
+    unsigned f13 : 1;//
+    unsigned f14 : 1;//
+    unsigned f15 : 1;//
+//r0001
+    unsigned f16 : 1;//
+    unsigned f17 : 1;//
+    unsigned f18 : 1;//
+    unsigned f19 : 1;//
+    unsigned f20 : 1;//
+    unsigned f21 : 1;//
+    unsigned f22 : 1;//
+    unsigned f23 : 1;//
+    unsigned f24 : 1;//
+    unsigned f25 : 1;//
+    unsigned f26 : 1;//
+    unsigned f27 : 1;//
+    unsigned f28 : 1;//
+    unsigned f29 : 1;//
+    unsigned f30 : 1;//
+    unsigned f31 : 1;//
   } BA;
 } _FLG0;//флаги управления и индикации;
 
