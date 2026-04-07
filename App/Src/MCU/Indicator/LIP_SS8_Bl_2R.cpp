@@ -20,14 +20,14 @@ void LIP_SS8_Bl_2R::setColorFunction(){
     ColorFunction[COLOR::YELLOW] = setYellow;
 }
 
-//Установка состояния светодиода по умолчанию (нет сигнала)
+//РЈСЃС‚Р°РЅРѕРІРєР° СЃРѕСЃС‚РѕСЏРЅРёСЏ СЃРІРµС‚РѕРґРёРѕРґР° РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ (РЅРµС‚ СЃРёРіРЅР°Р»Р°)
 void LIP_SS8_Bl_2R::setBaseSetting(std::vector<std::string>& ConfigOption){
     if(ConfigOption.size() > 1){
         BaseSettingIndicator = getColorSettingByString(ConfigOption[1]);
     }
 }
 
-//Получаем цвет по символу из ресурсов
+//РџРѕР»СѓС‡Р°РµРј С†РІРµС‚ РїРѕ СЃРёРјРІРѕР»Сѓ РёР· СЂРµСЃСѓСЂСЃРѕРІ
 LIP_SS8_Bl_2R::COLOR LIP_SS8_Bl_2R::getColorByChar(char symbol){
     COLOR result;
     switch(symbol){
@@ -50,43 +50,43 @@ LIP_SS8_Bl_2R::COLOR LIP_SS8_Bl_2R::getColorByChar(char symbol){
     return result;
 }
 
-// Цвета устанавливаются в регистр по светодиодам 
-// Установка красного цвета
+// Р¦РІРµС‚Р° СѓСЃС‚Р°РЅР°РІР»РёРІР°СЋС‚СЃСЏ РІ СЂРµРіРёСЃС‚СЂ РїРѕ СЃРІРµС‚РѕРґРёРѕРґР°Рј 
+// РЈСЃС‚Р°РЅРѕРІРєР° РєСЂР°СЃРЅРѕРіРѕ С†РІРµС‚Р°
 void LIP_SS8_Bl_2R::setRed(unsigned short indicator, unsigned short& result){
     result &= ~(SHIFT_GREEN << (indicator * 2));
     result |= SHIFT_RED << (indicator * 2);
 }
 
-// Установка зелёного цвета
+// РЈСЃС‚Р°РЅРѕРІРєР° Р·РµР»С‘РЅРѕРіРѕ С†РІРµС‚Р°
 void LIP_SS8_Bl_2R::setGreen(unsigned short indicator, unsigned short& result){
     result |= SHIFT_GREEN << (indicator * 2);
     result &= ~(SHIFT_RED << (indicator * 2));
 }
 
-// Установка жёлтого цвета (красный + зелёный)
+// РЈСЃС‚Р°РЅРѕРІРєР° Р¶С‘Р»С‚РѕРіРѕ С†РІРµС‚Р° (РєСЂР°СЃРЅС‹Р№ + Р·РµР»С‘РЅС‹Р№)
 void LIP_SS8_Bl_2R::setYellow(unsigned short indicator, unsigned short& result){
     result |= SHIFT_GREEN << (indicator * 2);
     result |= SHIFT_RED << (indicator * 2);
 }
 
-// Сброс цвета (чёрный/светодиод не светит)
+// РЎР±СЂРѕСЃ С†РІРµС‚Р° (С‡С‘СЂРЅС‹Р№/СЃРІРµС‚РѕРґРёРѕРґ РЅРµ СЃРІРµС‚РёС‚)
 void LIP_SS8_Bl_2R::resetLED(unsigned short indicator, unsigned short& result){
     result &= ~(SHIFT_GREEN << (indicator * 2));
     result &= ~(SHIFT_RED << (indicator * 2));
 }
 
-//При смене страницы
+//РџСЂРё СЃРјРµРЅРµ СЃС‚СЂР°РЅРёС†С‹
 void LIP_SS8_Bl_2R::clear(){
     for(auto& row : SlotsControlList){
-        // Удаляем содержимое под-векторов
+        // РЈРґР°Р»СЏРµРј СЃРѕРґРµСЂР¶РёРјРѕРµ РїРѕРґ-РІРµРєС‚РѕСЂРѕРІ
         row.second.erase(row.second.begin(), row.second.end());
     }
 
-    // Удаляем пустые под-векторы
+    // РЈРґР°Р»СЏРµРј РїСѓСЃС‚С‹Рµ РїРѕРґ-РІРµРєС‚РѕСЂС‹
     SlotsControlList.erase(SlotsControlList.begin(), SlotsControlList.end());
 }
 
-//Чтение данных из слотов и установка битов для цвета
+//Р§С‚РµРЅРёРµ РґР°РЅРЅС‹С… РёР· СЃР»РѕС‚РѕРІ Рё СѓСЃС‚Р°РЅРѕРІРєР° Р±РёС‚РѕРІ РґР»СЏ С†РІРµС‚Р°
 unsigned short LIP_SS8_Bl_2R::updateColorLedState(std::vector<IndicatorSlot>& tagsFunction){
      unsigned short result = 0;
     ControlSlot* controlSlot;
@@ -96,17 +96,17 @@ unsigned short LIP_SS8_Bl_2R::updateColorLedState(std::vector<IndicatorSlot>& ta
     for(auto& n : (tagsFunction)){
         controlSlot = n.SlotControl;
         if(controlSlot->getnoValid() || controlSlot->isErrorParsing()){
-            //Нет связи или не правильно описаны ресурсы
+            //РќРµС‚ СЃРІСЏР·Рё РёР»Рё РЅРµ РїСЂР°РІРёР»СЊРЅРѕ РѕРїРёСЃР°РЅС‹ СЂРµСЃСѓСЂСЃС‹
             data = "0";
         }
         else{
-            //Получаем значение регистра
+            //РџРѕР»СѓС‡Р°РµРј Р·РЅР°С‡РµРЅРёРµ СЂРµРіРёСЃС‚СЂР°
             data = controlSlot->getValueStr();
         }
 
         number = stoul(data);
 
-        tempTagByte = &(n.TagByte);  //Указатель для оптимизации
+        tempTagByte = &(n.TagByte);  //РЈРєР°Р·Р°С‚РµР»СЊ РґР»СЏ РѕРїС‚РёРјРёР·Р°С†РёРё
         for(int i = 0; i < tempTagByte->size(); ++i){
             if(number & (1 << (*tempTagByte)[i].first)){
                 result |= (1 << (*tempTagByte)[i].second);
@@ -116,23 +116,23 @@ unsigned short LIP_SS8_Bl_2R::updateColorLedState(std::vector<IndicatorSlot>& ta
     return result;
 }
 
-//Установка цвета на светодиод в зависимости от приоритета
+//РЈСЃС‚Р°РЅРѕРІРєР° С†РІРµС‚Р° РЅР° СЃРІРµС‚РѕРґРёРѕРґ РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ РїСЂРёРѕСЂРёС‚РµС‚Р°
 unsigned short LIP_SS8_Bl_2R::setColorPriorityLED(std::vector<std::pair<ColorSettingLED, unsigned short>>& switchLED){
     unsigned short res = 0;
 
-    for(int i = 0; i < LED_SIZE; ++i){ //Привязано к светодиодам
+    for(int i = 0; i < LED_SIZE; ++i){ //РџСЂРёРІСЏР·Р°РЅРѕ Рє СЃРІРµС‚РѕРґРёРѕРґР°Рј
         unsigned short switchCountLED = 0;
-        //Вначале массива switchLED более высокий приоритет
+        //Р’РЅР°С‡Р°Р»Рµ РјР°СЃСЃРёРІР° switchLED Р±РѕР»РµРµ РІС‹СЃРѕРєРёР№ РїСЂРёРѕСЂРёС‚РµС‚
         for(auto& n : switchLED){
             if(n.second & (1 << i)){
                 setColorBlinkLED(n.first, i, res);
-                //Если нашёлся светодиод, дальше не смотрим - текущий приоритет выше
+                //Р•СЃР»Рё РЅР°С€С‘Р»СЃСЏ СЃРІРµС‚РѕРґРёРѕРґ, РґР°Р»СЊС€Рµ РЅРµ СЃРјРѕС‚СЂРёРј - С‚РµРєСѓС‰РёР№ РїСЂРёРѕСЂРёС‚РµС‚ РІС‹С€Рµ
                 break;
             }
             ++switchCountLED;
         }
         if(switchCountLED == switchLED.size()){
-            //Если не найден включённый сигнал, включается цвет по умолчанию
+            //Р•СЃР»Рё РЅРµ РЅР°Р№РґРµРЅ РІРєР»СЋС‡С‘РЅРЅС‹Р№ СЃРёРіРЅР°Р», РІРєР»СЋС‡Р°РµС‚СЃСЏ С†РІРµС‚ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
             setColorBlinkLED(BaseSettingIndicator, i, res);
         }
     }
@@ -140,7 +140,7 @@ unsigned short LIP_SS8_Bl_2R::setColorPriorityLED(std::vector<std::pair<ColorSet
     return res;
 }
 
-//Установка цвета на светодиод, в зависимости от мигания
+//РЈСЃС‚Р°РЅРѕРІРєР° С†РІРµС‚Р° РЅР° СЃРІРµС‚РѕРґРёРѕРґ, РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ РјРёРіР°РЅРёСЏ
 void LIP_SS8_Bl_2R::setColorBlinkLED(ColorSettingLED& colorSetting, unsigned short indicator, unsigned short& result){
     ColorFunction.at(colorSetting.CurrentColor)(indicator, result);
     if(colorSetting.Blink){
@@ -150,7 +150,7 @@ void LIP_SS8_Bl_2R::setColorBlinkLED(ColorSettingLED& colorSetting, unsigned sho
     }
 }
 
-//Получает цвет и мигание светодиода по строке из ресурсов
+//РџРѕР»СѓС‡Р°РµС‚ С†РІРµС‚ Рё РјРёРіР°РЅРёРµ СЃРІРµС‚РѕРґРёРѕРґР° РїРѕ СЃС‚СЂРѕРєРµ РёР· СЂРµСЃСѓСЂСЃРѕРІ
 LIP_SS8_Bl_2R::ColorSettingLED LIP_SS8_Bl_2R::getColorSettingByString(std::string& setting){
     ColorSettingLED resultSetting;
     resultSetting.CurrentColor = getColorByChar(setting[0]);
@@ -196,7 +196,7 @@ bool LIP_SS8_Bl_2R::update(){
         for(auto& tag : func.second){
             ++slotsSize;
             if(tag.SlotControl->getUpdate()){
-                //Слот, привязанный к индикатору обновился
+                //РЎР»РѕС‚, РїСЂРёРІСЏР·Р°РЅРЅС‹Р№ Рє РёРЅРґРёРєР°С‚РѕСЂСѓ РѕР±РЅРѕРІРёР»СЃСЏ
                 ++countUpdateSlot;
             }
         }
@@ -212,39 +212,39 @@ bool LIP_SS8_Bl_2R::update(){
 }
 
 void LIP_SS8_Bl_2R::ProcessMessage(TMessage* m){
-    //Установка состояния в мигающем светодиоде по таймеру
+    //РЈСЃС‚Р°РЅРѕРІРєР° СЃРѕСЃС‚РѕСЏРЅРёСЏ РІ РјРёРіР°СЋС‰РµРј СЃРІРµС‚РѕРґРёРѕРґРµ РїРѕ С‚Р°Р№РјРµСЂСѓ
     if(m->event == Event::TIMER){
         BlinkIndicator = !BlinkIndicator;
     }
 }
 
-//Установка параметров на старте или при изменении страницы
+//РЈСЃС‚Р°РЅРѕРІРєР° РїР°СЂР°РјРµС‚СЂРѕРІ РЅР° СЃС‚Р°СЂС‚Рµ РёР»Рё РїСЂРё РёР·РјРµРЅРµРЅРёРё СЃС‚СЂР°РЅРёС†С‹
 void LIP_SS8_Bl_2R::setParameter(std::string& param){
     clear();
-    //Разделение на включение разных цветов по приоритетам
-    //                      Цвет         Теги
+    //Р Р°Р·РґРµР»РµРЅРёРµ РЅР° РІРєР»СЋС‡РµРЅРёРµ СЂР°Р·РЅС‹С… С†РІРµС‚РѕРІ РїРѕ РїСЂРёРѕСЂРёС‚РµС‚Р°Рј
+    //                      Р¦РІРµС‚         РўРµРіРё
     std::vector<std::pair<std::string, std::string>> functionLed = Parser::splitString2DelimInPrev("(", ")", param);
     for(auto& func : functionLed){
         std::pair<ColorSettingLED, std::vector<IndicatorSlot>> slotsFunction;
-        //Получение настройки цвета по ресурсам
+        //РџРѕР»СѓС‡РµРЅРёРµ РЅР°СЃС‚СЂРѕР№РєРё С†РІРµС‚Р° РїРѕ СЂРµСЃСѓСЂСЃР°Рј
         slotsFunction.first = getColorSettingByString(func.first);
-        //Получение списка тегов для данного цвета
+        //РџРѕР»СѓС‡РµРЅРёРµ СЃРїРёСЃРєР° С‚РµРіРѕРІ РґР»СЏ РґР°РЅРЅРѕРіРѕ С†РІРµС‚Р°
         std::vector<std::string> tags = Parser::splitString(" ", func.second);
-        //Поиск разных слотов для 1 цвета
+        //РџРѕРёСЃРє СЂР°Р·РЅС‹С… СЃР»РѕС‚РѕРІ РґР»СЏ 1 С†РІРµС‚Р°
         for(auto& n : tags){
             IndicatorSlot indSlot;
-            //Разделение на слот и значения битов
+            //Р Р°Р·РґРµР»РµРЅРёРµ РЅР° СЃР»РѕС‚ Рё Р·РЅР°С‡РµРЅРёСЏ Р±РёС‚РѕРІ
             std::vector<std::string> spltTag = Parser::splitString(":", n);
             indSlot.Tag = spltTag[0];
             if(spltTag.size() > 1){
-                //Разделение значений для каждого светодиода 
+                //Р Р°Р·РґРµР»РµРЅРёРµ Р·РЅР°С‡РµРЅРёР№ РґР»СЏ РєР°Р¶РґРѕРіРѕ СЃРІРµС‚РѕРґРёРѕРґР° 
                 std::vector<std::string> spltVecBytes = Parser::splitString("/", spltTag[1]);
                 if(spltVecBytes[0] == "*"){
-                    // Автозаполнение
+                    // РђРІС‚РѕР·Р°РїРѕР»РЅРµРЅРёРµ
                     // R(S4:*/0.1)
-                    // цвет(Слот:*/Стартовый бит.Сколько пропускать)
-                    // Заполнение происходит с 0 светодиода по порядку
-                    // Если количество бит превысит количество бит в регистре, заполнение прекратится
+                    // С†РІРµС‚(РЎР»РѕС‚:*/РЎС‚Р°СЂС‚РѕРІС‹Р№ Р±РёС‚.РЎРєРѕР»СЊРєРѕ РїСЂРѕРїСѓСЃРєР°С‚СЊ)
+                    // Р—Р°РїРѕР»РЅРµРЅРёРµ РїСЂРѕРёСЃС…РѕРґРёС‚ СЃ 0 СЃРІРµС‚РѕРґРёРѕРґР° РїРѕ РїРѕСЂСЏРґРєСѓ
+                    // Р•СЃР»Рё РєРѕР»РёС‡РµСЃС‚РІРѕ Р±РёС‚ РїСЂРµРІС‹СЃРёС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ Р±РёС‚ РІ СЂРµРіРёСЃС‚СЂРµ, Р·Р°РїРѕР»РЅРµРЅРёРµ РїСЂРµРєСЂР°С‚РёС‚СЃСЏ
                     std::vector<std::string> spltPair = Parser::splitString(".", spltVecBytes[1]);
                     u16 startByte = stoi(spltPair[0]);
                     u16 skipByte = stoi(spltPair[1]);
@@ -257,12 +257,12 @@ void LIP_SS8_Bl_2R::setParameter(std::string& param){
                     }
                 }
                 else{
-                    // Побитовое заполнение
+                    // РџРѕР±РёС‚РѕРІРѕРµ Р·Р°РїРѕР»РЅРµРЅРёРµ
                     for(auto& j : spltVecBytes){
-                        // Разделение на бит из регистра и светодиод который надо включить
+                        // Р Р°Р·РґРµР»РµРЅРёРµ РЅР° Р±РёС‚ РёР· СЂРµРіРёСЃС‚СЂР° Рё СЃРІРµС‚РѕРґРёРѕРґ РєРѕС‚РѕСЂС‹Р№ РЅР°РґРѕ РІРєР»СЋС‡РёС‚СЊ
                         std::vector<std::string> spltPair = Parser::splitString(".", j);
                         // R(S4:0.0/1.1/2.2/3.3)
-                        // цвет(Слот:Бит из регистра.Номер светодиода)
+                        // С†РІРµС‚(РЎР»РѕС‚:Р‘РёС‚ РёР· СЂРµРіРёСЃС‚СЂР°.РќРѕРјРµСЂ СЃРІРµС‚РѕРґРёРѕРґР°)
                         indSlot.TagByte.emplace_back(stoi(spltPair[0]), stoi(spltPair[1]));
                     }
                 }
@@ -273,7 +273,7 @@ void LIP_SS8_Bl_2R::setParameter(std::string& param){
     }
 }
 
-//Установка указателей используемых слотов на существующие слоты
+//РЈСЃС‚Р°РЅРѕРІРєР° СѓРєР°Р·Р°С‚РµР»РµР№ РёСЃРїРѕР»СЊР·СѓРµРјС‹С… СЃР»РѕС‚РѕРІ РЅР° СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёРµ СЃР»РѕС‚С‹
 void LIP_SS8_Bl_2R::setAppSlots(std::map<std::string, ControlSlot*>& indSlots){
     for(auto& func : SlotsControlList){
         for(auto& n : func.second){

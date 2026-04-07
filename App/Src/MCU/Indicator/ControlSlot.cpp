@@ -12,12 +12,12 @@ bool ControlSlot::update(){
     if(updating){
         return false;
     }
-    //ошибка парсинга
+    //РѕС€РёР±РєР° РїР°СЂСЃРёРЅРіР°
     if(errorParsing){
         updating = true;
         return true;
     }
-    //прочитали данные
+    //РїСЂРѕС‡РёС‚Р°Р»Рё РґР°РЅРЅС‹Рµ
     if(parametrControl.isStateFlag(Slot::StateFlags::COMPLETE_READ)){
         updating = true;
         completeRead = true;
@@ -26,7 +26,7 @@ bool ControlSlot::update(){
     else{
         completeRead = false;
     }
-    //нет связи
+    //РЅРµС‚ СЃРІСЏР·Рё
     if(parametrControl.isStateFlag(Slot::StateFlags::NO_VALID)){
         updating = true;
         noValid = true;

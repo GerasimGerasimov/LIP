@@ -11,8 +11,8 @@ class LIP_XNx : public Indicator
 private:
     enum class Type
     {
-        R,  //чтение
-        RW  //чтение и запись
+        R,  //С‡С‚РµРЅРёРµ
+        RW  //С‡С‚РµРЅРёРµ Рё Р·Р°РїРёСЃСЊ
     };
     Type type = Type::R;
     unsigned short numDecimal = 0;

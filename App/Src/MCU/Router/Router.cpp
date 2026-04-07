@@ -17,14 +17,14 @@ Router::Router(){
     DMAIndicator::getInstance().setMemoryBaseAddr(bufferData);
 }
 
-//Установка страницы по текущему индексу
+//РЈСЃС‚Р°РЅРѕРІРєР° СЃС‚СЂР°РЅРёС†С‹ РїРѕ С‚РµРєСѓС‰РµРјСѓ РёРЅРґРµРєСЃСѓ
 void Router::setPage(){
     std::string setStartPage = InternalResources::getInstance().getItemStringByName(PageList[currentPage].c_str());
     page.setIndication(setStartPage);
     page.setAppIndicatorSlots(IndicatorSlots);
 }
 
-//Начальная установка страниц
+//РќР°С‡Р°Р»СЊРЅР°СЏ СѓСЃС‚Р°РЅРѕРІРєР° СЃС‚СЂР°РЅРёС†
 void Router::setPageList(){
     std::string pages = InternalResources::getInstance().getItemStringByName("Pages");
     std::vector<std::string> pageList = Parser::splitString("/", pages);
@@ -36,7 +36,7 @@ void Router::setPageList(){
     setPage();
 }
 
-//Включение слотов для индикаторов обращающихся к нескольким регистрам
+//Р’РєР»СЋС‡РµРЅРёРµ СЃР»РѕС‚РѕРІ РґР»СЏ РёРЅРґРёРєР°С‚РѕСЂРѕРІ РѕР±СЂР°С‰Р°СЋС‰РёС…СЃСЏ Рє РЅРµСЃРєРѕР»СЊРєРёРј СЂРµРіРёСЃС‚СЂР°Рј
 void Router::setIndicatorSlots(){
     std::string registers = InternalResources::getInstance().getItemStringByName("SLOTS");
     std::vector<std::string> regSlot = Parser::splitString("/", registers);
@@ -50,7 +50,7 @@ void Router::setIndicatorSlots(){
     }
 }
 
-//Проверка всех внешних слотов, обновились ли данные
+//РџСЂРѕРІРµСЂРєР° РІСЃРµС… РІРЅРµС€РЅРёС… СЃР»РѕС‚РѕРІ, РѕР±РЅРѕРІРёР»РёСЃСЊ Р»Рё РґР°РЅРЅС‹Рµ
 bool Router::updateIndicatorSlots(){
     for(const auto& slot : IndicatorSlots){
         if(slot.second->update()){
@@ -108,10 +108,10 @@ void Router::setTask(Router::Task task){
 
 void Router::update(){
     if(bufferData.getStatus() == Buffer::Status::EMPTY){
-        //Буффер заполняется, пока пустой
+        //Р‘СѓС„С„РµСЂ Р·Р°РїРѕР»РЅСЏРµС‚СЃСЏ, РїРѕРєР° РїСѓСЃС‚РѕР№
         updateIndicatorSlots();
         if(page.update()){
-            //Буффер заполнился, останавливаются слоты, пока не сработает таймер TIM7
+            //Р‘СѓС„С„РµСЂ Р·Р°РїРѕР»РЅРёР»СЃСЏ, РѕСЃС‚Р°РЅР°РІР»РёРІР°СЋС‚СЃСЏ СЃР»РѕС‚С‹, РїРѕРєР° РЅРµ СЃСЂР°Р±РѕС‚Р°РµС‚ С‚Р°Р№РјРµСЂ TIM7
             bufferData.setFillStatus();
             page.stopSlot();
             stopIndicatorSlots();
@@ -121,7 +121,7 @@ void Router::update(){
 }
 
 void Router::setEmptyBufferStatus(){
-    //Данные отправлены, можно считывать новые
+    //Р”Р°РЅРЅС‹Рµ РѕС‚РїСЂР°РІР»РµРЅС‹, РјРѕР¶РЅРѕ СЃС‡РёС‚С‹РІР°С‚СЊ РЅРѕРІС‹Рµ
     bufferData.setEmptyStatus();
     startIndicatorSlots();
     page.startSlot();

@@ -24,23 +24,23 @@ private:
     struct ColorSettingLED
     {
         COLOR CurrentColor = COLOR::BLACK;
-        bool Blink = false; //Мигание
+        bool Blink = false; //РњРёРіР°РЅРёРµ
     };
 
     struct IndicatorSlot
     {
         std::string Tag;
-        //Битовые параметры:  от куда брать,  куда ложить
+        //Р‘РёС‚РѕРІС‹Рµ РїР°СЂР°РјРµС‚СЂС‹:  РѕС‚ РєСѓРґР° Р±СЂР°С‚СЊ,  РєСѓРґР° Р»РѕР¶РёС‚СЊ
         std::vector<std::pair<unsigned char, unsigned char>> TagByte;
         ControlSlot* SlotControl = nullptr;
         ColorSettingLED Color;
     };
 
-    bool BlinkIndicator = false;//Текущее состояние мигающий светодиодов на плате
+    bool BlinkIndicator = false;//РўРµРєСѓС‰РµРµ СЃРѕСЃС‚РѕСЏРЅРёРµ РјРёРіР°СЋС‰РёР№ СЃРІРµС‚РѕРґРёРѕРґРѕРІ РЅР° РїР»Р°С‚Рµ
     bool updating = false;
-    ColorSettingLED BaseSettingIndicator; //Настройки цвет, который отображается, когда нет сигналов
+    ColorSettingLED BaseSettingIndicator; //РќР°СЃС‚СЂРѕР№РєРё С†РІРµС‚, РєРѕС‚РѕСЂС‹Р№ РѕС‚РѕР±СЂР°Р¶Р°РµС‚СЃСЏ, РєРѕРіРґР° РЅРµС‚ СЃРёРіРЅР°Р»РѕРІ
     std::map<COLOR, std::function<void(unsigned short, unsigned short&)>> ColorFunction;
-    std::vector<std::pair<ColorSettingLED, std::vector<IndicatorSlot>>> SlotsControlList; //Список слотов<Настройка цвета, Информация о обработке светодиодов для слота>
+    std::vector<std::pair<ColorSettingLED, std::vector<IndicatorSlot>>> SlotsControlList; //РЎРїРёСЃРѕРє СЃР»РѕС‚РѕРІ<РќР°СЃС‚СЂРѕР№РєР° С†РІРµС‚Р°, РРЅС„РѕСЂРјР°С†РёСЏ Рѕ РѕР±СЂР°Р±РѕС‚РєРµ СЃРІРµС‚РѕРґРёРѕРґРѕРІ РґР»СЏ СЃР»РѕС‚Р°>
     void setColorFunction();
     void setBaseSetting(std::vector<std::string>& ConfigOption);
     COLOR getColorByChar(char symbol);
